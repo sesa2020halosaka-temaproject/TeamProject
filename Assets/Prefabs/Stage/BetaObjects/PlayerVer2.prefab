@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8486329846617254855}
   - component: {fileID: 4441380837298403235}
   - component: {fileID: 6267308119520075276}
+  - component: {fileID: 4623532202030105386}
   m_Layer: 0
   m_Name: PlayerVer2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,3 +94,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4623532202030105386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226882566405447162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33b79358a0d0cd4e9cf2969c43d887a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 13
+  stepJudgeAccuracy: 0
+  judgeHight: 30
+  pickArrowPrefab: {fileID: 4092936419803429701, guid: a06a0834fedf57e4483d65ea6b7f19f1,
+    type: 3}

@@ -12,6 +12,7 @@ namespace TeamProject
         // 状態遷移が頻繁に起こるオブジェクトの基底クラス
         // 基底クラスなのでScriptをゲームオブジェクトに貼りつけて
         // 使用はしない
+        // 注意:継承後のクラスのUpdateを必ず消してください
         public class TransitionObject : MonoBehaviour
         {
             // 設定できるFunctionの最大数
