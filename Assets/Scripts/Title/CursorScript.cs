@@ -45,8 +45,9 @@ namespace TeamProject
                 Menu_Obj[i].transform.GetChild(1).gameObject.SetActive(false);
             }
             cursor = CURSORPOSI.GAMESTART;//カーソルの初期位置
-            Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
-            Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
+            SwitchingActive.GameObject_ON(Menu_Obj[(int)cursor]);
+            //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
+            //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
 
             m_InputFlag = false;
         } //void Start()    END
@@ -140,36 +141,40 @@ namespace TeamProject
             switch (cursor)
             {
                 case CURSORPOSI.GAMESTART:
-                    Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(true);
-                    Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(false);
 
+                    SwitchingActive.GameObject_OFF(Menu_Obj[(int)cursor]);
+                    //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(true);
+                    //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(false);
                     if (_word == "UP") cursor = CURSORPOSI.EXIT;
                     else if (_word == "DOWN") cursor = CURSORPOSI.STAGESELECT;
 
-                    Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
-                    Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
+                    SwitchingActive.GameObject_ON(Menu_Obj[(int)cursor]);
+                    //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
+                    //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
 
                     break;
                 case CURSORPOSI.STAGESELECT:
-                    Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(true);
-                    Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(false);
-
+                    SwitchingActive.GameObject_OFF(Menu_Obj[(int)cursor]);
+                    //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(true);
+                    //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(false);
                     if (_word == "UP") cursor = CURSORPOSI.GAMESTART;
                     else if (_word == "DOWN") cursor = CURSORPOSI.EXIT;
 
-                    Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
-                    Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
+                    SwitchingActive.GameObject_ON(Menu_Obj[(int)cursor]);
+                    //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
+                    //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
 
                     break;
                 case CURSORPOSI.EXIT:
-                    Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(true);
-                    Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(false);
-
+                    SwitchingActive.GameObject_OFF(Menu_Obj[(int)cursor]);
+                    //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(true);
+                    //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(false);
                     if (_word == "UP") cursor = CURSORPOSI.STAGESELECT;
                     else if (_word == "DOWN") cursor = CURSORPOSI.GAMESTART;
 
-                    Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
-                    Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
+                    SwitchingActive.GameObject_ON(Menu_Obj[(int)cursor]);
+                    //Menu_Obj[(int)cursor].transform.GetChild(0).gameObject.SetActive(false);
+                    //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
 
                     break;
                 case CURSORPOSI.ALL:
