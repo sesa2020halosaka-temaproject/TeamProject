@@ -5,60 +5,63 @@ using UnityEngine.UI;
 using KanKikuchi.AudioManager;
 namespace TeamProject
 {
-
+    //タイトルシーンの処理
     public class TitleScene : MonoBehaviour
     {
         //タイトル画面の状態
         public enum TITLESTATE
         {
-            SCENE_FADE,//シーン遷移のフェードイン中
-            PRESS_ANYKEY,//キー入力待ち
+            SCENE_FADE,       //シーン遷移のフェードイン中
+            PRESS_ANYKEY,     //キー入力待ち
             TITLE_MENU_FADEIN,//メニューフェードイン
-            TITLE_MENU_WAIT,//メニュー入力待機中
-            ALL_STATE//全状態数
+            TITLE_MENU_WAIT,  //メニュー入力待機中
+            ALL_STATE         //全状態数
         }
-        public TITLESTATE state;//現在の状態
-        public Color alpha;//α値を取るためのカラー変数
-        public GameObject TitleLogoObj;//タイトルロゴ用ゲームオブジェクト
-        public GameObject TitleMenuObj;//タイトルメニュー用ゲームオブジェクト
-        public GameObject PressAnyButtonObj;//タイトルメニュー用ゲームオブジェクト
-        public float FadeIn_Time;//メニューのフェードイン時間
-        public float Hover_Off_Time;//PressAnyButtonの切り替え時間
-        public float Hover_On_Time;//PressAnyButtonの切り替え時間
-        public float Hover_Time;//PressAnyButtonの切り替え時間
-        private float Hover_Count;//PressAnyButtonの切り替え時間
+        public TITLESTATE state;            //現在の状態
+        public Color alpha;                 //α値を取るためのカラー変数
+        public GameObject TitleLogoObj;     //タイトルロゴ用ゲームオブジェクト
+        public GameObject TitleMenuObj;     //タイトルメニュー用ゲームオブジェクト
+        public GameObject PressAnyButtonObj;//PressAnyButton用ゲームオブジェクト
+
+        public float Title_FadeIn_Time;     //タイトル開始のフェードイン時間
+        public float Menu_FadeIn_Time;      //メニューのフェードイン時間
+
+        public float Hover_Off_Time;       //PressAnyButtonのOff状態になるまでの時間
+        public float Hover_On_Time;        //PressAnyButtonのOn状態になるまでの時間
+        public float Hover_TimeMax;        //PressAnyButtonの切り替え時間の比較用
+        private float Hover_TimeCount;      //PressAnyButtonの切り替え時間のカウント用
+
+        private const int OFF = 0;//OFF用インデックス値
+        private const int ON = 1;//ON用インデックス値
 
         // Start is called before the first frame update
         void Start()
         {
-            FadeManager.FadeIn(5.0f);
+            //開始時のフェードイン
+            FadeManager.FadeIn(Title_FadeIn_Time);
+            //鳴っているSEを止める
+            SEManager.Instance.Stop();
+
+            //タイトルBGMスタート
+            BGMSwitcher.FadeIn(BGMPath.BGM_TITLE);
             state = TITLESTATE.SCENE_FADE;
+
+            //各ゲームオブジェクト格納
             TitleLogoObj = this.transform.Find("TitleLogo").gameObject;
             TitleMenuObj = this.transform.Find("TitleMenuObj").gameObject;
             PressAnyButtonObj = this.transform.Find("PressAnyButton").gameObject;
 
             //カラー変数受け取り
             alpha = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
-            //alpha.a = 0.0f;
-            TitleMenuObj.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = new Color(alpha.r, alpha.g, alpha.b, alpha.a);
-            TitleMenuObj.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = new Color(alpha.r, alpha.g, alpha.b, alpha.a);
-            TitleMenuObj.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = new Color(alpha.r, alpha.g, alpha.b, alpha.a);
-            // TitleMenuObj.GetComponentInChildren<Image>().color = new Color(alpha.r, alpha.g, alpha.b,alpha.a);
+            SetAlphaTitleMenu(alpha);
+
             TitleMenuObj.SetActive(false);
 
-            //鳴っているSEを止める
-            SEManager.Instance.Stop();
+            //PressAnyButtonの準備
+            PressAnyButton_OFF();
 
-            //タイトルBGMスタート
-            BGMSwitcher.FadeIn(BGMPath.BGM_TITLE);
-            PressAnyButtonObj.transform.GetChild(0).gameObject.SetActive(false);
-            PressAnyButtonObj.transform.GetChild(1).gameObject.SetActive(true);
-            Hover_Count = 0.0f;
-
-            if (Hover_Time <= 0)
-            {
-                Hover_Time = 1.0f;
-            }
+            Hover_TimeCount = 0.0f;
+            if (Hover_TimeMax <= 0) Hover_TimeMax = 1.0f;
         }
 
         // Update is called once per frame
@@ -73,7 +76,8 @@ namespace TeamProject
                     }
                     break;
                 case TITLESTATE.PRESS_ANYKEY://キー入力待ち
-                                             //何かのキー入力( or コントローラーA B X Y入力)
+
+                    //何かのキー入力( or コントローラーA B X Y入力)
                     if (Input.anyKey && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2))
                     {
                         //PRESS ANY KEY 画像の破棄
@@ -86,42 +90,39 @@ namespace TeamProject
                         SEManager.Instance.Play(SEPath.SE_OK);
                     }
                     //UIの表示切替
-                    if (Hover_Count > Hover_Time)
+                    if (Hover_TimeCount > Hover_TimeMax)
                     {
-                        Hover_Count = 0.0f;
-                        if (PressAnyButtonObj.transform.GetChild(0).gameObject.activeSelf)
+                        Hover_TimeCount = 0.0f;
+                        if (PressAnyButtonObj.transform.GetChild(OFF).gameObject.activeSelf)
                         {
-                            //PressAnyButtonのOff状態
-                            Hover_Time = Hover_On_Time;//On切り替え時間に変更
-                            PressAnyButtonObj.transform.GetChild(0).gameObject.SetActive(false);
-                            PressAnyButtonObj.transform.GetChild(1).gameObject.SetActive(true);
+                            //PressAnyButtonをOn状態に切り替える
+                            // PressAnyButton_ON();
+                            SwitchingActive.GameObject_ON(PressAnyButtonObj);
+                            Hover_TimeMax = Hover_On_Time;//On切り替え時間に変更
                         }
                         else
                         {
-                            //PressAnyButtonのOn状態
-                            Hover_Time = Hover_Off_Time;//Off切り替え時間に変更
-                            PressAnyButtonObj.transform.GetChild(0).gameObject.SetActive(true);
-                            PressAnyButtonObj.transform.GetChild(1).gameObject.SetActive(false);
+                            //PressAnyButtonをOff状態に切り替える
+                           //PressAnyButton_OFF();
+                            SwitchingActive.GameObject_OFF(PressAnyButtonObj);
+                            Hover_TimeMax = Hover_Off_Time;//Off切り替え時間に変更
 
                         }
                     }
-                    Hover_Count += Time.deltaTime;
+                    Hover_TimeCount += Time.deltaTime;
                     break;
                 case TITLESTATE.TITLE_MENU_FADEIN://メニュー画面のフェードイン中
                     if (alpha.a < 1.0f)
                     {
-                        alpha.a += Time.deltaTime / FadeIn_Time;
-                        // TitleMenuObj.GetComponentInChildren<Image>().color = alpha;
-                        TitleMenuObj.transform.GetChild(0).GetChild(1).GetComponent<Image>().color = alpha;
-                        TitleMenuObj.transform.GetChild(1).GetChild(0).GetComponent<Image>().color = alpha;
-                        TitleMenuObj.transform.GetChild(2).GetChild(0).GetComponent<Image>().color = alpha;
+                        alpha.a += Time.deltaTime / Menu_FadeIn_Time;
+
+                        SetAlphaTitleMenu(alpha);
 
                     }
                     else
                     {
                         alpha.a = 1.0f;
                         Debug.Log("alphaは1.0fになりました。");
-                        //TitleMenuObj.transform.GetChild(0).transform.Find("SelectMenu").gameObject.SetActive(true);
 
                         CursorScript.InputFlagOn();
                         state = TITLESTATE.TITLE_MENU_WAIT;
@@ -138,6 +139,28 @@ namespace TeamProject
                     Debug.Log("無効な状態だよ。");
                     break;
             }
+        }// void Update()   END
+
+        //PressAnyButtonをOFF状態にする
+        public void PressAnyButton_OFF()
+        {
+            PressAnyButtonObj.transform.GetChild(OFF).gameObject.SetActive(true);
+            PressAnyButtonObj.transform.GetChild(ON).gameObject.SetActive(false);
         }
-    }
-}
+        //PressAnyButtonをON状態にする
+        public void PressAnyButton_ON()
+        {
+            PressAnyButtonObj.transform.GetChild(OFF).gameObject.SetActive(false);
+            PressAnyButtonObj.transform.GetChild(ON).gameObject.SetActive(true);
+        }
+
+        //タイトルメニューのα値をセットする
+        public void SetAlphaTitleMenu(Color _alpha)
+        {
+            TitleMenuObj.transform.GetChild(0).GetChild(ON).GetComponent<Image>().color = _alpha;
+            TitleMenuObj.transform.GetChild(1).GetChild(OFF).GetComponent<Image>().color = _alpha;
+            TitleMenuObj.transform.GetChild(2).GetChild(OFF).GetComponent<Image>().color = _alpha;
+
+        }
+    } //public class TitleScene : MonoBehaviour    END
+} //namespace TeamProject    END
