@@ -9,25 +9,8 @@ namespace TeamProject
     public class StageSelect : MonoBehaviour
     {
         public GameObject[] Stages;//LookAtの対象となるゲームオブジェクトの格納用
-                                   //public GameObject Stage1;
-                                   //public GameObject Stage2;
-                                   //public GameObject Stage3;
-                                   //public GameObject Stage4;
-                                   //public GameObject Stage5;
         public float[] WayPoint;//ステージの正面に位置するドリーのパスの位置を入れる用
         public float Volume;
-        //現在のステージ
-        //public enum STAGE
-        //{
-        //    STAGE1 = 0,
-        //    STAGE2,
-        //    STAGE3,
-        //    STAGE4,
-        //    STAGE5,
-        //    STAGE_NUM//ステージの数
-        //}
-
-        //public STAGE_NO stage_num;
 
         public GameObject _Dolly_Current;
         public GameObject _Dolly_Next;
@@ -38,18 +21,18 @@ namespace TeamProject
         public enum SELECT_STATE
         {
             KEY_WAIT = 0,//キー入力待ち
-            SWING,//次の目的の方向へを向いている途中
-            MOVING,//カメラ移動中
+            SWING,       //次の目的の方向へを向いている途中
+            MOVING,      //カメラ移動中
             SCENE_MOVING,//シーン遷移中
-            STATE_NUM//状態の数
+            STATE_NUM    //状態の数
         }
         public SELECT_STATE select_state;
 
         //ドリーの状態
         public enum DOLLY_STATE
         {
-            GO = 0,//キー入力待ち
-            BACK,//次の目的の方向へを向いている途中
+            GO = 0,  //次のステージへ
+            BACK,    //前のステージへ
             STATE_NUM//状態の数
         }
         public DOLLY_STATE dolly_state;

@@ -10,9 +10,17 @@ namespace TeamProject
         public CinemachineVirtualCamera vcam_before;
         public CinemachineVirtualCamera vcam_after;
         public CinemachineMixingCamera mix_cam;
-        public float cam_weight;
-        public float SwingTime;
-        public float AddTime;
+
+        public float cam_weight;//カメラ1，2のウェイト値
+
+        [Min(0)]
+        public float m_Go_SwingTime;//前進時のカメラ方向転換時間
+        [Min(0)]
+        public float m_Back_SwingTime;//後進時のカメラ方向転換時間
+
+        private float m_SwingTime;//カメラ方向転換時間
+
+        private float AddRatio;//加算倍率（+1,0,-1）
 
         //カメラのパスの位置の移動
         public enum MIX_MOVE
@@ -21,7 +29,7 @@ namespace TeamProject
             GO,  //進める
             BACK   //戻る
         }
-        public MIX_MOVE Move;
+        public MIX_MOVE Move_state;
 
         public bool Swing_flag;//カメラの方向が切り替え中かどうか
 
@@ -29,14 +37,7 @@ namespace TeamProject
         void Start()
         {
             cam_weight = 0.0f;
-            if (SwingTime <= 0)
-            {
-                SwingTime = 1.0f;
-            }
-            if (AddTime <= 0)
-            {
-                AddTime = 1.0f;
-            }
+
             this.MixState("ZERO");
         }
 
@@ -44,12 +45,12 @@ namespace TeamProject
         void Update()
         {
 
-            switch (Move)
+            switch (Move_state)
             {
                 case MIX_MOVE.FIXING:
                     break;
                 case MIX_MOVE.GO:
-                    cam_weight += Time.deltaTime * AddTime / SwingTime;
+                    cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
                     if (cam_weight > 1.0f)
                     {
                         cam_weight = 1.0f;
@@ -59,7 +60,7 @@ namespace TeamProject
                     }
                     break;
                 case MIX_MOVE.BACK:
-                    cam_weight += Time.deltaTime * AddTime / SwingTime;
+                    cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
                     if (cam_weight > 1.0f)
                     {
                         cam_weight = 1.0f;
@@ -81,25 +82,27 @@ namespace TeamProject
             switch (word)
             {
                 case "ZERO":
-                    AddTime = 0.0f;
-                    Move = MIX_MOVE.FIXING;
+                    AddRatio = 0.0f;
+                    Move_state = MIX_MOVE.FIXING;
                     Swing_flag = false;//完了
                     break;
                 case "GO":
-                    AddTime = 1.0f;
-                    Move = MIX_MOVE.GO;
+                    AddRatio = 1.0f;
+                    m_SwingTime = m_Go_SwingTime;
+                    Move_state = MIX_MOVE.GO;
                     Swing_flag = true;//開始
 
                     break;
                 case "BACK":
-                    AddTime = 1.0f;
-                    Move = MIX_MOVE.BACK;
+                    AddRatio = 1.0f;
+                    m_SwingTime = m_Back_SwingTime;
+                    Move_state = MIX_MOVE.BACK;
                     Swing_flag = true;//開始
 
                     break;
                 default:
                     Debug.Log("言葉が違います。カメラを固定します。");
-                    AddTime = 0.0f;
+                    AddRatio = 0.0f;
                     break;
             }
         }//    public void DollyState(string word)  END
