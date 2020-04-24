@@ -638,7 +638,7 @@ RectTransform:
   m_GameObject: {fileID: 8224995462034389661}
   m_LocalRotation: {x: 0.2164396, y: 0, z: 0, w: 0.97629607}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0007, y: 0.0007, z: 0.01}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children:
   - {fileID: 8224995460208096966}
   - {fileID: 7972919675168976159}
@@ -738,7 +738,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Canvas: {fileID: 0}
-  m_SortingOrder: 0
+  m_SortingOrder: 2
+  m_StageNumber: 0
+  m_ClearStatus: 0
+  m_Star_Obj:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &5927871191388738715
 MonoBehaviour:
   m_ObjectHideFlags: 0
