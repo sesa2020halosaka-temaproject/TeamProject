@@ -58,7 +58,7 @@ namespace TeamProject
             TitleMenuObj.SetActive(false);
 
             //PressAnyButtonの準備
-            PressAnyButton_OFF();
+            PressAnyButton_ON();
 
             Hover_TimeCount = 0.0f;
             if (Hover_TimeMax <= 0) Hover_TimeMax = 1.0f;

@@ -54,44 +54,34 @@ namespace TeamProject
         }
         public DOLLY_STATE dolly_state;
 
+        private int db_cnt = 0;//デバッグログ確認用カウント
         //=================================================================
         //関数ここから
         //=================================================================
         // Start is called before the first frame update
         void Start()
         {
-            //Debug.Log("abc");
-            //StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE01;
-            //Debug.Log(StageStatusManager.Instance.CurrentStage);
             //フェードイン
             FadeManager.FadeIn(1.3f);
+            Debug.Log("Debugカウント：" + db_cnt);
+            db_cnt++;
             //BGMスタート
-            BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
+            //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
+            BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT);
             //水の音追加
-            BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 1.0f, isLoop: true, allowsDuplicate: true);
-            //SEManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 1.0f,isLoop:true);
+            BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 2.0f, isLoop: true, allowsDuplicate: true);
+            SEManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 1.0f,isLoop:true);
 
-            //今はひとまずステージ１に
-            //stage_num = STAGE_NO.STAGE01;
+
             _Mixing = GameObject.Find("Mixing_VCamera").gameObject;
             _Dolly_Current = _Mixing.transform.Find("Dolly_VCamera").gameObject;
             _Dolly_Next = _Mixing.transform.Find("Current_VCamera").gameObject;
-            //Select = transform.Find("Panel").Find("SelectCursor").gameObject;
-            //Select.transform.position = Stage1.transform.position;
+
             _Dolly_Current.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)StageStatusManager.Instance.CurrentStage]);
             _Dolly_Next.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)StageStatusManager.Instance.CurrentStage]);
-            //_Dolly_Current.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)STAGE_NO.STAGE01]);
-            //_Dolly_Next.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)STAGE_NO.STAGE01]);
 
-
-            //Debug.Log(StageStatusManager.Instance.CurrentStage);
-            //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
-            // _Dolly_Next.GetComponent<DollyCamera>().SetPathPosition(8);
             Debug.Log((int)StageStatusManager.Instance.CurrentStage);
-            //    _Dolly_Current.GetComponent<DollyCamera>().SetPathPosition(WayPoint[(int)stage_num]);
 
-            //_StageNumber = GameObject.Find("Panel/Stage_Number").gameObject; 
-            //_StageNumber = this.transform.Find("Panel/Stage_Number").gameObject;
             _StageSelectArrow = this.transform.Find("Panel/StageMoveArrows").GetComponent<StageSelectArrow>();
             _Dolly_Next.GetComponent<DollyCamera>().SetPathPosition(WayPoint[(int)StageStatusManager.Instance.CurrentStage]);
             Debug.Log((int)StageStatusManager.Instance.CurrentStage);
