@@ -17,7 +17,7 @@ public class TeamLogo : MonoBehaviour
             NextSceneTime = 3.0f;
         }
         //BGMスタート
-        BGMManager.Instance.Play(BGMPath.BGM_GAME);
+        BGMManager.Instance.Play(BGMPath.BGM_TITLE);
     }
 
     // Update is called once per frame
