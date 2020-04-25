@@ -167,8 +167,8 @@ namespace TeamProject
                     }
                 }
 
-                if (direcPos[(uint)DIRECTION.RIGHT].convers < itr.convers)
-                    direction[(uint)DIRECTION.RIGHT] = itr;
+                //if (direcPos[(uint)DIRECTION.RIGHT].convers < itr.convers)
+                //    direction[(uint)DIRECTION.RIGHT] = itr;
             }
         }
 
