@@ -19,7 +19,7 @@ public class StageStart : MonoBehaviour
         //鳴っているSEを止める
         SEManager.Instance.Stop();
         //BGMスタート
-        BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_GAME);
+        BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_GAME_SUMMER);
 
     }
 

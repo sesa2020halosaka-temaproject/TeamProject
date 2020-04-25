@@ -27,6 +27,8 @@ namespace TeamProject
         public PATH_MOVE Move;
 
         public bool Move_flag;//カメラが移動しているかどうか
+        public CinemachinePathBase m_Dolly_GO;
+        public CinemachinePathBase m_Dolly_BACK;
 
         private void Awake()
         {
@@ -51,6 +53,18 @@ namespace TeamProject
         }
         private void Start()
         {
+            Debug.Log(dolly.name + "：m_AutoDolly：" + dolly.m_AutoDolly);
+            Debug.Log(dolly.name + "：m_CameraUp：" + dolly.m_CameraUp);
+            Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
+            Debug.Log(dolly.name + "：m_PathOffset：" + dolly.m_PathOffset);
+            Debug.Log(dolly.name + "：m_PathPosition：" + dolly.m_PathPosition);
+            Debug.Log(dolly.name + "：m_PitchDamping：" + dolly.m_PitchDamping);
+            Debug.Log(dolly.name + "：m_PositionUnits：" + dolly.m_PositionUnits);
+            Debug.Log(dolly.name + "：m_XDamping：" + dolly.m_XDamping);
+            Debug.Log(dolly.name + "：m_YawDamping：" + dolly.m_YawDamping);
+            Debug.Log(dolly.name + "：m_YDamping：" + dolly.m_YDamping);
+            Debug.Log(dolly.name + "：m_ZDamping：" + dolly.m_ZDamping);
+
             //// バーチャルカメラがセットされていなければ中止
             //if (this.virtualCamera == null)
             //{
@@ -139,12 +153,13 @@ namespace TeamProject
                     AddTime = 1.0f;
                     Move = PATH_MOVE.GO;
                     Move_flag = true;//移動開始
-
+                    this.dolly.m_Path = m_Dolly_GO;//前進用ドリーパスをセット
                     break;
                 case "BACK":
                     AddTime = -1.0f;
                     Move = PATH_MOVE.BACK;
                     Move_flag = true;//移動開始
+                    this.dolly.m_Path = m_Dolly_BACK;//後進用ドリーパスをセット
 
                     break;
                 default:
