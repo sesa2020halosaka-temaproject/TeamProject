@@ -107,11 +107,11 @@
 
 			o.pos = mul(UNITY_MATRIX_P, o.pos);
 			o.uv = float2(0.5, 1);
-//#ifdef UNITY_PASS_FORWARDBASE
-//			UNITY_TRANSFER_FOG(o, o.pos);
-//			TRANSFER_SHADOW(o)
-//#endif
-//			
+#ifdef UNITY_PASS_FORWARDBASE
+			UNITY_TRANSFER_FOG(o, o.pos);
+			TRANSFER_SHADOW(o)
+#endif
+			
 				triStream.Append(o);
 
 			triStream.RestartStrip();
@@ -137,83 +137,84 @@
 			}
 		}
 		ENDCG
-		Pass
-		{
-			CGPROGRAM
 
-				
-		#pragma vertex vert
-		#pragma fragment frag
-		#pragma geometry geom
-		#include "Lighting.cginc"
-		sampler2D _GrassTex;
+		//Pass
+		//{
+		//	CGPROGRAM
 
-		float _Atten;
-		fixed4 frag(g2f i) : SV_Target
-		{
-			//clip(1 - i.uv.y - i.normal);
-			//// sample the texture
-			//fixed4 col = tex2D(_GrassTex, i.uv);
-			//// apply fog
-			//UNITY_APPLY_FOG(i.fogCoord, col);
+		//		
+		//#pragma vertex vert
+		//#pragma fragment frag
+		//#pragma geometry geom
+		//#include "Lighting.cginc"
+		//sampler2D _GrassTex;
 
-			clip(1 - i.uv.y - i.cutheight);
-			  fixed4 tex = tex2D(_GrassTex, i.uv);
-			  fixed4 col = 0;
-			  col.rgb = tex.rgb * ShadeSH9(float4(0,1,0,1));
-			  float atten = _Atten;//  SHADOW_ATTENUATION(i);
-			  col += tex *atten*atten;
-			  UNITY_APPLY_FOG(i.fogCoord, col);
-			return col;
-		}
-			ENDCG
-		}
+		//float _Atten;
+		//fixed4 frag(g2f i) : SV_Target
+		//{
+		//	//clip(1 - i.uv.y - i.normal);
+		//	//// sample the texture
+		//	//fixed4 col = tex2D(_GrassTex, i.uv);
+		//	//// apply fog
+		//	//UNITY_APPLY_FOG(i.fogCoord, col);
+
+		//	clip(1 - i.uv.y - i.cutheight);
+		//	  fixed4 tex = tex2D(_GrassTex, i.uv);
+		//	  fixed4 col = 0;
+		//	  col.rgb = tex.rgb * ShadeSH9(float4(0,1,0,1));
+		//	  float atten = _Atten;//  SHADOW_ATTENUATION(i);
+		//	  col += tex *atten*atten;
+		//	  UNITY_APPLY_FOG(i.fogCoord, col);
+		//	return col;
+		//}
+		//	ENDCG
+		//}
 
 
 
 	 
 
-		//Pass
-		//{
-
-		// Tags {"LightMode" = "ForwardBase" }
-		// CGPROGRAM
-		// #pragma vertex vert
-		// #pragma fragment frag
-		// #pragma geometry geom
-
-		//   #include "Lighting.cginc"
-
-		// sampler2D _GrassTex;
-		// fixed4 frag(g2f i) : SV_Target
-		// {
-		//  clip(1 - i.uv.y - i.cutheight);
-		//  fixed4 tex = tex2D(_GrassTex, i.uv);
-		//  fixed4 col = 0;
-		//  col.rgb = tex.rgb * ShadeSH9(float4(0,1,0,1));
-		//  float atten = 1.0f;// SHADOW_ATTENUATION(i);
-		//  col += tex * _LightColor0*atten*atten;
-		//  UNITY_APPLY_FOG(i.fogCoord, col);
-		//  return col;
-		// }
-		// ENDCG
-		//}
-
 		Pass
 		{
-		 Tags {"LightMode" = "ShadowCaster"}
+
+		 //Tags {"LightMode" = "ForwardBase" }
 		 CGPROGRAM
 		 #pragma vertex vert
 		 #pragma fragment frag
 		 #pragma geometry geom
 
+		   #include "Lighting.cginc"
+		 float _Atten;
+		 sampler2D _GrassTex;
 		 fixed4 frag(g2f i) : SV_Target
 		 {
 		  clip(1 - i.uv.y - i.cutheight);
-		  SHADOW_CASTER_FRAGMENT(i)
+		  fixed4 tex = tex2D(_GrassTex, i.uv);
+		  fixed4 col = 0;
+		  col.rgb = tex.rgb * ShadeSH9(float4(0,1,0,1));
+		  float atten = _Atten;// SHADOW_ATTENUATION(i);
+		  col += tex * atten;
+		  UNITY_APPLY_FOG(i.fogCoord, col);
+		  return col;
 		 }
 		 ENDCG
 		}
+
+		//Pass
+		//{
+		// Tags {"LightMode" = "ShadowCaster"}
+		// CGPROGRAM
+		// #pragma vertex vert
+		// #pragma fragment frag
+		// #pragma geometry geom
+
+		// fixed4 frag(g2f i) : SV_Target
+		// {
+		//  clip(1 - i.uv.y - i.cutheight);
+		//  SHADOW_CASTER_FRAGMENT(i)
+		// }
+		// ENDCG
+		//}
 
 	}
 		FallBack "Diffuse"
