@@ -13,6 +13,8 @@ public static class SEPath{
 	public const string SE_FAILURE              = "SE/Stereo/SE_Ste_Result/SE_Failure";
 	public const string SE_GOAL                 = "SE/Stereo/SE_Ste_Goal/SE_Goal";
 	public const string SE_GRASS_WAVE           = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave";
+	public const string SE_GRASS_WAVE_SUMMER    = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Summer";
+	public const string SE_LIGHT_RAIN           = "SE/Stereo/SE_Ste_Ambient/SE_LightRain";
 	public const string SE_MINION_WALK_GRASS1   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Grass1";
 	public const string SE_MINION_WALK_GRASS2   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Grass2";
 	public const string SE_MINION_WALK_GRASS3   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Grass3";
@@ -25,6 +27,14 @@ public static class SEPath{
 	public const string SE_MINION_WALK_NORMAL2  = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Normal2";
 	public const string SE_MINION_WALK_NORMAL3  = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Normal3";
 	public const string SE_MINION_WALK_NORMAL4  = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Normal4";
+	public const string SE_MINION_WALK_RAIN1    = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Rain1";
+	public const string SE_MINION_WALK_RAIN2    = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Rain2";
+	public const string SE_MINION_WALK_RAIN3    = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Rain3";
+	public const string SE_MINION_WALK_RAIN4    = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Rain4";
+	public const string SE_MINION_WALK_WATER1   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water1";
+	public const string SE_MINION_WALK_WATER2   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water2";
+	public const string SE_MINION_WALK_WATER3   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water3";
+	public const string SE_MINION_WALK_WATER4   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water4";
 	public const string SE_MINION_COUNT         = "SE/Mono/SE_Mono_Minion/SE_MinionCount";
 	public const string SE_MINION_SELECT        = "SE/Mono/SE_Mono_Minion/SE_MinionSelect";
 	public const string SE_OK                   = "SE/Stereo/SE_OK";
@@ -50,13 +60,18 @@ public static class SEPath{
 	public const string SE_PLAYER_WALK_NORMAL2  = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Normal2";
 	public const string SE_PLAYER_WALK_NORMAL3  = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Normal3";
 	public const string SE_PLAYER_WALK_NORMAL4  = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Normal4";
+	public const string SE_PLAYER_WALK_RAIN1    = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Rain1";
+	public const string SE_PLAYER_WALK_RAIN2    = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Rain2";
+	public const string SE_PLAYER_WALK_RAIN3    = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Rain3";
+	public const string SE_PLAYER_WALK_RAIN4    = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Rain4";
 	public const string SE_PLAYER_WALK_WATER1   = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water1";
 	public const string SE_PLAYER_WALK_WATER2   = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water2";
 	public const string SE_PLAYER_WALK_WATER3   = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water3";
 	public const string SE_PLAYER_WALK_WATER4   = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water4";
-	public const string SE_RAIN                 = "SE/Stereo/SE_Rain";
+	public const string SE_RAIN                 = "SE/Stereo/SE_Ste_Ambient/SE_Rain";
 	public const string SE_STAMP                = "SE/Mono/SE_Mono_Result/SE_Stamp";
 	public const string SE_STAR                 = "SE/Mono/SE_Mono_Result/SE_Star";
+	public const string SE_WATERFALL            = "SE/Stereo/SE_Ste_Ambient/SE_Waterfall";
 	public const string SMALLWAVE               = "SE/CESA_Thema/smallwave";
 
 }
