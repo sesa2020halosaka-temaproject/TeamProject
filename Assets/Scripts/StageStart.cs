@@ -5,13 +5,17 @@ using KanKikuchi.AudioManager;
 
 public class StageStart : MonoBehaviour
 {
+    [Header("ステージのフェードイン時間"), Range(0, 5)]
     public float FadeIn_Time;
+    [Header("BGMをセットすること")]
+    public AudioClip m_Start_BGM;
+    public AudioClip m_Start_Ambient;
     // Start is called before the first frame update
     void Start()
     {
-        if (FadeIn_Time < 0)
+        if (m_Start_BGM == null)
         {
-            FadeIn_Time = 2.0f;
+            Debug.LogError("BGMがセットされていません！");
         }
         //フェードイン
         FadeManager.FadeIn(FadeIn_Time);
@@ -19,13 +23,22 @@ public class StageStart : MonoBehaviour
         //鳴っているSEを止める
         SEManager.Instance.Stop();
         //BGMスタート
-        BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_GAME_SUMMER);
+        BGMSwitcher.CrossFade(m_Start_BGM.name);
+        Debug.Log(m_Start_BGM.name);
+        Debug.Log(m_Start_BGM);
+        Debug.Log(BGMPath.BGM_GAME_SUMMER);
+        Debug.Log(m_Start_Ambient.name);
+        Debug.Log(m_Start_Ambient);
+        Debug.Log(SEPath.SE_GRASS_WAVE);
+        //水の音追加
+        //BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
+        BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
 
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //void Update()
+    //{
+
+    //}
 }

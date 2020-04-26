@@ -12,7 +12,7 @@ public static class SEPath{
 	public const string SE_CURSOL_MOVE          = "SE/Mono/SE_CursolMove";
 	public const string SE_FAILURE              = "SE/Stereo/SE_Ste_Result/SE_Failure";
 	public const string SE_GOAL                 = "SE/Stereo/SE_Ste_Goal/SE_Goal";
-	public const string SE_GRASS_WAVE           = "SE/Stereo/SE_Grass_Wave";
+	public const string SE_GRASS_WAVE           = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave";
 	public const string SE_MINION_WALK_GRASS1   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Grass1";
 	public const string SE_MINION_WALK_GRASS2   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Grass2";
 	public const string SE_MINION_WALK_GRASS3   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Grass3";
