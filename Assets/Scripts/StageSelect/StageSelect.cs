@@ -52,8 +52,7 @@ namespace TeamProject
             //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
             BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT);
             //水の音追加
-            BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 2.0f, isLoop: true, allowsDuplicate: true);
-            SEManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 1.0f,isLoop:true);
+            BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 1.0f, isLoop: true, allowsDuplicate: true);
 
 
             _Mixing = GameObject.Find("Mixing_VCamera").gameObject;
