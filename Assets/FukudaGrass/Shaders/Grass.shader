@@ -27,10 +27,10 @@
 
 		struct appdata
 		{
-		 float4 vertex : POSITION;
-		 float2 uv : TEXCOORD0;
-		 float3 normal : NORMAL;
-		 float3 tangent : TANGENT;
+			 float4 vertex : POSITION;
+			 float2 uv : TEXCOORD0;
+			 float3 normal : NORMAL;
+			 float3 tangent : TANGENT;
 		};
 
 		struct v2g
@@ -46,6 +46,10 @@
 			float4 pos : SV_POSITION;
 			float2 uv : TEXCOORD0;
 			float cutheight : TEXCOORD1;
+		#ifdef UNITY_PASS_FORWARDBASE
+					UNITY_FOG_COORDS(2)
+						SHADOW_COORDS(3)
+		#endif
 		};
 
 		v2g vert(appdata v)
@@ -67,7 +71,7 @@
 		float _Wind;
 		float _Displace;
 		sampler2D _MainTex;
-		void grass(v2g v, inout TriangleStream<g2f> triStream)
+		void grass(v2g v, inout TriangleStream<g2f> outStream)
 		{
 			g2f o;
 			float3 widthVector = normalize(cross(v.normal, float3(0, 0, 1)));
@@ -75,6 +79,7 @@
 			float3 displace = ((random(v.uv) - 0.5)*v.tangent + (random(v.uv + 1) - 0.5)*binormal)*_Displace;
 			float4 tex = tex2Dlod(_MainTex, float4(v.uv, 0, 0));
 			tex.xy -= 0.5;
+
 			o.cutheight = tex.a;
 
 			o.pos = v.vertex;
@@ -82,12 +87,12 @@
 			o.pos.xyz += displace;
 			o.pos = mul(UNITY_MATRIX_P, o.pos);
 			o.uv = float2(1, 0);
+
 #ifdef UNITY_PASS_FORWARDBASE
 			UNITY_TRANSFER_FOG(o, o.pos);
 			TRANSFER_SHADOW(o)
 #endif
-				triStream.Append(o);
-
+			outStream.Append(o);
 			o.pos = v.vertex;
 			o.pos.xyz += -widthVector * _Width / 2;
 			o.pos.xyz += displace;
@@ -97,14 +102,12 @@
 			UNITY_TRANSFER_FOG(o, o.pos);
 			TRANSFER_SHADOW(o)
 #endif
-				triStream.Append(o);
+				outStream.Append(o);
 
 			o.pos = v.vertex;
-			o.pos.xyz += (tex.x*v.tangent + tex.y*binormal +  v.normal) * _Height * (random(v.uv) + 0.5);
+			o.pos.xyz += (tex.x * v.tangent + tex.y * binormal +  v.normal * tex.z) * _Height * (random(v.uv) + 0.5);
 			o.pos.xyz += displace;
 			o.pos.xyz += v.tangent*_Wind * sin(_Time.z + v.uv.x * 5); //風
-
-
 			o.pos = mul(UNITY_MATRIX_P, o.pos);
 			o.uv = float2(0.5, 1);
 #ifdef UNITY_PASS_FORWARDBASE
@@ -112,15 +115,14 @@
 			TRANSFER_SHADOW(o)
 #endif
 			
-				triStream.Append(o);
-
-			triStream.RestartStrip();
+			outStream.Append(o);
+			outStream.RestartStrip();
 		}
 
 
 		float _Density;
 		[maxvertexcount(84)]
-		void geom(triangle v2g input[3], inout TriangleStream<g2f> triStream)
+		void geom(triangle v2g input[3], inout TriangleStream<g2f> outStream)
 		{
 			v2g v;
 			for (int i = 0; i < _Density; i++) {
@@ -132,7 +134,7 @@
 					v.uv = input[0].uv * w0 + input[1].uv * w1 + input[2].uv * w2;
 					v.normal = input[0].normal * w0 + input[1].normal * w1 + input[2].normal * w2;
 					v.tangent = input[0].tangent * w0 + input[1].tangent * w1 + input[2].tangent * w2;
-					grass(v, triStream);
+					grass(v, outStream);
 				}
 			}
 		}
@@ -191,7 +193,7 @@
 		  clip(1 - i.uv.y - i.cutheight);
 		  fixed4 tex = tex2D(_GrassTex, i.uv);
 		  fixed4 col = 0;
-		  col.rgb = tex.rgb * ShadeSH9(float4(0,1,0,1));
+		  col.rgb = tex.rgb * ShadeSH9(float4(1,1,0,1));
 		  float atten = _Atten;// SHADOW_ATTENUATION(i);
 		  col += tex * atten;
 		  UNITY_APPLY_FOG(i.fogCoord, col);
@@ -200,21 +202,21 @@
 		 ENDCG
 		}
 
-		//Pass
-		//{
-		// Tags {"LightMode" = "ShadowCaster"}
-		// CGPROGRAM
-		// #pragma vertex vert
-		// #pragma fragment frag
-		// #pragma geometry geom
+		Pass
+		{
+		 Tags {"LightMode" = "ShadowCaster"}
+		 CGPROGRAM
+		 #pragma vertex vert
+		 #pragma fragment frag
+		 #pragma geometry geom
 
-		// fixed4 frag(g2f i) : SV_Target
-		// {
-		//  clip(1 - i.uv.y - i.cutheight);
-		//  SHADOW_CASTER_FRAGMENT(i)
-		// }
-		// ENDCG
-		//}
+		 fixed4 frag(g2f i) : SV_Target
+		 {
+		  clip(1 - i.uv.y - i.cutheight);
+		  SHADOW_CASTER_FRAGMENT(i)
+		 }
+		 ENDCG
+		}
 
 	}
 		FallBack "Diffuse"
