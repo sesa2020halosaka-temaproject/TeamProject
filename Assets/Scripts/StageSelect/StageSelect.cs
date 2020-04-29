@@ -50,7 +50,7 @@ namespace TeamProject
             db_cnt++;
             //BGMスタート
             //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
-            BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT);
+            BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
             //水の音追加
             BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 1.0f, isLoop: true, allowsDuplicate: true);
 
