@@ -24,12 +24,6 @@ public class StageStart : MonoBehaviour
         SEManager.Instance.Stop();
         //BGMスタート
         BGMSwitcher.CrossFade(m_Start_BGM.name);
-        Debug.Log(m_Start_BGM.name);
-        Debug.Log(m_Start_BGM);
-        Debug.Log(BGMPath.BGM_GAME_SUMMER);
-        Debug.Log(m_Start_Ambient.name);
-        Debug.Log(m_Start_Ambient);
-        Debug.Log(SEPath.SE_GRASS_WAVE);
         //水の音追加
         //BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
         BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);

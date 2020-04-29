@@ -12,7 +12,7 @@ public static class SEPath{
 	public const string SE_CURSOL_MOVE          = "SE/Mono/SE_Mono_System/SE_CursolMove";
 	public const string SE_FAILURE              = "SE/Stereo/SE_Ste_Result/SE_Failure";
 	public const string SE_GOAL                 = "SE/Stereo/SE_Ste_Goal/SE_Goal";
-	public const string SE_GRASS_WAVE           = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave";
+	public const string SE_GRASS_WAVE_FALL      = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Fall";
 	public const string SE_GRASS_WAVE_SUMMER    = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Summer";
 	public const string SE_LIGHT_RAIN           = "SE/Stereo/SE_Ste_Ambient/SE_LightRain";
 	public const string SE_MINION_LANDING1      = "SE/Mono/SE_Mono_Minion/SE_Minion_Landing1";
@@ -41,7 +41,7 @@ public static class SEPath{
 	public const string SE_MINION_WALK_WATER4   = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water4";
 	public const string SE_MINION_COUNT         = "SE/Mono/SE_Mono_System/SE_MinionCount";
 	public const string SE_MINION_SELECT        = "SE/Mono/SE_Mono_System/SE_MinionSelect";
-	public const string SE_OK                   = "SE/Stereo/SE_OK";
+	public const string SE_OK                   = "SE/Stereo/SE_Ste_System/SE_OK";
 	public const string SE_PLAYER_LANDING1      = "SE/Mono/SE_Mono_Player/SE_Player_Landing1";
 	public const string SE_PLAYER_LANDING2      = "SE/Mono/SE_Mono_Player/SE_Player_Landing2";
 	public const string SE_PLAYER_LANDING3      = "SE/Mono/SE_Mono_Player/SE_Player_Landing3";
