@@ -6,6 +6,11 @@ namespace TeamProject
 {
     public class StageSelectArrow : MonoBehaviour
     {
+        private enum NUMBER
+        {
+            S1 = 0, S2, S3, S4, S5,//ワールド内のステージ番号
+            ALLSTAGE//ワールド内のステージ数
+        };
         //現在ステージ位置 
         //StageStatusManager.Instance.CurrentStage;
         public GameObject m_Canvas;//一番上の親オブジェクト
@@ -30,59 +35,81 @@ namespace TeamProject
          //ステージ状況に応じた処理
         public void SetCurrentStage(STAGE_NO CurrentStage)
         {
-            //m_CurrentStage = CurrentStage;
-            switch (CurrentStage)
+            int StageNumber = (int)CurrentStage % 5;//0～5に振り分け
+            switch (StageNumber)
             {
-                case STAGE_NO.STAGE01:
+                case (int)NUMBER.S1://Stage01
                     TwoSetActives(true, false);
+
                     break;
-                case STAGE_NO.STAGE02:
+                case (int)NUMBER.S2:
+                case (int)NUMBER.S3:
+                case (int)NUMBER.S4:
+                    //Stage02～04
                     TwoSetActives(true, true);
+
                     break;
-                case STAGE_NO.STAGE03:
-                    TwoSetActives(true, true);
-                    break;
-                case STAGE_NO.STAGE04:
-                    TwoSetActives(true, true);
-                    break;
-                case STAGE_NO.STAGE05:
+                case (int)NUMBER.S5://Stage05
                     TwoSetActives(false, true);
+
                     break;
-                case STAGE_NO.STAGE06:
-                    break;
-                case STAGE_NO.STAGE07:
-                    break;
-                case STAGE_NO.STAGE08:
-                    break;
-                case STAGE_NO.STAGE09:
-                    break;
-                case STAGE_NO.STAGE10:
-                    break;
-                case STAGE_NO.STAGE11:
-                    break;
-                case STAGE_NO.STAGE12:
-                    break;
-                case STAGE_NO.STAGE13:
-                    break;
-                case STAGE_NO.STAGE14:
-                    break;
-                case STAGE_NO.STAGE15:
-                    break;
-                case STAGE_NO.STAGE16:
-                    break;
-                case STAGE_NO.STAGE17:
-                    break;
-                case STAGE_NO.STAGE18:
-                    break;
-                case STAGE_NO.STAGE19:
-                    break;
-                case STAGE_NO.STAGE20:
-                    break;
-                case STAGE_NO.STAGE_NUM:
-                    break;
+                case (int)NUMBER.ALLSTAGE:
                 default:
+                    Debug.LogAssertion("StageSelectArrowが無効な状態！");
                     break;
             }
+            //switch (CurrentStage)
+            //{
+            //    case STAGE_NO.STAGE01:
+            //        TwoSetActives(true, false);
+            //        break;
+            //    case STAGE_NO.STAGE02:
+            //        TwoSetActives(true, true);
+            //        break;
+            //    case STAGE_NO.STAGE03:
+            //        TwoSetActives(true, true);
+            //        break;
+            //    case STAGE_NO.STAGE04:
+            //        TwoSetActives(true, true);
+            //        break;
+            //    case STAGE_NO.STAGE05:
+            //        TwoSetActives(false, true);
+            //        break;
+            //    case STAGE_NO.STAGE06:
+            //        break;
+            //    case STAGE_NO.STAGE07:
+            //        break;
+            //    case STAGE_NO.STAGE08:
+            //        break;
+            //    case STAGE_NO.STAGE09:
+            //        break;
+            //    case STAGE_NO.STAGE10:
+            //        break;
+            //    case STAGE_NO.STAGE11:
+            //        break;
+            //    case STAGE_NO.STAGE12:
+            //        break;
+            //    case STAGE_NO.STAGE13:
+            //        break;
+            //    case STAGE_NO.STAGE14:
+            //        break;
+            //    case STAGE_NO.STAGE15:
+            //        break;
+            //    case STAGE_NO.STAGE16:
+            //        break;
+            //    case STAGE_NO.STAGE17:
+            //        break;
+            //    case STAGE_NO.STAGE18:
+            //        break;
+            //    case STAGE_NO.STAGE19:
+            //        break;
+            //    case STAGE_NO.STAGE20:
+            //        break;
+            //    case STAGE_NO.STAGE_NUM:
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             //switch (CurrentStage)
             //{

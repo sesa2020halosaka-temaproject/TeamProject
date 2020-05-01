@@ -5,7 +5,7 @@ using Cinemachine;
 
 namespace TeamProject
 {
-    //public class DollyDriver : MonoBehaviour
+    
     public class DollyCamera : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
@@ -53,35 +53,8 @@ namespace TeamProject
         }
         private void Start()
         {
-            Debug.Log(dolly.name + "：m_AutoDolly：" + dolly.m_AutoDolly);
-            Debug.Log(dolly.name + "：m_CameraUp：" + dolly.m_CameraUp);
             Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
-            Debug.Log(dolly.name + "：m_PathOffset：" + dolly.m_PathOffset);
-            Debug.Log(dolly.name + "：m_PathPosition：" + dolly.m_PathPosition);
-            Debug.Log(dolly.name + "：m_PitchDamping：" + dolly.m_PitchDamping);
-            Debug.Log(dolly.name + "：m_PositionUnits：" + dolly.m_PositionUnits);
-            Debug.Log(dolly.name + "：m_XDamping：" + dolly.m_XDamping);
-            Debug.Log(dolly.name + "：m_YawDamping：" + dolly.m_YawDamping);
-            Debug.Log(dolly.name + "：m_YDamping：" + dolly.m_YDamping);
-            Debug.Log(dolly.name + "：m_ZDamping：" + dolly.m_ZDamping);
 
-            //// バーチャルカメラがセットされていなければ中止
-            //if (this.virtualCamera == null)
-            //{
-            //    this.enabled = false;
-            //    Debug.Log("バーチャルカメラが" + this.virtualCamera);
-            //    return;
-            //}
-
-            //// ドリーコンポーネントを取得できなければ中止
-            //this.dolly = this.virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
-            //if (this.dolly == null)
-            //{
-            //    Debug.Log("Dollyコンポーネントが" + this.dolly);
-
-            //    this.enabled = false;
-            //    return;
-            // }
             if (MoveRatio <= 0)
             {
                 MoveRatio = 1.0f;

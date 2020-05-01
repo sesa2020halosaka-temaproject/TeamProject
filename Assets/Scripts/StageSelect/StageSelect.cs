@@ -11,7 +11,9 @@ namespace TeamProject
         public GameObject[] Stages;//LookAtの対象となるゲームオブジェクトの格納用
         public float[] WayPoint;//ステージの正面に位置するドリーのパスの位置を入れる用
         public float Volume;
-
+       
+        public float ToTitle_FadeOut_Time;//タイトルに遷移する時のフェードアウト時間
+        public float StageIn_FadeOut_Time;//ステージに遷移する時のフェードアウト時間
         public GameObject _Dolly_Current;
         public GameObject _Dolly_Next;
         public GameObject _Mixing;
@@ -24,6 +26,8 @@ namespace TeamProject
             SWING,       //次の目的の方向へを向いている途中
             MOVING,      //カメラ移動中
             SCENE_MOVING,//シーン遷移中
+            STAGE_MOVING,//ステージ移動中
+            WORLD_MOVING,//ワールド移動中
             STATE_NUM    //状態の数
         }
         public SELECT_STATE select_state;
@@ -79,12 +83,16 @@ namespace TeamProject
 
                     //ステージ選択（WSキー or スティック上下）
                     StageChange();
+                    StageChangeManager.StageChange();
                     //ワールド選択（ADキー or スティック左右）
                     WorldChange();
-                    //決定（Space (or Enter?) or Bボタン）
+                    WorldChangeManagr.WorldChange();
+                    //決定（Space  or Bボタン）
                     StageDecision();
                     //タイトルへ戻る(ESCキー or Startボタン)
                     BackToTitle();
+                    //フラグチェック
+                    CheckFlag();
                     break;
                 case SELECT_STATE.SWING:
                     bool IsSwing = _Mixing.GetComponent<MixingCamera>().IsSwing();
@@ -127,6 +135,12 @@ namespace TeamProject
                     break;
                 case SELECT_STATE.SCENE_MOVING:
                     break;
+                case SELECT_STATE.STAGE_MOVING:
+                    StageChangeManager.Update();
+                    break;
+                case SELECT_STATE.WORLD_MOVING:
+                    WorldChangeManagr.Update();
+                    break;
                 case SELECT_STATE.STATE_NUM:
                     break;
                 default:
@@ -136,116 +150,86 @@ namespace TeamProject
 
         void StageChange()
         {
-            switch (StageStatusManager.Instance.CurrentStage)
-            {
-                case STAGE_NO.STAGE01:
-                    if (Input.GetKeyDown(KeyCode.W) || InputManager.InputManager.Instance.GetLStick().y > 0)
-                    {//上入力
-                        MixCameraGo(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE02);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE02);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.S) || InputManager.InputManager.Instance.GetLStick().y < 0)
-                    {//下入力
-                     //DollyCameraBack(STAGE_NO.STAGE02);
-                    }
-                    break;
-                case STAGE_NO.STAGE02:
-                    if (Input.GetKeyDown(KeyCode.W) || InputManager.InputManager.Instance.GetLStick().y > 0)
-                    {//上入力
-                     //DollyCameraGo(STAGE_NO.STAGE03);
-                        MixCameraGo(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE03);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE03);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.S) || InputManager.InputManager.Instance.GetLStick().y < 0)
-                    {//下入力
-                     //DollyCameraBack(STAGE_NO.STAGE01);
-                        MixCameraBack(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE01);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE01);
-                    }
-                    break;
-                case STAGE_NO.STAGE03:
-                    if (Input.GetKeyDown(KeyCode.W) || InputManager.InputManager.Instance.GetLStick().y > 0)
-                    {//上入力
-                     //DollyCameraGo(STAGE_NO.STAGE04);
-                        MixCameraGo(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE04);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE04);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.S) || InputManager.InputManager.Instance.GetLStick().y < 0)
-                    {//下入力
-                     //DollyCameraBack(STAGE_NO.STAGE02);
-                        MixCameraBack(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE02);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE02);
-                    }
-                    break;
-                case STAGE_NO.STAGE04:
-                    if (Input.GetKeyDown(KeyCode.W) || InputManager.InputManager.Instance.GetLStick().y > 0)
-                    {//上入力
-                     //DollyCameraGo(STAGE_NO.STAGE05);
-                        MixCameraGo(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE05);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE05);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.S) || InputManager.InputManager.Instance.GetLStick().y < 0)
-                    {//下入力
-                     //DollyCameraBack(STAGE_NO.STAGE03);
-                        MixCameraBack(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE03);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE03);
-                    }
-                    break;
-                case STAGE_NO.STAGE05:
-                    if (Input.GetKeyDown(KeyCode.W) || InputManager.InputManager.Instance.GetLStick().y > 0)
-                    {//上入力
-                     //MixCameraGo(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE01);
-                     // DollyCameraGo(STAGE_NO.STAGE02);
-                     //_StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE01);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.S) || InputManager.InputManager.Instance.GetLStick().y < 0)
-                    {//下入力
-                        MixCameraBack(StageStatusManager.Instance.CurrentStage, STAGE_NO.STAGE04);
-                        //DollyCameraBack(STAGE_NO.STAGE04);
-                        _StageSelectArrow.SetCurrentStage(STAGE_NO.STAGE04);
-                    }
-                    break;
-                case STAGE_NO.STAGE06:
-                    break;
-                case STAGE_NO.STAGE07:
-                    break;
-                case STAGE_NO.STAGE08:
-                    break;
-                case STAGE_NO.STAGE09:
-                    break;
-                case STAGE_NO.STAGE10:
-                    break;
-                case STAGE_NO.STAGE11:
-                    break;
-                case STAGE_NO.STAGE12:
-                    break;
-                case STAGE_NO.STAGE13:
-                    break;
-                case STAGE_NO.STAGE14:
-                    break;
-                case STAGE_NO.STAGE15:
-                    break;
-                case STAGE_NO.STAGE16:
-                    break;
-                case STAGE_NO.STAGE17:
-                    break;
-                case STAGE_NO.STAGE18:
-                    break;
-                case STAGE_NO.STAGE19:
-                    break;
-                case STAGE_NO.STAGE20:
-                    break;
-                case STAGE_NO.STAGE_NUM:
-                    break;
-                default:
-                    break;
-            }
+            //ステージ番号を0～5に振り分ける(入力制限をかけるため)
+            int StageNumber = (int)StageStatusManager.Instance.CurrentStage % 5;
 
+            if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
+            {//上入力
+                MixCameraGo(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.NextStage);
+                _StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.NextStage);
+                StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
+                //カーソルの移動音
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+            else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
+            {//下入力
+                MixCameraBack(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.PrevStage);
+                _StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.PrevStage);
+                StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.PrevStage;
+                //カーソルの移動音
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+
+
+            }
+            {
+                //switch (StageStatusManager.Instance.CurrentStage)
+                //{
+                //    case STAGE_NO.STAGE01:
+                //        break;
+                //    case STAGE_NO.STAGE02:
+                //        break;
+                //    case STAGE_NO.STAGE03:
+                //        break;
+                //    case STAGE_NO.STAGE04:
+                //        break;
+                //    case STAGE_NO.STAGE05:
+                //        break;
+                //    case STAGE_NO.STAGE06:
+                //        break;
+                //    case STAGE_NO.STAGE07:
+                //        break;
+                //    case STAGE_NO.STAGE08:
+                //        break;
+                //    case STAGE_NO.STAGE09:
+                //        break;
+                //    case STAGE_NO.STAGE10:
+                //        break;
+                //    case STAGE_NO.STAGE11:
+                //        break;
+                //    case STAGE_NO.STAGE12:
+                //        break;
+                //    case STAGE_NO.STAGE13:
+                //        break;
+                //    case STAGE_NO.STAGE14:
+                //        break;
+                //    case STAGE_NO.STAGE15:
+                //        break;
+                //    case STAGE_NO.STAGE16:
+                //        break;
+                //    case STAGE_NO.STAGE17:
+                //        break;
+                //    case STAGE_NO.STAGE18:
+                //        break;
+                //    case STAGE_NO.STAGE19:
+                //        break;
+                //    case STAGE_NO.STAGE20:
+                //        break;
+                //    case STAGE_NO.STAGE_NUM:
+                //        break;
+                //    default:
+                //        break;
+                //}
+            }
         }//    void StageChange()   END
 
         void WorldChange()
         {
-
+            //右入力
+            if (InputManager.InputManager.Instance.GetLStick().x > 0)
+            { }
+            //左入力
+            else if (InputManager.InputManager.Instance.GetLStick().x > 0)
+            { }
         }
 
         //ステージ決定
@@ -255,58 +239,9 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
             //if (Input.GetKeyDown(KeyCode.Space))
             {
-                switch (StageStatusManager.Instance.CurrentStage)
-                {
-                    case STAGE_NO.STAGE01:
-                        FadeManager.FadeOut("Stage1_1");
-                        break;
-                    case STAGE_NO.STAGE02:
-                        FadeManager.FadeOut("Stage1_2");
-                        break;
-                    case STAGE_NO.STAGE03:
-                        FadeManager.FadeOut("Stage1_3");
-                        break;
-                    case STAGE_NO.STAGE04:
-                        FadeManager.FadeOut("Stage1_4");
-                        break;
-                    case STAGE_NO.STAGE05:
-                        FadeManager.FadeOut("Stage1_5");
-                        break;
-                    case STAGE_NO.STAGE06:
-                        break;
-                    case STAGE_NO.STAGE07:
-                        break;
-                    case STAGE_NO.STAGE08:
-                        break;
-                    case STAGE_NO.STAGE09:
-                        break;
-                    case STAGE_NO.STAGE10:
-                        break;
-                    case STAGE_NO.STAGE11:
-                        break;
-                    case STAGE_NO.STAGE12:
-                        break;
-                    case STAGE_NO.STAGE13:
-                        break;
-                    case STAGE_NO.STAGE14:
-                        break;
-                    case STAGE_NO.STAGE15:
-                        break;
-                    case STAGE_NO.STAGE16:
-                        break;
-                    case STAGE_NO.STAGE17:
-                        break;
-                    case STAGE_NO.STAGE18:
-                        break;
-                    case STAGE_NO.STAGE19:
-                        break;
-                    case STAGE_NO.STAGE20:
-                        break;
-                    case STAGE_NO.STAGE_NUM:
-                        break;
-                    default:
-                        break;
-                }
+                string StageName = StageStatusManager.Instance.StageString[(int)StageStatusManager.Instance.CurrentStage];
+                FadeManager.FadeOut(StageName,StageIn_FadeOut_Time);
+
                 //シーン遷移中状態にする
                 select_state = SELECT_STATE.SCENE_MOVING;
                 Debug.Log("決定です！");
@@ -317,7 +252,6 @@ namespace TeamProject
 
         private void MixCameraGo(STAGE_NO CurrentStage, STAGE_NO NextStage)
         {
-            StageStatusManager.Instance.CurrentStage = NextStage;
 
             SetMixCamera(_Mixing, CurrentStage, NextStage, "GO");
 
@@ -330,19 +264,15 @@ namespace TeamProject
         }
         private void MixCameraBack(STAGE_NO CurrentStage, STAGE_NO NextStage)
         {
-            StageStatusManager.Instance.CurrentStage = NextStage;
 
             SetMixCamera(_Mixing, CurrentStage, NextStage, "BACK");
 
             dolly_state = DOLLY_STATE.BACK;
             select_state = SELECT_STATE.SWING;
-            //カーソルの移動音
-            SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
         }
         private void DollyCameraGo(STAGE_NO NextStage)
         {
-            //stage_num = NextStage;
 
             SetDollyCamera(_Dolly_Current, NextStage, "GO");
             SetDollyCamera(_Dolly_Next, NextStage, "GO");
@@ -352,14 +282,11 @@ namespace TeamProject
         }
         private void DollyCameraBack(STAGE_NO PrevStage)
         {
-            //stage_num = PrevStage;
 
             SetDollyCamera(_Dolly_Current, PrevStage, "BACK");
             SetDollyCamera(_Dolly_Next, PrevStage, "BACK");
 
             select_state = SELECT_STATE.MOVING;
-            //カーソルの移動音
-            //   SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
         }
 
@@ -368,11 +295,23 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu))
             //if (Input.GetKeyDown(KeyCode.Escape))
             {//ESCキー入力
-                FadeManager.FadeOut("TitleScene", 1.5f);
+                FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
             }
 
         }
 
+        //状態フラグのチェック
+        private void CheckFlag()
+        {
+            if (StageChangeManager.IsStageChange())
+            {
+                select_state = SELECT_STATE.STAGE_MOVING;
+            }
+            else if (WorldChangeManagr.IsWorldChange())
+            {
+                select_state = SELECT_STATE.WORLD_MOVING;
+            }
+        }
 
         //ドリーカメラのセット（カメラ注視点、パス位置、ドリーの状態）
         public void SetDollyCamera(GameObject _DollyCameraObject, STAGE_NO _StageNo, string _Word)
