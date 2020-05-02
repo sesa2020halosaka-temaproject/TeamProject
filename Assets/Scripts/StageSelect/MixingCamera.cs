@@ -5,11 +5,13 @@ using Cinemachine;
 
 namespace TeamProject
 {
+    //CinemachineMixingCameraの制御
     public class MixingCamera : MonoBehaviour
     {
+        public CinemachineMixingCamera m_MixingCam;
         public CinemachineVirtualCamera vcam_before;
         public CinemachineVirtualCamera vcam_after;
-        public CinemachineMixingCamera mix_cam;
+
 
         public float cam_weight;//カメラ1，2のウェイト値
 
@@ -37,7 +39,11 @@ namespace TeamProject
         void Start()
         {
             cam_weight = 0.0f;
-
+            if (m_MixingCam == null)
+            {
+                Debug.LogError("CinemachineMixingCameraがセットされていません！");
+                return;
+            }
             this.MixState("ZERO");
         }
 
@@ -72,11 +78,11 @@ namespace TeamProject
                 default:
                     break;
             }
-            mix_cam.m_Weight0 = 1 - cam_weight;
-            mix_cam.m_Weight1 = cam_weight;
+            m_MixingCam.m_Weight0 = 1 - cam_weight;
+            m_MixingCam.m_Weight1 = cam_weight;
         }// void Update() END
 
-        //ドリーの状態を変える
+        //ミキシングの状態を変える
         public void MixState(string word)
         {
             switch (word)
@@ -120,6 +126,7 @@ namespace TeamProject
             Swing_flag = false;
         }
 
+        //
         public void ResetWeight()
         {
             cam_weight = 0.0f;
@@ -130,8 +137,8 @@ namespace TeamProject
         {
             vcam_before.LookAt = CurrentTarget.transform;
             vcam_after.LookAt = NextTarget.transform;
-
+            
 
         }// END
-    }
-}
+    }//public class MixingCamera : MonoBehaviour END
+}//namespace END

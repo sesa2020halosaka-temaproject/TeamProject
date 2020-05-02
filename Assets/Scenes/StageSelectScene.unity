@@ -334,7 +334,7 @@ RectTransform:
   m_Children:
   - {fileID: 796767000}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -366,6 +366,7 @@ MonoBehaviour:
   - 9
   - 12
   Volume: 1
+  ToTitle_FadeOut_Time: 0
   StageIn_FadeOut_Time: 2
   _Dolly_Current: {fileID: 0}
   _Dolly_Next: {fileID: 0}
@@ -471,7 +472,7 @@ Transform:
   - {fileID: 521165667}
   - {fileID: 1690489908}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &99307068
 GameObject:
@@ -1591,6 +1592,7 @@ GameObject:
   - component: {fileID: 603924390}
   - component: {fileID: 603924389}
   - component: {fileID: 603924388}
+  - component: {fileID: 603924391}
   m_Layer: 0
   m_Name: Mixing_VCamera
   m_TagString: Untagged
@@ -1610,9 +1612,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56340ec209425b54e9d599c1bd0d5df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_MixingCam: {fileID: 603924389}
   vcam_before: {fileID: 2062425552}
   vcam_after: {fileID: 773784133}
-  mix_cam: {fileID: 603924389}
   cam_weight: 0
   m_Go_SwingTime: 0.5
   m_Back_SwingTime: 1.2
@@ -1660,6 +1662,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &603924391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603924387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabc458e48cab004280265e6f6d29618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stages: []
 --- !u!1 &615215521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,9 +1820,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb21ddf5348ec34bb6bc00dee23115d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Canvas: {fileID: 0}
-  m_Next: {fileID: 0}
-  m_Prev: {fileID: 0}
 --- !u!114 &663524016 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7776338084441036127, guid: e129b6455719782418c41f2a3420846b,
@@ -1957,7 +1969,7 @@ GameObject:
   - component: {fileID: 773784133}
   - component: {fileID: 773784132}
   m_Layer: 0
-  m_Name: Dolly_VCamera
+  m_Name: Next_VCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1970,7 +1982,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773784130}
-  m_LocalRotation: {x: -0.024232214, y: 0.9483158, z: -0.3074465, w: -0.07474402}
+  m_LocalRotation: {x: 0.55244696, y: 0.000000001014317, z: -7.109686e-10, w: 0.83354807}
   m_LocalPosition: {x: -0.0072751776, y: -0.0052538654, z: -0.03671066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3115,7 +3127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 170733758}
-  m_PathPosition: 6
+  m_PathPosition: 0
   m_PositionUnits: 0
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 0
@@ -4445,7 +4457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Path: {fileID: 170733758}
-  m_PathPosition: 6
+  m_PathPosition: 0
   m_PositionUnits: 0
   m_PathOffset: {x: 0, y: 0, z: 0}
   m_XDamping: 0
@@ -5574,7 +5586,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062425550}
-  m_LocalRotation: {x: -0.02423223, y: 0.9483158, z: -0.30744654, w: -0.07474408}
+  m_LocalRotation: {x: 0.552447, y: -0.000000021513515, z: 0.0000000142584184, w: 0.83354807}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -5828,7 +5840,7 @@ PrefabInstance:
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46.9
+      value: 28.5
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
@@ -5838,27 +5850,27 @@ PrefabInstance:
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1938
+      value: -2090
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.024232231
+      value: 0.55244714
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.94831574
+      value: -0.000000010272477
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.30744657
+      value: 0.000000006808247
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.07474408
+      value: 0.833548
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}

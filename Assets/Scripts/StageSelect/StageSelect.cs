@@ -60,7 +60,7 @@ namespace TeamProject
 
 
             _Mixing = GameObject.Find("Mixing_VCamera").gameObject;
-            _Dolly_Current = _Mixing.transform.Find("Dolly_VCamera").gameObject;
+            _Dolly_Current = _Mixing.transform.Find("Next_VCamera").gameObject;
             _Dolly_Next = _Mixing.transform.Find("Current_VCamera").gameObject;
 
             _Dolly_Current.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)StageStatusManager.Instance.CurrentStage]);
@@ -82,7 +82,7 @@ namespace TeamProject
                 case SELECT_STATE.KEY_WAIT:
 
                     //ステージ選択（WSキー or スティック上下）
-                    StageChange();
+                    //StageChange();
                     StageChangeManager.StageChange();
                     //ワールド選択（ADキー or スティック左右）
                     WorldChange();
@@ -92,7 +92,7 @@ namespace TeamProject
                     //タイトルへ戻る(ESCキー or Startボタン)
                     BackToTitle();
                     //フラグチェック
-                    CheckFlag();
+                    FlagCheck();
                     break;
                 case SELECT_STATE.SWING:
                     bool IsSwing = _Mixing.GetComponent<MixingCamera>().IsSwing();
@@ -136,6 +136,16 @@ namespace TeamProject
                 case SELECT_STATE.SCENE_MOVING:
                     break;
                 case SELECT_STATE.STAGE_MOVING:
+                    if (StageChangeManager.MovingState()=="GO")
+                    {
+                        MixCameraGo(StageStatusManager.Instance.PrevStage, StageStatusManager.Instance.CurrentStage);
+
+                    }
+                    else if (StageChangeManager.MovingState() == "BACK")
+                    {
+                        MixCameraBack(StageStatusManager.Instance.PrevStage , StageStatusManager.Instance.CurrentStage);
+
+                    }
                     StageChangeManager.Update();
                     break;
                 case SELECT_STATE.WORLD_MOVING:
@@ -156,7 +166,7 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
             {//上入力
                 MixCameraGo(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.NextStage);
-                _StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.NextStage);
+                //_StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.NextStage);
                 StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
@@ -164,7 +174,7 @@ namespace TeamProject
             else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
             {//下入力
                 MixCameraBack(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.PrevStage);
-                _StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.PrevStage);
+                //_StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.PrevStage);
                 StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.PrevStage;
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
@@ -301,7 +311,7 @@ namespace TeamProject
         }
 
         //状態フラグのチェック
-        private void CheckFlag()
+        private void FlagCheck()
         {
             if (StageChangeManager.IsStageChange())
             {

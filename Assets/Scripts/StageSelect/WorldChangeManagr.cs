@@ -9,6 +9,15 @@ namespace TeamProject
     {
         private static bool m_WorldChange_flag = false;//ワールド間移動中フラグ
 
+        private enum WORLDCHANGE_STATE
+        {
+            WAIT,       //
+            SWING,      //
+            MOVING,     //
+            ALL_STATES  //
+        }
+
+        private static WORLDCHANGE_STATE m_State=WORLDCHANGE_STATE.WAIT;
         public static void WorldChange()
         {
             //ステージ番号から現在のワールドを確認する
@@ -17,11 +26,14 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetLStick().x > 0)
             {
                 ChangeFlag();
+                m_State = WORLDCHANGE_STATE.SWING;
             }
             //左入力
             else if (InputManager.InputManager.Instance.GetLStick().x > 0)
             {
                 ChangeFlag();
+                m_State = WORLDCHANGE_STATE.SWING;
+
             }
 
             ////上入力
@@ -52,7 +64,19 @@ namespace TeamProject
          //ワールド間移動更新
         public static void Update()
         {
-
+            switch (m_State)
+            {
+                case WORLDCHANGE_STATE.WAIT:
+                    break;
+                case WORLDCHANGE_STATE.SWING:
+                    break;
+                case WORLDCHANGE_STATE.MOVING:
+                    break;
+                case WORLDCHANGE_STATE.ALL_STATES:
+                    break;
+                default:
+                    break;
+            }
         }
 
         //フラグの切り替え(ON <－> OFF)
