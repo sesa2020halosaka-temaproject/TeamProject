@@ -21,14 +21,35 @@ namespace TeamProject
 
         }
 
-        //ミキシングカメラのセット（カメラ注視点：現在と次、ミキシングの状態、カメラウェイトのリセット）
-        public void SetMixCamera(GameObject _MixingCameraObject, STAGE_NO _CurrentStageNo, STAGE_NO _NextStageNo, string _Word)
-        {
-            _MixingCameraObject.GetComponent<MixingCamera>().LookAtTargetTwoChanges(Stages[(int)_CurrentStageNo], Stages[(int)_NextStageNo]);
-            _MixingCameraObject.GetComponent<MixingCamera>().MixState(_Word);
-            _MixingCameraObject.GetComponent<MixingCamera>().ResetWeight();
+        ////ミキシングカメラのセット（カメラ注視点：現在と次、ミキシングの状態、カメラウェイトのリセット）
+        //public void SetMixCamera(GameObject _MixingCameraObject, STAGE_NO _CurrentStageNo, STAGE_NO _NextStageNo, string _Word)
+        //{
+        //    _MixingCameraObject.GetComponent<MixingCamera>().LookAtTargetTwoChanges(Stages[(int)_CurrentStageNo], Stages[(int)_NextStageNo]);
+        //    _MixingCameraObject.GetComponent<MixingCamera>().MixState(_Word);
+        //    _MixingCameraObject.GetComponent<MixingCamera>().ResetWeight();
 
-        }
+        //}
+        //private void MixCameraGo(STAGE_NO CurrentStage, STAGE_NO NextStage)
+        //{
+
+        //    SetMixCamera(_Mixing, CurrentStage, NextStage, "GO");
+
+
+        //    dolly_state = DOLLY_STATE.GO;
+        //    select_state = SELECT_STATE.SWING;
+        //    //カーソルの移動音
+        //    SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+
+        //}
+        //private void MixCameraBack(STAGE_NO CurrentStage, STAGE_NO NextStage)
+        //{
+
+        //    SetMixCamera(_Mixing, CurrentStage, NextStage, "BACK");
+
+        //    dolly_state = DOLLY_STATE.BACK;
+        //    select_state = SELECT_STATE.SWING;
+
+        //}
 
 
     }//public class SetMixingCamera : MonoBehaviour END

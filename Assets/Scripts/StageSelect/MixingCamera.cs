@@ -22,19 +22,21 @@ namespace TeamProject
 
         private float m_SwingTime;//カメラ方向転換時間
 
-        private float AddRatio;//加算倍率（+1,0,-1）
+        private float AddRatio = 1.0f;//加算倍率（+1,0,-1）
 
-        //カメラのパスの位置の移動
-        public enum MIX_MOVE
+        //Mixingカメラの状態
+        public enum MIXING_STATE
         {
             FIXING,//固定
             GO,  //進める
-            BACK   //戻る
+            BACK,   //戻る
+            ALL_STATES//全要素数
         }
-        public MIX_MOVE Move_state;
+        public MIXING_STATE m_MixingState;
 
         public bool Swing_flag;//カメラの方向が切り替え中かどうか
-
+        private DollyCamera _Main_DollyCam;
+        private DollyCamera _Sub_DollyCam;
         // Start is called before the first frame update
         void Start()
         {
@@ -44,81 +46,216 @@ namespace TeamProject
                 Debug.LogError("CinemachineMixingCameraがセットされていません！");
                 return;
             }
-            this.MixState("ZERO");
-        }
 
-        // Update is called once per frame
+            _Sub_DollyCam = this.transform.GetChild(0).gameObject.GetComponent<DollyCamera>();
+            _Main_DollyCam = this.transform.GetChild(1).gameObject.GetComponent<DollyCamera>();
+            //this.MixState("ZERO");
+        }
+        public void MixingUpdate()
+        {
+            //switch (StageChangeManager.MixingState())
+            //{
+            //    case MIXING_STATE.FIXING:
+            //        break;
+            //    case MIXING_STATE.GO:
+            //        cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
+            //        if (cam_weight > 1.0f)
+            //        {
+            //            cam_weight = 1.0f;
+            //            //方向転換完了
+            //            //this.MixState("ZERO");
+            //            StageChangeManager.MixingStateChange("FIXING");
+            //            StageChangeManager.DollyStateChange("GO");
+            //            //ドリーカメラの初期設定
+            //            _Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "GO");
+            //            _Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "GO");
+            //            LookAtTargetTwoChanges();
+
+            //        }
+
+            //        break;
+            //    case MIXING_STATE.BACK:
+            //        cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
+            //        if (cam_weight > 1.0f)
+            //        {
+            //            cam_weight = 1.0f;
+            //            //方向転換完了
+            //            // this.MixState("ZERO");
+            //            StageChangeManager.MixingStateChange("FIXING");
+            //            StageChangeManager.DollyStateChange("BACK");
+            //           //ResetWeight();
+            //           //ResetWeight();
+
+            //            //ドリーカメラの初期設定
+            //            _Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "BACK");
+            //            _Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "BACK");
+            //            LookAtTargetTwoChanges();
+
+            //        }
+
+            //        break;
+            //    case MIXING_STATE.ALL_STATES:
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //m_MixingCam.m_Weight0 = 1 - cam_weight;
+            //m_MixingCam.m_Weight1 = cam_weight;
+
+        }//public void MixingUpdate() END
+
+        //Update is called once per frame
         void Update()
         {
-
-            switch (Move_state)
+            switch (StageChangeManager.MixingState())
             {
-                case MIX_MOVE.FIXING:
+                case MIXING_STATE.FIXING:
                     break;
-                case MIX_MOVE.GO:
+                case MIXING_STATE.GO:
                     cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
                     if (cam_weight > 1.0f)
                     {
                         cam_weight = 1.0f;
                         //方向転換完了
-                        this.MixState("ZERO");
+                        //this.MixState("ZERO");
+                        StageChangeManager.MixingStateChange("FIXING");
+                        StageChangeManager.DollyStateChange("GO");
+                        //ドリーカメラの初期設定
+                        _Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "GO");
+                        _Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "GO");
+                        LookAtTargetTwoChanges();
 
                     }
+
                     break;
-                case MIX_MOVE.BACK:
+                case MIXING_STATE.BACK:
                     cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
                     if (cam_weight > 1.0f)
                     {
                         cam_weight = 1.0f;
                         //方向転換完了
-                        this.MixState("ZERO");
+                        // this.MixState("ZERO");
+                        StageChangeManager.MixingStateChange("FIXING");
+                        StageChangeManager.DollyStateChange("BACK");
+                        //ResetWeight();
+                        //ResetWeight();
+
+                        //ドリーカメラの初期設定
+                        _Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "BACK");
+                        _Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "BACK");
+                        LookAtTargetTwoChanges();
 
                     }
+
+                    break;
+                case MIXING_STATE.ALL_STATES:
                     break;
                 default:
                     break;
             }
             m_MixingCam.m_Weight0 = 1 - cam_weight;
             m_MixingCam.m_Weight1 = cam_weight;
+
         }// void Update() END
 
-        //ミキシングの状態を変える
-        public void MixState(string word)
+        // Update is called once per frame
+        //void Update()
+        //{
+
+        //    switch (m_MixingState)
+        //    {
+        //        case MIXING_STATE.FIXING:
+        //            break;
+        //        case MIXING_STATE.GO:
+        //            cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
+        //            if (cam_weight > 1.0f)
+        //            {
+        //                cam_weight = 1.0f;
+        //                //方向転換完了
+        //                this.MixState("ZERO");
+
+        //            }
+        //            break;
+        //        case MIXING_STATE.BACK:
+        //            cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
+        //            if (cam_weight > 1.0f)
+        //            {
+        //                cam_weight = 1.0f;
+        //                //方向転換完了
+        //                this.MixState("ZERO");
+
+        //            }
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    m_MixingCam.m_Weight0 = 1 - cam_weight;
+        //    m_MixingCam.m_Weight1 = cam_weight;
+        //}// void Update() END
+
+        ////ミキシングの状態を変える
+        //public void MixState(string word)
+        //{
+        //    switch (word)
+        //    {
+        //        case "ZERO":
+        //            //AddRatio = 0.0f;
+        //            //m_MixingState = MIXING_STATE.FIXING;
+        //            Swing_flag = false;//完了
+        //            break;
+        //        case "GO":
+        //            //AddRatio = 1.0f;
+        //            m_SwingTime = m_Go_SwingTime;
+        //            //m_MixingState = MIXING_STATE.GO;
+        //            Swing_flag = true;//開始
+
+        //            break;
+        //        case "BACK":
+        //            //AddRatio = 1.0f;
+        //            m_SwingTime = m_Back_SwingTime;
+        //            //m_MixingState = MIXING_STATE.BACK;
+        //            Swing_flag = true;//開始
+
+        //            break;
+        //        default:
+        //            Debug.Log("言葉が違います。カメラを固定します。");
+        //            AddRatio = 0.0f;
+        //            break;
+        //    }
+        //}//    public void DollyState(string word)  END
+
+        //方向転換速度をセットする
+        public void SetSwingTime()
         {
-            switch (word)
+            switch (StageChangeManager.MixingState())
             {
-                case "ZERO":
-                    AddRatio = 0.0f;
-                    Move_state = MIX_MOVE.FIXING;
-                    Swing_flag = false;//完了
+                case MIXING_STATE.FIXING:
+                    m_SwingTime = 9.0f;
                     break;
-                case "GO":
-                    AddRatio = 1.0f;
+                case MIXING_STATE.GO:
                     m_SwingTime = m_Go_SwingTime;
-                    Move_state = MIX_MOVE.GO;
-                    Swing_flag = true;//開始
-
                     break;
-                case "BACK":
-                    AddRatio = 1.0f;
+                case MIXING_STATE.BACK:
                     m_SwingTime = m_Back_SwingTime;
-                    Move_state = MIX_MOVE.BACK;
-                    Swing_flag = true;//開始
-
+                    break;
+                case MIXING_STATE.ALL_STATES:
                     break;
                 default:
-                    Debug.Log("言葉が違います。カメラを固定します。");
-                    AddRatio = 0.0f;
                     break;
             }
-        }//    public void DollyState(string word)  END
 
+        }
         //方向変換中かどうかboolで返す。
         public bool IsSwing()
         {
             return Swing_flag;
         }
 
+        //フラグをtrueにする
+        public void SwingFlagOn()
+        {
+            Swing_flag = true;
+        }
         //フラグをfalseにする
         public void SwingFlagOff()
         {
@@ -133,12 +270,39 @@ namespace TeamProject
         }
 
         //現在のターゲットと次のターゲットのLookAtをセットする
-        public void LookAtTargetTwoChanges(GameObject CurrentTarget, GameObject NextTarget)
+        public void LookAtTargetTwoChanges()
         {
-            vcam_before.LookAt = CurrentTarget.transform;
-            vcam_after.LookAt = NextTarget.transform;
-            
+            switch (StageChangeManager.MixingState())
+            {
+                case MIXING_STATE.FIXING:
+                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    break;
+                case MIXING_STATE.GO:
+                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.PrevStage].transform;
+                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    break;
+                case MIXING_STATE.BACK:
+                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.NextStage].transform;
+                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    break;
+                case MIXING_STATE.ALL_STATES:
+                    break;
+                default:
+                    break;
+            }
+
+
 
         }// END
+
+        //ミキシングカメラのセット（カメラ注視点：現在と次、ミキシングの状態、カメラウェイトのリセット）
+        //public void SetMixCamera(GameObject _MixingCameraObject, STAGE_NO _CurrentStageNo, STAGE_NO _NextStageNo, string _Word)
+        //{
+        //    _MixingCameraObject.GetComponent<MixingCamera>().LookAtTargetTwoChanges(TargetStages.m_Stages[(int)_CurrentStageNo], TargetStages.m_Stages[(int)_NextStageNo]);
+        //    //_MixingCameraObject.GetComponent<MixingCamera>().MixState(_Word);
+        //    _MixingCameraObject.GetComponent<MixingCamera>().ResetWeight();
+        //}
+
     }//public class MixingCamera : MonoBehaviour END
 }//namespace END
