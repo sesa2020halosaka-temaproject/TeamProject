@@ -20,7 +20,7 @@
 		CGINCLUDE
 		#include "UnityCG.cginc"
 		#ifdef  UNITY_PASS_FORWARDBASE
-		#pragma multi_compile_fog
+		//#pragma multi_compile_fog
 		#pragma multi_compile_fwdbase
 		#include "AutoLight.cginc"
 		#endif
@@ -48,7 +48,7 @@
 			float cutheight : TEXCOORD1;
 		#ifdef UNITY_PASS_FORWARDBASE
 					UNITY_FOG_COORDS(2)
-						SHADOW_COORDS(3)
+					SHADOW_COORDS(3)
 		#endif
 		};
 
@@ -105,7 +105,7 @@
 				outStream.Append(o);
 
 			o.pos = v.vertex;
-			o.pos.xyz += (tex.x * v.tangent + tex.y * binormal +  v.normal * tex.z) * _Height * (random(v.uv) + 0.5);
+			o.pos.xyz += (tex.x * v.tangent + tex.y * binormal + tex.z * v.normal) * _Height * (random(v.uv) + 0.5);
 			o.pos.xyz += displace;
 			o.pos.xyz += v.tangent*_Wind * sin(_Time.z + v.uv.x * 5); //風
 			o.pos = mul(UNITY_MATRIX_P, o.pos);
@@ -125,11 +125,15 @@
 		void geom(triangle v2g input[3], inout TriangleStream<g2f> outStream)
 		{
 			v2g v;
-			for (int i = 0; i < _Density; i++) {
-				for (int j = 0; j < _Density - i; j++) {
+			for (int i = 0; i < _Density; i++) 
+			{
+				for (int j = 0; j < _Density - i; j++) 
+				{
+					
 					float w1 = i / _Density;
 					float w2 = j / _Density;
 					float w0 = 1 - w1 - w2;
+
 					v.vertex = input[0].vertex * w0 + input[1].vertex * w1 + input[2].vertex * w2;
 					v.uv = input[0].uv * w0 + input[1].uv * w1 + input[2].uv * w2;
 					v.normal = input[0].normal * w0 + input[1].normal * w1 + input[2].normal * w2;
@@ -189,17 +193,17 @@
 		 float _Atten;
 		 sampler2D _GrassTex;
 		 fixed4 frag(g2f i) : SV_Target
-		 {
-		  clip(1 - i.uv.y - i.cutheight);
-		  fixed4 tex = tex2D(_GrassTex, i.uv);
-		  fixed4 col = 0;
-		  col.rgb = tex.rgb * ShadeSH9(float4(1,1,0,1));
-		  float atten = _Atten;// SHADOW_ATTENUATION(i);
-		  col += tex * atten;
-		  UNITY_APPLY_FOG(i.fogCoord, col);
-		  return col;
-		 }
-		 ENDCG
+			 {
+				  clip(1 - i.uv.y - i.cutheight);
+				  fixed4 tex = tex2D(_GrassTex, i.uv);
+				  fixed4 col = 0;
+				  col.rgb = tex.rgb * ShadeSH9(float4(1,1,0,1));
+				  float atten = _Atten;// SHADOW_ATTENUATION(i);
+				  col += tex * atten;
+				  UNITY_APPLY_FOG(i.fogCoord, col);
+				  return col;
+			 }
+			 ENDCG
 		}
 
 		Pass
