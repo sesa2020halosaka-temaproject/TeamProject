@@ -31,7 +31,7 @@ namespace TeamProject
 
                     }
                 }
-                if (m_TargetCamera == null&& UnityEngine.Camera.main != null)
+                if (m_TargetCamera == null && UnityEngine.Camera.main != null)
                 {
                     m_TargetCamera = UnityEngine.Camera.main;
                 }
