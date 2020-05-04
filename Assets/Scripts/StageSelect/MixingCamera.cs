@@ -30,6 +30,7 @@ namespace TeamProject
             FIXING,//固定
             GO,  //進める
             BACK,   //戻る
+            WORLD,  //ワールド間移動
             ALL_STATES//全要素数
         }
         public MIXING_STATE m_MixingState;
@@ -51,6 +52,8 @@ namespace TeamProject
             _Main_DollyCam = this.transform.GetChild(1).gameObject.GetComponent<DollyCamera>();
             //this.MixState("ZERO");
         }
+
+        //後で削除予定
         public void MixingUpdate()
         {
             //switch (StageChangeManager.MixingState())
@@ -107,23 +110,23 @@ namespace TeamProject
         //Update is called once per frame
         void Update()
         {
+            m_MixingState = StageChangeManager.MixingState();
             switch (StageChangeManager.MixingState())
             {
                 case MIXING_STATE.FIXING:
                     break;
                 case MIXING_STATE.GO:
+                    //カメラウェイトの加算
                     cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
+
                     if (cam_weight > 1.0f)
                     {
                         cam_weight = 1.0f;
                         //方向転換完了
-                        //this.MixState("ZERO");
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("GO");
-                        //ドリーカメラの初期設定
-                        _Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "GO");
-                        _Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "GO");
-                        LookAtTargetTwoChanges();
+
+
 
                     }
 
@@ -138,21 +141,36 @@ namespace TeamProject
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("BACK");
                         //ResetWeight();
-                        //ResetWeight();
 
-                        //ドリーカメラの初期設定
-                        _Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "BACK");
-                        _Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.CurrentStage, "BACK");
-                        LookAtTargetTwoChanges();
+                        ////ドリーカメラの初期設定
+                        //_Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.PrevStage, "BACK");
+                        //_Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.PrevStage, "BACK");
+                        //LookAtTargetTwoChanges(StageStatusManager.Instance.PrevStage, StageStatusManager.Instance.PrevStage);
 
                     }
 
+                    break;
+                case MIXING_STATE.WORLD:
+                    //カメラウェイトの加算
+                    cam_weight += Time.deltaTime * AddRatio / m_SwingTime;
+
+                    if (cam_weight > 1.0f)
+                    {
+                        cam_weight = 1.0f;
+                        //方向転換完了
+                        StageChangeManager.MixingStateChange("FIXING");
+                        StageChangeManager.DollyStateChange("WORLD");
+
+
+
+                    }
                     break;
                 case MIXING_STATE.ALL_STATES:
                     break;
                 default:
                     break;
             }
+            //カメラウェイトの配分
             m_MixingCam.m_Weight0 = 1 - cam_weight;
             m_MixingCam.m_Weight1 = cam_weight;
 
@@ -275,25 +293,41 @@ namespace TeamProject
             switch (StageChangeManager.MixingState())
             {
                 case MIXING_STATE.FIXING:
-                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
-                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.NextStage].transform;
+                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.NextStage].transform;
                     break;
                 case MIXING_STATE.GO:
-                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.PrevStage].transform;
-                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.NextStage].transform;
                     break;
                 case MIXING_STATE.BACK:
-                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.NextStage].transform;
-                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    vcam_before.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage].transform;
+                    vcam_after.LookAt = TargetStages.m_Stages[(int)StageStatusManager.Instance.PrevStage].transform;
                     break;
                 case MIXING_STATE.ALL_STATES:
                     break;
                 default:
                     break;
             }
+        }// END
 
+ 
+        //現在のターゲットと次のターゲットのLookAtをセットする
+       public void LookAtTargetTwoChanges(STAGE_NO _BeforeStage, STAGE_NO _AfterStage)
+        {
+            Debug.Log("_BeforeStage:" + _BeforeStage);
+            Debug.Log("_AfterStage:" + _AfterStage);
+            vcam_before.LookAt = TargetStages.m_Stages[(int)_BeforeStage].transform;
+            vcam_after.LookAt = TargetStages.m_Stages[(int)_AfterStage].transform;
+        }// END
 
-
+        //現在のターゲットと次のターゲットのLookAtをセットする(次のターゲットがGameObject版)
+        public void LookAtTargetTwoChanges(STAGE_NO _BeforeStage, GameObject _AfterObj)
+        {
+            Debug.Log("_BeforeStage:" + _BeforeStage);
+            Debug.Log("_AfterStage:" + _AfterObj);
+            vcam_before.LookAt = TargetStages.m_Stages[(int)_BeforeStage].transform;
+            vcam_after.LookAt = _AfterObj.transform;
         }// END
 
         //ミキシングカメラのセット（カメラ注視点：現在と次、ミキシングの状態、カメラウェイトのリセット）

@@ -29,6 +29,8 @@ namespace TeamProject
     //現在のステージ と ステージのクリア状況の管理クラス(シングルトン)
     public class StageStatusManager : SingletonMonoBehaviour<StageStatusManager>
     {
+        //現在のステージ
+        public STAGE_NO CurrentStage;
         //次のステージ
         public STAGE_NO NextStage
         {
@@ -50,9 +52,46 @@ namespace TeamProject
                 return stage;
             }
         }
+        //現在のワールド
+        public int CurrentWorld
+        {
+            get
+            {
+                var world = (int)CurrentStage / 5;
+                return world;
+            }
+        }
+        //次のワールド
+        public int NextWorld
+        {
+            get
+            {
+                var world = CurrentWorld + 1;
+                if (world >= 4) { world = 1; }
 
-        //現在のステージ
-        public STAGE_NO CurrentStage;
+                return world;
+            }
+        }
+        //前のワールド
+        public int PrevWorld
+        {
+            get
+            {
+                var world = CurrentWorld - 1;
+                if (world < 0) { world = 3; }
+                return world;
+            }
+        }
+        //現在のワールド内のステージ番号
+        public int StageInWorld
+        {
+            get
+            {
+                var world = (int)CurrentStage % 5;
+                return world;
+            }
+        }
+       
 
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
 
@@ -88,7 +127,7 @@ namespace TeamProject
                 Destroy(this);
                 return;
             }
-            Debug.Log("Awake!");
+            //Debug.Log("Awake!");
 
             //全ステージを未クリア状態にする
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)

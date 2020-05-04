@@ -15,7 +15,8 @@ namespace TeamProject
         public float pathPositionMax;
         public float pathPositionMin;
         public float AddTime;//移動速度の方向
-        public float MoveRatio;//移動速度の倍率
+        public float Stage_MoveRatio;//移動速度の倍率
+        public float World_MoveRatio;//移動速度の倍率
 
         //カメラのパスの位置の移動
         public enum DOLLY_MOVE
@@ -23,6 +24,7 @@ namespace TeamProject
             FIXING,//固定
             GO,  //進める
             BACK,   //戻る
+            WORLD,  //ワールド間移動
             ALL_STATES//全要素数
 
         }
@@ -31,8 +33,15 @@ namespace TeamProject
         public bool Move_flag;//カメラが移動しているかどうか
         public CinemachinePathBase m_Dolly_GO;
         public CinemachinePathBase m_Dolly_BACK;
+        public CinemachinePathBase[] m_Dolly_GO_4;
+        public CinemachinePathBase[] m_Dolly_BACK_4;
+        public CinemachinePathBase[] m_Dolly_W1toW2;
+        public CinemachinePathBase[] m_Dolly_W2toW1;
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
 
+        public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
+        public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
+        public CinemachineDollyCart _DollyCart;
         //public FixedDollyCamera //_SubDolly;
         private void Awake()
         {
@@ -57,25 +66,32 @@ namespace TeamProject
         }
         private void Start()
         {
+            //ドリーカート用ゲームオブジェクト
+            _DollyCartObj = GameObject.Find("DollyCart").gameObject;
+            //ドリーカートを先導するゲームオブジェクト
+            _TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;
+            //CinemachineDollyCartコンポーネント
+            _DollyCart = _DollyCartObj.GetComponent<CinemachineDollyCart>();
+
+
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
             //_SubDolly = GameObject.Find("Current_VCamera").GetComponent<FixedDollyCamera>();
-            Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
+            //Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
 
-            if (MoveRatio <= 0)
+            if (Stage_MoveRatio <= 0)
             {
-                MoveRatio = 1.0f;
+                Stage_MoveRatio = 1.0f;
             }
             // Positionの単位をトラック上のウェイポイント番号基準にするよう設定
             this.dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.PathUnits;
 
 
-            this.dolly.m_Path = m_Dolly_GO;//前進用ドリーパスをセット
+            //this.dolly.m_Path = m_Dolly_GO;//前進用ドリーパスをセット
 
             // ウェイポイントの最大番号・最小番号を取得
             this.pathPositionMax = this.dolly.m_Path.MaxPos;
             this.pathPositionMin = this.dolly.m_Path.MinPos;
 
-            //this.DollyState("ZERO");
 
         }
 
@@ -89,33 +105,36 @@ namespace TeamProject
         {
             this.pathPositionMin = minpos;
         }
-
         public void DollyUpdate()
         {
+
+        }
+        private void Update()
+        {
+            m_DollyMove = StageChangeManager.DollyState();
             switch (StageChangeManager.DollyState())
             {
                 case DOLLY_MOVE.FIXING:
                     break;
                 case DOLLY_MOVE.GO:
-                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * MoveRatio;
+                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * Stage_MoveRatio;
                     if (this.dolly.m_PathPosition >= this.pathPositionMax)
                     {
                         this.dolly.m_PathPosition = this.pathPositionMax;
                         //移動完了
-                        //this.DollyState("ZERO");
-                        Debug.Log("this.name:"+ this.name);
+                        //Debug.Log("this.name:" + this.name);
                         if (this.name == "Next_VCamera")
                         {
-                            Debug.Log("MAIN");
+                            //Debug.Log("MAIN");
                             StageChangeManager.DollyFlagON("MAIN");
+
                         }
                         else if (this.name == "Current_VCamera")
                         {
-                            Debug.Log("SUB");
+                            //Debug.Log("SUB");
 
                             StageChangeManager.DollyFlagON("SUB");
                         }
-
                         //_SubDolly.SetCinemachineTrackedDolly(dolly);
                         ////_SubDolly.LookAtTargetChange(virtualCamera.LookAt.gameObject);
                         ////_SubDolly.SetPosition(this.gameObject);
@@ -123,12 +142,11 @@ namespace TeamProject
 
                     break;
                 case DOLLY_MOVE.BACK:
-                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * MoveRatio;
+                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * Stage_MoveRatio;
                     if (this.dolly.m_PathPosition <= this.pathPositionMin)
                     {
                         this.dolly.m_PathPosition = this.pathPositionMin;
                         //移動完了
-                        //this.DollyState("ZERO");
                         if (this.name == "Next_VCamera")
                         {
                             StageChangeManager.DollyFlagON("MAIN");
@@ -142,6 +160,34 @@ namespace TeamProject
                         ////_SubDolly.LookAtTargetChange(virtualCamera.LookAt.gameObject);
                         ////_SubDolly.SetPosition(this.gameObject);
                     }
+
+                    break;
+                case DOLLY_MOVE.WORLD:
+                    if (this.name == "Next_VCamera")
+                    {
+                        this._DollyCart.m_Position += AddTime * Time.deltaTime * World_MoveRatio;
+
+                        if (this._DollyCart.m_Position >= this.pathPositionMax)
+                        {
+                            this._DollyCart.m_Position = this.pathPositionMax;
+
+                            Debug.Log("ドリーカート移動完了");
+                            //移動完了
+                            StageChangeManager.DollyCartFlagON();
+
+
+
+                            this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.NextWorld];//用ドリーパスをセット
+                            this._DollyCart.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.NextWorld];//用ドリーパスをセット
+                             this._DollyCart.m_Position = 0;
+                            this.dolly.m_PathPosition = 0;
+                       }
+                    }
+                    else
+                    {
+                        //this.dolly.m_PathPosition = 0;
+                    }
+                    // this.dolly.m_PathPosition += AddTime * Time.deltaTime * MoveRatio;
 
                     break;
                 case DOLLY_MOVE.ALL_STATES:
@@ -150,68 +196,65 @@ namespace TeamProject
                     break;
             }
 
+
         }
-        //private void Update()
+
+        ////ドリーの状態を変える
+        //public void DollyState(string word)
         //{
-        //    //// cycleTime秒かけてトラック上を往復させる
-        //    //var t = 0.5f - (0.5f * Mathf.Cos((Time.time * 2.0f * Mathf.PI) / this.cycleTime));
-        //    this.dolly.m_PathPosition += AddTime * Time.deltaTime * MoveRatio;
-        //    switch (m_DollyMove)
+        //    switch (word)
         //    {
-        //        case DOLLY_MOVE.FIXING:
+        //        case "ZERO":
+        //            AddTime = 0.0f;
+        //            m_DollyMove = DOLLY_MOVE.FIXING;
+        //            Move_flag = false;//移動完了
+
         //            break;
-        //        case DOLLY_MOVE.GO:
-        //            if (this.dolly.m_PathPosition >= this.pathPositionMax)
+        //        case "GO":
+        //            AddTime = 1.0f;
+        //            m_DollyMove = DOLLY_MOVE.GO;
+        //            Move_flag = true;//移動開始
+        //            //ステージ間移動の時
+        //            if (StageChangeManager.IsStageChange())
         //            {
-        //                this.dolly.m_PathPosition = this.pathPositionMax;
-        //                //移動完了
-        //                this.DollyState("ZERO");
+        //                //this.dolly.m_Path = m_Dolly_GO;//前進用ドリーパスをセット
+        //                this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+
+        //            }
+        //            //ワールド間の移動の時
+        //            else if (StageChangeManager.IsWorldChange())
+        //            {
+        //                //論理がズレてるのでここ修正しないといけない
+        //                if (StageStatusManager.Instance.CurrentWorld  == 0)
+        //                {
+
+        //                    this.dolly.m_Path = m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+        //                        this.dolly.m_PathPosition = 0;
+        //                }
+        //                else if (StageStatusManager.Instance.CurrentWorld == 1)
+        //                {
+
+        //                    this.dolly.m_Path = m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+        //                    this.dolly.m_PathPosition = 0;
+        //                }
+
         //            }
 
         //            break;
-        //        case DOLLY_MOVE.BACK:
-        //            if (this.dolly.m_PathPosition <= this.pathPositionMin)
-        //            {
-        //                this.dolly.m_PathPosition = this.pathPositionMin;
-        //                //移動完了
-        //                this.DollyState("ZERO");
-        //            }
+        //        case "BACK":
+        //            AddTime = -1.0f;
+        //            m_DollyMove = DOLLY_MOVE.BACK;
+        //            Move_flag = true;//移動開始
+        //            //this.dolly.m_Path = m_Dolly_BACK;//後進用ドリーパスをセット
+        //            this.dolly.m_Path = m_Dolly_BACK_4[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
 
         //            break;
         //        default:
+        //            Debug.Log("言葉が違います。カメラを固定します。");
+        //            AddTime = 0.0f;
         //            break;
         //    }
-        //}
-        //ドリーの状態を変える
-        public void DollyState(string word)
-        {
-            switch (word)
-            {
-                case "ZERO":
-                    AddTime = 0.0f;
-                    m_DollyMove = DOLLY_MOVE.FIXING;
-                    Move_flag = false;//移動完了
-
-                    break;
-                case "GO":
-                    AddTime = 1.0f;
-                    m_DollyMove = DOLLY_MOVE.GO;
-                    Move_flag = true;//移動開始
-                    this.dolly.m_Path = m_Dolly_GO;//前進用ドリーパスをセット
-                    break;
-                case "BACK":
-                    AddTime = -1.0f;
-                    m_DollyMove = DOLLY_MOVE.BACK;
-                    Move_flag = true;//移動開始
-                    this.dolly.m_Path = m_Dolly_BACK;//後進用ドリーパスをセット
-
-                    break;
-                default:
-                    Debug.Log("言葉が違います。カメラを固定します。");
-                    AddTime = 0.0f;
-                    break;
-            }
-        }//    public void DollyState(string word)  END
+        //}//    public void DollyState(string word)  END
 
         //移動中かどうかboolで返す
         public bool IsMoving()
@@ -219,14 +262,9 @@ namespace TeamProject
             return Move_flag;
         }
 
-        public void LookAtTargetChange(GameObject NextTarget)
-        {
-            virtualCamera.LookAt = NextTarget.transform;
-            //_SubDolly.LookAtTargetChange(NextTarget);
 
-        }
 
-        //カメラの位置を設定する
+        //カメラのパス位置を設定する
         public void SetPathPosition(float pos)
         {
             //Debug.Log(pos);
@@ -234,33 +272,158 @@ namespace TeamProject
             //Debug.Log(this.dolly.m_PathPosition);
         }
 
-        //ドリーカメラのセット（カメラ注視点、パス位置、ドリーの状態）
-        public void SetDollyCamera(/*GameObject _DollyCameraObject,*/ STAGE_NO _StageNo, string _Word)
+        //ウェイポイントの両端をセット
+        public void SetPathPositionALL()
         {
-            //LookAtTargetChange(TargetStages.m_Stages[(int)_StageNo]);
-            SetPathPositionMax(m_WP.Stage_WayPoint[(int)_StageNo]);
-            SetPathPositionMin(m_WP.Stage_WayPoint[(int)_StageNo]);
-            DollyState(_Word);
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            {
+                SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
+                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            {
+                SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+            {
+                SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
+                SetPathPositionMin(0);
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+            {
+                SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
+                SetPathPositionMin(0);
+            }
+
         }
-        //private void DollyCameraGo(STAGE_NO NextStage)
-        //{
 
-        //    SetDollyCamera(_Dolly_Current, NextStage, "GO");
-        //    SetDollyCamera(_Dolly_Next, NextStage, "GO");
+        //カメラのパス位置を初期化する
+        public void PathPositionReset()
+        {
+            //Debug.Log(pos);
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            {
+                dolly.m_PathPosition = pathPositionMin;
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            {
+                dolly.m_PathPosition = pathPositionMax;
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+            {
+                _DollyCart.m_Position = 0;
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+            {
+                _DollyCart.m_Position = 0;
+            }
 
-        //    select_state = SELECT_STATE.MOVING;
+            //Debug.Log(this.dolly.m_PathPosition);
+        }
+        //ドリールートの加算倍率の変更
+        public void SetAddTime()
+        {
+            switch (StageChangeManager.DollyState())
+            {
+                case DOLLY_MOVE.FIXING:
+                    AddTime = 0.0f;
+                    break;
+                case DOLLY_MOVE.GO:
+                    AddTime = 1.0f;
+                    break;
+                case DOLLY_MOVE.BACK:
+                    AddTime = -1.0f;
+                    break;
+                case DOLLY_MOVE.WORLD:
+                    AddTime = 1.0f;
+                    break;
+                case DOLLY_MOVE.ALL_STATES:
 
-        //}
-        //private void DollyCameraBack(STAGE_NO PrevStage)
-        //{
+                default:
+                    Debug.Log("DOLLY_MOVEの状態が違います");
+                    AddTime = 0.0f;
+                    break;
+            }
+        }
 
-        //    SetDollyCamera(_Dolly_Current, PrevStage, "BACK");
-        //    SetDollyCamera(_Dolly_Next, PrevStage, "BACK");
+        //ドリールートのセット
+        public void SetDollyPath()
+        {
+            switch (StageChangeManager.GetStageChangeKey())
+            {
+                case StageChangeManager.STAGE_CHANGE_KEY.UP:
+                    this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
+                    this.dolly.m_Path = m_Dolly_BACK_4[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
+                    this.dolly.m_Path = m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this._DollyCart.m_Path = m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
+                    this.dolly.m_Path = m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this._DollyCart.m_Path = m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.ALL:
+                    break;
+                default:
+                    break;
+            }
 
-        //    select_state = SELECT_STATE.MOVING;
+        }
 
-        //}
+        //virtualカメラのFollowをセット
+        public void SetFollower(GameObject _TargetObj)
+        {
+            this.virtualCamera.Follow = _TargetObj.transform;
+            Debug.Log("virtualCamera.Follow:" + virtualCamera.Follow.name);
+        }
+        //virtualカメラのLookAtをセット
+        public void SetLookAtTarget(GameObject _TargetObj)
+        {
+            virtualCamera.LookAt = _TargetObj.transform;
+            //_SubDolly.LookAtTargetChange(NextTarget);
 
+        }
+        //AutoDollyのON <-> OFF切り替え
+        public void AutoDollySwitch()
+        {
+            this.dolly.m_AutoDolly.m_Enabled = !this.dolly.m_AutoDolly.m_Enabled;
+        }
+
+        //ドリーカメラのセット（カメラ注視点、パス位置、ドリーの状態）
+        public void SetDollyCamera(STAGE_NO _StageNo, string _Word)
+        {
+            Debug.Log("DollyState(_Word):" + _Word);
+            Debug.Log("dolly.m_Path:" + dolly.m_Path);
+
+            if (StageChangeManager.IsStageChange())
+            {
+                SetPathPositionMax(m_WP.Stage_WayPoint[(int)_StageNo % 5]);
+                SetPathPositionMin(m_WP.Stage_WayPoint[(int)_StageNo % 5]);
+
+            }
+            else if (StageChangeManager.IsWorldChange())
+            {
+                if (StageStatusManager.Instance.CurrentWorld == 0)
+                {
+
+                    SetPathPositionMax(this.dolly.m_Path.MaxPos);
+                    SetPathPositionMin(this.dolly.m_Path.MinPos);
+                }
+                else if (StageStatusManager.Instance.CurrentWorld == 1)
+                {
+
+                    SetPathPositionMax(this.dolly.m_Path.MaxPos);
+                    SetPathPositionMin(this.dolly.m_Path.MinPos);
+                }
+
+            }
+
+        }
 
 
 

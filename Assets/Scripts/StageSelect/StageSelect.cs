@@ -22,14 +22,21 @@ namespace TeamProject
         private DollyCamera _Sub_DollyCam;
         public StageSelectArrow _StageSelectArrow;
 
+        public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
+        public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
+
+
+        private int count = 0;
         //ステージセレクトの状態
         public enum SELECT_STATE
         {
             KEY_WAIT = 0,//キー入力待ち
+            BEFORE_STAGE_MOVING,//ステージ移動前の準備
             STAGE_MOVING,//ステージ移動中
+            BEFORE_WORLD_MOVING,//ワールド移動前の準備
             WORLD_MOVING,//ワールド移動中
-            SWING,       //次の目的の方向へを向いている途中
-            MOVING,      //カメラ移動中
+            //SWING,       //次の目的の方向へを向いている途中
+            //MOVING,      //カメラ移動中
             SCENE_MOVING,//シーン遷移中
             STATE_NUM    //状態の数
         }
@@ -65,11 +72,16 @@ namespace TeamProject
             _MixCamObj = GameObject.Find("Mixing_VCamera").gameObject;
             _Mixcam = _MixCamObj.GetComponent<MixingCamera>();
 
-            _Dolly_Current = _MixCamObj.transform.Find("Current_VCamera").gameObject;
             _Dolly_Next = _MixCamObj.transform.Find("Next_VCamera").gameObject;
+            _Dolly_Current = _MixCamObj.transform.Find("Current_VCamera").gameObject;
 
             _Main_DollyCam = _Dolly_Next.GetComponent<DollyCamera>();
             _Sub_DollyCam = _Dolly_Current.GetComponent<DollyCamera>();
+
+            //ドリーカート用ゲームオブジェクト
+            _DollyCartObj = GameObject.Find("DollyCart").gameObject;
+            //ドリーカートを先導するゲームオブジェクト
+            _TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;
 
 
             //_Dolly_Current.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)StageStatusManager.Instance.CurrentStage]);
@@ -88,6 +100,7 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
+            select_state = StageChangeManager.GetSelectState();
             switch (StageChangeManager.GetSelectState())
             {
                 case SELECT_STATE.KEY_WAIT:
@@ -97,7 +110,7 @@ namespace TeamProject
                     StageChangeManager.StageChange();
                     //ワールド選択（ADキー or スティック左右）
                     WorldChange();
-                    WorldChangeManagr.WorldChange();
+                    //WorldChangeManagr.WorldChange();
                     //決定（Space  or Bボタン）
                     StageDecision();
                     //タイトルへ戻る(ESCキー or Startボタン)
@@ -105,64 +118,162 @@ namespace TeamProject
                     //フラグチェック
                     FlagCheck();
                     break;
+                case SELECT_STATE.BEFORE_STAGE_MOVING:
+                    count++;
+                    Debug.Log("count" + count);
+                    //Mixingカメラの初期化
+                    ResetMixingCamera();
+
+                    //Dollyカメラの初期化
+                    ResetDollyCamera();
+
+                    //Dollyカメラの状態をFIXINGに戻す
+                    StageChangeManager.DollyStateChange("FIXING");
+
+
+                    //_Main_DollyCam.PathPositionReset();
+                    //_Sub_DollyCam.PathPositionReset();
+
+                    //_Sub_DollyCam.SetDollyCamera(StageStatusManager.Instance.PrevStage, "BACK");
+                    //_Main_DollyCam.SetDollyCamera(StageStatusManager.Instance.PrevStage, "BACK");
+                    //LookAtTargetTwoChanges(StageStatusManager.Instance.PrevStage, StageStatusManager.Instance.PrevStage);
+
+
+
+                    //ステージ移動の状態へ移行
+                    StageChangeManager.SelectStateChange("STAGE_MOVING");
+
+                    break;
                 case SELECT_STATE.STAGE_MOVING:
-                    _Mixcam.MixingUpdate();
-                    _Main_DollyCam.DollyUpdate();
-                    _Sub_DollyCam.DollyUpdate();
+                    //_Mixcam.MixingUpdate();
+                    //_Main_DollyCam.DollyUpdate();
+                    //_Sub_DollyCam.DollyUpdate();
+
+                    //移動完了後
                     if (StageChangeManager.DollyFlagCheck())
                     {
                         Debug.Log("StageChangeManager.DollyFlagCheck():" + StageChangeManager.DollyFlagCheck());
                         StageChangeManager.DollyStateChange("FIXING");
 
                         StageChangeManager.SelectStateChange("KEY_WAIT");
-                        StageChangeManager.FlagChange();
+
+                        //フラグをfalseにする
+                        StageChangeManager.StageFlagChange();
+
+                        //フラグをfalseにする
                         StageChangeManager.DollyFlagReset();
+
+
+                        if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+                        {
+                            StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
+                        }
+                        else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+                        {
+                            StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.PrevStage;
+                        }
                     }
 
                     StageChangeManager.Update();
                     break;
+                case SELECT_STATE.BEFORE_WORLD_MOVING:
+                    Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());
+                    //Mixingカメラの初期化
+                    count++;
+                    Debug.Log("count" + count);
+                    //Mixingカメラの初期化
+                    ResetMixingCamera();
+
+                    //Dollyカメラの初期化
+                    ResetDollyCamera();
+
+                    //Dollyカメラの状態をFIXINGに戻す
+                    StageChangeManager.DollyStateChange("FIXING");
+
+
+                    StageChangeManager.SelectStateChange("WORLD_MOVING");
+
+                    break;
                 case SELECT_STATE.WORLD_MOVING:
-                    WorldChangeManagr.Update();
+                    //_Mixcam.MixingUpdate();
+                    //_Main_DollyCam.DollyUpdate();
+                    //_Sub_DollyCam.DollyUpdate();
+
+                    //移動完了後
+                    if (StageChangeManager.DollyCartFlagCheck())
+                    {
+                       // Debug.Log("StageChangeManager.DollyFlagCheck():" + StageChangeManager.DollyFlagCheck());
+                        StageChangeManager.DollyStateChange("FIXING");
+
+                        StageChangeManager.SelectStateChange("KEY_WAIT");
+
+                        //フラグをfalseにする
+                        StageChangeManager.WorldFlagChange();
+                        StageChangeManager.DollyCartFlagReset();
+                        StageChangeManager.DollyFlagReset();
+                        _Main_DollyCam.AutoDollySwitch();
+                        _Sub_DollyCam.AutoDollySwitch();
+
+                        //ステージ番号の更新
+                        if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+                        {
+                            StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
+                        }
+                        else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+                        {
+                            StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
+                        }
+
+
+                         //_Sub_DollyCam.PathPositionReset();
+                       //LookAtを一か所に固定
+                        _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
+
+                    }
+                    
+                    //WorldChangeManagr.Update();
                     break;
-                case SELECT_STATE.SWING:
-                    //bool IsSwing = _MixCamObj.GetComponent<MixingCamera>().IsSwing();
-                    //Debug.Log(IsSwing);
-                    //if (!IsSwing)//方向転換完了したかどうか
-                    //{
-                    //    //_MixCamObj.GetComponent<MixingCamera>().MixState("ZERO");
 
-                    //    //移動中にする
-                    //    select_state = SELECT_STATE.MOVING;
-                    //    //カメラ移動を始める
-                    //    switch (dolly_state)
-                    //    {
-                    //        case DOLLY_STATE.GO:
-                    //            DollyCameraGo(StageStatusManager.Instance.CurrentStage);
-                    //            break;
-                    //        case DOLLY_STATE.BACK:
-                    //            DollyCameraBack(StageStatusManager.Instance.CurrentStage);
-                    //            break;
-                    //    }
-                    //}
 
-                    break;
+                //case SELECT_STATE.SWING:
+                //    bool IsSwing = _MixCamObj.GetComponent<MixingCamera>().IsSwing();
+                //    Debug.Log(IsSwing);
+                //    if (!IsSwing)//方向転換完了したかどうか
+                //    {
+                //        //_MixCamObj.GetComponent<MixingCamera>().MixState("ZERO");
 
-                case SELECT_STATE.MOVING:
-                    //bool IsMoving_2 = _Dolly_Current.GetComponent<DollyCamera>().IsMoving();
-                    //bool IsMoving = _Dolly_Next.GetComponent<DollyCamera>().IsMoving();
-                    //if (!IsMoving && !IsMoving_2)//移動完了したかどうか
-                    //{
-                    //    //キー入力待ちに戻す
-                    //    select_state = SELECT_STATE.KEY_WAIT;
+                //        //移動中にする
+                //        select_state = SELECT_STATE.MOVING;
+                //        //カメラ移動を始める
+                //        switch (dolly_state)
+                //        {
+                //            case DOLLY_STATE.GO:
+                //                DollyCameraGo(StageStatusManager.Instance.CurrentStage);
+                //                break;
+                //            case DOLLY_STATE.BACK:
+                //                DollyCameraBack(StageStatusManager.Instance.CurrentStage);
+                //                break;
+                //        }
+                //    }
 
-                    //    //カメラ移動速度を0にする
-                    //    _Dolly_Current.GetComponent<DollyCamera>().DollyState("ZERO");
-                    //    _Dolly_Next.GetComponent<DollyCamera>().DollyState("ZERO");
+                //    break;
 
-                    //    //_Mixing.GetComponent<MixingCamera>().LookAtTargetTwoChanges(Stages[(int)stage_num], Stages[(int)StageStatusManager.Instance.CurrentStage]);
+                //case SELECT_STATE.MOVING:
+                //    bool IsMoving_2 = _Dolly_Current.GetComponent<DollyCamera>().IsMoving();
+                //    bool IsMoving = _Dolly_Next.GetComponent<DollyCamera>().IsMoving();
+                //    if (!IsMoving && !IsMoving_2)//移動完了したかどうか
+                //    {
+                //        //キー入力待ちに戻す
+                //        select_state = SELECT_STATE.KEY_WAIT;
 
-                    //}
-                    break;
+                //        //カメラ移動速度を0にする
+                //        _Dolly_Current.GetComponent<DollyCamera>().DollyState("ZERO");
+                //        _Dolly_Next.GetComponent<DollyCamera>().DollyState("ZERO");
+
+                //        //_Mixing.GetComponent<MixingCamera>().LookAtTargetTwoChanges(Stages[(int)stage_num], Stages[(int)StageStatusManager.Instance.CurrentStage]);
+
+                //    }
+                //    break;
                 case SELECT_STATE.SCENE_MOVING:
                     break;
                 case SELECT_STATE.STATE_NUM:
@@ -172,88 +283,22 @@ namespace TeamProject
             }
         }//void Update()    END
 
-        //void StageChange()
-        //{
-        //    //ステージ番号を0～5に振り分ける(入力制限をかけるため)
-        //    int StageNumber = (int)StageStatusManager.Instance.CurrentStage % 5;
-
-        //    if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
-        //    {//上入力
-        //        MixCameraGo(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.NextStage);
-        //        //_StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.NextStage);
-        //        StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
-        //        //カーソルの移動音
-        //        SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-        //    }
-        //    else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
-        //    {//下入力
-        //        MixCameraBack(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.PrevStage);
-        //        //_StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.PrevStage);
-        //        StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.PrevStage;
-        //        //カーソルの移動音
-        //        SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-
-
-        //    }
-        //    {
-        //        //switch (StageStatusManager.Instance.CurrentStage)
-        //        //{
-        //        //    case STAGE_NO.STAGE01:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE02:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE03:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE04:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE05:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE06:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE07:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE08:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE09:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE10:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE11:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE12:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE13:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE14:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE15:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE16:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE17:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE18:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE19:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE20:
-        //        //        break;
-        //        //    case STAGE_NO.STAGE_NUM:
-        //        //        break;
-        //        //    default:
-        //        //        break;
-        //        //}
-        //    }
-        //}//    void StageChange()   END
-
+        //
         void WorldChange()
         {
+            //ステージ番号から現在のワールドを確認する
+            int WorldNumber = (int)StageStatusManager.Instance.CurrentStage / 5;
             //右入力
             if (InputManager.InputManager.Instance.GetLStick().x > 0)
-            { }
+            {
+
+            }
             //左入力
             else if (InputManager.InputManager.Instance.GetLStick().x > 0)
-            { }
+            {
+
+            }
+
         }
 
         //ステージ決定
@@ -275,27 +320,6 @@ namespace TeamProject
             }
         }
 
-        //private void MixCameraGo(STAGE_NO CurrentStage, STAGE_NO NextStage)
-        //{
-
-        //    SetMixCamera(_MixCamObj, CurrentStage, NextStage, "GO");
-
-
-        //    dolly_state = DOLLY_STATE.GO;
-        //    select_state = SELECT_STATE.SWING;
-        //    //カーソルの移動音
-        //    SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-
-        //}
-        //private void MixCameraBack(STAGE_NO CurrentStage, STAGE_NO NextStage)
-        //{
-
-        //    SetMixCamera(_MixCamObj, CurrentStage, NextStage, "BACK");
-
-        //    dolly_state = DOLLY_STATE.BACK;
-        //    select_state = SELECT_STATE.SWING;
-
-        //}
 
         private void BackToTitle()
         {
@@ -313,58 +337,91 @@ namespace TeamProject
             if (StageChangeManager.IsStageChange())
             {
                 //select_state = SELECT_STATE.STAGE_MOVING;
-                StageChangeManager.SelectStateChange("STAGE_MOVING");
+                StageChangeManager.SelectStateChange("BEFORE_STAGE_MOVING");
 
-                //Mixingカメラの初期化
-                _Mixcam.LookAtTargetTwoChanges();                
-                _Mixcam.ResetWeight();
-                _Mixcam.SwingFlagOn();
-                _Mixcam.SetSwingTime();
+
             }
-            else if (WorldChangeManagr.IsWorldChange())
+            else if (StageChangeManager.IsWorldChange())
+            //else if (WorldChangeManagr.IsWorldChange())
             {
                 //select_state = SELECT_STATE.WORLD_MOVING;
-                StageChangeManager.SelectStateChange("WORLD_MOVING");
+                StageChangeManager.SelectStateChange("BEFORE_WORLD_MOVING");
 
             }
 
         }
 
-        ////ドリーカメラのセット（カメラ注視点、パス位置、ドリーの状態）
-        //public void SetDollyCamera(GameObject _DollyCameraObject, STAGE_NO _StageNo, string _Word)
-        //{
-        //    _DollyCameraObject.GetComponent<DollyCamera>().LookAtTargetChange(Stages[(int)_StageNo]);
-        //    _DollyCameraObject.GetComponent<DollyCamera>().SetPathPositionMax(WayPoint[(int)_StageNo]);
-        //    _DollyCameraObject.GetComponent<DollyCamera>().SetPathPositionMin(WayPoint[(int)_StageNo]);
-        //    _DollyCameraObject.GetComponent<DollyCamera>().DollyState(_Word);
-        //}
-        //private void DollyCameraGo(STAGE_NO NextStage)
-        //{
 
-        //    SetDollyCamera(_Dolly_Current, NextStage, "GO");
-        //    SetDollyCamera(_Dolly_Next, NextStage, "GO");
+        //Mixingカメラの初期化
+        public void ResetMixingCamera()
+        {
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            {
+                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.NextStage);
+                StageChangeManager.MixingStateChange("GO");
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            {
+                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.PrevStage);
+                StageChangeManager.MixingStateChange("BACK");
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+            {
+                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
+                StageChangeManager.MixingStateChange("WORLD");
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+            {
+                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
+                StageChangeManager.MixingStateChange("WORLD");
+            }
+            
+            _Mixcam.ResetWeight();
+            _Mixcam.SwingFlagOn();
+            _Mixcam.SetSwingTime();
 
-        //    select_state = SELECT_STATE.MOVING;
+        }
+        //Dollyカメラの初期化
+        public void ResetDollyCamera()
+        {
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            {
+                StageChangeManager.DollyStateChange("GO");
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            {
+                StageChangeManager.DollyStateChange("BACK");
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+            {
+                StageChangeManager.DollyStateChange("WORLD");
+                _Main_DollyCam.SetFollower(_DollyCartObj);
+                _Main_DollyCam.SetLookAtTarget(_TargetObj);
+                _Sub_DollyCam.SetFollower(_DollyCartObj);
+                _Sub_DollyCam.SetLookAtTarget(_TargetObj);
+                _Main_DollyCam.AutoDollySwitch();
+                _Sub_DollyCam.AutoDollySwitch();
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+            {
+                StageChangeManager.DollyStateChange("WORLD");
+                _Main_DollyCam.SetFollower(_DollyCartObj);
+                _Main_DollyCam.SetLookAtTarget(_TargetObj);
+                _Sub_DollyCam.SetFollower(_DollyCartObj);
+                _Sub_DollyCam.SetLookAtTarget(_TargetObj);
+                _Main_DollyCam.AutoDollySwitch();
+                _Sub_DollyCam.AutoDollySwitch();
+            }
+            _Main_DollyCam.SetDollyPath();
+            _Main_DollyCam.SetAddTime();
+            _Main_DollyCam.SetPathPositionALL();
+            _Main_DollyCam.PathPositionReset();
+            _Sub_DollyCam.SetDollyPath();
+            _Sub_DollyCam.SetAddTime();
+            _Sub_DollyCam.SetPathPositionALL();
+            _Sub_DollyCam.PathPositionReset();
 
-        //}
-        //private void DollyCameraBack(STAGE_NO PrevStage)
-        //{
-
-        //    SetDollyCamera(_Dolly_Current, PrevStage, "BACK");
-        //    SetDollyCamera(_Dolly_Next, PrevStage, "BACK");
-
-        //    select_state = SELECT_STATE.MOVING;
-
-        //}
-
-        ////ミキシングカメラのセット（カメラ注視点：現在と次、ミキシングの状態、カメラウェイトのリセット）
-        //public void SetMixCamera(GameObject _MixingCameraObject, STAGE_NO _CurrentStageNo, STAGE_NO _NextStageNo, string _Word)
-        //{
-        //    _MixingCameraObject.GetComponent<MixingCamera>().LookAtTargetTwoChanges(Stages[(int)_CurrentStageNo], Stages[(int)_NextStageNo]);
-        //    _MixingCameraObject.GetComponent<MixingCamera>().MixState(_Word);
-        //    _MixingCameraObject.GetComponent<MixingCamera>().ResetWeight();
-
-        //}
+        }
 
     }//public class StageSelect : MonoBehaviour END
 }//namespace END
