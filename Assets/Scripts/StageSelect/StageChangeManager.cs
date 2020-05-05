@@ -312,13 +312,13 @@ namespace TeamProject
 
         //============================================================
         //ドリーカート処理
-         public static void DollyCartFlagON()
+        public static void DollyCartFlagON()
         {
-                m_DollyCart_flag = true;
+            m_DollyCart_flag = true;
         }
-       public static bool DollyCartFlagCheck()
+        public static bool DollyCartFlagCheck()
         {
-            if (m_DollyCart_flag )
+            if (m_DollyCart_flag)
             {
                 return true;
             }
@@ -327,6 +327,18 @@ namespace TeamProject
         public static void DollyCartFlagReset()
         {
             m_DollyCart_flag = false;
+        }
+
+
+        //ワールド間移動の完了確認処理
+        public static bool IsWorldMoveEnd()
+        {
+            if (DollyCartFlagCheck() && DollyFlagCheck())
+            {
+                return true;
+
+            }
+            return false;
         }
 
     }//public class StageChangeManager END

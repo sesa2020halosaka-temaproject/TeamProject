@@ -5,18 +5,18 @@ using Cinemachine;
 
 namespace TeamProject
 {
-
+    //DollyCameraの制御を行う
     public class DollyCamera : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         //[SerializeField] private float cycleTime = 10.0f;
 
-        private CinemachineTrackedDolly dolly;
+        public CinemachineTrackedDolly dolly;
         public float pathPositionMax;
         public float pathPositionMin;
         public float AddTime;//移動速度の方向
-        public float Stage_MoveRatio;//移動速度の倍率
-        public float World_MoveRatio;//移動速度の倍率
+        public float Stage_MoveRatio;//ステージ間の移動速度の倍率
+        public float World_MoveRatio;//ワールド間の移動速度の倍率
 
         //カメラのパスの位置の移動
         public enum DOLLY_MOVE
@@ -33,11 +33,16 @@ namespace TeamProject
         public bool Move_flag;//カメラが移動しているかどうか
         public CinemachinePathBase m_Dolly_GO;
         public CinemachinePathBase m_Dolly_BACK;
+        public CinemachinePathBase m_Dolly_FIXING;
         public CinemachinePathBase[] m_Dolly_GO_4;
         public CinemachinePathBase[] m_Dolly_BACK_4;
         public CinemachinePathBase[] m_Dolly_W1toW2;
         public CinemachinePathBase[] m_Dolly_W2toW1;
+
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
+        public DollyTrack_Box m_DoTr;//ドリールートの格納用
+
+
 
         public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
         public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
@@ -73,14 +78,21 @@ namespace TeamProject
             //CinemachineDollyCartコンポーネント
             _DollyCart = _DollyCartObj.GetComponent<CinemachineDollyCart>();
 
-
+            //DollyTrack用ゲームオブジェクト取得
+            m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
+            //WayPoint用ゲームオブジェクト取得
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
+
             //_SubDolly = GameObject.Find("Current_VCamera").GetComponent<FixedDollyCamera>();
             //Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
 
-            if (Stage_MoveRatio <= 0)
+            if (Stage_MoveRatio < 0)
             {
                 Stage_MoveRatio = 1.0f;
+            }
+            if (World_MoveRatio < 0)
+            {
+                World_MoveRatio = 1.0f;
             }
             // Positionの単位をトラック上のウェイポイント番号基準にするよう設定
             this.dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.PathUnits;
@@ -163,31 +175,27 @@ namespace TeamProject
 
                     break;
                 case DOLLY_MOVE.WORLD:
-                    if (this.name == "Next_VCamera")
+                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * Stage_MoveRatio;
+                    if (this.dolly.m_PathPosition >= this.pathPositionMax)
                     {
-                        this._DollyCart.m_Position += AddTime * Time.deltaTime * World_MoveRatio;
-
-                        if (this._DollyCart.m_Position >= this.pathPositionMax)
+                        this.dolly.m_PathPosition = this.pathPositionMax;
+                        //移動完了
+                        if (this.name == "Next_VCamera")
                         {
-                            this._DollyCart.m_Position = this.pathPositionMax;
+                            Debug.Log("MAINのドリーカメラ移動完了");
 
-                            Debug.Log("ドリーカート移動完了");
-                            //移動完了
-                            StageChangeManager.DollyCartFlagON();
+                            StageChangeManager.DollyFlagON("MAIN");
+                        }
+                        else if (this.name == "Current_VCamera")
+                        {
+                            Debug.Log("SUBのドリーカメラ移動完了");
 
-
-
-                            this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.NextWorld];//用ドリーパスをセット
-                            this._DollyCart.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.NextWorld];//用ドリーパスをセット
-                             this._DollyCart.m_Position = 0;
-                            this.dolly.m_PathPosition = 0;
-                       }
+                            StageChangeManager.DollyFlagON("SUB");
+                        }
+                        //固定用ドリーパスをセット
+                        //SetPathFixingDolly();
                     }
-                    else
-                    {
-                        //this.dolly.m_PathPosition = 0;
-                    }
-                    // this.dolly.m_PathPosition += AddTime * Time.deltaTime * MoveRatio;
+
 
                     break;
                 case DOLLY_MOVE.ALL_STATES:
@@ -374,12 +382,24 @@ namespace TeamProject
             }
 
         }
+        //開始ドリールートのセット
+        public void SetStartDollyPath()
+        {
+            this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+
+        }
 
         //virtualカメラのFollowをセット
         public void SetFollower(GameObject _TargetObj)
         {
             this.virtualCamera.Follow = _TargetObj.transform;
             Debug.Log("virtualCamera.Follow:" + virtualCamera.Follow.name);
+        }
+        //virtualカメラのFollowを解除する
+        public void SetNoneFollower()
+        {
+            this.virtualCamera.Follow = null;
+            //Debug.Log("virtualCamera.Follow:" + virtualCamera.Follow.name);
         }
         //virtualカメラのLookAtをセット
         public void SetLookAtTarget(GameObject _TargetObj)
@@ -425,7 +445,12 @@ namespace TeamProject
 
         }
 
-
-
+        //固定用ドリールートをセットする
+        public void SetPathFixingDolly()
+        {
+            this.dolly.m_Path = m_DoTr.m_Dolly_FIXING;
+            //パス位置を0にする
+            this.dolly.m_PathPosition = 0;
+        }
     }//public class DollyCamera : MonoBehaviour END
 }//namespace END
