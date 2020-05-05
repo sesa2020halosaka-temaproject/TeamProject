@@ -15,8 +15,12 @@ namespace TeamProject
         public float pathPositionMax;
         public float pathPositionMin;
         public float AddTime;//移動速度の方向
+        [Min(0)]
         public float Stage_MoveRatio;//ステージ間の移動速度の倍率
+        [Min(0)]
         public float World_MoveRatio;//ワールド間の移動速度の倍率
+        public bool m_Flag = false;
+        public float m_Adjust;
 
         //カメラのパスの位置の移動
         public enum DOLLY_MOVE
@@ -31,13 +35,13 @@ namespace TeamProject
         public DOLLY_MOVE m_DollyMove;
 
         public bool Move_flag;//カメラが移動しているかどうか
-        public CinemachinePathBase m_Dolly_GO;
-        public CinemachinePathBase m_Dolly_BACK;
-        public CinemachinePathBase m_Dolly_FIXING;
-        public CinemachinePathBase[] m_Dolly_GO_4;
-        public CinemachinePathBase[] m_Dolly_BACK_4;
-        public CinemachinePathBase[] m_Dolly_W1toW2;
-        public CinemachinePathBase[] m_Dolly_W2toW1;
+        //public CinemachinePathBase m_Dolly_GO;
+        //public CinemachinePathBase m_Dolly_BACK;
+        //public CinemachinePathBase m_Dolly_FIXING;
+        //public CinemachinePathBase[] m_Dolly_GO_4;
+        //public CinemachinePathBase[] m_Dolly_BACK_4;
+        //public CinemachinePathBase[] m_Dolly_W1toW2;
+        //public CinemachinePathBase[] m_Dolly_W2toW1;
 
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
         public DollyTrack_Box m_DoTr;//ドリールートの格納用
@@ -47,6 +51,7 @@ namespace TeamProject
         public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
         public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
         public CinemachineDollyCart _DollyCart;
+
         //public FixedDollyCamera //_SubDolly;
         private void Awake()
         {
@@ -80,6 +85,8 @@ namespace TeamProject
 
             //DollyTrack用ゲームオブジェクト取得
             m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
+            Debug.Log("m_DoTr:" + m_DoTr.name);
+
             //WayPoint用ゲームオブジェクト取得
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
 
@@ -175,7 +182,29 @@ namespace TeamProject
 
                     break;
                 case DOLLY_MOVE.WORLD:
-                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * Stage_MoveRatio;
+                    this.dolly.m_PathPosition += AddTime * Time.deltaTime * World_MoveRatio;
+                    if (!m_Flag && (this.dolly.m_PathPosition > this.pathPositionMax - m_Adjust))
+                    {
+                        m_Flag = true;
+                        if (StageChangeManager.MixingState()!=MixingCamera.MIXING_STATE.WORLD_END)
+                        {
+                            Debug.Log("WORLD_END入ります。");
+                        //移動完了直前にミキシングさせる設定へ
+                            StageChangeManager.MixingStateChange("WORLD_END");
+                        }
+                        
+
+                        //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+                        //{
+                        //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.PrevWorld * 5]);
+                        //}
+                        //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+                        //{
+                        //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.NextWorld * 5]);
+                        //}
+
+                    }
+
                     if (this.dolly.m_PathPosition >= this.pathPositionMax)
                     {
                         this.dolly.m_PathPosition = this.pathPositionMax;
@@ -194,6 +223,7 @@ namespace TeamProject
                         }
                         //固定用ドリーパスをセット
                         //SetPathFixingDolly();
+                        m_Flag = false;
                     }
 
 
@@ -207,62 +237,6 @@ namespace TeamProject
 
         }
 
-        ////ドリーの状態を変える
-        //public void DollyState(string word)
-        //{
-        //    switch (word)
-        //    {
-        //        case "ZERO":
-        //            AddTime = 0.0f;
-        //            m_DollyMove = DOLLY_MOVE.FIXING;
-        //            Move_flag = false;//移動完了
-
-        //            break;
-        //        case "GO":
-        //            AddTime = 1.0f;
-        //            m_DollyMove = DOLLY_MOVE.GO;
-        //            Move_flag = true;//移動開始
-        //            //ステージ間移動の時
-        //            if (StageChangeManager.IsStageChange())
-        //            {
-        //                //this.dolly.m_Path = m_Dolly_GO;//前進用ドリーパスをセット
-        //                this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
-
-        //            }
-        //            //ワールド間の移動の時
-        //            else if (StageChangeManager.IsWorldChange())
-        //            {
-        //                //論理がズレてるのでここ修正しないといけない
-        //                if (StageStatusManager.Instance.CurrentWorld  == 0)
-        //                {
-
-        //                    this.dolly.m_Path = m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-        //                        this.dolly.m_PathPosition = 0;
-        //                }
-        //                else if (StageStatusManager.Instance.CurrentWorld == 1)
-        //                {
-
-        //                    this.dolly.m_Path = m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-        //                    this.dolly.m_PathPosition = 0;
-        //                }
-
-        //            }
-
-        //            break;
-        //        case "BACK":
-        //            AddTime = -1.0f;
-        //            m_DollyMove = DOLLY_MOVE.BACK;
-        //            Move_flag = true;//移動開始
-        //            //this.dolly.m_Path = m_Dolly_BACK;//後進用ドリーパスをセット
-        //            this.dolly.m_Path = m_Dolly_BACK_4[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
-
-        //            break;
-        //        default:
-        //            Debug.Log("言葉が違います。カメラを固定します。");
-        //            AddTime = 0.0f;
-        //            break;
-        //    }
-        //}//    public void DollyState(string word)  END
 
         //移動中かどうかboolで返す
         public bool IsMoving()
@@ -280,7 +254,7 @@ namespace TeamProject
             //Debug.Log(this.dolly.m_PathPosition);
         }
 
-        //ウェイポイントの両端をセット
+        //PathPositionの両端(Min,Max)をセット
         public void SetPathPositionALL()
         {
             if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
@@ -321,11 +295,11 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = 0;
+                _DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                _DollyCart.m_Position = 0;
+                _DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
             }
 
             //Debug.Log(this.dolly.m_PathPosition);
@@ -333,26 +307,26 @@ namespace TeamProject
         //ドリールートの加算倍率の変更
         public void SetAddTime()
         {
-            switch (StageChangeManager.DollyState())
+            switch (StageChangeManager.GetStageChangeKey())
             {
-                case DOLLY_MOVE.FIXING:
-                    AddTime = 0.0f;
-                    break;
-                case DOLLY_MOVE.GO:
+                case StageChangeManager.STAGE_CHANGE_KEY.UP:
                     AddTime = 1.0f;
                     break;
-                case DOLLY_MOVE.BACK:
+                case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
                     AddTime = -1.0f;
                     break;
-                case DOLLY_MOVE.WORLD:
+                case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
                     AddTime = 1.0f;
                     break;
-                case DOLLY_MOVE.ALL_STATES:
-
-                default:
-                    Debug.Log("DOLLY_MOVEの状態が違います");
-                    AddTime = 0.0f;
+                case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
+                    AddTime = 1.0f;
                     break;
+
+                case StageChangeManager.STAGE_CHANGE_KEY.ALL:                
+                default:
+                    Debug.Log("DSTAGE_CHANGE_KEYの状態が違います");
+                    AddTime = 0.0f;
+                   break;
             }
         }
 
@@ -362,18 +336,18 @@ namespace TeamProject
             switch (StageChangeManager.GetStageChangeKey())
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.UP:
-                    this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
-                    this.dolly.m_Path = m_Dolly_BACK_4[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_BACK_4[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                    this.dolly.m_Path = m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-                    this._DollyCart.m_Path = m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
-                    this.dolly.m_Path = m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-                    this._DollyCart.m_Path = m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;
@@ -385,7 +359,7 @@ namespace TeamProject
         //開始ドリールートのセット
         public void SetStartDollyPath()
         {
-            this.dolly.m_Path = m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+            this.dolly.m_Path = m_DoTr.m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
 
         }
 
@@ -414,36 +388,6 @@ namespace TeamProject
             this.dolly.m_AutoDolly.m_Enabled = !this.dolly.m_AutoDolly.m_Enabled;
         }
 
-        //ドリーカメラのセット（カメラ注視点、パス位置、ドリーの状態）
-        public void SetDollyCamera(STAGE_NO _StageNo, string _Word)
-        {
-            Debug.Log("DollyState(_Word):" + _Word);
-            Debug.Log("dolly.m_Path:" + dolly.m_Path);
-
-            if (StageChangeManager.IsStageChange())
-            {
-                SetPathPositionMax(m_WP.Stage_WayPoint[(int)_StageNo % 5]);
-                SetPathPositionMin(m_WP.Stage_WayPoint[(int)_StageNo % 5]);
-
-            }
-            else if (StageChangeManager.IsWorldChange())
-            {
-                if (StageStatusManager.Instance.CurrentWorld == 0)
-                {
-
-                    SetPathPositionMax(this.dolly.m_Path.MaxPos);
-                    SetPathPositionMin(this.dolly.m_Path.MinPos);
-                }
-                else if (StageStatusManager.Instance.CurrentWorld == 1)
-                {
-
-                    SetPathPositionMax(this.dolly.m_Path.MaxPos);
-                    SetPathPositionMin(this.dolly.m_Path.MinPos);
-                }
-
-            }
-
-        }
 
         //固定用ドリールートをセットする
         public void SetPathFixingDolly()

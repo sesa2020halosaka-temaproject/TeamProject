@@ -48,11 +48,6 @@ namespace TeamProject
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
-                ////前進させる
-                //MixingStateChange("GO");
-
-                StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.NextStage);
-
 
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.UP;
@@ -65,12 +60,6 @@ namespace TeamProject
                 StageFlagChange();
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-
-                ////後進させる
-                //MixingStateChange("BACK");
-
-                //上下矢印の処理
-                StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.PrevStage);
 
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.DOWN;
@@ -232,6 +221,11 @@ namespace TeamProject
             else if (_Word == "WORLD")
             {
                 m_MixingState = MixingCamera.MIXING_STATE.WORLD;
+
+            }
+            else if (_Word == "WORLD_END")
+            {
+                m_MixingState = MixingCamera.MIXING_STATE.WORLD_END;
 
             }
             else if (_Word == "FIXING")

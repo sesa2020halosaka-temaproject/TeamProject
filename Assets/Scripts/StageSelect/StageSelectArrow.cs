@@ -24,7 +24,7 @@ namespace TeamProject
             m_Next = transform.GetChild(0).gameObject;
             m_Prev = transform.GetChild(1).gameObject;
             //m_CurrentStage = StageSelect.STAGE.STAGE1;
-            SetCurrentStage(StageStatusManager.Instance.CurrentStage);
+            SetCurrentStage(StageStatusManager.Instance.StageInWorld);
         }
 
         // Update is called once per frame
@@ -32,7 +32,32 @@ namespace TeamProject
         //{
 
         //}//void Update()    END
-         //ステージ状況に応じた処理
+        //ステージ状況に応じた処理
+        public static void SetCurrentStage(int _StageInWorld)
+        {
+            switch (_StageInWorld)
+            {
+                case (int)NUMBER.S1://Stage01
+                    TwoSetActives(true, false);
+
+                    break;
+                case (int)NUMBER.S2:
+                case (int)NUMBER.S3:
+                case (int)NUMBER.S4:
+                    //Stage02～04
+                    TwoSetActives(true, true);
+
+                    break;
+                case (int)NUMBER.S5://Stage05
+                    TwoSetActives(false, true);
+
+                    break;
+                case (int)NUMBER.ALLSTAGE:
+                default:
+                    Debug.LogAssertion("StageSelectArrowが無効な状態！");
+                    break;
+            }
+        }
         public static void SetCurrentStage(STAGE_NO CurrentStage)
         {
             int StageNumber = (int)CurrentStage % 5;//0～5に振り分け
@@ -65,6 +90,13 @@ namespace TeamProject
         {
             m_Next.SetActive(Next);
             m_Prev.SetActive(Prev);
+        }
+
+        //上下の矢印を非アクティブに設定
+        public static void TwoArrowsDeactivate()
+        {
+            m_Next.SetActive(false);
+            m_Prev.SetActive(false);
         }
     }//public class StageSelectArrow : MonoBehaviour END
 }//namespace END

@@ -62,7 +62,7 @@ namespace TeamProject
                     //位置の更新
                     this._DollyCart.m_Position += AddTime * Time.deltaTime * World_MoveRatio;
 
-                    if (this._DollyCart.m_Position >= this._DollyCart.m_Path.MaxPos)
+                    if (this._DollyCart.m_Position > this._DollyCart.m_Path.MaxPos)
                     {
                         this._DollyCart.m_Position = this._DollyCart.m_Path.MaxPos;
 
@@ -93,11 +93,11 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = 0;
+                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld]; ;
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                _DollyCart.m_Position = 0;
+                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld]; 
             }
 
             //Debug.Log(this.dolly.m_PathPosition);

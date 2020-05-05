@@ -6,12 +6,12 @@ namespace TeamProject
 {
     //ステージを注視するためのオブジェクトを格納するクラス
     public class TargetStages : MonoBehaviour
-{
+    {
         //ステージ注視用ゲームオブジェクト
         public static GameObject[] m_Stages = new GameObject[(int)STAGE_NO.STAGE_NUM];
-    // Start is called before the first frame update
-    void Start()
-    {
+        // Start is called before the first frame update
+        void Start()
+        {
             // 子オブジェクトを全て取得する
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
             {
@@ -21,15 +21,15 @@ namespace TeamProject
                     break;
                 }
                 m_Stages[i] = this.transform.GetChild(i).gameObject;
-          
+
             }
-    }
+        }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
+        // Update is called once per frame
+        //void Update()
+        //{
 
-}//public class TargetStages : MonoBehaviour END
+        //}
+
+    }//public class TargetStages : MonoBehaviour END
 }//namespace END
