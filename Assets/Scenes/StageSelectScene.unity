@@ -2236,6 +2236,8 @@ Transform:
   - {fileID: 1894243909}
   - {fileID: 926141163}
   - {fileID: 2021271080}
+  - {fileID: 8263234021490488119}
+  - {fileID: 2481760955598978051}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2255,13 +2257,13 @@ MonoBehaviour:
   m_Dolly_GO_4:
   - {fileID: 170733758}
   - {fileID: 650126626}
-  - {fileID: 170733758}
-  - {fileID: 650126626}
+  - {fileID: 8263234020036515773}
+  - {fileID: 2481760955886131337}
   m_Dolly_BACK_4:
   - {fileID: 663524016}
   - {fileID: 271840319}
-  - {fileID: 663524016}
-  - {fileID: 271840319}
+  - {fileID: 1122542734}
+  - {fileID: 1835000819}
   m_Dolly_W1toW2:
   - {fileID: 132260971}
   - {fileID: 1194787020}
@@ -3402,6 +3404,82 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 9013666810120726760}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1122542732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122542733}
+  - component: {fileID: 1122542734}
+  m_Layer: 0
+  m_Name: DollyTrack_Back_Winter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1122542733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122542732}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8263234021490488119}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1122542734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122542732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Resolution: 20
+  m_Appearance:
+    pathColor: {r: 0, g: 1, b: 0, a: 1}
+    inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    width: 0.2
+  m_Looped: 0
+  m_Waypoints:
+  - position: {x: 625, y: 250, z: 3100}
+    roll: 0
+  - position: {x: 500, y: 250, z: 3000}
+    roll: 0
+  - position: {x: 450, y: 250, z: 2900}
+    roll: 0
+  - position: {x: 336, y: 250, z: 3289}
+    roll: 0
+  - position: {x: 300, y: 260, z: 3000}
+    roll: 0
+  - position: {x: 200, y: 260, z: 3000}
+    roll: 0
+  - position: {x: 123, y: 250, z: 3079}
+    roll: 0
+  - position: {x: 100, y: 180, z: 2700}
+    roll: 0
+  - position: {x: 50, y: 150, z: 2500}
+    roll: 0
+  - position: {x: 19, y: 145, z: 2631}
+    roll: 0
+  - position: {x: 55, y: 215, z: 2200}
+    roll: 0
+  - position: {x: 90, y: 215, z: 2000}
+    roll: 0
+  - position: {x: 162, y: 145, z: 2169}
+    roll: 0
 --- !u!1 &1194787018
 GameObject:
   m_ObjectHideFlags: 0
@@ -5490,6 +5568,82 @@ MonoBehaviour:
     roll: 0
   - position: {x: -2000, y: 85, z: 500}
     roll: 0
+--- !u!1 &1835000817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1835000818}
+  - component: {fileID: 1835000819}
+  m_Layer: 0
+  m_Name: DollyTrack_Back_Spring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1835000818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835000817}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2481760955598978051}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1835000819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835000817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Resolution: 20
+  m_Appearance:
+    pathColor: {r: 0, g: 1, b: 0, a: 1}
+    inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    width: 0.2
+  m_Looped: 0
+  m_Waypoints:
+  - position: {x: -2110, y: 155, z: 1050}
+    roll: 0
+  - position: {x: -1900, y: 155, z: 963}
+    roll: 0
+  - position: {x: -1880, y: 155, z: 900}
+    roll: 0
+  - position: {x: -2050, y: 155, z: 620}
+    roll: 0
+  - position: {x: -1900, y: 155, z: 623}
+    roll: 0
+  - position: {x: -1550, y: 155, z: 627}
+    roll: 0
+  - position: {x: -1665, y: 155, z: 630}
+    roll: 0
+  - position: {x: -1400, y: 170, z: 918}
+    roll: 0
+  - position: {x: -1300, y: 200, z: 865}
+    roll: 0
+  - position: {x: -1400, y: 215, z: 415}
+    roll: 0
+  - position: {x: -1100, y: 190, z: 450}
+    roll: 0
+  - position: {x: -1000, y: 230, z: 350}
+    roll: 0
+  - position: {x: -1100, y: 295, z: 600}
+    roll: 0
 --- !u!4 &1840488966 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9013666811164233765, guid: 998401e74f1635a4bb3158c26d05f4bd,
@@ -6689,6 +6843,114 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2481760955598978051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481760955598978052}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2481760955886131336}
+  - {fileID: 1835000818}
+  m_Father: {fileID: 714102890}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2481760955598978052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2481760955598978051}
+  m_Layer: 0
+  m_Name: Spring_DollyTrack_Obj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2481760955886131336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481760955886131338}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2481760955598978051}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2481760955886131337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2481760955886131338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Resolution: 20
+  m_Appearance:
+    pathColor: {r: 0, g: 1, b: 0, a: 1}
+    inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    width: 0.2
+  m_Looped: 0
+  m_Waypoints:
+  - position: {x: -2110, y: 155, z: 1050}
+    roll: 0
+  - position: {x: -1900, y: 155, z: 963}
+    roll: 0
+  - position: {x: -1880, y: 155, z: 900}
+    roll: 0
+  - position: {x: -2050, y: 155, z: 620}
+    roll: 0
+  - position: {x: -1900, y: 155, z: 623}
+    roll: 0
+  - position: {x: -1550, y: 155, z: 627}
+    roll: 0
+  - position: {x: -1665, y: 155, z: 630}
+    roll: 0
+  - position: {x: -1400, y: 170, z: 918}
+    roll: 0
+  - position: {x: -1300, y: 200, z: 865}
+    roll: 0
+  - position: {x: -1400, y: 215, z: 415}
+    roll: 0
+  - position: {x: -1100, y: 190, z: 450}
+    roll: 0
+  - position: {x: -1000, y: 230, z: 350}
+    roll: 0
+  - position: {x: -1100, y: 295, z: 600}
+    roll: 0
+--- !u!1 &2481760955886131338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2481760955886131336}
+  - component: {fileID: 2481760955886131337}
+  m_Layer: 0
+  m_Name: DollyTrack_Go_Spring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1001 &3854033783955303344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7194,6 +7456,114 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e129b6455719782418c41f2a3420846b, type: 3}
+--- !u!4 &8263234020036515772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263234020036515774}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8263234021490488119}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8263234020036515773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263234020036515774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Resolution: 20
+  m_Appearance:
+    pathColor: {r: 0, g: 1, b: 0, a: 1}
+    inactivePathColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    width: 0.2
+  m_Looped: 0
+  m_Waypoints:
+  - position: {x: 625, y: 250, z: 3100}
+    roll: 0
+  - position: {x: 500, y: 250, z: 3000}
+    roll: 0
+  - position: {x: 450, y: 250, z: 2900}
+    roll: 0
+  - position: {x: 336, y: 250, z: 3289}
+    roll: 0
+  - position: {x: 300, y: 260, z: 3000}
+    roll: 0
+  - position: {x: 200, y: 260, z: 3000}
+    roll: 0
+  - position: {x: 123, y: 250, z: 3079}
+    roll: 0
+  - position: {x: 100, y: 180, z: 2700}
+    roll: 0
+  - position: {x: 50, y: 150, z: 2500}
+    roll: 0
+  - position: {x: 19, y: 145, z: 2631}
+    roll: 0
+  - position: {x: 55, y: 215, z: 2200}
+    roll: 0
+  - position: {x: 90, y: 215, z: 2000}
+    roll: 0
+  - position: {x: 162, y: 145, z: 2169}
+    roll: 0
+--- !u!1 &8263234020036515774
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8263234020036515772}
+  - component: {fileID: 8263234020036515773}
+  m_Layer: 0
+  m_Name: DollyTrack_Go_Winter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &8263234021490488112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8263234021490488119}
+  m_Layer: 0
+  m_Name: Winter_DollyTrack_Obj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8263234021490488119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263234021490488112}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8263234020036515772}
+  - {fileID: 1122542733}
+  m_Father: {fileID: 714102890}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8777641385960613275
 PrefabInstance:
   m_ObjectHideFlags: 0

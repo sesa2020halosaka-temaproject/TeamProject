@@ -71,7 +71,7 @@ namespace TeamProject
             //BGMスタート
             switch (StageStatusManager.Instance.CurrentWorld)
             {
-                case 0:
+                case 0://ワールド１：夏
                     //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
                     //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
                     BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_SUMMER);
@@ -80,7 +80,7 @@ namespace TeamProject
                     BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
                     BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
                     break;
-                case 1:
+                case 1://ワールド２：秋
                     //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
                     //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
                     BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL);
@@ -89,10 +89,17 @@ namespace TeamProject
                     BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
                     BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
                     break;
-                case 2:
-                case 3:
+                case 2://ワールド３：冬
+                    BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
 
-                    BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_SUMMER);
+                    //水の音追加
+                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+                    BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
+
+                    break;
+                case 3://ワールド４：春
+
+                    BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
 
                     //水の音追加
                     BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
