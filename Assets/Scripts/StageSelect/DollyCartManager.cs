@@ -41,7 +41,7 @@ namespace TeamProject
             this._DollyCart.m_PositionUnits = CinemachinePathBase.PositionUnits.PathUnits;
 
         AddTime=1.0f;//移動速度の方向
-        World_MoveRatio=1.0f;//ワールド間の移動速度の倍率
+        //World_MoveRatio=1.0f;//ワールド間の移動速度の倍率
 
             m_DollyMove = DollyCamera.DOLLY_MOVE.FIXING;
     }
@@ -81,6 +81,45 @@ namespace TeamProject
             }
         }// Update()    END
 
+        //PathPositionの両端(Min,Max)をセット
+        public void SetPathPositionALL()
+        {
+            switch (StageChangeManager.GetStageChangeKey())
+            {
+                case StageChangeManager.STAGE_CHANGE_KEY.UP:
+                    SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
+                    SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
+                 SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
+                   break;
+                case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
+                SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
+                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
+                    SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
+                    SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    break;
+                case StageChangeManager.STAGE_CHANGE_KEY.ALL:
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        // ウェイポイントの最大番号をセット
+        public void SetPathPositionMax(float maxpos)
+        {
+            this.pathPositionMax = maxpos;
+        }
+        // ウェイポイントの最小番号をセット
+        public void SetPathPositionMin(float minpos)
+        {
+            this.pathPositionMin = minpos;
+        }
+
         //カメラのパス位置を初期化する
         public void PathPositionReset()
         {
@@ -93,7 +132,7 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld]; ;
+                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
@@ -133,6 +172,12 @@ namespace TeamProject
             this._DollyCart.m_Path = m_DoTr.m_Dolly_FIXING;
             //パス位置を0にする
             this._DollyCart.m_Position = 0;
+        }
+
+        //現在の座標を渡す
+        public Vector3 GetDollyCartPosition()
+        {
+            return this.transform.position;
         }
 
     }//public class DollyCartManager : MonoBehaviour END

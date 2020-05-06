@@ -48,9 +48,9 @@ namespace TeamProject
 
 
 
-        public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
-        public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
-        public CinemachineDollyCart _DollyCart;
+        //public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
+        //public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
+        //public CinemachineDollyCart _DollyCart;
 
         //public FixedDollyCamera //_SubDolly;
         private void Awake()
@@ -76,12 +76,12 @@ namespace TeamProject
         }
         private void Start()
         {
-            //ドリーカート用ゲームオブジェクト
-            _DollyCartObj = GameObject.Find("DollyCart").gameObject;
-            //ドリーカートを先導するゲームオブジェクト
-            _TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;
-            //CinemachineDollyCartコンポーネント
-            _DollyCart = _DollyCartObj.GetComponent<CinemachineDollyCart>();
+            ////ドリーカート用ゲームオブジェクト
+            //_DollyCartObj = GameObject.Find("DollyCart").gameObject;
+            ////ドリーカートを先導するゲームオブジェクト
+            //_TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;
+            ////CinemachineDollyCartコンポーネント
+            //_DollyCart = _DollyCartObj.GetComponent<CinemachineDollyCart>();
 
             //DollyTrack用ゲームオブジェクト取得
             m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
@@ -183,27 +183,27 @@ namespace TeamProject
                     break;
                 case DOLLY_MOVE.WORLD:
                     this.dolly.m_PathPosition += AddTime * Time.deltaTime * World_MoveRatio;
-                    if (!m_Flag && (this.dolly.m_PathPosition > this.pathPositionMax - m_Adjust))
-                    {
-                        m_Flag = true;
-                        if (StageChangeManager.MixingState()!=MixingCamera.MIXING_STATE.WORLD_END)
-                        {
-                            Debug.Log("WORLD_END入ります。");
-                        //移動完了直前にミキシングさせる設定へ
-                            StageChangeManager.MixingStateChange("WORLD_END");
-                        }
+                    //if (!m_Flag && (this.dolly.m_PathPosition > this.pathPositionMax - m_Adjust))
+                    //{
+                    //    m_Flag = true;
+                    //    if (StageChangeManager.MixingState()!=MixingCamera.MIXING_STATE.WORLD_END)
+                    //    {
+                    //        Debug.Log("WORLD_END入ります。");
+                    //    //移動完了直前にミキシングさせる設定へ
+                    //       // StageChangeManager.MixingStateChange("WORLD_END");
+                    //    }
                         
 
-                        //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
-                        //{
-                        //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.PrevWorld * 5]);
-                        //}
-                        //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
-                        //{
-                        //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.NextWorld * 5]);
-                        //}
+                    //    //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+                    //    //{
+                    //    //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.PrevWorld * 5]);
+                    //    //}
+                    //    //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+                    //    //{
+                    //    //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.NextWorld * 5]);
+                    //    //}
 
-                    }
+                    //}
 
                     if (this.dolly.m_PathPosition >= this.pathPositionMax)
                     {
@@ -223,7 +223,7 @@ namespace TeamProject
                         }
                         //固定用ドリーパスをセット
                         //SetPathFixingDolly();
-                        m_Flag = false;
+                        //m_Flag = false;
                     }
 
 
@@ -270,13 +270,13 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
-                SetPathPositionMin(0);
+                SetPathPositionMax(this.dolly.m_Path.MaxPos);
+                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
-                SetPathPositionMin(0);
+                SetPathPositionMax(this.dolly.m_Path.MaxPos);
+                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
             }
 
         }
@@ -295,11 +295,13 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
+                dolly.m_PathPosition = pathPositionMin;
+                //_DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
+                dolly.m_PathPosition = pathPositionMin;
+                // _DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
             }
 
             //Debug.Log(this.dolly.m_PathPosition);
@@ -343,11 +345,11 @@ namespace TeamProject
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
                     this.dolly.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-                    this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                   // this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
                     this.dolly.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-                    this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;
@@ -395,6 +397,14 @@ namespace TeamProject
             this.dolly.m_Path = m_DoTr.m_Dolly_FIXING;
             //パス位置を0にする
             this.dolly.m_PathPosition = 0;
+        }
+
+        public void sss()
+        {
+            Debug.Log("["+dolly.m_Path.transform.position+"]");
+            CinemachinePath.Waypoint waypoint;
+            this.dolly.m_PathPosition = 0;
+
         }
     }//public class DollyCamera : MonoBehaviour END
 }//namespace END

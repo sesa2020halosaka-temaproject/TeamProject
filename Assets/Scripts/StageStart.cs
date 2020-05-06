@@ -63,28 +63,28 @@ namespace TeamProject
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
                         //水の音追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true);
+                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
 
                         break;
                     case WORLD.W2:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL, allowsDuplicate: true);
                         //水の音追加   
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true);
+                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD.W3:
                         Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
                         //水の音追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true);
+                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD.W4:
                         Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
                         //水の音追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true);
+                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD.ALL_WORLD:
                         break;

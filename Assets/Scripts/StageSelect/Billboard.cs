@@ -53,6 +53,6 @@ namespace TeamProject
 
                 }
             }
-        }
-    }
-}
+        }//public class Billboard : MonoBehaviour END
+    }//namespace Koshima END
+}//namespace END
