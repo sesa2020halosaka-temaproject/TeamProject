@@ -24,22 +24,74 @@ namespace TeamProject
         THREE,      //星3つ
         STATUS_NUM  //クリアステータスの総数
     }
-    
+
     //=================================
     //現在のステージ と ステージのクリア状況の管理クラス(シングルトン)
     public class StageStatusManager : SingletonMonoBehaviour<StageStatusManager>
     {
+        //現在のステージ
+        public STAGE_NO CurrentStage;
+        //次のステージ
         public STAGE_NO NextStage
         {
             get
             {
                 var stage = CurrentStage + 1;
-                if (STAGE_NO.STAGE_NUM<= stage) { stage = STAGE_NO.STAGE_NUM; }
+                if (stage >= STAGE_NO.STAGE_NUM) { stage = STAGE_NO.STAGE_NUM - 1; }
                 return stage;
             }
         }
 
-        public STAGE_NO CurrentStage;//現在のステージ
+        //前のステージ
+        public STAGE_NO PrevStage
+        {
+            get
+            {
+                var stage = CurrentStage - 1;
+                if (stage < STAGE_NO.STAGE01) { stage = STAGE_NO.STAGE01; }
+                return stage;
+            }
+        }
+        //現在のワールド
+        public int CurrentWorld
+        {
+            get
+            {
+                var world = (int)CurrentStage / 5;
+                return world;
+            }
+        }
+        //次のワールド
+        public int NextWorld
+        {
+            get
+            {
+                var world = CurrentWorld + 1;
+                if (world >= 4) { world = 1; }
+
+                return world;
+            }
+        }
+        //前のワールド
+        public int PrevWorld
+        {
+            get
+            {
+                var world = CurrentWorld - 1;
+                if (world < 0) { world = 3; }
+                return world;
+            }
+        }
+        //現在のワールド内のステージ番号
+        public int StageInWorld
+        {
+            get
+            {
+                var world = (int)CurrentStage % 5;
+                return world;
+            }
+        }
+       
 
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
 
@@ -59,7 +111,7 @@ namespace TeamProject
             new GameObject("StageStatusManager", typeof(StageStatusManager));
             Debug.Log("StageStatusManagerオブジェクトを生成しました。");
             var s = new string[1];
-            stageString = new string[(int)STAGE_NO.STAGE_NUM] 
+            stageString = new string[(int)STAGE_NO.STAGE_NUM]
             {
                 "Stage1_1","Stage1_2","Stage1_3","Stage1_4","Stage1_5",
                 "Stage2_1","Stage2_2","Stage2_3","Stage2_4","Stage2_5",
@@ -75,7 +127,7 @@ namespace TeamProject
                 Destroy(this);
                 return;
             }
-            Debug.Log("Awake!");
+            //Debug.Log("Awake!");
 
             //全ステージを未クリア状態にする
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)

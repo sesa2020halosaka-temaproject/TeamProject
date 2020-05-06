@@ -31,7 +31,7 @@ namespace TeamProject
 
             // ウェーブ音
             if (!SEManager.Instance.GetCurrentAudioNames().Contains("SE_Grass_Wave")) {
-                SEManager.Instance.Play(SEPath.SE_GRASS_WAVE);
+                SEManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER);
             }
         }
     }

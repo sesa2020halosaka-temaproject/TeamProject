@@ -94,7 +94,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9013666810696607258
 Transform:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2a65ca9e084caa04d931e668cedb9b59, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -199,7 +199,7 @@ Transform:
   m_Children:
   - {fileID: 9013666810696607258}
   - {fileID: 9013666810362878816}
-  - {fileID: 469924505916329612}
+  - {fileID: 8729536047500400661}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,6 +210,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9013666811164233765}
     m_Modifications:
+    - target: {fileID: 302709835631176613, guid: 0f29cb2bc52ef064d981f74b9d34370a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 490.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 302709835631176613, guid: 0f29cb2bc52ef064d981f74b9d34370a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 302709835631176613, guid: 0f29cb2bc52ef064d981f74b9d34370a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1937796098839520409, guid: 0f29cb2bc52ef064d981f74b9d34370a,
         type: 3}
       propertyPath: m_Name
@@ -292,9 +307,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f29cb2bc52ef064d981f74b9d34370a, type: 3}
---- !u!4 &469924505916329612 stripped
+--- !u!4 &8729536047500400661 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 8904597143085284668, guid: 0f29cb2bc52ef064d981f74b9d34370a,
+  m_CorrespondingSourceObject: {fileID: 302709835631176613, guid: 0f29cb2bc52ef064d981f74b9d34370a,
     type: 3}
   m_PrefabInstance: {fileID: 9013666811445162928}
   m_PrefabAsset: {fileID: 0}

@@ -28,6 +28,7 @@ namespace TeamProject
             ALL_STATE//全状態数
         }
         public CURSORSTATE state;//現在の状態
+        public float m_FadeOut_Time;//シーン遷移のフェードアウト時間
         public static bool m_InputFlag;//カーソル移動許可フラグ（メニューのフェードインが終わるまで待機）
         public float _BeforeTrigger;//1フレーム前の入力状態を取得する
 
@@ -93,11 +94,11 @@ namespace TeamProject
                         switch (cursor)
                         {
                             case CURSORPOSI.GAMESTART:
-                                FadeManager.FadeOut("Stage1_1");
+                                FadeManager.FadeOut("Stage1_1",time: m_FadeOut_Time);
                                 StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE01;
                                 break;
                             case CURSORPOSI.STAGESELECT:
-                                FadeManager.FadeOut("StageSelectScene");
+                                FadeManager.FadeOut("StageSelectScene",time: m_FadeOut_Time);
                                 break;
                             case CURSORPOSI.EXIT:
                                 Quit();
@@ -111,6 +112,8 @@ namespace TeamProject
 
                         //決定音鳴らす
                         SEManager.Instance.Play(SEPath.SE_OK);
+                        //BGMのフェードアウト
+                        BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time);
                     }
 
                     break;
