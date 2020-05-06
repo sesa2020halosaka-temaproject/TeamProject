@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23896563196768878}
   - component: {fileID: 64968271349343208}
   - component: {fileID: 54948094247751720}
+  - component: {fileID: 8230516402136219109}
   m_Layer: 11
   m_Name: GrassPlane2
   m_TagString: Untagged
@@ -114,6 +115,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8230516402136219109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299296969420042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df59df0ad0e7a3a42ba63fccdfc74133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionObject: {fileID: 1863695556286498, guid: 694cfe0449fab4f57bf927537105e5a3,
+    type: 3}
+  camera: {fileID: 1517629111984252}
 --- !u!1 &1404500964774340
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +209,18 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8317969183844887086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1517629111984252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b2dcaeb58b83a4db86a7f4470708f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1906120728587648
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +369,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21c9e0db25b0d8445bbee9fe19669607, type: 3}
+--- !u!1 &1517629111984252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7331868734993611582, guid: 21c9e0db25b0d8445bbee9fe19669607,
+    type: 3}
+  m_PrefabInstance: {fileID: 7333376979599153986}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4242372285357188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7334800184709875654, guid: 21c9e0db25b0d8445bbee9fe19669607,
