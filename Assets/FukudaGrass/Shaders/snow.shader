@@ -1,4 +1,6 @@
-﻿Shader "Unlit/snow"
+﻿// Upgrade NOTE: upgraded instancing buffer 'Props' to new syntax.
+
+Shader "Unlit/snow"
 {
     Properties
     {
@@ -54,8 +56,8 @@
 			half _Metallic;
 			fixed4 _Color;
 
-			UNITY_INSTANCING_CBUFFER_START(Props)
-			UNITY_INSTANCING_CBUFFER_END
+			UNITY_INSTANCING_BUFFER_START(Props)
+			UNITY_INSTANCING_BUFFER_END(Props)
            
 			void surf(Input IN, inout SurfaceOutputStandard o)
 			{
