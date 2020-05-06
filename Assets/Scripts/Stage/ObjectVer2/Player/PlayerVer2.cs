@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 // プレイヤーのスクリプト
 namespace TeamProject
@@ -118,6 +119,13 @@ namespace TeamProject
         [SerializeField]
         private GameObject firstChoiceObject = null;
 
+        private string[] grassSEPath;
+        private string[] walkSEPath;
+
+        private float soundSpanNow = 0.0f;
+        [SerializeField]
+        private float soundSpan = 0.2f;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -173,9 +181,19 @@ namespace TeamProject
                 choicePosition = firstChoiceObject.transform.position;
                 choiceObject = firstChoiceObject;
                 pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+
+
+                var vec = choicePosition - transform.position;
+                transform.LookAt(vec.normalized, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
                 notChoice = false;
                 SetFunction((uint)TRANSITION.RootCheck);
             }
+
+            grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
+            walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
+
         }
 
         // None
@@ -198,7 +216,7 @@ namespace TeamProject
             float rad = Mathf.Atan2(dx, dy);
             //  Debug.Log(rad * Mathf.Rad2Deg);
 
-            float ySpeed = rb.velocity.y;
+            float ySpeed = rb.velocity.y - 1;
 
             rb.MoveRotation(Quaternion.AngleAxis(rad * Mathf.Rad2Deg, Vector3.up));
             var moveVector = transform.forward;
@@ -251,6 +269,16 @@ namespace TeamProject
 
             oldHight = transform.position.y;
 
+            soundSpanNow += Time.deltaTime;
+
+            var randInt = Random.Range(0, 4);
+
+            if (soundSpan < soundSpanNow)
+            {
+                SEManager.Instance.Play(grassSEPath[randInt], 0.1f);
+                SEManager.Instance.Play(walkSEPath[randInt]);
+                soundSpanNow = 0.0f;
+            }
             // Debug.DrawRay(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
         }
 
@@ -371,6 +399,7 @@ namespace TeamProject
                 notChoice = false;
 
                 transform.LookAt(up, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
@@ -393,6 +422,8 @@ namespace TeamProject
                 notChoice = false;
 
                 transform.LookAt(up, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -414,6 +445,8 @@ namespace TeamProject
                 notChoice = false;
 
                 transform.LookAt(up, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -435,6 +468,8 @@ namespace TeamProject
                 notChoice = false;
 
                 transform.LookAt(up, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -498,6 +533,11 @@ namespace TeamProject
             {
                 RootCheck();
                 pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+
+                var vec = choicePosition - transform.position;
+                transform.LookAt(vec.normalized, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
                 Debug.Log("次の場所" + choiceObject.name);
             }
 
@@ -581,12 +621,18 @@ namespace TeamProject
 
             float rayLenght = 10000;
 
-            var vec = choicePosition - transform.position;
+
+            var minionTop = choicePosition;
+            var playerEye = transform.position;
+            minionTop.y += 1.5f;
+            playerEye.y += 2f;
+
+            var vec = minionTop - playerEye;
 
             vec.Normalize();
 
             //レイの生成(レイの原点、レイの飛ぶ方向)
-            ray = new Ray(transform.position, vec);
+            ray = new Ray(playerEye, vec);
 
             Debug.Log(vec);
 
