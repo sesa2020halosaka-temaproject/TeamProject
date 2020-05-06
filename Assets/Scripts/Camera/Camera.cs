@@ -24,25 +24,25 @@ namespace TeamProject
         {
             var stick = InputManager.InputManager.Instance.GetRStick();
 
-            stick = new Vector2();
+            //stick = new Vector2();
 
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                stick.y = 0.5f;
-            }
+            //if (Input.GetKey(KeyCode.UpArrow))
+            //{
+            //    stick.y = 0.5f;
+            //}
 
-            if (Input.GetKey(KeyCode.DownArrow))
-            {
-                stick.y = -0.5f;
-            }
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                stick.x = 0.5f;
-            }
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                stick.x = -0.5f;
-            }
+            //if (Input.GetKey(KeyCode.DownArrow))
+            //{
+            //    stick.y = -0.5f;
+            //}
+            //if (Input.GetKey(KeyCode.RightArrow))
+            //{
+            //    stick.x = 0.5f;
+            //}
+            //if (Input.GetKey(KeyCode.LeftArrow))
+            //{
+            //    stick.x = -0.5f;
+            //}
             Vector3 rot = transform.rotation.eulerAngles;
             
             float x, y;

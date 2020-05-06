@@ -43,4 +43,9 @@ public class GoalLogoSound : MonoBehaviour
     private void ResultBgm() {
         BGMManager.Instance.Play(BGMPath.BGM_GAME_CLEAR);
     }
+
+    private void NextMinion()
+    {
+        transform.GetComponentInParent<GoalLogoBeta>().NextMinion();
+    }
 }
