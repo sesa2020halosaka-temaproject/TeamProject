@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 public class GoalLogoBeta : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class GoalLogoBeta : MonoBehaviour
 
             }
             anima.SetTrigger("LeftKey");
+            SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
         }
 
         if (Input.GetKeyDown(KeyCode.D))
@@ -78,11 +80,13 @@ public class GoalLogoBeta : MonoBehaviour
             }
             // SEMa
             anima.SetTrigger("RightKey");
+            SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
         }
 
             Debug.Log("なんでやああああああああああああああああああああああああ");
         if (TeamProject.InputManager.InputManager.Instance.GetKeyDown(TeamProject.InputManager.ButtunCode.B))
         {
+            SEManager.Instance.Play(SEPath.SE_OK);
             // フェードアウト
             StartCoroutine(ToTitle());
         }
