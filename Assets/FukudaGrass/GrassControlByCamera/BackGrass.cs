@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GrassCameraControl : MonoBehaviour {
+public class BackGrass : MonoBehaviour
+{
     
-	[SerializeField]
-	GameObject CollisionObject;
-	Dictionary<GameObject, GameObject> Collisions = new Dictionary<GameObject, GameObject>();
+    [SerializeField]
+    GameObject CollisionObject;
+    Dictionary<GameObject, GameObject> Collisions = new Dictionary<GameObject, GameObject>();
 
-	const int resolution = 128;
+    [SerializeField]
+    GameObject camera;
+    const int resolution = 256;
     private void Start()
     {
         RenderTexture grassmap = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.ARGB32);
@@ -23,24 +26,24 @@ public class GrassCameraControl : MonoBehaviour {
             if (c.gameObject == gameObject) continue;
             c.enabled = true;
             c.targetTexture = grassmap;
-          
         }
-    }
-
-    private void Update()
-    {
-        foreach (var c in Collisions)
-            c.Value.transform.SetPositionAndRotation(c.Key.transform.position, transform.rotation);
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (Collisions.ContainsKey(collision.gameObject)) return;
-
         Collisions.Add(collision.gameObject, Instantiate(CollisionObject, collision.gameObject.transform.position, transform.rotation));
+        camera.SetActive(true);
 
 
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            camera.SetActive(true);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -49,6 +52,9 @@ public class GrassCameraControl : MonoBehaviour {
 
         Destroy(Collisions[collision.gameObject]);
         Collisions.Remove(collision.gameObject);
- 
+        foreach (var c in GetComponentsInChildren<Camera>())
+        {
+            c.gameObject.SetActive(false);
+        }
     }
 }
