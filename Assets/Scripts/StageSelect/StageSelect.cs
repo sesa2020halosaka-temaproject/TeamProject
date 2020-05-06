@@ -162,6 +162,8 @@ namespace TeamProject
 
                     //上下矢印の処理
                     StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
+                    //左右矢印の処理
+                    WorldSelectArrow.SetCurrentWorld();
 
                     break;
                 case SELECT_STATE.BEFORE_STAGE_MOVING:
@@ -198,6 +200,8 @@ namespace TeamProject
 
                     //上下矢印の非アクティブ化
                     StageSelectArrow.TwoArrowsDeactivate();
+                    //左右矢印の非アクティブ化
+                    WorldSelectArrow.TwoArrowsDeactivate();
 
                     //ステージ移動の状態へ移行
                     StageChangeManager.SelectStateChange("STAGE_MOVING");
@@ -274,6 +278,9 @@ namespace TeamProject
 
                     //上下矢印の非アクティブ化
                     StageSelectArrow.TwoArrowsDeactivate();
+                    //左右矢印の非アクティブ化
+                    WorldSelectArrow.TwoArrowsDeactivate();
+
 
                     ////Dollyカメラの状態をFIXINGに戻す
                     //StageChangeManager.DollyStateChange("FIXING");
