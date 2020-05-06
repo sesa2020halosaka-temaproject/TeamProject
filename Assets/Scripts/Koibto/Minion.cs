@@ -10,6 +10,8 @@ namespace TeamProject
         public  Vector3 TargetPosition { set { targetPosition = value; } }
 
         private bool once = false;
+
+        private Animator anima;
         
         enum TRANS
         {
@@ -23,6 +25,10 @@ namespace TeamProject
         private float speed = 3f;
 
         private Rigidbody rb;
+
+        private bool FindEndFlag;
+
+        private GameObject player;
         
         // Start is called before the first frame update
         void Start()
@@ -36,6 +42,7 @@ namespace TeamProject
             SetFunction((uint)TRANS.Wait);
 
             rb = GetComponent<Rigidbody>();
+            anima = transform.GetComponentInChildren<Animator>();
         }
         
         private  void None()
@@ -55,7 +62,21 @@ namespace TeamProject
             if (2f < lenght) vec *= 2;
             vec.y = speedY;
 
-            rb.velocity = vec;
+            // プレイヤーとの接触しすぎることを防ぐため、プレイヤーから離れる力を付ける
+            var invVec = player.transform.position - transform.position;
+            invVec.y = 0f;
+            // 正規化
+            invVec.Normalize();
+
+
+            rb.velocity = vec- invVec;
+
+            anima.SetBool("Move", 0.5f < rb.velocity.magnitude);
+
+
+
+
+            LookPlayer();
         }
 
         private void Wait()
@@ -71,10 +92,21 @@ namespace TeamProject
             var platoon = obj.gameObject.GetComponent<MinionPlatoon>();
             if (platoon != null) { platoon.In(this);  Debug.Log("toetokeoakge"); }
 
+            player = obj.gameObject;
+
             SetFunction((uint)TRANS.Move);
             once = true;
 
+            // 発見アニメーション再生
+            anima.SetTrigger("Find");
+            
             tag = "Hit";
+        }
+
+        private void LookPlayer()
+        {
+            transform.LookAt(player.transform, Vector3.up);
+            transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
         }
     }
 }

@@ -377,6 +377,16 @@ namespace TeamProject
                 //if (direction[i] == null) Debug.Log((DIRECTION)i + "+" + "null");
                 //else Debug.Log((DIRECTION)i + "+" + direction[i].befor.name);
             }
+            
+            //float VerticalKeyInput = Input.GetAxis("ArrowY");
+            //if (VerticalKeyInput < 0.0f)
+            //{
+            //    Debug.Log("Up Key");
+            //}
+            //else if (VerticalKeyInput > 0.0f)
+            //{
+            //    Debug.Log("Down Key");
+            //}
 
             // キー入力
         　   // どうにかしたい
@@ -474,7 +484,7 @@ namespace TeamProject
                 SetFunction((int)TRANSITION.RootCheck);
             }
 
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             {
                 Debug.Log(rootCheckFlag);
                 if (rootCheckFlag)

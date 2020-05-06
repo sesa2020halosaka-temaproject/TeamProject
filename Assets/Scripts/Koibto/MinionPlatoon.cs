@@ -9,6 +9,8 @@ namespace TeamProject {
     {
         private List<Minion> minionList;
 
+        public int MinionNum { get { return minionList.ToArray().Length; } }
+
         [SerializeField]
         // 停止時のプレイヤーとの半径
         private float WaitaRadius = 1f;
