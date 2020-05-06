@@ -65,16 +65,15 @@ namespace TeamProject
             // プレイヤーとの接触しすぎることを防ぐため、プレイヤーから離れる力を付ける
             var invVec = player.transform.position - transform.position;
             invVec.y = 0f;
-            // 正規化
-            invVec.Normalize();
-
-
-            rb.velocity = vec- invVec;
+            
+            rb.velocity = vec - invVec.normalized;
 
             anima.SetBool("Move", 0.5f < rb.velocity.magnitude);
 
-
-
+            if (2 < invVec.magnitude)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z) * invVec.magnitude + new Vector3(0f, rb.velocity.y, 0f);
+            }
 
             LookPlayer();
         }
