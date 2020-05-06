@@ -32,6 +32,8 @@ namespace TeamProject
             //フェードイン
             FadeManager.FadeIn(FadeIn_Time);
 
+            //鳴っているBGMを止める(後で修正するかも)
+            BGMManager.Instance.Stop();
             //鳴っているSEを止める
             SEManager.Instance.Stop();
 

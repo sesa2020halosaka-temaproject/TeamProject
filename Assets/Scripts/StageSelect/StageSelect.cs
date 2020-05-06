@@ -28,9 +28,9 @@ namespace TeamProject
         public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
         public DollyCartManager _DollyCart;
 
-        public int m_Counter = 0;
-        public int m_Stopper = 3;
-        public bool m_FixingFlag = false;
+        public int m_Counter = 0;//
+        public int m_InputStopFrame;//ステージやワールドの移動後のキー入力を待たせるフラグ
+        public bool m_KeyWait_Flag = false;
         public bool m_WorldEndMixing_Flag = false;
         private int count = 0;
         //ステージセレクトの状態
@@ -146,19 +146,32 @@ namespace TeamProject
             switch (StageChangeManager.GetSelectState())
             {
                 case SELECT_STATE.KEY_WAIT:
+                    m_Counter++;
 
-                    //ステージ選択（WSキー or スティック上下）
-                    //StageChange();
-                    StageChangeManager.StageChange();
-                    //ワールド選択（ADキー or スティック左右）
-                    WorldChange();
-                    //WorldChangeManagr.WorldChange();
-                    //決定（Space  or Bボタン）
-                    StageDecision();
-                    //タイトルへ戻る(ESCキー or Startボタン)
-                    BackToTitle();
-                    //フラグチェック
-                    FlagCheck();
+                    //m_InputStopFrameの分だけ待たせる
+                    if (m_Counter > m_InputStopFrame && !m_KeyWait_Flag)
+                    {
+                        //フラグをONにする
+                        m_KeyWait_Flag = !m_KeyWait_Flag;
+                        m_Counter = 0;
+                    }
+                    //フラグがONになったら入力可能にする
+                    if (m_KeyWait_Flag)
+                    {
+
+                        //ステージ選択（WSキー or スティック上下）
+                        //StageChange();
+                        StageChangeManager.StageChange();
+                        //ワールド選択（ADキー or スティック左右）
+                        WorldChange();
+                        //WorldChangeManagr.WorldChange();
+                        //決定（Space  or Bボタン）
+                        StageDecision();
+                        //タイトルへ戻る(ESCキー or Startボタン)
+                        BackToTitle();
+                        //フラグチェック
+                        FlagCheck();
+                    }
 
                     //上下矢印の処理
                     StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
@@ -169,25 +182,11 @@ namespace TeamProject
                 case SELECT_STATE.BEFORE_STAGE_MOVING:
                     count++;
                     Debug.Log("count" + count);
-                    //m_Counter++;
-                    //if (!m_FixingFlag)
-                    //{
-                    //    m_FixingFlag = !m_FixingFlag;
-                    ////固定用ドリールートをセット
-                    ////_Main_DollyCam.SetPathFixingDolly();
-                    ////_Sub_DollyCam.SetPathFixingDolly();
-                    ////_DollyCart.SetPathFixingDolly();
-
-                    //}
-                    //if (m_Counter>m_Stopper)
-                    //{
-                    //    m_FixingFlag = !m_FixingFlag;
-                    //    m_Counter = 0;
 
                     //固定用ドリールートをセット
                     _Main_DollyCam.SetPathFixingDolly();
                     _Sub_DollyCam.SetPathFixingDolly();
-                 //   _DollyCart.SetPathFixingDolly();
+                    //   _DollyCart.SetPathFixingDolly();
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();
@@ -205,7 +204,6 @@ namespace TeamProject
 
                     //ステージ移動の状態へ移行
                     StageChangeManager.SelectStateChange("STAGE_MOVING");
-                    //}
 
                     break;
                 case SELECT_STATE.STAGE_MOVING:
@@ -256,14 +254,14 @@ namespace TeamProject
                     count++;
                     Debug.Log("count" + count);
                     m_Counter++;
-                    if (!m_FixingFlag)
+                    if (!m_KeyWait_Flag)
                     {
-                        m_FixingFlag = !m_FixingFlag;
+                        m_KeyWait_Flag = !m_KeyWait_Flag;
 
                     }
-                    if (m_Counter > m_Stopper)
+                    if (m_Counter > m_InputStopFrame)
                     {
-                        m_FixingFlag = !m_FixingFlag;
+                        m_KeyWait_Flag = !m_KeyWait_Flag;
                         m_Counter = 0;
                     }
 
@@ -463,12 +461,18 @@ namespace TeamProject
             {
                 //select_state = SELECT_STATE.STAGE_MOVING;
                 StageChangeManager.SelectStateChange("BEFORE_STAGE_MOVING");
+
+                //フラグをOFFにする
+                m_KeyWait_Flag = !m_KeyWait_Flag;
             }
             else if (StageChangeManager.IsWorldChange())
             //else if (WorldChangeManagr.IsWorldChange())
             {
                 //select_state = SELECT_STATE.WORLD_MOVING;
                 StageChangeManager.SelectStateChange("BEFORE_WORLD_MOVING");
+
+                //フラグをOFFにする
+                m_KeyWait_Flag = !m_KeyWait_Flag;
             }
 
         }
@@ -489,7 +493,7 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, (STAGE_NO)(StageStatusManager.Instance.PrevWorld*5));
+                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5));
                 //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
                 StageChangeManager.MixingStateChange("WORLD");
             }
@@ -513,11 +517,11 @@ namespace TeamProject
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
                     _StageNo = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
-                  //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
+                    //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
                     _StageNo = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
-                  //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
+                    //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
                     break;
 
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
