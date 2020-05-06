@@ -60,13 +60,13 @@ namespace TeamProject
             }
 
             // Functionの最大数を設定する
-            public void SetMaxFunctionSize(uint _maxFunctionNum) {
+            protected void SetMaxFunctionSize(uint _maxFunctionNum) {
                 function = new Function[_maxFunctionNum];
                 maxFunctionNum = _maxFunctionNum;
             }
 
             // Functionを設定する
-            public bool CreateFunction(uint _functionNum, Function _setFunction)
+            protected bool CreateFunction(uint _functionNum, Function _setFunction)
             {
                 // 配列の最大数より大きければfalseを返す
                 if (maxFunctionNum < _functionNum) return false;
@@ -93,7 +93,7 @@ namespace TeamProject
             }
 
             // Functionを設定する
-            public bool CreateFixFunction(uint _functionNum, Function _setFunction)
+            protected bool CreateFixFunction(uint _functionNum, Function _setFunction)
             {
                 // 配列の最大数より大きければfalseを返す
                 if (maxFixFunctionNum < _functionNum) return false;
@@ -103,7 +103,7 @@ namespace TeamProject
                 return true;
             }
 
-            public bool SetFixFunction(uint _functionNum)
+            protected bool SetFixFunction(uint _functionNum)
             {
                 // 配列の最大数より大きければfalseを返す
                 if (maxFixFunctionNum < _functionNum) return false;

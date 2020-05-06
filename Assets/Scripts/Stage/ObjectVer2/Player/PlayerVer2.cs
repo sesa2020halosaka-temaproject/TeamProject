@@ -102,9 +102,21 @@ namespace TeamProject
 
         private Rigidbody rb;
 
+        // プレイヤーの移動アニメーションでの坂判定用の
+        // 位置情報
+        float oldHight;
+
+        private Animator anima;
+
         [SerializeField]
         [Header("プレイヤーの正面から下げられたレイの長さ。判定外で飛び降り処理")]
         private float downLength = 2f;
+
+        private MinionPlatoon minionPlatoon;
+
+        // Choiceのオブジェクト
+        [SerializeField]
+        private GameObject firstChoiceObject = null;
 
         // Start is called before the first frame update
         void Start()
@@ -146,6 +158,24 @@ namespace TeamProject
 
             // リジットボディを取得する
             rb = GetComponent<Rigidbody>();
+
+            anima = transform.GetComponentInChildren<Animator>();
+
+            // ミニオンの隊列を生成
+            minionPlatoon = gameObject.GetComponent<MinionPlatoon>();
+
+            minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
+
+            GetChoice();
+
+            if (firstChoiceObject != null)
+            {
+                choicePosition = firstChoiceObject.transform.position;
+                choiceObject = firstChoiceObject;
+                pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+                notChoice = false;
+                SetFunction((uint)TRANSITION.RootCheck);
+            }
         }
 
         // None
@@ -154,18 +184,19 @@ namespace TeamProject
             // None
         }
 
+        private bool oldFall = true;
 
         // 移動
         private void Move()
         {
             // 位置固定解除
             rb.constraints = RigidbodyConstraints.None;
-            rb.constraints = RigidbodyConstraints.FreezeRotationX| RigidbodyConstraints.FreezeRotationZ;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;// X | RigidbodyConstraints.FreezeRotationZ;
 
             float dx = choicePosition.x - transform.position.x;
             float dy = choicePosition.z - transform.position.z;
             float rad = Mathf.Atan2(dx, dy);
-            Debug.Log(rad * Mathf.Rad2Deg);
+            //  Debug.Log(rad * Mathf.Rad2Deg);
 
             float ySpeed = rb.velocity.y;
 
@@ -179,17 +210,26 @@ namespace TeamProject
             Ray ray = new Ray(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
 
             RaycastHit hit;
-            if (!Physics.Raycast(transform.position + transform.forward, new Vector3(0, -downLength, 0f), downLength))
+            var hitFlag = Physics.Raycast(transform.position + transform.forward, new Vector3(0, -downLength, 0f), downLength);
+            if (!hitFlag)
             {
-                // SetFunction((uint)TRANSITION.Jump);
-                var down = transform.forward;
-                down.y = ySpeed * 2;
-                rb.velocity = down;
+                SetFunction((uint)TRANSITION.Jump);
+                EndFallAnima();
             }
-            Debug.Log((choicePosition - transform.position).magnitude);
+
+            anima.SetBool("Fall",!hitFlag);
+
+            if (!oldFall && hitFlag)
+            {
+                Debug.Log("ジャンプ中");
+            }
+
+            oldFall = hitFlag;
+            
+            // Debug.Log((choicePosition - transform.position).magnitude);
             Vector3 a, b;
-            a = choicePosition;b = transform.position;
-            a.y = 0f;b.y = 0f;
+            a = choicePosition; b = transform.position;
+            a.y = 0f; b.y = 0f;
             var length = (a - b).magnitude;
             // 近くなったので速度減少
             if (length < 1f)
@@ -199,10 +239,19 @@ namespace TeamProject
             if (length < 0.8f)
             {
                 rb.MovePosition(choicePosition);
+                anima.SetBool("Walk", false);
+
                 SetFunction((uint)TRANSITION.GetChoice);
+                minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
             }
 
-            Debug.DrawRay(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
+            float difY = transform.position.y - oldHight;
+
+            anima.SetFloat("Hight", difY);
+
+            oldHight = transform.position.y;
+
+            // Debug.DrawRay(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
         }
 
         private void FixMove()
@@ -213,6 +262,12 @@ namespace TeamProject
         private void Jump()
         {
             // transform.forward
+            RaycastHit hit;
+            var hitFlag = Physics.Raycast(transform.position + transform.forward, new Vector3(0, -downLength, 0f), downLength);
+            if (hitFlag)
+            {
+                rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+            }
         }
 
         // 選択
@@ -238,9 +293,10 @@ namespace TeamProject
             // 左右上下のオブジェクト割り出し
             foreach (var itr in choiceObjectList)
             {
+                if (itr.befor.tag == "Hit") continue;
                 // 差分割り出し
                 var diff = itr.convers - choicePositionConv;
-               //  Debug.Log(itr.convers + "+" + itr.befor.name + "dif" + diff);
+                //  Debug.Log(itr.convers + "+" + itr.befor.name + "dif" + diff);
                 // 左
                 if (diff.x < -0.1f)
                 {
@@ -314,6 +370,8 @@ namespace TeamProject
                 pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
 
+                transform.LookAt(up, Vector3.up);
+
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -333,6 +391,8 @@ namespace TeamProject
 
                 pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
+
+                transform.LookAt(up, Vector3.up);
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -352,6 +412,8 @@ namespace TeamProject
 
                 pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
+
+                transform.LookAt(up, Vector3.up);
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -371,6 +433,8 @@ namespace TeamProject
 
                 pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
+
+                transform.LookAt(up, Vector3.up);
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
@@ -380,8 +444,15 @@ namespace TeamProject
                 Debug.Log(rootCheckFlag);
                 if (rootCheckFlag)
                 {
-                    SetFunction((uint)TRANSITION.Move);
+                    SetFunction((uint)TRANSITION.None);
                     SetFixFunction((uint)FIX_TRANSITION.Move);
+                    minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Move);
+                    oldHight = transform.position.y;
+                    anima.SetTrigger("Find");
+                }
+                else
+                {
+                    anima.SetTrigger("UnFind");
                 }
             }
         }
@@ -395,6 +466,8 @@ namespace TeamProject
             // 配列の取得
             var objectArray = GameObject.FindGameObjectsWithTag("ChoiceObject");
 
+            float minLength = 10000f;
+
             // 配列のオブジェクトの親をListに追加
             foreach (var itr in objectArray)
             {
@@ -402,25 +475,44 @@ namespace TeamProject
                 // 親を取得
                 parentObject.befor = itr.transform.root.gameObject;
 
-
                 // リストに追加
                 choiceObjectList.Add(parentObject);
+
+                // 長さ割出
+                var length = (parentObject.befor.transform.position - transform.position).magnitude;
+
+                if (itr.transform.root.tag != "Hit")
+                {
+                    if (length < minLength)
+                    {
+                        minLength = length;
+                        choicePosition = parentObject.befor.transform.position;
+                        choiceObject = parentObject.befor;
+                    }
+                }
             }
-
-            // 配列が更新されたためChoiceを変更
-            notChoice = true;
-
-            // 洗い出しが終わった時時点では自分が選択されている
-            choicePosition = transform.position;
-
             // 指定できないようにする
             rootCheckFlag = false;
 
+            if (minLength != 10000f)
+            {
+                RootCheck();
+                pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+                Debug.Log("次の場所" + choiceObject.name);
+            }
+
+            // 配列が更新されたためChoiceを変更
+            // notChoice = true;
+
+            // 洗い出しが終わった時時点では自分が選択されている
+            // choicePosition = transform.position;
+
+
             // 位置を固定
-            rb.constraints = 
-                RigidbodyConstraints.FreezePosition| 
-                RigidbodyConstraints.FreezeRotationX| 
-                RigidbodyConstraints.FreezeRotationZ;
+            rb.constraints =
+                RigidbodyConstraints.FreezePosition |
+                RigidbodyConstraints.FreezeRotation;
+            // RigidbodyConstraints.FreezeRotationZ;
 
             // 次ループから選択の関数へ
             SetFunction((uint)TRANSITION.Choice);
@@ -435,6 +527,7 @@ namespace TeamProject
             {
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
+                // anima.SetTrigger("UnFind");
                 Debug.Log("直線でアウト");
                 return;
             }
@@ -446,13 +539,15 @@ namespace TeamProject
             {
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
+                // anima.SetTrigger("UnFind");
                 return;
             }
 
             rootCheckFlag = true;
             SetFunction((uint)TRANSITION.Choice);
+            // anima.SetTrigger("Find");
         }
-        
+
         // カメラの位置変換
         private Vector3 CameraConversion(Vector3 _pos)
         {
@@ -476,6 +571,10 @@ namespace TeamProject
         public LayerMask kobitoLayer;
         private bool CenterRayCheck()
         {
+            // 追加処理発生
+            // 違う小人に当たっても追加でレイをとばす　
+            var eraseObject = new List<GameObject>();
+            var objList = choiceObjectList;
 
             Ray ray;
             RaycastHit hit;
@@ -490,28 +589,76 @@ namespace TeamProject
             ray = new Ray(transform.position, vec);
 
             Debug.Log(vec);
-            // 直レイの判定
-            if (!Physics.Raycast(ray, out hit, rayLenght, kobitoLayer))
+
+            bool returnFlag = false;
+
+            // 追加処理
+            // レイを指定の小人に当たるまでか、地面に当たるまで飛ばす
+            while (true)
             {
-                // 当たり判定がなかったのでretunr 
-                return false;
-            }
-            else
-            {
-                var hitHash = hit.collider.gameObject.transform.root.gameObject.GetHashCode();
-
-                var minionHash = choiceObject.GetHashCode();
-
-                Debug.Log(hit.collider.gameObject.transform.root.gameObject.name+"+"+choiceObject.name);
-
-                // 当たったものが選択していないものなのでreturn 
-                if (hitHash != minionHash)
+                // 直レイの判定
+                if (!Physics.Raycast(ray, out hit, rayLenght, kobitoLayer))
                 {
-                    return false;
+                    // 当たり判定がなかったのでretunr 
+                    returnFlag = false;
+                    break;
+                }
+                else
+                {
+                    var hitHash = hit.collider.gameObject.transform.root.gameObject.GetHashCode();
+
+                    var minionHash = choiceObject.GetHashCode();
+
+                    Debug.Log(hit.collider.gameObject.transform.root.gameObject.name + "+" + choiceObject.name);
+
+                    if (hitHash == minionHash)
+                    {
+                        returnFlag = true;
+                        // Debug.Log("出た");
+                        break;
+                    }
+
+                    if (objList.ToArray().Length == 0)
+                    {
+                        returnFlag = true;
+                        Debug.Log("出た");
+                        break;
+                    }
+
+                    bool groundHit = true;
+                    // 追記処理
+                    foreach (var itr in objList)
+                    {
+                        var otherMinionHash = itr.befor.GetHashCode();
+
+                        // 当たったものが選択していないものなのでreturn 
+                        if (hitHash == otherMinionHash)
+                        {
+                            eraseObject.Add(itr.befor);
+                            itr.befor.SetActive(false);
+                            // objList.Remove(itr);
+                            Debug.Log("入った");
+                            groundHit = false;
+                            break;
+                        }
+                    }
+                    Debug.Log(hit.collider.gameObject.name);
+                    if (groundHit)
+                    {
+                        Debug.Log("出た");
+                        returnFlag = false;
+                        break;
+                    }
                 }
             }
 
-            return true;
+            foreach (var itr in eraseObject)
+            {
+                itr.SetActive(true);
+                Debug.Log("くりーん ");
+            }
+
+            return returnFlag;
 
         }
 
@@ -531,7 +678,7 @@ namespace TeamProject
 
             // レイの個数(倍率 * 長さ)
             var rayNum = length * stepJudgeAccuracy;
-            
+
             if (rayNum == 0) return true;
 
             // レイを個数分生成
@@ -550,7 +697,7 @@ namespace TeamProject
                 // 位置の補間を作成
                 var inter = Vector3.Lerp(lerpStart, lerpEnd, (float)i / rayNum);
 
-                Debug.Log(inter);
+                // Debug.Log(inter);
                 // 真下に向かってRayを作成
                 rayArray[i] = new Ray(inter, -Vector3.up);
             }
@@ -588,5 +735,43 @@ namespace TeamProject
             // 最後まで来たら成功
             return true;
         }
+
+        public void EndFindAnima()
+        {
+            StartCoroutine(ToMove());
+        }
+        public void EndFallAnima()
+        {
+            StartCoroutine(JumpEnd());
+        }
+        private IEnumerator ToMove()
+        {
+            yield return new WaitForSeconds(0f);
+            SetFunction((uint)TRANSITION.Move);
+            anima.SetBool("Walk", true);
+        }
+
+        private IEnumerator JumpEnd()
+        {
+            yield return new WaitForSeconds(3f);
+            SetFunction((uint)TRANSITION.Move);
+            anima.SetBool("Walk", true);
+        }
+        private IEnumerator ToJumpStart()
+        {
+            yield return new WaitForSeconds(0.5f);
+            SetFunction((uint)TRANSITION.Move);
+            var down = transform.forward * moveSpeed;
+            down.y = rb.velocity.y;
+            rb.velocity = down;
+            anima.SetBool("Walk", true);
+        }
+
+        public void JumpStart()
+        {
+            rb.velocity = new Vector3();
+            StartCoroutine(ToJumpStart());
+        }
+        
     }
 }
