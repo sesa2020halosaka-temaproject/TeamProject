@@ -7,10 +7,17 @@ namespace TeamProject
     //ステージを注視するためのオブジェクトを格納するクラス
     public class TargetStages : MonoBehaviour
     {
+
+        
         //ステージ注視用ゲームオブジェクト
         public static GameObject[] m_Stages = new GameObject[(int)STAGE_NO.STAGE_NUM];
         // Start is called before the first frame update
         void Start()
+        {
+            
+        }
+
+        private void Awake()
         {
             // 子オブジェクトを全て取得する
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
