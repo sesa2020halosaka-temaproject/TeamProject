@@ -122,22 +122,24 @@ namespace TeamProject
 
             //現在のステージから初期設定
             //ドリールートの設定
+            _Main_DollyCam.SetStartDollyPath();
+            _Sub_DollyCam.SetStartDollyPath();
+
             //初期配置
             _Main_DollyCam.SetPathPosition(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
             _Sub_DollyCam.SetPathPosition(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+
             //LookAt・注視点の設定
             _Main_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
             _Sub_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
 
-            //_Main_DollyCam.SetStartDollyPath();
-            //_Sub_DollyCam.SetStartDollyPath();
             //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
 
             //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
             //_StageSelectArrow = this.transform.Find("Panel/StageMoveArrows").GetComponent<StageSelectArrow>();
 
             StageChangeManager.SelectStateChange("KEY_WAIT");
-        }
+        }//void Start() END
 
         // Update is called once per frame
         void Update()
@@ -425,7 +427,7 @@ namespace TeamProject
         void StageDecision()
         {
             //カーソルの操作（決定）
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             //if (Input.GetKeyDown(KeyCode.Space))
             {
                 string StageName = StageStatusManager.Instance.StageString[(int)StageStatusManager.Instance.CurrentStage];

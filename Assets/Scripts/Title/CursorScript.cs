@@ -88,7 +88,7 @@ namespace TeamProject
 
 
                     //カーソルの操作（決定）
-                    if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                    if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
                     //if (Input.GetKeyDown(KeyCode.Space))
                     {
                         switch (cursor)

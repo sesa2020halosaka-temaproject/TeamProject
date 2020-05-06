@@ -73,6 +73,14 @@ namespace TeamProject
                 return;
 
             }
+
+            //DollyTrack用ゲームオブジェクト取得
+            m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
+            Debug.Log("m_DoTr:" + m_DoTr.name);
+
+            //WayPoint用ゲームオブジェクト取得
+            m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
+
         }
         private void Start()
         {
@@ -83,12 +91,6 @@ namespace TeamProject
             ////CinemachineDollyCartコンポーネント
             //_DollyCart = _DollyCartObj.GetComponent<CinemachineDollyCart>();
 
-            //DollyTrack用ゲームオブジェクト取得
-            m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
-            Debug.Log("m_DoTr:" + m_DoTr.name);
-
-            //WayPoint用ゲームオブジェクト取得
-            m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
 
             //_SubDolly = GameObject.Find("Current_VCamera").GetComponent<FixedDollyCamera>();
             //Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
