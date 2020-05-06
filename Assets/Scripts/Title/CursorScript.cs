@@ -88,17 +88,17 @@ namespace TeamProject
 
 
                     //カーソルの操作（決定）
-                    if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                    if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
                     //if (Input.GetKeyDown(KeyCode.Space))
                     {
                         switch (cursor)
                         {
                             case CURSORPOSI.GAMESTART:
-                                FadeManager.FadeOut("Stage1_1",time: m_FadeOut_Time);
+                                FadeManager.FadeOut("Stage1_1", time: m_FadeOut_Time);
                                 StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE01;
                                 break;
                             case CURSORPOSI.STAGESELECT:
-                                FadeManager.FadeOut("StageSelectScene",time: m_FadeOut_Time);
+                                FadeManager.FadeOut("StageSelectScene", time: m_FadeOut_Time);
                                 break;
                             case CURSORPOSI.EXIT:
                                 Quit();
@@ -115,6 +115,41 @@ namespace TeamProject
                         //BGMのフェードアウト
                         BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time);
                     }
+                    //隠しコマンド（05/07）同時押し
+                    else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.R1))//キーボードB
+                    {
+                        if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.X))//キーボードC
+                        {
+
+                            StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE11;
+                            state = CURSORSTATE.FADE_OUT;
+                            Debug.Log("STAGE11です！");
+                            FadeManager.FadeOut("StageSelectScene", time: m_FadeOut_Time + 1f);
+
+                            //決定音鳴らす
+                            SEManager.Instance.Play(SEPath.SE_STAMP);
+                            //BGMのフェードアウト
+                            BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time + 1f);
+                        }
+
+                    }
+                    else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.L1))//キーボードM
+                    {
+                        if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.X))//キーボードC
+                        {
+                            StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE16;
+                            state = CURSORSTATE.FADE_OUT;
+                            Debug.Log("STAGE16です！");
+                            FadeManager.FadeOut("StageSelectScene", time: m_FadeOut_Time + 1f);
+
+                            //決定音鳴らす
+                            SEManager.Instance.Play(SEPath.SE_STAR);
+                            //BGMのフェードアウト
+                            BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time + 1f);
+                        }
+                    }
+
+
 
                     break;
                 case CURSORSTATE.FADE_OUT:

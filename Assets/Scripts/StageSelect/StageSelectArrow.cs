@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace TeamProject
 {
+    //ステージ選択可能表示矢印用
     public class StageSelectArrow : MonoBehaviour
     {
         private enum NUMBER

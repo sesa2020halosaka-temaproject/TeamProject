@@ -32,6 +32,8 @@ namespace TeamProject
             //フェードイン
             FadeManager.FadeIn(FadeIn_Time);
 
+            //鳴っているBGMを止める(後で修正するかも)
+            BGMManager.Instance.Stop();
             //鳴っているSEを止める
             SEManager.Instance.Stop();
 
@@ -39,6 +41,9 @@ namespace TeamProject
             //Game画面になってから（ステージセレクト曲が鳴り終わってから）
             //ゲーム曲と環境音を同時に鳴らし始める。
             //ゲーム曲も環境音もフェードインなし。
+            //=====ステージBGMメモ=====
+
+            //m_DebugBGMをONにしていたらinspector上でセットした曲が流れる
             if (m_DebugBGM)
             {
                 //BGMスタート
@@ -73,11 +78,10 @@ namespace TeamProject
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD.W3:
-                        Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
                         //BGMスタート
-                        BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
+                        BGMManager.Instance.Play(BGMPath.BGM_GAME_WINTER, allowsDuplicate: true);
                         //水の音追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
+                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_WINTER, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD.W4:
                         Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
