@@ -225,7 +225,7 @@ namespace TeamProject
             vel.y = ySpeed;
             rb.velocity = vel;
 
-            Ray ray = new Ray(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
+            Ray ray = new Ray(transform.position -new Vector3(0, -downLength, 0f), new Vector3(0, -downLength, 0f));
 
             RaycastHit hit;
             var hitFlag = Physics.Raycast(transform.position + transform.forward, new Vector3(0, -downLength, 0f), downLength);
