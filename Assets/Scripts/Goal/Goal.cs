@@ -6,34 +6,35 @@ namespace TeamProject
 {
     public class Goal : MonoBehaviour
     {
-        private GoalLogoAnimation goalLogoAnimation;
+        private GoalLogoBeta goalLogoAnimation;
 
         // Start is called before the first frame update
         void Start()
         {
-            var canvasObject= GameObject.Find("StageCanvas");
+            var canvasObject= GameObject.Find("StageCanvasBeta");
 
-            goalLogoAnimation = canvasObject.GetComponent<GoalLogoAnimation>();
+            goalLogoAnimation = canvasObject.GetComponent<GoalLogoBeta>();
 
             Debug.Assert(goalLogoAnimation != null,"ゴールのアニメーションがScriptに設定されていません。GoalのInstanceを確認してください");
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
+        
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log("Goal");
             var obj = other.transform.root.gameObject;
             if (obj.tag == "Player")
             {
-                var player = obj.GetComponent<Player>();
+                var platoon = obj.GetComponent<MinionPlatoon>();
+                var player = obj.GetComponent<PlayerVer2>();
+
+                var chiceList = GameObject.FindGameObjectsWithTag("ChoiceObject");
+
+                int num = 0;
+                Debug.Log(chiceList.Length);
+                foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
 
                 // ゴールのリザルトを送る
-                goalLogoAnimation.Goal(player.MaxKobitoNum, player.KobitoNum);
+                goalLogoAnimation.Goal(num, platoon.MinionNum);
             }
         }
         public IEnumerator ToTitle()
