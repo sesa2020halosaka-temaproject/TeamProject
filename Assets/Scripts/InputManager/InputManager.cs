@@ -126,17 +126,22 @@ namespace TeamProject
                 
                 switch (_arrow)
                 {
-                    case ArrowCoad.RightArrow:
-                        return x <= size;
-
                     case ArrowCoad.LeftArrow:
-                        return x >= -size;
+                        
+                        return x <= -size;
+                        //return x <= size;
+
+                    case ArrowCoad.RightArrow:
+                        return x >= size;
+                        //return x >= -size;
 
                     case ArrowCoad.UpArrow:
-                        return y <= size;
+                        return y <= -size;
+                        //return y <= size;
 
                     case ArrowCoad.DownArrow:
-                        return y >= -size;
+                        return y >= size;
+                        //return y >= -size;
                 }
 
                 return false;
