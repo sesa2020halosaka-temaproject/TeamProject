@@ -24,6 +24,20 @@ namespace TeamProject
         THREE,      //星3つ
         STATUS_NUM  //クリアステータスの総数
     }
+    //ワールド番号
+    public enum WORLD_NO
+    {
+        W1 = 0, W2, W3, W4,    //ワールド番号
+        ALL_WORLD              //全ワールド数
+    }
+
+    //ワールド内ステージ番号（Stage01～05）
+    public enum IN_WORLD_NO
+    {
+        S1 = 0, S2, S3, S4, S5,//ワールド内のステージ番号
+        ALLSTAGE               //ワールド内の全ステージ数
+    };
+
 
     //=================================
     //現在のステージ と ステージのクリア状況の管理クラス(シングルトン)

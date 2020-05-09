@@ -14,11 +14,7 @@ namespace TeamProject
         public AudioClip m_Start_BGM;
         public AudioClip m_Start_Ambient;
 
-        private enum WORLD
-        {
-            W1 = 0, W2, W3, W4, ALL_WORLD
-        }
-        private WORLD _WorldNumber;
+        private WORLD_NO _WorldNumber;
 
         [Header("Trueにすると上記でセットされたBGMが鳴ります。")]
         public bool m_DebugBGM = false;
@@ -58,12 +54,12 @@ namespace TeamProject
             else
             {
 
-                _WorldNumber = (WORLD)StageStatusManager.Instance.CurrentWorld;
+                _WorldNumber = (WORLD_NO)StageStatusManager.Instance.CurrentWorld;
                 Debug.Log("今は" + _WorldNumber + "（" + StageStatusManager.Instance.CurrentWorld + "）");
 
                 switch (_WorldNumber)
                 {
-                    case WORLD.W1:
+                    case WORLD_NO.W1:
 
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
@@ -71,26 +67,26 @@ namespace TeamProject
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
 
                         break;
-                    case WORLD.W2:
+                    case WORLD_NO.W2:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL, allowsDuplicate: true);
                         //水の音追加   
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
                         break;
-                    case WORLD.W3:
+                    case WORLD_NO.W3:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_WINTER, allowsDuplicate: true);
                         //水の音追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_WINTER, allowsDuplicate: true, isLoop: true);
                         break;
-                    case WORLD.W4:
+                    case WORLD_NO.W4:
                         Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
                         //水の音追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
                         break;
-                    case WORLD.ALL_WORLD:
+                    case WORLD_NO.ALL_WORLD:
                         break;
                     default:
                         break;

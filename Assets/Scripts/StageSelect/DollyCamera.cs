@@ -259,26 +259,27 @@ namespace TeamProject
         //PathPositionの両端(Min,Max)をセット
         public void SetPathPositionALL()
         {
+            m_WP.SetWayPoint();
             if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
             {
-                SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMax(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
+                SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
 
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
             {
-                SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
+                SetPathPositionMax(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
                 SetPathPositionMax(this.dolly.m_Path.MaxPos);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
                 SetPathPositionMax(this.dolly.m_Path.MaxPos);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
             }
 
         }

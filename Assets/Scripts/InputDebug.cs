@@ -15,19 +15,19 @@ public class InputDebug : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (InputManager.InputManager.Instance.GetArrwo(InputManager.ArrowCoad.DownArrow))
+        if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow))
         {
-                Debug.Log("DownArrow"+ InputManager.InputManager.Instance.GetArrwo(InputManager.ArrowCoad.DownArrow));
+                Debug.Log("DownArrow"+ InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow));
         }
-        if (InputManager.InputManager.Instance.GetArrwo(InputManager.ArrowCoad.UpArrow))
+        if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow))
         {
                 Debug.Log("UpArrow");
         }
-        if (InputManager.InputManager.Instance.GetArrwo(InputManager.ArrowCoad.LeftArrow))
+        if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))
         {
                 Debug.Log("LeftArrow");
         }
-        if (InputManager.InputManager.Instance.GetArrwo(InputManager.ArrowCoad.RightArrow))
+        if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))
         {
                 Debug.Log("RightArrow");
         }

@@ -84,23 +84,24 @@ namespace TeamProject
         //PathPositionの両端(Min,Max)をセット
         public void SetPathPositionALL()
         {
+            m_WP.SetWayPoint();
             switch (StageChangeManager.GetStageChangeKey())
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.UP:
-                    SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
-                    SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    SetPathPositionMax(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
+                    SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
-                 SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
+                 SetPathPositionMax(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
                    break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
                 SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
                     SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
-                    SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;
@@ -123,6 +124,7 @@ namespace TeamProject
         //カメラのパス位置を初期化する
         public void PathPositionReset()
         {
+            m_WP.SetWayPoint();
             //Debug.Log(pos);
             if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
             {
@@ -132,11 +134,11 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
+                _DollyCart.m_Position = m_WP.m_Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld]; 
+                _DollyCart.m_Position = m_WP.m_Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld]; 
             }
 
             //Debug.Log(this.dolly.m_PathPosition);

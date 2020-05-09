@@ -119,7 +119,7 @@ namespace TeamProject
             }
 
             private float size = 1f;
-            public bool GetArrwo(ArrowCoad _arrow)
+            public bool GetArrow(ArrowCoad _arrow)
             {
                 float x = Input.GetAxis("ArrowX");
                 float y = Input.GetAxis("ArrowY");

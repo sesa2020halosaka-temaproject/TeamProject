@@ -7,7 +7,7 @@ namespace TeamProject
     //ステージ選択可能表示矢印用
     public class StageSelectArrow : MonoBehaviour
     {
-        private enum NUMBER
+        private enum IN_WORLD_NO
         {
             S1 = 0, S2, S3, S4, S5,//ワールド内のステージ番号
             ALLSTAGE//ワールド内のステージ数
@@ -38,22 +38,22 @@ namespace TeamProject
         {
             switch (_StageInWorld)
             {
-                case (int)NUMBER.S1://Stage01
+                case (int)IN_WORLD_NO.S1://Stage01
                     TwoSetActives(true, false);
 
                     break;
-                case (int)NUMBER.S2:
-                case (int)NUMBER.S3:
-                case (int)NUMBER.S4:
+                case (int)IN_WORLD_NO.S2:
+                case (int)IN_WORLD_NO.S3:
+                case (int)IN_WORLD_NO.S4:
                     //Stage02～04
                     TwoSetActives(true, true);
 
                     break;
-                case (int)NUMBER.S5://Stage05
+                case (int)IN_WORLD_NO.S5://Stage05
                     TwoSetActives(false, true);
 
                     break;
-                case (int)NUMBER.ALLSTAGE:
+                case (int)IN_WORLD_NO.ALLSTAGE:
                 default:
                     Debug.LogAssertion("StageSelectArrowが無効な状態！");
                     break;
@@ -64,22 +64,22 @@ namespace TeamProject
             int StageNumber = (int)CurrentStage % 5;//0～5に振り分け
             switch (StageNumber)
             {
-                case (int)NUMBER.S1://Stage01
+                case (int)IN_WORLD_NO.S1://Stage01
                     TwoSetActives(true, false);
 
                     break;
-                case (int)NUMBER.S2:
-                case (int)NUMBER.S3:
-                case (int)NUMBER.S4:
+                case (int)IN_WORLD_NO.S2:
+                case (int)IN_WORLD_NO.S3:
+                case (int)IN_WORLD_NO.S4:
                     //Stage02～04
                     TwoSetActives(true, true);
 
                     break;
-                case (int)NUMBER.S5://Stage05
+                case (int)IN_WORLD_NO.S5://Stage05
                     TwoSetActives(false, true);
 
                     break;
-                case (int)NUMBER.ALLSTAGE:
+                case (int)IN_WORLD_NO.ALLSTAGE:
                 default:
                     Debug.LogAssertion("StageSelectArrowが無効な状態！");
                     break;

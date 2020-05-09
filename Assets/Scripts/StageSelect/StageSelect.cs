@@ -9,8 +9,10 @@ namespace TeamProject
     public class StageSelect : MonoBehaviour
     {
         //public GameObject[] Stages;//LookAtの対象となるゲームオブジェクトの格納用
-        public float[] WayPoint;//ステージの正面に位置するドリーのパスの位置を入れる用
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
+        public float m_CurrentPathPosition;//現在のパス位置を渡す用
+        private float[] m_WayPoint;//受け渡し用
+
         public DollyTrack_Box m_DoTr;//ドリールートの格納用
         public float Volume;
 
@@ -71,7 +73,7 @@ namespace TeamProject
             //BGMスタート
             switch (StageStatusManager.Instance.CurrentWorld)
             {
-                case 0://ワールド１：夏
+                case (int)WORLD_NO.W1://ワールド１：夏
                     //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
                     //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
                     BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_SUMMER);
@@ -80,7 +82,7 @@ namespace TeamProject
                     BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
                     BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
                     break;
-                case 1://ワールド２：秋
+                case (int)WORLD_NO.W2://ワールド２：秋
                     //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
                     //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
                     BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL);
@@ -89,7 +91,7 @@ namespace TeamProject
                     BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
                     BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
                     break;
-                case 2://ワールド３：冬
+                case (int)WORLD_NO.W3://ワールド３：冬
                     BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
 
                     //水の音追加
@@ -97,7 +99,7 @@ namespace TeamProject
                     BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
 
                     break;
-                case 3://ワールド４：春
+                case (int)WORLD_NO.W4://ワールド４：春
 
                     BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
 
@@ -127,23 +129,45 @@ namespace TeamProject
             //WayPoint用ゲームオブジェクト取得
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
 
-            //現在のステージから初期設定
+            //シーン開始時点のステージから初期化
             //ドリールートの設定
             _Main_DollyCam.SetStartDollyPath();
             _Sub_DollyCam.SetStartDollyPath();
 
-            //初期配置
-            _Main_DollyCam.SetPathPosition(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
-            _Sub_DollyCam.SetPathPosition(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+            //ドリーカメラの初期化
+            //WayPoint格納配列のセット
+            m_WP.SetWayPoint();
+            switch (StageStatusManager.Instance.CurrentWorld)
+            {
+                case (int)WORLD_NO.W1:
+                    m_WayPoint = m_WP.SummerStage_WayPoint;
+                    break;
+                case (int)WORLD_NO.W2:
+                    m_WayPoint = m_WP.FallStage_WayPoint;
+                    break;
+                case (int)WORLD_NO.W3:
+                    m_WayPoint = m_WP.WinterStage_WayPoint;
+                    break;
+                case (int)WORLD_NO.W4:
+                    m_WayPoint = m_WP.SpringStage_WayPoint;
+                    break;
+                case (int)WORLD_NO.ALL_WORLD:
+                default:
+                    Debug.LogError("無効な状態です！");
+                    break;
+            }
+            //開始時点のパス位置をセット
+            m_CurrentPathPosition = m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
+
+            //各ドリーカメラにパス位置をセット
+            _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
+            _Sub_DollyCam.SetPathPosition(m_CurrentPathPosition);
 
             //LookAt・注視点の設定
             _Main_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
             _Sub_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
 
             //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
-
-            //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
-            //_StageSelectArrow = this.transform.Find("Panel/StageMoveArrows").GetComponent<StageSelectArrow>();
 
             StageChangeManager.SelectStateChange("KEY_WAIT");
         }//void Start() END

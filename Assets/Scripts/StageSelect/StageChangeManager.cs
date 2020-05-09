@@ -42,7 +42,8 @@ namespace TeamProject
             //Debug.Log("StageNumber:" + StageNumber);
             //Debug.Log("WorldNumber:" + WorldNumber);
             //上入力
-            if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow) && StageNumber != (int)STAGE_NO.STAGE05)
+            //if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
             {
                 StageFlagChange();
                 //カーソルの移動音
@@ -55,7 +56,8 @@ namespace TeamProject
                 //StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
             }
             //下入力
-            else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow) && StageNumber != (int)STAGE_NO.STAGE01)
+            //else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
             {
                 StageFlagChange();
                 //カーソルの移動音
@@ -70,7 +72,8 @@ namespace TeamProject
             //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow) && WorldNumber == 0)
+            //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 WorldNumber += 1;
                 if (WorldNumber >= 4)
@@ -96,7 +99,8 @@ namespace TeamProject
 
             }
             //左入力
-            else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow) && WorldNumber == 1)
+            //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
                 WorldNumber -= 1;
                 if (WorldNumber < 0)
