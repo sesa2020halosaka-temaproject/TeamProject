@@ -86,12 +86,6 @@ namespace TeamProject
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
-                ////前進させる
-                //MixingStateChange("GO");
-
-                //左右矢印の処理
-                //未実装
-
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.RIGHT;
                 //ステージ番号の変更
@@ -112,13 +106,6 @@ namespace TeamProject
                 WorldFlagChange();
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-                ////前進させる
-                //MixingStateChange("GO");
-
-
-                //左右矢印の処理
-                //未実装
-
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.LEFT;
                 //ステージ番号の変更

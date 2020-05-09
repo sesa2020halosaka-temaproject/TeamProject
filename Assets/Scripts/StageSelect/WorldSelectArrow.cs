@@ -7,11 +7,6 @@ namespace TeamProject
     //ワールド選択可能表示矢印用クラス
     public class WorldSelectArrow : MonoBehaviour
     {
-        private enum WORLD_NO
-        {
-            W1 = 0, W2, W3, W4,//ワールド内のステージ番号
-            ALLSTAGE//ワールド内のステージ数
-        };
         //現在ワールド位置 
         //StageStatusManager.Instance.CurrentWorld;
         public static GameObject m_Canvas;//一番上の親オブジェクト
@@ -59,7 +54,7 @@ namespace TeamProject
                     case (int)WORLD_NO.W4://World04
                         TwoSetActives(false, true);
                         break;
-                    case (int)WORLD_NO.ALLSTAGE:
+                    case (int)WORLD_NO.ALL_WORLD:
                     default:
                         Debug.LogAssertion("WorldSelectArrowが無効な状態！");
                         break;

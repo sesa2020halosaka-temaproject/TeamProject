@@ -7,11 +7,6 @@ namespace TeamProject
     //ステージ選択可能表示矢印用
     public class StageSelectArrow : MonoBehaviour
     {
-        private enum IN_WORLD_NO
-        {
-            S1 = 0, S2, S3, S4, S5,//ワールド内のステージ番号
-            ALLSTAGE//ワールド内のステージ数
-        };
         //現在ステージ位置 
         //StageStatusManager.Instance.CurrentStage;
         public static GameObject m_Canvas;//一番上の親オブジェクト
