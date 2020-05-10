@@ -73,9 +73,9 @@ public class GoalLogoBeta : MonoBehaviour
         bool[] arrow = new bool[(int)TeamProject.InputManager.ArrowCoad.Max];
 
         arrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
-        arrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
-        arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
-        arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
+        arrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.DownArrow);
+        arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.RightArrow);
+        arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.LeftArrow);
 
 
         if (arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow]&& !oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow])
@@ -90,7 +90,7 @@ public class GoalLogoBeta : MonoBehaviour
             SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
         }
 
-        if (arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] && !oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow])
+        if (arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] && !oldArrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow])
         {
             stageChoice++;
             if (stageChoice == StageChoice.MAX)
@@ -108,6 +108,11 @@ public class GoalLogoBeta : MonoBehaviour
             // フェードアウト
             StartCoroutine(ToTitle());
         }
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow];
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow];
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow];
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow];
+
     }
 
 

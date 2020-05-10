@@ -146,23 +146,23 @@ namespace TeamProject
                 {
                     case ArrowCoad.RightArrow:
                         {
-                            float x = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
-                            return x >= size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                            float x = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
+                            return x >= size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
                         }
                     case ArrowCoad.LeftArrow:
                         {
-                            float x = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
-                            return x <= -size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                            float x = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
+                            return x <= -size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
                         }
                     case ArrowCoad.UpArrow:
                         {
-                            float y = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
-                            return y <= -size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                            float y = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
+                            return y <= -size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
                         }
                     case ArrowCoad.DownArrow:
                         {
-                            float y = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
-                            return y >= size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                            float y = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
+                            return y >= size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
                         }
                 }
                 return false;

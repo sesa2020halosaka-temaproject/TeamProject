@@ -387,9 +387,9 @@ namespace TeamProject
             bool[] arrow = new bool[(uint)InputManager.ArrowCoad.Max];
 
             arrow[(int)InputManager.ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
-            arrow[(int)InputManager.ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
-            arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
-            arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
+            arrow[(int)InputManager.ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow);
+            arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
+            arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
 
             // キー入力
         　   // どうにかしたい
@@ -504,10 +504,10 @@ namespace TeamProject
                 }
             }
 
-            arrow[(int)InputManager.ArrowCoad.UpArrow] = oldArrow[(int)InputManager.ArrowCoad.UpArrow];
-            arrow[(int)InputManager.ArrowCoad.DownArrow] = oldArrow[(int)InputManager.ArrowCoad.DownArrow];
-            arrow[(int)InputManager.ArrowCoad.RightArrow] = oldArrow[(int)InputManager.ArrowCoad.RightArrow];
-            arrow[(int)InputManager.ArrowCoad.LeftArrow] = oldArrow[(int)InputManager.ArrowCoad.LeftArrow];
+            oldArrow[(int)InputManager.ArrowCoad.UpArrow]    = arrow[(int)InputManager.ArrowCoad.UpArrow];
+            oldArrow[(int)InputManager.ArrowCoad.DownArrow]  = arrow[(int)InputManager.ArrowCoad.DownArrow];
+            oldArrow[(int)InputManager.ArrowCoad.RightArrow] = arrow[(int)InputManager.ArrowCoad.RightArrow];
+            oldArrow[(int)InputManager.ArrowCoad.LeftArrow]  = arrow[(int)InputManager.ArrowCoad.LeftArrow];
         }
 
         // 選択の配列取得
