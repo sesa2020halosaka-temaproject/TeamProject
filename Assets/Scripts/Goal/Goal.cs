@@ -8,6 +8,12 @@ namespace TeamProject
     {
         private GoalLogoBeta goalLogoAnimation;
 
+        [SerializeField]
+        private GameObject rendObject;
+
+        [SerializeField]
+        private BetaGoalAnimation animObject;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -33,8 +39,11 @@ namespace TeamProject
                 Debug.Log(chiceList.Length);
                 foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
 
+                rendObject.SetActive(false);
+                animObject.gameObject.SetActive(true);
+
                 // ゴールのリザルトを送る
-                goalLogoAnimation.Goal(num, platoon.MinionNum);
+                animObject.StartGoalAnimation(goalLogoAnimation.Goal,platoon.MinionNum, num);
             }
         }
         public IEnumerator ToTitle()
