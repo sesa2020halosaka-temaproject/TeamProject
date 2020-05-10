@@ -48,6 +48,12 @@ namespace TeamProject
             static private Tuple<string, KeyCode>[] ps4KeyString;
 
             static private Tuple<string, KeyCode>[] activeKeyString;
+
+            static private Tuple<string, KeyCode>[] arrowString;
+            static private Tuple<string, KeyCode>[] ps4ArrowString;
+
+            static private Tuple<string, KeyCode>[] activeArrowString;
+
             public InputManager()
             {
                 keyString = new Tuple<string, KeyCode>[(int)ButtunCode.Max];
@@ -75,8 +81,22 @@ namespace TeamProject
                 ps4KeyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 9", KeyCode.Escape);
                 ps4KeyString[(int)ButtunCode.View] = Tuple.Create("joystick button 12", KeyCode.P);
 
+                arrowString = new Tuple<string, KeyCode>[(int)ArrowCoad.Max];
+                ps4ArrowString = new Tuple<string, KeyCode>[(int)ArrowCoad.Max];
+
+                arrowString[(int)ArrowCoad.UpArrow] = Tuple.Create("ArrowY", KeyCode.W);
+                arrowString[(int)ArrowCoad.DownArrow] = Tuple.Create("ArrowY", KeyCode.S);
+                arrowString[(int)ArrowCoad.RightArrow] = Tuple.Create("ArrowX", KeyCode.D);
+                arrowString[(int)ArrowCoad.LeftArrow] = Tuple.Create("ArrowX", KeyCode.A);
+                
+                ps4ArrowString[(int)ArrowCoad.UpArrow] = Tuple.Create("ArrowY", KeyCode.W);
+                ps4ArrowString[(int)ArrowCoad.DownArrow] = Tuple.Create("ArrowY", KeyCode.S);
+                ps4ArrowString[(int)ArrowCoad.RightArrow] = Tuple.Create("ArrowX", KeyCode.D);
+                ps4ArrowString[(int)ArrowCoad.LeftArrow] = Tuple.Create("ArrowX", KeyCode.A);
+
                 // 初期状態はXBox
                 activeKeyString = keyString;
+                activeArrowString = arrowString;
             }
 
             void MoadChange(GamePad _gamePad)
@@ -119,51 +139,35 @@ namespace TeamProject
             }
 
             private float size = 1f;
+
             public bool GetArrow(ArrowCoad _arrow)
             {
-                float x = Input.GetAxis("ArrowX");
-                float y = Input.GetAxis("ArrowY");
-                
                 switch (_arrow)
                 {
-                    case ArrowCoad.LeftArrow:
-                        
-                        return x <= -size;
-                        //return x <= size;
-
                     case ArrowCoad.RightArrow:
-                        return x >= size;
-                        //return x >= -size;
-
+                        {
+                            float x = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
+                            return x >= size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                        }
+                    case ArrowCoad.LeftArrow:
+                        {
+                            float x = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
+                            return x <= -size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                        }
                     case ArrowCoad.UpArrow:
-                        return y <= -size;
-                        //return y <= size;
-
+                        {
+                            float y = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
+                            return y <= -size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                        }
                     case ArrowCoad.DownArrow:
-                        return y >= size;
-                        //return y >= -size;
+                        {
+                            float y = Input.GetAxis(activeKeyString[(int)_arrow].Item1);
+                            return y >= size || Input.GetKey(activeKeyString[(int)_arrow].Item2);
+                        }
                 }
-
                 return false;
             }
-
-            //public bool GetArrow(ArrowCoad arrow)
-            //{
-            //    return false;
-            //}
-
-            //public bool GetArrowUp(ArrowCoad arrow)
-            //{
-            //    return false;
-            //}
-
-
-            //public bool GetArrowDown(ArrowCoad arrow)
-            //{
-            //    return false;
-            //}
-
-
+            
             public Vector2 GetLStick()
             {
                 Vector2 ret;

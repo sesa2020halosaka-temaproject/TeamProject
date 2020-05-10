@@ -61,7 +61,9 @@ namespace TeamProject
         [SerializeField]
         [Range(0.0f, 1.0f)]
         private float upStickPower, downStickPower;
-            
+        
+        private bool[] oldArrow = new bool[(int)ArrowCoad.Max];
+
         // Start is called before the first frame update
         void Start()
         {
@@ -75,6 +77,11 @@ namespace TeamProject
             // 星のアニメーション
             var childAnime = transform.GetComponentsInChildren<Animator>();
             foreach (var itr in childAnime) if (itr.gameObject.GetHashCode() != gameObject.GetHashCode()) starAnimator.Add(itr);
+            
+            oldArrow[(int)ArrowCoad.UpArrow] = false;
+            oldArrow[(int)ArrowCoad.DownArrow] = false;
+            oldArrow[(int)ArrowCoad.RightArrow] = false;
+            oldArrow[(int)ArrowCoad.LeftArrow] = false;
         }
 
         // Update is called once per frame

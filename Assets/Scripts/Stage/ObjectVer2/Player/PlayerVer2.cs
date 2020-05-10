@@ -126,6 +126,8 @@ namespace TeamProject
         [SerializeField]
         private float soundSpan = 0.2f;
 
+        private bool[] oldArrow = new bool[(int)InputManager.ArrowCoad.Max];
+
         // Start is called before the first frame update
         void Start()
         {
@@ -194,6 +196,10 @@ namespace TeamProject
             grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
             walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
 
+            oldArrow[(int)InputManager.ArrowCoad.UpArrow] = false;
+            oldArrow[(int)InputManager.ArrowCoad.DownArrow] = false;
+            oldArrow[(int)InputManager.ArrowCoad.RightArrow] = false;
+            oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = false;
         }
 
         // None
@@ -377,20 +383,17 @@ namespace TeamProject
                 //if (direction[i] == null) Debug.Log((DIRECTION)i + "+" + "null");
                 //else Debug.Log((DIRECTION)i + "+" + direction[i].befor.name);
             }
-            
-            //float VerticalKeyInput = Input.GetAxis("ArrowY");
-            //if (VerticalKeyInput < 0.0f)
-            //{
-            //    Debug.Log("Up Key");
-            //}
-            //else if (VerticalKeyInput > 0.0f)
-            //{
-            //    Debug.Log("Down Key");
-            //}
+
+            bool[] arrow = new bool[(uint)InputManager.ArrowCoad.Max];
+
+            arrow[(int)InputManager.ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
+            arrow[(int)InputManager.ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
+            arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
+            arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
 
             // キー入力
         　   // どうにかしたい
-            if (Input.GetKeyDown(KeyCode.W))
+            if (arrow[(uint)InputManager.ArrowCoad.UpArrow ]&& !oldArrow[(uint)InputManager.ArrowCoad.UpArrow ])
             {
                 Debug.Log("InputWKey");
                 Vector3 up;
@@ -414,7 +417,7 @@ namespace TeamProject
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
-            if (Input.GetKeyDown(KeyCode.S))
+            if (arrow[(uint)InputManager.ArrowCoad.DownArrow] && !oldArrow[(uint)InputManager.ArrowCoad.DownArrow])
             {
                 Debug.Log("InputWKey");
                 Vector3 up;
@@ -437,7 +440,7 @@ namespace TeamProject
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
-            if (Input.GetKeyDown(KeyCode.D))
+            if (arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow])
             {
                 Debug.Log("InputWKey");
                 Vector3 up;
@@ -460,7 +463,7 @@ namespace TeamProject
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
             }
-            if (Input.GetKeyDown(KeyCode.A))
+            if (arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow])
             {
                 Debug.Log("InputWKey");
                 Vector3 up;
@@ -500,6 +503,11 @@ namespace TeamProject
                     anima.SetTrigger("UnFind");
                 }
             }
+
+            arrow[(int)InputManager.ArrowCoad.UpArrow] = oldArrow[(int)InputManager.ArrowCoad.UpArrow];
+            arrow[(int)InputManager.ArrowCoad.DownArrow] = oldArrow[(int)InputManager.ArrowCoad.DownArrow];
+            arrow[(int)InputManager.ArrowCoad.RightArrow] = oldArrow[(int)InputManager.ArrowCoad.RightArrow];
+            arrow[(int)InputManager.ArrowCoad.LeftArrow] = oldArrow[(int)InputManager.ArrowCoad.LeftArrow];
         }
 
         // 選択の配列取得
