@@ -80,7 +80,7 @@ namespace TeamProject {
 
             if (minionNum % 2 == 1)
             {
-                minionList[minionNum - 1].TargetPosition = back * (minionNum + 1) + player.transform.position;
+                minionList[minionNum - 1].TargetPosition = back * (minionNum + 1) * WaitaRadius + player.transform.position;
             }
         }
 
