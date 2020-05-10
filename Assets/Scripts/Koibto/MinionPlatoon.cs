@@ -9,6 +9,8 @@ namespace TeamProject {
     {
         private List<Minion> minionList;
 
+        public List<Minion> MinionList;
+
         public int MinionNum { get { return minionList.ToArray().Length; } }
 
         [SerializeField]

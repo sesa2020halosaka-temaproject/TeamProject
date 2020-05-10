@@ -14,6 +14,9 @@ namespace TeamProject
         [SerializeField]
         private BetaGoalAnimation animObject;
 
+        [SerializeField]
+        private GameObject[] minionObject;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -41,6 +44,18 @@ namespace TeamProject
 
                 rendObject.SetActive(false);
                 animObject.gameObject.SetActive(true);
+
+                for (int i = 0; i < num && i < minionObject.Length; i++)
+                {
+                    minionObject[i].SetActive(true);
+                }
+
+                foreach(var itr in platoon.MinionList)
+                {
+                    itr.gameObject.SetActive(false);
+                }
+
+                player.gameObject.SetActive(false);
 
                 // ゴールのリザルトを送る
                 animObject.StartGoalAnimation(goalLogoAnimation.Goal,platoon.MinionNum, num);
