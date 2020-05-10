@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace TeamProject
 {
+    //ステージナンバープレートの処理
     public class StageNameCanvas : MonoBehaviour
     {
         public Canvas m_Canvas;//キャンバス用オブジェクト
@@ -44,72 +45,50 @@ namespace TeamProject
             {
                 m_Canvas.sortingOrder = m_SortingOrder;
             }
-            //親ゲームオブジェクト
+            //親ゲームオブジェクト（自身）の取得
             GameObject ParentObj = this.gameObject;
+            //星用ゲームオブジェクト取得
             for (int i = 0; i < (int)UI_INDEX.ALL_INDEX; i++)
             {
-                m_Star_Obj[i] = ParentObj.transform.GetChild(i).gameObject;//星用ゲームオブジェクト
+                m_Star_Obj[i] = ParentObj.transform.GetChild(i).gameObject;
             }
 
             //ステージ番号がセットされていない時はエラー
-            if (m_StageNumber <= 0)
+            if (m_StageNumber < 0)
             {
                 Debug.Log(this.name + "B:m_StageNumber = " + m_StageNumber + "！");
                 Debug.Log(this.name + "のステージ番号が登録されていません！");
             }
-            m_ClearStatus = StageStatusManager.Instance.Stage_Status[m_StageNumber - 1];
+            m_ClearStatus = StageStatusManager.Instance.Stage_Status[m_StageNumber];
+
             switch (m_ClearStatus)
             {
                 case CLEAR_STATUS.NOT:
                     SwitchingActive.GameObject_OFF(m_Star_Obj[(int)UI_INDEX.STAR01]);
                     SwitchingActive.GameObject_OFF(m_Star_Obj[(int)UI_INDEX.STAR02]);
                     SwitchingActive.GameObject_OFF(m_Star_Obj[(int)UI_INDEX.STAR03]);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(0).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(1).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(0).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(1).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(0).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(1).gameObject.SetActive(false);
                     break;
                 case CLEAR_STATUS.ONE:
                     SwitchingActive.GameObject_ON(m_Star_Obj[(int)UI_INDEX.STAR01]);
                     SwitchingActive.GameObject_OFF(m_Star_Obj[(int)UI_INDEX.STAR02]);
                     SwitchingActive.GameObject_OFF(m_Star_Obj[(int)UI_INDEX.STAR03]);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(0).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(1).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(0).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(1).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(0).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(1).gameObject.SetActive(false);
                     break;
                 case CLEAR_STATUS.TWO:
                     SwitchingActive.GameObject_ON(m_Star_Obj[(int)UI_INDEX.STAR01]);
                     SwitchingActive.GameObject_ON(m_Star_Obj[(int)UI_INDEX.STAR02]);
                     SwitchingActive.GameObject_OFF(m_Star_Obj[(int)UI_INDEX.STAR03]);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(0).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(1).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(0).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(1).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(0).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(1).gameObject.SetActive(false);
                     break;
                 case CLEAR_STATUS.THREE:
                     SwitchingActive.GameObject_ON(m_Star_Obj[(int)UI_INDEX.STAR01]);
                     SwitchingActive.GameObject_ON(m_Star_Obj[(int)UI_INDEX.STAR02]);
                     SwitchingActive.GameObject_ON(m_Star_Obj[(int)UI_INDEX.STAR03]);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(0).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR01].transform.GetChild(1).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(0).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR02].transform.GetChild(1).gameObject.SetActive(true);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(0).gameObject.SetActive(false);
-                    //m_Star_Obj[(int)UI_INDEX.STAR03].transform.GetChild(1).gameObject.SetActive(true);
                     break;
                 case CLEAR_STATUS.STATUS_NUM:
                     break;
                 default:
                     break;
             }
-        }
+        }// void Start()    END
 
         // Update is called once per frame
         //void Update()

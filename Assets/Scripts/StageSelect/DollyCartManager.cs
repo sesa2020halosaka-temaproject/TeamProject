@@ -40,14 +40,14 @@ namespace TeamProject
             // Positionの単位をトラック上のウェイポイント番号基準にするよう設定
             this._DollyCart.m_PositionUnits = CinemachinePathBase.PositionUnits.PathUnits;
 
-        AddTime=1.0f;//移動速度の方向
-        //World_MoveRatio=1.0f;//ワールド間の移動速度の倍率
+            AddTime = 1.0f;//移動速度の方向
+                           //World_MoveRatio=1.0f;//ワールド間の移動速度の倍率
 
             m_DollyMove = DollyCamera.DOLLY_MOVE.FIXING;
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+        void Update()
         {
             m_DollyMove = StageChangeManager.DollyState();
             switch (m_DollyMove)
@@ -84,23 +84,24 @@ namespace TeamProject
         //PathPositionの両端(Min,Max)をセット
         public void SetPathPositionALL()
         {
+            m_WP.SetWayPoint();
             switch (StageChangeManager.GetStageChangeKey())
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.UP:
-                    SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
-                    SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    SetPathPositionMax(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld + 1]);
+                    SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
-                 SetPathPositionMax(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
-                   break;
+                    SetPathPositionMax(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld - 1]);
+                    break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
-                SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
+                    SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
                     SetPathPositionMax(this._DollyCart.m_Path.MaxPos);
-                    SetPathPositionMin(m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+                    SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;
@@ -123,6 +124,7 @@ namespace TeamProject
         //カメラのパス位置を初期化する
         public void PathPositionReset()
         {
+            m_WP.SetWayPoint();
             //Debug.Log(pos);
             if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
             {
@@ -132,11 +134,11 @@ namespace TeamProject
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
+                _DollyCart.m_Position = m_WP.m_Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                _DollyCart.m_Position = m_WP.Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld]; 
+                _DollyCart.m_Position = m_WP.m_Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
             }
 
             //Debug.Log(this.dolly.m_PathPosition);
@@ -152,10 +154,11 @@ namespace TeamProject
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                    this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this._DollyCart.m_Path = m_DoTr.m_Dolly_PrevWorld[(int)StageStatusManager.Instance.CurrentStage];//前ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
-                    this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this._DollyCart.m_Path = m_DoTr.m_Dolly_NextWorld[(int)StageStatusManager.Instance.CurrentStage];//次ワールド移動用ドリーパスをセット
+                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;

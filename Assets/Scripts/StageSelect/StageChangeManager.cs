@@ -20,6 +20,8 @@ namespace TeamProject
         private static MixingCamera.MIXING_STATE m_MixingState = MixingCamera.MIXING_STATE.FIXING;
         private static DollyCamera.DOLLY_MOVE m_DollyState = DollyCamera.DOLLY_MOVE.FIXING;
 
+        private static int m_LeftEdge = (int)WORLD_NO.W1;//ワールド移動制限用左端
+        private static int m_RightEdge = (int)WORLD_NO.W3;//ワールド移動制限用右端
         //ステージを変更するためのキー(キー入力に対応)
         public enum STAGE_CHANGE_KEY
         {
@@ -29,9 +31,9 @@ namespace TeamProject
         //============================================================
         //ステージセレクト処理
         //ステージ移動更新
-        public static void Update()
-        {
-        }
+        //public static void Update()
+        //{
+        //}
 
         public static void StageChange()
         {
@@ -42,7 +44,8 @@ namespace TeamProject
             //Debug.Log("StageNumber:" + StageNumber);
             //Debug.Log("WorldNumber:" + WorldNumber);
             //上入力
-            if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow) && StageNumber != (int)STAGE_NO.STAGE05)
+            //if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
             {
                 StageFlagChange();
                 //カーソルの移動音
@@ -55,7 +58,8 @@ namespace TeamProject
                 //StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
             }
             //下入力
-            else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow) && StageNumber != (int)STAGE_NO.STAGE01)
+            //else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
             {
                 StageFlagChange();
                 //カーソルの移動音
@@ -70,7 +74,8 @@ namespace TeamProject
             //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow) && WorldNumber != m_RightEdge)
+            //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 WorldNumber += 1;
                 if (WorldNumber >= 4)
@@ -83,12 +88,6 @@ namespace TeamProject
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
-                ////前進させる
-                //MixingStateChange("GO");
-
-                //左右矢印の処理
-                //未実装
-
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.RIGHT;
                 //ステージ番号の変更
@@ -96,7 +95,8 @@ namespace TeamProject
 
             }
             //左入力
-            else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow) && WorldNumber != m_LeftEdge)
+            //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
                 WorldNumber -= 1;
                 if (WorldNumber < 0)
@@ -108,13 +108,6 @@ namespace TeamProject
                 WorldFlagChange();
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-                ////前進させる
-                //MixingStateChange("GO");
-
-
-                //左右矢印の処理
-                //未実装
-
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.LEFT;
                 //ステージ番号の変更

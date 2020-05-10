@@ -64,7 +64,8 @@ namespace TeamProject
                     break;
 
                 case CURSORSTATE.PRESS_ANYKEY:
-                    if ((InputManager.InputManager.Instance.GetLStick().y > 0) && _BeforeTrigger == 0)
+                    if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow) && _BeforeTrigger == 0)
+                    //if ((InputManager.InputManager.Instance.GetLStick().y > 0) && _BeforeTrigger == 0)
                     {
                         //上入力
                         MenuCursorActiveChange("UP");
@@ -73,7 +74,7 @@ namespace TeamProject
                         //カーソルの移動音
                         SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
                     }
-                    else if ((InputManager.InputManager.Instance.GetLStick().y < 0) && _BeforeTrigger == 0)
+                    else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow) && _BeforeTrigger == 0)
                     {
                         //下入力
                         MenuCursorActiveChange("DOWN");

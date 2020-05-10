@@ -119,24 +119,29 @@ namespace TeamProject
             }
 
             private float size = 1f;
-            public bool GetArrwo(ArrowCoad _arrow)
+            public bool GetArrow(ArrowCoad _arrow)
             {
                 float x = Input.GetAxis("ArrowX");
                 float y = Input.GetAxis("ArrowY");
                 
                 switch (_arrow)
                 {
-                    case ArrowCoad.RightArrow:
-                        return x <= size;
-
                     case ArrowCoad.LeftArrow:
-                        return x >= -size;
+                        
+                        return x <= -size;
+                        //return x <= size;
+
+                    case ArrowCoad.RightArrow:
+                        return x >= size;
+                        //return x >= -size;
 
                     case ArrowCoad.UpArrow:
-                        return y <= size;
+                        return y <= -size;
+                        //return y <= size;
 
                     case ArrowCoad.DownArrow:
-                        return y >= -size;
+                        return y >= size;
+                        //return y >= -size;
                 }
 
                 return false;
