@@ -319,6 +319,10 @@ namespace TeamProject
                     //ステージセレクトの状態を設定する
                     StageChangeManager.SelectStateChange("WORLD_MOVING");
 
+                    //BGMのクロスフェード（仮実装）
+                    //BGMSwitcher.CrossFade(BGMPath.BGM_GAME_FALL,fadeDuration:7f);
+                    //BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+
                     break;
                 case SELECT_STATE.WORLD_MOVING:
                     //_Mixcam.MixingUpdate();
