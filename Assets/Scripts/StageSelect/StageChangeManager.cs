@@ -20,6 +20,8 @@ namespace TeamProject
         private static MixingCamera.MIXING_STATE m_MixingState = MixingCamera.MIXING_STATE.FIXING;
         private static DollyCamera.DOLLY_MOVE m_DollyState = DollyCamera.DOLLY_MOVE.FIXING;
 
+        private static int m_LeftEdge = (int)WORLD_NO.W1;//ワールド移動制限用左端
+        private static int m_RightEdge = (int)WORLD_NO.W3;//ワールド移動制限用右端
         //ステージを変更するためのキー(キー入力に対応)
         public enum STAGE_CHANGE_KEY
         {
@@ -29,9 +31,9 @@ namespace TeamProject
         //============================================================
         //ステージセレクト処理
         //ステージ移動更新
-        public static void Update()
-        {
-        }
+        //public static void Update()
+        //{
+        //}
 
         public static void StageChange()
         {
@@ -72,7 +74,7 @@ namespace TeamProject
             //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow) && WorldNumber == 0)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow) && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 WorldNumber += 1;
@@ -93,7 +95,7 @@ namespace TeamProject
 
             }
             //左入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow) && WorldNumber == 1)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow) && WorldNumber != m_LeftEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
                 WorldNumber -= 1;

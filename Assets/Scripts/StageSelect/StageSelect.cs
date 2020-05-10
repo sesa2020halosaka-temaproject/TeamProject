@@ -280,7 +280,7 @@ namespace TeamProject
                         Debug.Log("STAGE_MOVING終わり");
                     }
 
-                    StageChangeManager.Update();
+                    //StageChangeManager.Update();
                     break;
                 case SELECT_STATE.BEFORE_WORLD_MOVING:
                     Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());

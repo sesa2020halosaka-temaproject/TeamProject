@@ -341,18 +341,18 @@ namespace TeamProject
             switch (StageChangeManager.GetStageChangeKey())
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.UP:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_BACK_4[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_PrevStage[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-                   // this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_PrevWorld[(int)StageStatusManager.Instance.CurrentStage];//前ワールド移動用ドリーパスをセット
+                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];   //前ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
-                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];//用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTr.m_Dolly_NextWorld[(int)StageStatusManager.Instance.CurrentStage];//次ワールド移動用ドリーパスをセット
+                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];   //次ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;
@@ -364,8 +364,9 @@ namespace TeamProject
         //開始ドリールートのセット
         public void SetStartDollyPath()
         {
-            this.dolly.m_Path = m_DoTr.m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
-
+            Debug.Log(this.name +"::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
+           // this.dolly.m_Path = m_DoTr.m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+            this.dolly.m_Path = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
         }
 
         //virtualカメラのFollowをセット
