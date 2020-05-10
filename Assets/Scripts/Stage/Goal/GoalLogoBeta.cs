@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
+using UnityEditor.SceneManagement;
 
 public class GoalLogoBeta : MonoBehaviour
 {
@@ -45,21 +46,39 @@ public class GoalLogoBeta : MonoBehaviour
     private int playMinionAnimeNumber;
     private int playStarAnimeNumber;
 
+    private bool[] oldArrow = new bool[(int)TeamProject.InputManager.ArrowCoad.Max];
+
     // Start is called before the first frame update
     void Start()
     {
-        anima=GetComponent<Animator>();
-        
+        anima = GetComponent<Animator>();
+
         playStarAnimeNumber = 0;
         playMinionAnimeNumber = 0;
+
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = false;
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = false;
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = false;
+        oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = false;
+
+        var text = GetComponentInChildren<UnityEngine.UI.Text>();
+        text.text = EditorSceneManager.GetActiveScene().name;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!once) return;
-        
-        if (Input.GetKeyDown(KeyCode.A))
+
+        bool[] arrow = new bool[(int)TeamProject.InputManager.ArrowCoad.Max];
+
+        arrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
+        arrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
+        arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
+        arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
+
+
+        if (arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow]&& !oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow])
         {
             stageChoice--;
             if (stageChoice == StageChoice.MIN)
@@ -71,7 +90,7 @@ public class GoalLogoBeta : MonoBehaviour
             SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] && !oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow])
         {
             stageChoice++;
             if (stageChoice == StageChoice.MAX)
@@ -82,7 +101,7 @@ public class GoalLogoBeta : MonoBehaviour
             anima.SetTrigger("RightKey");
             SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
         }
-        
+
         if (TeamProject.InputManager.InputManager.Instance.GetKeyDown(TeamProject.InputManager.ButtunCode.B))
         {
             SEManager.Instance.Play(SEPath.SE_OK);

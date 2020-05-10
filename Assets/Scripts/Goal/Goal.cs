@@ -17,9 +17,13 @@ namespace TeamProject
         [SerializeField]
         private GameObject[] minionObject;
 
+        private UnityEngine.Camera camera;
+
         // Start is called before the first frame update
         void Start()
         {
+            camera = UnityEngine.Camera.main;
+
             var canvasObject= GameObject.Find("StageCanvasBeta");
 
             goalLogoAnimation = canvasObject.GetComponent<GoalLogoBeta>();
@@ -56,6 +60,8 @@ namespace TeamProject
                 }
 
                 player.gameObject.SetActive(false);
+
+                camera.gameObject.SetActive(false);
 
                 // ゴールのリザルトを送る
                 animObject.StartGoalAnimation(goalLogoAnimation.Goal,platoon.MinionNum, num);
