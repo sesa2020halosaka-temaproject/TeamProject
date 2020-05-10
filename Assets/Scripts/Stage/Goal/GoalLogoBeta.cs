@@ -82,8 +82,7 @@ public class GoalLogoBeta : MonoBehaviour
             anima.SetTrigger("RightKey");
             SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
         }
-
-            Debug.Log("なんでやああああああああああああああああああああああああ");
+        
         if (TeamProject.InputManager.InputManager.Instance.GetKeyDown(TeamProject.InputManager.ButtunCode.B))
         {
             SEManager.Instance.Play(SEPath.SE_OK);
