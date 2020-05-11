@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class GoalLogoBeta : MonoBehaviour
 {
@@ -62,7 +62,8 @@ public class GoalLogoBeta : MonoBehaviour
         oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = false;
 
         var text = GetComponentInChildren<UnityEngine.UI.Text>();
-        text.text = EditorSceneManager.GetActiveScene().name;
+        //text.text = EditorSceneManager.GetActiveScene().name;
+        text.text = SceneManager.GetActiveScene().name;
     }
 
     // Update is called once per frame
