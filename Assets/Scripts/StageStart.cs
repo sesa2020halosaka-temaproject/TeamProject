@@ -10,6 +10,20 @@ namespace TeamProject
     {
         [Header("ステージのフェードイン時間"), Range(0, 5)]
         public float FadeIn_Time;
+        public enum AMBIENT_SOUND
+        {
+            LIGHT_RAIN = 0, //小雨の音
+            RAIN,//雨の音
+            ALL_AMBIENT,//全環境音数
+            YOBI,//予備
+            NONE,//音無し
+        }
+        [Header("追加環境音の切り替え")]
+        public AMBIENT_SOUND m_AmbientBGM;
+
+        [Header("滝の音のONOFF切り替え")]
+        public bool m_WaterFall_Flag;
+
         [Header("BGMをセットすること")]
         public AudioClip m_Start_BGM;
         public AudioClip m_Start_Ambient;
@@ -18,6 +32,9 @@ namespace TeamProject
 
         [Header("Trueにすると上記でセットされたBGMが鳴ります。")]
         public bool m_DebugBGM = false;
+
+        //==============================================================
+        //関数ここから
         // Start is called before the first frame update
         void Start()
         {
@@ -46,7 +63,7 @@ namespace TeamProject
                 BGMManager.Instance.Play(m_Start_BGM.name);
                 //BGMSwitcher.CrossFade(m_Start_BGM.name);
 
-                //水の音追加
+                //草のなびく音追加
                 BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
                 //BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
 
@@ -63,27 +80,27 @@ namespace TeamProject
 
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
-                        //水の音追加
+                        //草のなびく音追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
 
                         break;
                     case WORLD_NO.W2:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL, allowsDuplicate: true);
-                        //水の音追加   
+                        //草のなびく音追加   
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD_NO.W3:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_WINTER, allowsDuplicate: true);
-                        //水の音追加
+                        //草のなびく音追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_WINTER, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD_NO.W4:
                         Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
-                        //水の音追加
+                        //草のなびく音追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD_NO.ALL_WORLD:
@@ -92,9 +109,35 @@ namespace TeamProject
                         break;
                 }
             }
+            //環境音の切り替え
+            switch (m_AmbientBGM)
+            {
+                case AMBIENT_SOUND.LIGHT_RAIN:
+                    BGMManager.Instance.Play(SEPath.SE_LIGHT_RAIN, allowsDuplicate: true, isLoop: true);
 
+                    break;
+                case AMBIENT_SOUND.RAIN:
+                    BGMManager.Instance.Play(SEPath.SE_RAIN, allowsDuplicate: true, isLoop: true);
+                    break;
+                case AMBIENT_SOUND.YOBI:
+                    break;
+                case AMBIENT_SOUND.NONE:
+                    break;
+                case AMBIENT_SOUND.ALL_AMBIENT:
+                    break;
+                default:
+                    break;
+            }
 
-        }
+            //滝の音のONOFF
+            if (m_WaterFall_Flag)
+            {
+                //草のなびく音追加
+                BGMManager.Instance.Play(SEPath.SE_WATERFALL, allowsDuplicate: true, isLoop: true);
+
+            }
+
+        }//void Start() END
 
         // Update is called once per frame
         //void Update()
