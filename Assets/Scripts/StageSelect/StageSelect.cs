@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 namespace TeamProject
 {
@@ -43,8 +43,6 @@ namespace TeamProject
             STAGE_MOVING,//ステージ移動中
             BEFORE_WORLD_MOVING,//ワールド移動前の準備
             WORLD_MOVING,//ワールド移動中
-            //SWING,       //次の目的の方向へを向いている途中
-            //MOVING,      //カメラ移動中
             SCENE_MOVING,//シーン遷移中
             STATE_NUM    //状態の数
         }
@@ -320,8 +318,8 @@ namespace TeamProject
                     StageChangeManager.SelectStateChange("WORLD_MOVING");
 
                     //BGMのクロスフェード（仮実装）
-                    //BGMSwitcher.CrossFade(BGMPath.BGM_GAME_FALL,fadeDuration:7f);
-                    //BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+                    BGMSwitcher.CrossFade(BGMPath.BGM_GAME_FALL,fadeDuration:7f);
+                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
 
                     break;
                 case SELECT_STATE.WORLD_MOVING:
@@ -392,52 +390,13 @@ namespace TeamProject
                     break;
 
 
-                //case SELECT_STATE.SWING:
-                //    bool IsSwing = _MixCamObj.GetComponent<MixingCamera>().IsSwing();
-                //    Debug.Log(IsSwing);
-                //    if (!IsSwing)//方向転換完了したかどうか
-                //    {
-                //        //_MixCamObj.GetComponent<MixingCamera>().MixState("ZERO");
-
-                //        //移動中にする
-                //        select_state = SELECT_STATE.MOVING;
-                //        //カメラ移動を始める
-                //        switch (dolly_state)
-                //        {
-                //            case DOLLY_STATE.GO:
-                //                DollyCameraGo(StageStatusManager.Instance.CurrentStage);
-                //                break;
-                //            case DOLLY_STATE.BACK:
-                //                DollyCameraBack(StageStatusManager.Instance.CurrentStage);
-                //                break;
-                //        }
-                //    }
-
-                //    break;
-
-                //case SELECT_STATE.MOVING:
-                //    bool IsMoving_2 = _Dolly_Current.GetComponent<DollyCamera>().IsMoving();
-                //    bool IsMoving = _Dolly_Next.GetComponent<DollyCamera>().IsMoving();
-                //    if (!IsMoving && !IsMoving_2)//移動完了したかどうか
-                //    {
-                //        //キー入力待ちに戻す
-                //        select_state = SELECT_STATE.KEY_WAIT;
-
-                //        //カメラ移動速度を0にする
-                //        _Dolly_Current.GetComponent<DollyCamera>().DollyState("ZERO");
-                //        _Dolly_Next.GetComponent<DollyCamera>().DollyState("ZERO");
-
-                //        //_Mixing.GetComponent<MixingCamera>().LookAtTargetTwoChanges(Stages[(int)stage_num], Stages[(int)StageStatusManager.Instance.CurrentStage]);
-
-                //    }
-                //    break;
                 case SELECT_STATE.SCENE_MOVING:
                     break;
                 case SELECT_STATE.STATE_NUM:
                     break;
                 default:
                     break;
-            }
+            }//switch (StageChangeManager.GetSelectState()) END
         }//void Update()    END
 
         //
