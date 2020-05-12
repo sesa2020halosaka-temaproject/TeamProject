@@ -33,6 +33,11 @@ namespace TeamProject
 
             private uint nowFixFunctionNum = MAX_FUNTION_NUM;
 
+            // 現在のFunctionのNumberを取得
+            public uint NowFunctionNum { get { return nowFunctionNum; } }
+
+            // 現在のFixFunctionのNumberを取得
+            public uint NowFixFunctionNum { get { return nowFixFunctionNum; } }
 
             // Start is called before the first frame update
             void Start()

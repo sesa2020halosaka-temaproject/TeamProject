@@ -26,7 +26,7 @@ namespace TeamProject
 
             var canvasObject= GameObject.Find("StageCanvasBeta");
 
-            goalLogoAnimation = canvasObject.GetComponent<GoalLogoBeta>();
+            goalLogoAnimation = canvasObject.GetComponentInChildren<GoalLogoBeta>();
 
             Debug.Assert(goalLogoAnimation != null,"ゴールのアニメーションがScriptに設定されていません。GoalのInstanceを確認してください");
         }
