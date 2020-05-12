@@ -3,226 +3,231 @@ using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
 using UnityEngine.SceneManagement;
+using TeamProject.InputManager;
 
-public class GoalLogoBeta : MonoBehaviour
+namespace TeamProject
 {
-    private enum StageChoice
+
+    public class GoalLogoBeta : MonoBehaviour
     {
-        MIN = 0,
-        Select = 1,
-        Retry = 2,
-        Next = 3,
-        MAX,
-    };
-
-    private StageChoice stageChoice = StageChoice.Next;
-
-    private bool once = false;
-
-    private int kobitoNum;
-    private int kobitoMaxNum;
-
-
-    // ロゴアニメーションのミニオンに左右の場所
-    [SerializeField]
-    private Vector2 kobitoLogoLeftPos;
-    [SerializeField]
-    private Vector2 kobitoLogoRightPos;
-
-    // 配列保持
-    private RectTransform[] goalCharaAnimationRecTrans;
-    private Animator[] goalCharaAnimationAnimator;
-
-    // 生成するオブジェクト
-    [SerializeField]
-    private GameObject goalCharaAnimationObject;
-
-    // メインのアニメーション
-    private Animator anima;
-
-    // 星の数
-    private int starNum = 0;
-
-    private int playMinionAnimeNumber;
-    private int playStarAnimeNumber;
-
-    private bool[] oldArrow = new bool[(int)TeamProject.InputManager.ArrowCoad.Max];
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        anima = GetComponent<Animator>();
-
-        playStarAnimeNumber = 0;
-        playMinionAnimeNumber = 0;
-
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = false;
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = false;
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = false;
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = false;
-
-        var text = GetComponentInChildren<UnityEngine.UI.Text>();
-        //text.text = EditorSceneManager.GetActiveScene().name;
-        text.text = SceneManager.GetActiveScene().name;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!once) return;
-
-        bool[] arrow = new bool[(int)TeamProject.InputManager.ArrowCoad.Max];
-
-        arrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.UpArrow);
-        arrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.DownArrow);
-        arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.RightArrow);
-        arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = TeamProject.InputManager.InputManager.Instance.GetArrow(TeamProject.InputManager.ArrowCoad.LeftArrow);
-
-
-        if (arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow]&& !oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow])
+        private enum StageChoice
         {
-            stageChoice--;
-            if (stageChoice == StageChoice.MIN)
+            MIN = 0,
+            Select = 1,
+            Retry = 2,
+            Next = 3,
+            MAX,
+        };
+
+        private StageChoice stageChoice = StageChoice.Next;
+
+        private bool once = false;
+
+        private int kobitoNum;
+        private int kobitoMaxNum;
+
+
+        // ロゴアニメーションのミニオンに左右の場所
+        [SerializeField]
+        private Vector2 kobitoLogoLeftPos;
+        [SerializeField]
+        private Vector2 kobitoLogoRightPos;
+
+        // 配列保持
+        private RectTransform[] goalCharaAnimationRecTrans;
+        private Animator[] goalCharaAnimationAnimator;
+
+        // 生成するオブジェクト
+        [SerializeField]
+        private GameObject goalCharaAnimationObject;
+
+        // メインのアニメーション
+        private Animator anima;
+
+        // 星の数
+        private int starNum = 0;
+
+        private int playMinionAnimeNumber;
+        private int playStarAnimeNumber;
+
+        private bool[] oldArrow = new bool[(int)ArrowCoad.Max];
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            anima = GetComponent<Animator>();
+
+            playStarAnimeNumber = 0;
+            playMinionAnimeNumber = 0;
+
+            oldArrow[(int)ArrowCoad.UpArrow] = false;
+            oldArrow[(int)ArrowCoad.DownArrow] = false;
+            oldArrow[(int)ArrowCoad.RightArrow] = false;
+            oldArrow[(int)ArrowCoad.LeftArrow] = false;
+
+            var text = GetComponentInChildren<UnityEngine.UI.Text>();
+            //text.text = EditorSceneManager.GetActiveScene().name;
+            text.text = SceneManager.GetActiveScene().name;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (!once) return;
+
+            bool[] arrow = new bool[(int)ArrowCoad.Max];
+
+            arrow[(int)ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
+            arrow[(int)ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow);
+            arrow[(int)ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
+            arrow[(int)ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
+
+
+            if (arrow[(int)ArrowCoad.LeftArrow] && !oldArrow[(int)ArrowCoad.LeftArrow])
             {
-                stageChoice = StageChoice.MAX - 1;
+                stageChoice--;
+                if (stageChoice == StageChoice.MIN)
+                {
+                    stageChoice = StageChoice.MAX - 1;
 
+                }
+                anima.SetTrigger("LeftKey");
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
-            anima.SetTrigger("LeftKey");
-            SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-        }
 
-        if (arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] && !oldArrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow])
-        {
-            stageChoice++;
-            if (stageChoice == StageChoice.MAX)
+            if (arrow[(int)ArrowCoad.RightArrow] && !oldArrow[(int)ArrowCoad.RightArrow])
             {
-                stageChoice = StageChoice.MIN + 1;
+                stageChoice++;
+                if (stageChoice == StageChoice.MAX)
+                {
+                    stageChoice = StageChoice.MIN + 1;
+                }
+                // SEMa
+                anima.SetTrigger("RightKey");
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
-            // SEMa
-            anima.SetTrigger("RightKey");
-            SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B))
+            {
+                SEManager.Instance.Play(SEPath.SE_OK);
+                // フェードアウト
+                StartCoroutine(ToTitle());
+            }
+            oldArrow[(int)ArrowCoad.UpArrow] = arrow[(int)ArrowCoad.UpArrow];
+            oldArrow[(int)ArrowCoad.DownArrow] = arrow[(int)ArrowCoad.DownArrow];
+            oldArrow[(int)ArrowCoad.RightArrow] = arrow[(int)ArrowCoad.RightArrow];
+            oldArrow[(int)ArrowCoad.LeftArrow] = arrow[(int)ArrowCoad.LeftArrow];
+
         }
 
-        if (TeamProject.InputManager.InputManager.Instance.GetKeyDown(TeamProject.InputManager.ButtunCode.B))
+
+        public void Goal(int _maxKobitoNum, int _kobitoNum)
         {
-            SEManager.Instance.Play(SEPath.SE_OK);
-            // フェードアウト
-            StartCoroutine(ToTitle());
-        }
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.UpArrow];
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.DownArrow];
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.RightArrow];
-        oldArrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow] = arrow[(int)TeamProject.InputManager.ArrowCoad.LeftArrow];
+            if (once) return;
+            once = true;
 
-    }
+            kobitoNum = _kobitoNum;
+            kobitoMaxNum = _maxKobitoNum;
 
+            // キャラクターロゴのAnimatior
+            goalCharaAnimationRecTrans = new RectTransform[kobitoMaxNum];
+            goalCharaAnimationAnimator = new Animator[kobitoMaxNum];
 
-    public void Goal(int _maxKobitoNum, int _kobitoNum)
-    {
-        if (once) return;
-        once = true;
+            // 星数厳選
+            if (_kobitoNum <= 1) starNum = 1;
+            else if (_maxKobitoNum == _kobitoNum) starNum = 3;
+            else starNum = 2;
 
-        kobitoNum = _kobitoNum;
-        kobitoMaxNum = _maxKobitoNum;
+            var length = kobitoLogoLeftPos - kobitoLogoRightPos;
+            var onceLengeth = length / kobitoMaxNum;
 
-        // キャラクターロゴのAnimatior
-        goalCharaAnimationRecTrans = new RectTransform[kobitoMaxNum];
-        goalCharaAnimationAnimator = new Animator[kobitoMaxNum];
+            for (int i = 0; i < kobitoMaxNum; i++)
+            {
+                var obj = Instantiate(goalCharaAnimationObject, transform);
 
-        // 星数厳選
-        if (_kobitoNum <= 1) starNum = 1;
-        else if (_maxKobitoNum == _kobitoNum) starNum = 3;
-        else starNum = 2;
+                goalCharaAnimationRecTrans[i] = obj.GetComponent<RectTransform>();
+                goalCharaAnimationAnimator[i] = obj.GetComponent<Animator>();
 
-        var length = kobitoLogoLeftPos - kobitoLogoRightPos;
-        var onceLengeth = length / kobitoMaxNum;
+                goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
+            }
 
-        for (int i = 0; i < kobitoMaxNum; i++)
-        {
-            var obj = Instantiate(goalCharaAnimationObject, transform);
+            anima.SetTrigger("Darkness");
 
-            goalCharaAnimationRecTrans[i] = obj.GetComponent<RectTransform>();
-            goalCharaAnimationAnimator[i] = obj.GetComponent<Animator>();
+            foreach (var itr in goalCharaAnimationAnimator) itr.SetBool("Goal", true);
 
-            goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
+            anima.SetInteger("Stamp", starNum);
+
+            NextMinion();
         }
 
-        anima.SetTrigger("Darkness");
-
-        foreach (var itr in goalCharaAnimationAnimator) itr.SetBool("Goal", true);
-
-        anima.SetInteger("Stamp", starNum);
-
-        NextMinion();
-    }
-
-    public void NextMinion()
-    {
-        // とりあえずリターン
-        if (kobitoNum == playMinionAnimeNumber)
+        public void NextMinion()
         {
-            // 終わっていたら
-            anima.SetTrigger("Minion");
-            return;
+            // とりあえずリターン
+            if (kobitoNum == playMinionAnimeNumber)
+            {
+                // 終わっていたら
+                anima.SetTrigger("Minion");
+                return;
+            }
+
+            Debug.Log(playMinionAnimeNumber);
+
+            // 次のアニメーション再生
+            goalCharaAnimationAnimator[playMinionAnimeNumber].SetBool("Flag", true);
+
+            playMinionAnimeNumber++;
         }
 
-        Debug.Log(playMinionAnimeNumber);
-
-        // 次のアニメーション再生
-        goalCharaAnimationAnimator[playMinionAnimeNumber].SetBool("Flag", true);
-
-        playMinionAnimeNumber++;
-    }
-
-    public void NextStar()
-    {
-        if (starNum-1 == playStarAnimeNumber)
+        public void NextStar()
         {
+            if (starNum - 1 == playStarAnimeNumber)
+            {
+                // アニメーション再生
+                anima.SetTrigger("StarEnd");
+                return;
+            }
+
             // アニメーション再生
-            anima.SetTrigger("StarEnd");
-            return;
+            anima.SetTrigger("NextStar");
+
+
+            playStarAnimeNumber++;
         }
 
-        // アニメーション再生
-        anima.SetTrigger("NextStar");
-        
-       
-        playStarAnimeNumber++;
-    }
-
-    public IEnumerator ToTitle()
-    {
-        yield return new WaitForSeconds(0.0f);
-        Debug.Log("タイトルへ戻りまーす！");
-
-        // スターの設定
-        SaveStar();
-
-        switch (stageChoice)
+        public IEnumerator ToTitle()
         {
-            case StageChoice.Next:
-                var nextNum = (int)TeamProject. StageStatusManager.Instance.NextStage;
-                var stageString = TeamProject.StageStatusManager.Instance.StageString[nextNum];
-                TeamProject.StageStatusManager.Instance.CurrentStage = TeamProject.StageStatusManager.Instance.NextStage;
-                FadeManager.FadeOut(stageString);
-                break;
-            case StageChoice.Retry:
-                var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-                FadeManager.FadeOut(sceneName);
-                break;
-            case StageChoice.Select:
-                FadeManager.FadeOut("StageSelectScene");
-                break;
+            yield return new WaitForSeconds(0.0f);
+            Debug.Log("タイトルへ戻りまーす！");
+
+            // スターの設定
+            SaveStar();
+
+            switch (stageChoice)
+            {
+                case StageChoice.Next:
+                    var nextNum = (int)StageStatusManager.Instance.NextStage;
+                    var stageString = StageStatusManager.Instance.StageString[nextNum];
+                    StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
+                    FadeManager.FadeOut(stageString);
+                    break;
+                case StageChoice.Retry:
+                    var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                    FadeManager.FadeOut(sceneName);
+                    break;
+                case StageChoice.Select:
+                    FadeManager.FadeOut("StageSelectScene");
+                    break;
+            }
         }
-    }
-    private void SaveStar()
-    {
-        var curr = (int)TeamProject.StageStatusManager.Instance.CurrentStage;
-        var star = TeamProject.StageStatusManager.Instance.Stage_Status[curr];
-
-        if ((int)star < starNum)
+        private void SaveStar()
         {
-            TeamProject.StageStatusManager.Instance.Stage_Status[curr] = (TeamProject.CLEAR_STATUS)starNum;
+            var curr = (int)StageStatusManager.Instance.CurrentStage;
+            var star = StageStatusManager.Instance.Stage_Status[curr];
+
+            if ((int)star < starNum)
+            {
+                StageStatusManager.Instance.Stage_Status[curr] = (CLEAR_STATUS)starNum;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace TeamProject
 {
     public class PlayerVer2 : System.TransitionObject
     {
-        enum TRANSITION
+        public enum TRANSITION
         {
             None,       // 何もしない(使わないが一応)
             Move,       // 移動

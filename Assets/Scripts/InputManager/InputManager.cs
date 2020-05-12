@@ -1,6 +1,7 @@
 ﻿// InputManger
 // UnityInputのラッピング
 // 一括管理して変更を楽にする
+// UnityのMonoBehaviourを使うべきだった(Trigger処理が作れない)
 
 using UnityEngine;
 using System;
@@ -67,8 +68,8 @@ namespace TeamProject
                 keyString[(int)ButtunCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);
                 keyString[(int)ButtunCode.L1] = Tuple.Create("joystick button 5", KeyCode.M);
                 keyString[(int)ButtunCode.L2] = Tuple.Create("joystick button 0", KeyCode.L);
-                keyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 7", KeyCode.Escape);
-                keyString[(int)ButtunCode.View] = Tuple.Create("joystick button 6", KeyCode.P);
+                keyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 7", KeyCode.P);
+                keyString[(int)ButtunCode.View] = Tuple.Create("joystick button 6", KeyCode.Escape);  // 現在未割り当て
 
                 ps4KeyString[(int)ButtunCode.A] = Tuple.Create("joystick button 1", KeyCode.LeftShift);
                 ps4KeyString[(int)ButtunCode.B] = Tuple.Create("joystick button 2", KeyCode.Space);
@@ -78,8 +79,8 @@ namespace TeamProject
                 ps4KeyString[(int)ButtunCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);
                 ps4KeyString[(int)ButtunCode.L1] = Tuple.Create("joystick button 4", KeyCode.M);
                 ps4KeyString[(int)ButtunCode.L2] = Tuple.Create("joystick button 0", KeyCode.L);
-                ps4KeyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 9", KeyCode.Escape);
-                ps4KeyString[(int)ButtunCode.View] = Tuple.Create("joystick button 12", KeyCode.P);
+                ps4KeyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 9", KeyCode.P);
+                ps4KeyString[(int)ButtunCode.View] = Tuple.Create("joystick button 12", KeyCode.Escape); // 現在未割り当て
 
                 arrowString = new Tuple<string, KeyCode>[(int)ArrowCoad.Max];
                 ps4ArrowString = new Tuple<string, KeyCode>[(int)ArrowCoad.Max];
