@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &284907713525829845
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4692980414511133453}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.03
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1969183785919496519
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13,7 +26,7 @@ CapsuleCollider:
   m_Radius: 0.059999995
   m_Height: 0.3153611
   m_Direction: 1
-  m_Center: {x: 0, y: 0.14768055, z: 0}
+  m_Center: {x: 0, y: 0.16, z: 0}
 --- !u!95 &7125882875741465770
 Animator:
   serializedVersion: 3
@@ -199,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b234add817d994141b88492f4c49d483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinionList: []
   WaitaRadius: 2
   Wight: 0.5
 --- !u!114 &818825358806146950
