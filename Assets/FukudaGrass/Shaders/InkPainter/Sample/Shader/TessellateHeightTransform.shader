@@ -9,7 +9,7 @@
 
 		SubShader{
 			Pass{
-				Tags {"LightMode"="ForwardBase"}
+				//Tags {"LightMode"="ForwardBase"}
 
 				CGPROGRAM
 	#include "UnityCG.cginc"
