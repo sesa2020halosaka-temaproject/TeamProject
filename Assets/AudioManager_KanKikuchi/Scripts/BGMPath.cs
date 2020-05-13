@@ -6,6 +6,7 @@
 public static class BGMPath{
 
 	public const string BGM_GAME_FALL           = "BGM/BGM_Game_Fall";
+	public const string BGM_GAME_SPRING         = "BGM/BGM_Game_Spring";
 	public const string BGM_GAME_SUMMER         = "BGM/BGM_Game_Summer";
 	public const string BGM_GAME_WINTER         = "BGM/BGM_Game_Winter";
 	public const string BGM_GAME_CLEAR          = "BGM/BGM_GameClear";

@@ -21,7 +21,7 @@ namespace TeamProject
         private static DollyCamera.DOLLY_MOVE m_DollyState = DollyCamera.DOLLY_MOVE.FIXING;
 
         private static int m_LeftEdge = (int)WORLD_NO.W1;//ワールド移動制限用左端
-        private static int m_RightEdge = (int)WORLD_NO.W3;//ワールド移動制限用右端
+        private static int m_RightEdge = (int)WORLD_NO.W4;//ワールド移動制限用右端
         //ステージを変更するためのキー(キー入力に対応)
         public enum STAGE_CHANGE_KEY
         {

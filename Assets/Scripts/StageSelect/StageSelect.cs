@@ -14,7 +14,6 @@ namespace TeamProject
         private float[] m_WayPoint;//受け渡し用
 
         public DollyTrack_Box m_DoTr;//ドリールートの格納用
-        public float Volume;
 
         public float ToTitle_FadeOut_Time;//タイトルに遷移する時のフェードアウト時間
         public float StageIn_FadeOut_Time;//ステージに遷移する時のフェードアウト時間
@@ -58,9 +57,15 @@ namespace TeamProject
         public DOLLY_STATE dolly_state;
 
         private int db_cnt = 0;//デバッグログ確認用カウント
+
+        private StageSelectSound m_SelectSound;
         //=================================================================
         //関数ここから
         //=================================================================
+        private void Awake()
+        {
+            m_SelectSound = this.GetComponent<StageSelectSound>();
+        }
         // Start is called before the first frame update
         void Start()
         {
@@ -68,44 +73,48 @@ namespace TeamProject
             FadeManager.FadeIn(1.3f);
             Debug.Log("Debugカウント：" + db_cnt);
             db_cnt++;
+
+
             //BGMスタート
-            switch (StageStatusManager.Instance.CurrentWorld)
-            {
-                case (int)WORLD_NO.W1://ワールド１：夏
-                    //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
-                    //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
-                    BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_SUMMER);
+            m_SelectSound.StageSelectStartBGM();
 
-                    //水の音追加
-                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-                    BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
-                    break;
-                case (int)WORLD_NO.W2://ワールド２：秋
-                    //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
-                    //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
-                    BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL);
+            //switch (StageStatusManager.Instance.CurrentWorld)
+            //{
+            //    case (int)WORLD_NO.W1://ワールド１：夏
+            //        //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
+            //        //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
+            //        BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_SUMMER);
 
-                    //水の音追加
-                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-                    BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
-                    break;
-                case (int)WORLD_NO.W3://ワールド３：冬
-                    BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
+            //        //水の音追加
+            //        BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+            //        BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
+            //        break;
+            //    case (int)WORLD_NO.W2://ワールド２：秋
+            //        //BGMSwitcher.FadeOutAndFadeIn(BGMPath.BGM_STAGE_SELECT);
+            //        //BGMSwitcher.CrossFade(BGMPath.BGM_STAGE_SELECT_SUMMER);
+            //        BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL);
 
-                    //水の音追加
-                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-                    BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
+            //        //水の音追加
+            //        BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+            //        BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
+            //        break;
+            //    case (int)WORLD_NO.W3://ワールド３：冬
+            //        BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
 
-                    break;
-                case (int)WORLD_NO.W4://ワールド４：春
+            //        //水の音追加
+            //        BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+            //        BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
 
-                    BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
+            //        break;
+            //    case (int)WORLD_NO.W4://ワールド４：春
 
-                    //水の音追加
-                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-                    BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
-                    break;
-            }
+            //        BGMManager.Instance.Play(BGMPath.BGM_STAGE_SELECT_WINTER);
+
+            //        //水の音追加
+            //        BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+            //        BGMManager.Instance.FadeIn(SEPath.SE_AMB_STAGE_SELECT, duration: 2.0f);
+            //        break;
+            //}
 
             _MixCamObj = GameObject.Find("Mixing_VCamera").gameObject;
             _Mixcam = _MixCamObj.GetComponent<MixingCamera>();
@@ -318,9 +327,7 @@ namespace TeamProject
                     StageChangeManager.SelectStateChange("WORLD_MOVING");
 
                     //BGMのクロスフェード（仮実装）
-                    BGMSwitcher.CrossFade(BGMPath.BGM_GAME_FALL,fadeDuration:7f);
-                    BGMManager.Instance.Play(SEPath.SE_AMB_STAGE_SELECT, volumeRate: Volume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-
+                    m_SelectSound.CrossFade();
                     break;
                 case SELECT_STATE.WORLD_MOVING:
                     //_Mixcam.MixingUpdate();
