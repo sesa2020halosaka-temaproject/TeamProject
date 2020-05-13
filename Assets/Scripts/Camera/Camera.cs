@@ -12,6 +12,8 @@ namespace TeamProject
         {
             None,
             Upd,
+            Goal,
+            Goal2,
             Max
         }
 
@@ -23,6 +25,16 @@ namespace TeamProject
 
         private Volume volume;
 
+        private GameObject subCamera;
+
+        private Goal goal;
+
+        private GameObject mainCameraGameObject;
+
+        private Vector3 startPos;
+
+        private GameObject laneObj;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -30,12 +42,16 @@ namespace TeamProject
 
             CreateFunction((uint)TRANS.None,None);
             CreateFunction((uint)TRANS.Upd, Upd);
+            CreateFunction((uint)TRANS.Goal, Goal);
+            CreateFunction((uint)TRANS.Goal2, Goal2);
 
             SetFunction((uint)TRANS.Upd);
-
-            var a = UnityEngine.Camera.main;
+            
+            mainCameraGameObject = UnityEngine.Camera.main.gameObject;
 
             volume = GetComponentInChildren<Volume>();
+
+            time = 0f;
         }
 
         private void None()
@@ -74,6 +90,37 @@ namespace TeamProject
             rot.z = 0.0f;
             qua.eulerAngles = rot;
             transform.rotation = qua;
+        }
+
+        private float time;
+
+        private void Goal()
+        {
+            var camTrans=mainCameraGameObject.transform;
+            var goalTrans = goal.transform;
+            var subCamTrans = subCamera.transform;
+            var laneTrans = laneObj.transform;
+
+            time += Time.deltaTime;
+
+            camTrans.position = Vector3.Slerp(startPos, laneTrans.position, time);
+
+            camTrans.LookAt(goalTrans.position + new Vector3(0f, 1f * goalTrans.localScale.y), Vector3.up);
+        }
+
+        private void Goal2()
+        {
+
+        }
+
+        public  void SetGoalCom(Goal _goal) {
+            goal = _goal;
+
+            subCamera = goal.SubCameraObj;
+
+            startPos = mainCameraGameObject.transform.position;
+
+            laneObj = _goal.LaneObj;
         }
     }
 }

@@ -17,12 +17,21 @@ namespace TeamProject
         [SerializeField]
         private GameObject[] minionObject;
 
-        private UnityEngine.Camera camera;
+        private Camera camera;
+        [SerializeField]
+        private GameObject subCameraObj;
+
+        public GameObject SubCameraObj { get { return subCameraObj; } }
+
+        [SerializeField]
+        private GameObject laneObj;
+
+        public GameObject LaneObj { get { return laneObj; } }
 
         // Start is called before the first frame update
         void Start()
         {
-            camera = UnityEngine.Camera.main;
+            camera = UnityEngine.Camera.main.transform.root.gameObject.GetComponent<Camera>();
 
             var canvasObject= GameObject.Find("StageCanvasBeta");
 
@@ -47,9 +56,8 @@ namespace TeamProject
                 foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
 
                 rendObject.SetActive(false);
-                animObject.gameObject.SetActive(true);
-
-                for (int i = 0; i < num && i < minionObject.Length; i++)
+                //animObject.gameObject.SetActive(true);
+                for (int i = 0; i < platoon.MinionNum && i < minionObject.Length; i++)
                 {
                     minionObject[i].SetActive(true);
                 }
@@ -61,10 +69,15 @@ namespace TeamProject
 
                 player.gameObject.SetActive(false);
 
-                camera.gameObject.SetActive(false);
+                // camera.gameObject.SetActive(false);
+
+                // ゴールの情報を渡す
+                camera.SetGoalCom(this);
+
+                camera.SetFunction((uint)Camera.TRANS.Goal);
 
                 // ゴールのリザルトを送る
-                animObject.StartGoalAnimation(goalLogoAnimation.Goal,platoon.MinionNum, num);
+                //animObject.StartGoalAnimation(goalLogoAnimation.Goal,platoon.MinionNum, num);
             }
         }
         public IEnumerator ToTitle()

@@ -69,7 +69,7 @@ namespace TeamProject {
             }
 
             // 後ろのベース位置割り出し
-            var back = player.transform.forward * -1 * WaitaRadius ;
+            var back = player.transform.forward * -1 * WaitaRadius;
 
             for (int i = 0; i < pairList.ToArray().Length; i++)
             {
@@ -82,7 +82,7 @@ namespace TeamProject {
 
             if (minionNum % 2 == 1)
             {
-                minionList[minionNum - 1].TargetPosition = back * (minionNum + 1) * WaitaRadius + player.transform.position;
+                minionList[minionNum - 1].TargetPosition = back * (pairNum + 1) * WaitaRadius * Wight + player.transform.position;
             }
         }
 

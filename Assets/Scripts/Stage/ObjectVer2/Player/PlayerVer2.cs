@@ -16,6 +16,7 @@ namespace TeamProject
             GetChoice,  // 選択オブジェクトの取得
             RootCheck,  // ルートチェック
             Jump,       // ジャンプ
+            Fall,       // 落下処理
             MAX,        // MAX(使用しない)
         }
 
@@ -142,6 +143,7 @@ namespace TeamProject
             CreateFunction((uint)TRANSITION.GetChoice, GetChoice);
             CreateFunction((uint)TRANSITION.RootCheck, RootCheck);
             CreateFunction((uint)TRANSITION.Jump, Jump);
+            CreateFunction((uint)TRANSITION.Fall, Fall);
 
             CreateFixFunction((uint)FIX_TRANSITION.None, None);
             CreateFixFunction((uint)FIX_TRANSITION.Move, FixMove);
@@ -234,7 +236,7 @@ namespace TeamProject
             Ray ray = new Ray(transform.position -new Vector3(0, -downLength, 0f), new Vector3(0, -downLength, 0f));
 
             RaycastHit hit;
-            var hitFlag = Physics.Raycast(transform.position + transform.forward, new Vector3(0, -downLength, 0f), downLength);
+            var hitFlag = Physics.Raycast(transform.position + transform.forward + new Vector3(0f, 0.5f, 0f), new Vector3(0, -downLength, 0f), downLength);
             if (!hitFlag)
             {
                 SetFunction((uint)TRANSITION.Jump);
@@ -267,6 +269,14 @@ namespace TeamProject
 
                 SetFunction((uint)TRANSITION.GetChoice);
                 minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
+
+                ray = new Ray(transform.position, -Vector3.up);
+                
+                
+                if (Physics.Raycast(ray, out hit))
+                {
+                    GimmickChack(hit);
+                }
             }
 
             float difY = transform.position.y - oldHight;
@@ -808,6 +818,30 @@ namespace TeamProject
         {
             StartCoroutine(JumpEnd());
         }
+
+        private void Fall()
+        {
+            Ray ray = new Ray(transform.position, -Vector3.up);
+            RaycastHit hit;
+
+            var ySpd = rb.velocity.y;
+
+            rb.velocity = new Vector3(0f, ySpd, 0f);
+
+            // 直レイの判定
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.Log(hit.distance);
+                if (hit.distance < 0.05f)
+                {
+                    Debug.Log("Playerが");
+                    // とりあえず地面あるから
+                    SetFunction((uint)TRANSITION.GetChoice);
+                    minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
+                }
+            }
+        }
+
         private IEnumerator ToMove()
         {
             yield return new WaitForSeconds(0f);
@@ -836,6 +870,27 @@ namespace TeamProject
             rb.velocity = new Vector3();
             StartCoroutine(ToJumpStart());
         }
-        
+
+        public void GimmickChack(RaycastHit _hit)
+        {
+            Debug.Log("a");
+                    Debug.Log(_hit.collider.tag);
+            switch (_hit.collider.tag)
+            {
+                case "IceGimmick":
+                    var ice = _hit.transform.root.gameObject.GetComponent<IceGimmick>();
+
+                    var minionNum= minionPlatoon.MinionNum;
+
+                    if (ice.Judge((uint)minionNum))
+                    {
+                        Debug.Log("c");
+                        ice.StartBreak();
+                        SetFunction((uint)TRANSITION.Fall);
+                        minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
+                    }
+                    break;
+            }
+        }
     }
 }

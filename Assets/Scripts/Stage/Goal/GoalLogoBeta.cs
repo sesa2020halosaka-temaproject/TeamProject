@@ -211,7 +211,7 @@ namespace TeamProject
                     FadeManager.FadeOut(stageString);
                     break;
                 case StageChoice.Retry:
-                    var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                    var sceneName = SceneManager.GetActiveScene().name;
                     FadeManager.FadeOut(sceneName);
                     break;
                 case StageChoice.Select:
