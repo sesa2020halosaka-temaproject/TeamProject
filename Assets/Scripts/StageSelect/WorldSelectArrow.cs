@@ -49,7 +49,7 @@ namespace TeamProject
                       TwoSetActives(true, true);
                         break;
                     case (int)WORLD_NO.W3://World03
-                        TwoSetActives(false, true);
+                        TwoSetActives(true, true);
                         break;
                     case (int)WORLD_NO.W4://World04
                         TwoSetActives(false, true);
