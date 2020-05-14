@@ -28,18 +28,20 @@ namespace TeamProject
 
         public GameObject LaneObj { get { return laneObj; } }
 
+        private int minionNum, minionMaxNum;
+
         // Start is called before the first frame update
         void Start()
         {
             camera = UnityEngine.Camera.main.transform.root.gameObject.GetComponent<Camera>();
 
-            var canvasObject= GameObject.Find("StageCanvasBeta");
+            var canvasObject = GameObject.Find("StageCanvasBeta");
 
             goalLogoAnimation = canvasObject.GetComponentInChildren<GoalLogoBeta>();
 
-            Debug.Assert(goalLogoAnimation != null,"ゴールのアニメーションがScriptに設定されていません。GoalのInstanceを確認してください");
+            Debug.Assert(goalLogoAnimation != null, "ゴールのアニメーションがScriptに設定されていません。GoalのInstanceを確認してください");
         }
-        
+
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log("Goal");
@@ -56,28 +58,28 @@ namespace TeamProject
                 foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
 
                 rendObject.SetActive(false);
-                //animObject.gameObject.SetActive(true);
+
                 for (int i = 0; i < platoon.MinionNum && i < minionObject.Length; i++)
                 {
                     minionObject[i].SetActive(true);
                 }
 
-                foreach(var itr in platoon.MinionList)
+                foreach (var itr in platoon.MinionList)
                 {
                     itr.gameObject.SetActive(false);
                 }
 
                 player.gameObject.SetActive(false);
 
-                // camera.gameObject.SetActive(false);
+                 camera.gameObject.SetActive(false);
 
                 // ゴールの情報を渡す
-                camera.SetGoalCom(this);
+                // camera.SetGoalCom(this);
 
+                GoalStart();
                 camera.SetFunction((uint)Camera.TRANS.Goal);
 
-                // ゴールのリザルトを送る
-                //animObject.StartGoalAnimation(goalLogoAnimation.Goal,platoon.MinionNum, num);
+                minionNum = platoon.MinionNum; minionMaxNum= num;
             }
         }
         public IEnumerator ToTitle()
@@ -85,6 +87,14 @@ namespace TeamProject
             yield return new WaitForSeconds(3.0f);
             Debug.Log("タイトルへ戻りまーす！");
             FadeManager.FadeOut("TitleScene");
+        }
+
+        public void GoalStart()
+        {
+            animObject.gameObject.SetActive(true);
+            // ゴールのリザルトを送る
+            animObject.StartGoalAnimation(goalLogoAnimation.Goal, minionNum, minionMaxNum);
+
         }
     }
 }
