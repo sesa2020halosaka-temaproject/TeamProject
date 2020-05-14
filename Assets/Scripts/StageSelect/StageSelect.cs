@@ -211,12 +211,13 @@ namespace TeamProject
                         BackToTitle();
                         //フラグチェック
                         FlagCheck();
-                    }
 
-                    //上下矢印の処理
-                    StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
-                    //左右矢印の処理
-                    WorldSelectArrow.SetCurrentWorld();
+                        //上下矢印の処理
+                        StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
+                        //左右矢印の処理
+                        WorldSelectArrow.SetCurrentWorld();
+
+                    }
 
                     break;
                 case SELECT_STATE.BEFORE_STAGE_MOVING:
