@@ -18,7 +18,7 @@ namespace TeamProject {
         {
             var worNum = (WORLD_NO)StageStatusManager.Instance.CurrentWorld;
             var feadDir = 1.5f;
-
+            Debug.Log("worNum:" + worNum);
             switch (worNum)
             {
                 case WORLD_NO.W1:
