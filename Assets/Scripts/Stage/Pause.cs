@@ -122,7 +122,7 @@ namespace TeamProject {
             }
 
             // どちらか押されると反応
-            if (upTrigger || downKey)
+            if (upTrigger || downTrigger)
             {
                 anima.SetTrigger(logoNames[nowLogoNumber]);
 
