@@ -80,28 +80,27 @@ namespace TeamProject
 
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
-                        //草のなびく音追加
+                        //ステージ環境音の追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
 
                         break;
                     case WORLD_NO.W2:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL, allowsDuplicate: true);
-                        //草のなびく音追加   
+                        //ステージ環境音の追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD_NO.W3:
                         //BGMスタート
                         BGMManager.Instance.Play(BGMPath.BGM_GAME_WINTER, allowsDuplicate: true);
-                        //草のなびく音追加
+                        //ステージ環境音の追加
                         BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_WINTER, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD_NO.W4:
-                        Debug.Log("まだ" + _WorldNumber + "の曲は未実装だよ！");
                         //BGMスタート
-                        BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
-                        //草のなびく音追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
+                        BGMManager.Instance.Play(BGMPath.BGM_GAME_SPRING, allowsDuplicate: true);
+                        //ステージ環境音の追加
+                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SPRING, allowsDuplicate: true, isLoop: true);
                         break;
                     case WORLD_NO.ALL_WORLD:
                         break;
