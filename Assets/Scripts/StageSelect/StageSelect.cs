@@ -199,7 +199,7 @@ namespace TeamProject
                     //固定用ドリールートをセット
                     _Main_DollyCam.SetPathFixingDolly();
                     _Sub_DollyCam.SetPathFixingDolly();
-                    //   _DollyCart.SetPathFixingDolly();
+                       //_DollyCart.SetPathFixingDolly();
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();
