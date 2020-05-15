@@ -15,13 +15,16 @@ namespace TeamProject
 
         public static bool m_AdvancedWorld4_Flag = false;//ワールド４に進出したかどうかフラグ
 
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
             m_Canvas = transform.root.gameObject;//一番上の親を取得
             m_Next = transform.GetChild(0).gameObject;//右矢印用オブジェクト
             m_Prev = transform.GetChild(1).gameObject;//左矢印用オブジェクト
             //m_CurrentStage = StageSelect.STAGE.STAGE1;
+        }
+        // Start is called before the first frame update
+        void Start()
+        {
         }
 
         // Update is called once per frame

@@ -13,14 +13,17 @@ namespace TeamProject
         public static GameObject m_Next;//上矢印用オブジェクト
         public static GameObject m_Prev;//下矢印用オブジェクト
 
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
             m_Canvas = transform.root.gameObject;//一番上の親を取得
             m_Next = transform.GetChild(0).gameObject;
             m_Prev = transform.GetChild(1).gameObject;
             //m_CurrentStage = StageSelect.STAGE.STAGE1;
             SetCurrentStage(StageStatusManager.Instance.StageInWorld);
+        }
+        // Start is called before the first frame update
+        void Start()
+        {
         }
 
         // Update is called once per frame

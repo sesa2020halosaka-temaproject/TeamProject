@@ -124,7 +124,7 @@ namespace TeamProject
                         alpha.a = 1.0f;
                         Debug.Log("alphaは1.0fになりました。");
 
-                        CursorScript.InputFlagOn();
+                        CursorScript.CursorMoveFlagOn();
                         state = TITLESTATE.TITLE_MENU_WAIT;
 
                     }
