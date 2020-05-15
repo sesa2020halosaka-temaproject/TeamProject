@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TeamProject.InputManager;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject {
 
@@ -119,12 +120,13 @@ namespace TeamProject {
                     nowLogoNumber = 0;
                 }
             }
-            Debug.Log(nowLogoNumber);
-            Debug.Log(maxLogoNumber);
+
             // どちらか押されると反応
             if (upTrigger || downKey)
             {
                 anima.SetTrigger(logoNames[nowLogoNumber]);
+
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
 
             // セレクト
@@ -135,6 +137,8 @@ namespace TeamProject {
 
                 // 何も反応しないようにする
                 SetFunction((uint)TRANS.None);
+
+                SEManager.Instance.Play(SEPath.SE_OK);
             }
 
             // oldKey取得
@@ -156,7 +160,7 @@ namespace TeamProject {
         // ポーズ待ち
         private void PauseWait()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.Menu))
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.Menu) && player.NowFunctionNum == (int)PlayerVer2.TRANSITION.Choice)
             {
                 PauseStart();
             }

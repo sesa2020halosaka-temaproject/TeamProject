@@ -9,7 +9,7 @@ namespace TeamProject {
     {
         private List<Minion> minionList;
 
-        public List<Minion> MinionList;
+        public List<Minion> MinionList { get { return minionList; } }
 
         public int MinionNum { get { return minionList.ToArray().Length; } }
 

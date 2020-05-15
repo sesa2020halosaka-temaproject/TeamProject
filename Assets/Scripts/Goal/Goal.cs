@@ -76,10 +76,11 @@ namespace TeamProject
                 // ゴールの情報を渡す
                 // camera.SetGoalCom(this);
 
-                GoalStart();
                 camera.SetFunction((uint)Camera.TRANS.Goal);
 
                 minionNum = platoon.MinionNum; minionMaxNum= num;
+
+                GoalStart();
             }
         }
         public IEnumerator ToTitle()
