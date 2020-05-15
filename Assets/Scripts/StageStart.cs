@@ -21,10 +21,7 @@ namespace TeamProject
         [Header("追加環境音の切り替え")]
         public AMBIENT_SOUND m_AmbientBGM;
 
-        [Header("滝の音のONOFF切り替え")]
-        public bool m_WaterFall_Flag;
-
-        [Header("BGMをセットすること")]
+        [Header("BGMをセットすること(確認デバッグ用)")]
         public AudioClip m_Start_BGM;
         public AudioClip m_Start_Ambient;
 
@@ -126,14 +123,6 @@ namespace TeamProject
                     break;
                 default:
                     break;
-            }
-
-            //滝の音のONOFF
-            if (m_WaterFall_Flag)
-            {
-                //草のなびく音追加
-                BGMManager.Instance.Play(SEPath.SE_WATERFALL, allowsDuplicate: true, isLoop: true);
-
             }
 
         }//void Start() END
