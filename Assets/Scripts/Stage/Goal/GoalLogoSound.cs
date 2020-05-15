@@ -44,7 +44,7 @@ namespace TeamProject
 
         private void ResultBgm()
         {
-            BGMManager.Instance.Play(BGMPath.BGM_GAME_CLEAR);
+            BGMManager.Instance.Play(BGMPath.BGM_GAME_CLEAR, 1, 0, 1, true, true);
         }
 
         private void NextMinion()

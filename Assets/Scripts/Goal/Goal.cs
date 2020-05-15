@@ -40,6 +40,9 @@ namespace TeamProject
             goalLogoAnimation = canvasObject.GetComponentInChildren<GoalLogoBeta>();
 
             Debug.Assert(goalLogoAnimation != null, "ゴールのアニメーションがScriptに設定されていません。GoalのInstanceを確認してください");
+
+            // とりあえず回転をZEROに
+            transform.rotation = Quaternion.identity;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -76,10 +79,17 @@ namespace TeamProject
                 // ゴールの情報を渡す
                 // camera.SetGoalCom(this);
 
-                GoalStart();
                 camera.SetFunction((uint)Camera.TRANS.Goal);
 
                 minionNum = platoon.MinionNum; minionMaxNum= num;
+
+                var pPos = player.transform.position;
+                var aniObPos = animObject.transform.position;
+                pPos.y = aniObPos.y;
+
+                animObject.transform.LookAt(pPos, Vector3.up);// = Quaternion.AngleAxis(, Vector3.up);
+                animObject.transform.rotation *= Quaternion.AngleAxis(-90f, Vector3.up);
+                GoalStart();
             }
         }
         public IEnumerator ToTitle()

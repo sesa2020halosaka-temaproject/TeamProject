@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
     public class PlayerAnimation : MonoBehaviour
     {
         private PlayerVer2 player;
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -30,6 +32,16 @@ namespace TeamProject
         private void StartJumpStart()
         {
             player.JumpStart();
+        }
+
+        private void SEPlayerLR()
+        {
+            SEManager.Instance.Play(SEPath.SE_PLAYER_LR);
+        }
+
+        private void SEPlayerStop()
+        {
+            SEManager.Instance.Play(SEPath.SE_PLAYER_STOP);
         }
     }
 }

@@ -212,6 +212,8 @@ namespace TeamProject
 
         private bool oldFall = true;
 
+        [SerializeField]
+        private float jumpWidth = 0.6f;
         // 移動
         private void Move()
         {
@@ -233,17 +235,18 @@ namespace TeamProject
             vel.y = ySpeed;
             rb.velocity = vel;
 
-            Ray ray = new Ray(transform.position -new Vector3(0, -downLength, 0f), new Vector3(0, -downLength, 0f));
+            Ray ray = new Ray(transform.position + transform.forward *2f+ Vector3.up, -Vector3.up);
 
             RaycastHit hit;
-            var hitFlag = Physics.Raycast(transform.position + transform.forward + new Vector3(0f, 0.5f, 0f), new Vector3(0, -downLength, 0f), downLength);
+            var hitFlag = Physics.Raycast(ray, downLength);
             if (!hitFlag)
             {
+                rb.velocity *= jumpWidth;
                 SetFunction((uint)TRANSITION.Jump);
                 EndFallAnima();
             }
 
-            anima.SetBool("Fall",!hitFlag);
+            anima.SetBool("Fall", !hitFlag);
 
             if (!oldFall && hitFlag)
             {
@@ -251,7 +254,7 @@ namespace TeamProject
             }
 
             oldFall = hitFlag;
-            
+
             // Debug.Log((choicePosition - transform.position).magnitude);
             Vector3 a, b;
             a = choicePosition; b = transform.position;
@@ -271,8 +274,8 @@ namespace TeamProject
                 minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
 
                 ray = new Ray(transform.position, -Vector3.up);
-                
-                
+
+
                 if (Physics.Raycast(ray, out hit))
                 {
                     GimmickChack(hit);
@@ -307,7 +310,8 @@ namespace TeamProject
         {
             // transform.forward
             RaycastHit hit;
-            var hitFlag = Physics.Raycast(transform.position + transform.forward, new Vector3(0, -downLength, 0f), downLength);
+            Ray ray = new Ray(transform.position + transform.forward*2f + Vector3.up, -Vector3.up);
+            var hitFlag = Physics.Raycast(ray, downLength);
             if (hitFlag)
             {
                 rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
@@ -388,11 +392,6 @@ namespace TeamProject
                     }
                 }
             }
-            for (int i = 0; i < (uint)DIRECTION.MAX; i++)
-            {
-                //if (direction[i] == null) Debug.Log((DIRECTION)i + "+" + "null");
-                //else Debug.Log((DIRECTION)i + "+" + direction[i].befor.name);
-            }
 
             bool[] arrow = new bool[(uint)InputManager.ArrowCoad.Max];
 
@@ -402,101 +401,11 @@ namespace TeamProject
             arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
 
             // キー入力
-        　   // どうにかしたい
-            if (arrow[(uint)InputManager.ArrowCoad.UpArrow ]&& !oldArrow[(uint)InputManager.ArrowCoad.UpArrow ])
-            {
-                Debug.Log("InputWKey");
-                Vector3 up;
-
-                if (direction[(uint)DIRECTION.TOP] != null)
-                {
-                    choicePosition = up = direction[(uint)DIRECTION.TOP].befor.transform.position;
-                    // オブジェクト情報を設定
-                    choiceObject = direction[(uint)DIRECTION.TOP].befor;
-                }
-                else
-                    up = choicePosition;
-
-
-                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
-                notChoice = false;
-
-                transform.LookAt(up, Vector3.up);
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
-                // 検査に移動
-                SetFunction((int)TRANSITION.RootCheck);
-            }
-            if (arrow[(uint)InputManager.ArrowCoad.DownArrow] && !oldArrow[(uint)InputManager.ArrowCoad.DownArrow])
-            {
-                Debug.Log("InputWKey");
-                Vector3 up;
-
-                if (direction[(uint)DIRECTION.BACK] != null)
-                {
-                    choicePosition = up = direction[(uint)DIRECTION.BACK].befor.transform.position;
-                    // オブジェクト情報を設定
-                    choiceObject = direction[(uint)DIRECTION.BACK].befor;
-                }
-                else
-                    up = choicePosition;
-
-                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
-                notChoice = false;
-
-                transform.LookAt(up, Vector3.up);
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
-                // 検査に移動
-                SetFunction((int)TRANSITION.RootCheck);
-            }
-            if (arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow])
-            {
-                Debug.Log("InputWKey");
-                Vector3 up;
-
-                if (direction[(uint)DIRECTION.RIGHT] != null)
-                {
-                    choicePosition = up = direction[(uint)DIRECTION.RIGHT].befor.transform.position;
-                    // オブジェクト情報を設定
-                    choiceObject = direction[(uint)DIRECTION.RIGHT].befor;
-                }
-                else
-                    up = choicePosition;
-
-                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
-                notChoice = false;
-
-                transform.LookAt(up, Vector3.up);
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
-                // 検査に移動
-                SetFunction((int)TRANSITION.RootCheck);
-            }
-            if (arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow])
-            {
-                Debug.Log("InputWKey");
-                Vector3 up;
-
-                if (direction[(uint)DIRECTION.LEFT] != null)
-                {
-                    choicePosition = up = direction[(uint)DIRECTION.LEFT].befor.transform.position;
-                    // オブジェクト情報を設定
-                    choiceObject = direction[(uint)DIRECTION.LEFT].befor;
-                }
-                else
-                    up = choicePosition;
-
-                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
-                notChoice = false;
-
-                transform.LookAt(up, Vector3.up);
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
-                // 検査に移動
-                SetFunction((int)TRANSITION.RootCheck);
-            }
-
+            MinionChoice(arrow[(uint)InputManager.ArrowCoad.UpArrow] && !oldArrow[(uint)InputManager.ArrowCoad.UpArrow], ref direction[(uint)DIRECTION.TOP]);
+            MinionChoice(arrow[(uint)InputManager.ArrowCoad.DownArrow] && !oldArrow[(uint)InputManager.ArrowCoad.DownArrow], ref direction[(uint)DIRECTION.BACK]);
+            MinionChoice(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],ref direction[(uint)DIRECTION.RIGHT]);
+            MinionChoice(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],ref direction[(uint)DIRECTION.LEFT]);
+           
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             {
                 Debug.Log(rootCheckFlag);
@@ -514,10 +423,10 @@ namespace TeamProject
                 }
             }
 
-            oldArrow[(int)InputManager.ArrowCoad.UpArrow]    = arrow[(int)InputManager.ArrowCoad.UpArrow];
-            oldArrow[(int)InputManager.ArrowCoad.DownArrow]  = arrow[(int)InputManager.ArrowCoad.DownArrow];
+            oldArrow[(int)InputManager.ArrowCoad.UpArrow] = arrow[(int)InputManager.ArrowCoad.UpArrow];
+            oldArrow[(int)InputManager.ArrowCoad.DownArrow] = arrow[(int)InputManager.ArrowCoad.DownArrow];
             oldArrow[(int)InputManager.ArrowCoad.RightArrow] = arrow[(int)InputManager.ArrowCoad.RightArrow];
-            oldArrow[(int)InputManager.ArrowCoad.LeftArrow]  = arrow[(int)InputManager.ArrowCoad.LeftArrow];
+            oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = arrow[(int)InputManager.ArrowCoad.LeftArrow];
         }
 
         // 選択の配列取得
@@ -563,7 +472,7 @@ namespace TeamProject
                 pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
 
                 var vec = choicePosition - transform.position;
-                transform.LookAt(vec.normalized, Vector3.up);
+                transform.LookAt(choicePosition, Vector3.up);
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
                 Debug.Log("次の場所" + choiceObject.name);
@@ -851,7 +760,7 @@ namespace TeamProject
 
         private IEnumerator JumpEnd()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
             SetFunction((uint)TRANSITION.Move);
             anima.SetBool("Walk", true);
         }
@@ -874,13 +783,13 @@ namespace TeamProject
         public void GimmickChack(RaycastHit _hit)
         {
             Debug.Log("a");
-                    Debug.Log(_hit.collider.tag);
+            Debug.Log(_hit.collider.tag);
             switch (_hit.collider.tag)
             {
                 case "IceGimmick":
                     var ice = _hit.transform.root.gameObject.GetComponent<IceGimmick>();
 
-                    var minionNum= minionPlatoon.MinionNum;
+                    var minionNum = minionPlatoon.MinionNum;
 
                     if (ice.Judge((uint)minionNum))
                     {
@@ -890,6 +799,35 @@ namespace TeamProject
                         minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
                     }
                     break;
+            }
+        }
+
+        private void MinionChoice(bool _keyFlag, ref ConversPosition _direc)
+        {
+            if (_keyFlag)
+            {
+                Debug.Log("InputWKey");
+                Vector3 up;
+
+                if (_direc != null)
+                {
+                    choicePosition = up = _direc.befor.transform.position;
+                    // オブジェクト情報を設定
+                    choiceObject = _direc.befor;
+                }
+                else
+                    up = choicePosition;
+
+                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
+                notChoice = false;
+
+                transform.LookAt(up, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
+                SEManager.Instance.Play(SEPath.SE_MINION_SELECT);
+
+                // 検査に移動
+                SetFunction((int)TRANSITION.RootCheck);
             }
         }
     }
