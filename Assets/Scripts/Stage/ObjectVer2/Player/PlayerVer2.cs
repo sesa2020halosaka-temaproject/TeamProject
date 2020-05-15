@@ -472,7 +472,7 @@ namespace TeamProject
                 pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
 
                 var vec = choicePosition - transform.position;
-                transform.LookAt(vec.normalized, Vector3.up);
+                transform.LookAt(choicePosition, Vector3.up);
                 transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
                 Debug.Log("次の場所" + choiceObject.name);
