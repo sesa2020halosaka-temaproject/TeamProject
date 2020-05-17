@@ -116,16 +116,6 @@ namespace TeamProject
 
         }
 
-        // ウェイポイントの最大番号をセット
-        public void SetPathPositionMax(float maxpos)
-        {
-            this.pathPositionMax = maxpos;
-        }
-        // ウェイポイントの最小番号をセット
-        public void SetPathPositionMin(float minpos)
-        {
-            this.pathPositionMin = minpos;
-        }
         public void DollyUpdate()
         {
 
@@ -282,6 +272,16 @@ namespace TeamProject
                 SetPathPositionMin(m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
             }
 
+        }
+        // ウェイポイントの最大番号をセット
+        public void SetPathPositionMax(float maxpos)
+        {
+            this.pathPositionMax = maxpos;
+        }
+        // ウェイポイントの最小番号をセット
+        public void SetPathPositionMin(float minpos)
+        {
+            this.pathPositionMin = minpos;
         }
 
         //カメラのパス位置を初期化する
