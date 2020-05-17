@@ -219,6 +219,9 @@ namespace TeamProject
                     //Dollyカメラの初期化
                     ResetDollyCamera();
 
+                    //DollyCartの初期化
+                    ResetDollyCart();
+
                     ////Dollyカメラの状態をFIXINGに戻す
                     //StageChangeManager.DollyStateChange("FIXING");
 
@@ -278,17 +281,6 @@ namespace TeamProject
                     Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());
                     count++;
                     Debug.Log("count" + count);
-                    //m_Counter++;
-                    //if (!m_KeyWait_Flag)
-                    //{
-                    //    m_KeyWait_Flag = !m_KeyWait_Flag;
-
-                    //}
-                    //if (m_Counter > m_InputStopFrame)
-                    //{
-                    //    m_KeyWait_Flag = !m_KeyWait_Flag;
-                    //    m_Counter = 0;
-                    //}
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();
@@ -361,8 +353,8 @@ namespace TeamProject
                         _Main_DollyCam.SetPathFixingDolly();
                         _Sub_DollyCam.SetPathFixingDolly();
                         //_DollyCart.SetPathFixingDolly();
-                        _Main_DollyCam.sss();
-                        //_Sub_DollyCam.PathPositionReset();
+
+                        _Sub_DollyCam.PathPositionReset();
                         //ステージ番号の更新
                         if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
                         {
@@ -578,24 +570,24 @@ namespace TeamProject
         //DollyCartの初期化
         public void ResetDollyCart()
         {
-            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
-            {
-                Debug.Log("UP：処理が間違っています。");
-                return;
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
-            {
-                Debug.Log("DOWN：処理が間違っています。");
-                return;
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
-            {
-                //StageChangeManager.DollyStateChange("WORLD");
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
-            {
-                //StageChangeManager.DollyStateChange("WORLD");
-            }
+            //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            //{
+            //    Debug.Log("UP：処理が間違っています。");
+            //    return;
+            //}
+            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            //{
+            //    Debug.Log("DOWN：処理が間違っています。");
+            //    return;
+            //}
+            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+            //{
+            //    //StageChangeManager.DollyStateChange("WORLD");
+            //}
+            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+            //{
+            //    //StageChangeManager.DollyStateChange("WORLD");
+            //}
 
             _DollyCart.SetDollyPath();
             //_DollyCart.SetAddTime();

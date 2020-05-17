@@ -402,13 +402,5 @@ namespace TeamProject
             //パス位置を0にする
             this.dolly.m_PathPosition = 0;
         }
-
-        public void sss()
-        {
-            Debug.Log("["+dolly.m_Path.transform.position+"]");
-            CinemachinePath.Waypoint waypoint;
-            this.dolly.m_PathPosition = 0;
-
-        }
     }//public class DollyCamera : MonoBehaviour END
 }//namespace END
