@@ -52,6 +52,7 @@ namespace TeamProject
 
         private bool[] oldArrow = new bool[(int)ArrowCoad.Max];
 
+        private bool enterOnce = true;
         // Start is called before the first frame update
         void Start()
         {
@@ -107,8 +108,9 @@ namespace TeamProject
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
 
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B))
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B)&& enterOnce)
             {
+                enterOnce = false;
                 SEManager.Instance.Play(SEPath.SE_OK);
                 // フェードアウト
                 StartCoroutine(ToTitle());
@@ -124,8 +126,8 @@ namespace TeamProject
         public void Goal(int _maxKobitoNum, int _kobitoNum)
         {
             if (once) return;
-            once = true;
 
+            StartCoroutine(GetKeyStart());
             kobitoNum = _kobitoNum;
             kobitoMaxNum = _maxKobitoNum;
 
@@ -218,6 +220,12 @@ namespace TeamProject
                     FadeManager.FadeOut("StageSelectScene");
                     break;
             }
+        }
+        public IEnumerator GetKeyStart()
+        {
+            yield return new WaitForSeconds(2.0f);
+
+            once = true;
         }
         private void SaveStar()
         {

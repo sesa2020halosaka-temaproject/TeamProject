@@ -86,33 +86,33 @@ namespace TeamProject
             // volumeをオフに
             volume.enabled = false;
 
-            // var stick = InputManager.InputManager.Instance.GetRStick();
+             var stick = InputManager.InputManager.Instance.GetRStick();
 
             Vector3 rot = transform.rotation.eulerAngles;
 
             float x=0, y=0;
             float speedTime = speed * Time.deltaTime;
 
-            if (Input.GetKey(KeyCode.W))
-            {
-                y = speedTime;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                y = -speedTime;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                x = speedTime;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                x = -speedTime;
-            }
+            //if (Input.GetKey(KeyCode.W))
+            //{
+            //    y = speedTime;
+            //}
+            //if (Input.GetKey(KeyCode.S))
+            //{
+            //    y = -speedTime;
+            //}
+            //if (Input.GetKey(KeyCode.D))
+            //{
+            //    x = speedTime;
+            //}
+            //if (Input.GetKey(KeyCode.A))
+            //{
+            //    x = -speedTime;
+            //}
 
 
-            //  x = stick.x * speed * Time.deltaTime;
-            // y = stick.y * speed * Time.deltaTime;
+            x = stick.x * speed * Time.deltaTime;
+            y = stick.y * speed * Time.deltaTime;
 
             rot.x += y;
             rot.y -= x;
