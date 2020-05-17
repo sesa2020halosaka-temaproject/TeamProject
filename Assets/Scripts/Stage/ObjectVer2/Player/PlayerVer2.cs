@@ -17,6 +17,7 @@ namespace TeamProject
             RootCheck,  // ルートチェック
             Jump,       // ジャンプ
             Fall,       // 落下処理
+            Goal,
             MAX,        // MAX(使用しない)
         }
 
@@ -129,6 +130,11 @@ namespace TeamProject
 
         private bool[] oldArrow = new bool[(int)InputManager.ArrowCoad.Max];
 
+        private bool goalOnce = true;
+
+        [SerializeField]
+        private SkinnedMeshRenderer bodyMesh;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -144,6 +150,7 @@ namespace TeamProject
             CreateFunction((uint)TRANSITION.RootCheck, RootCheck);
             CreateFunction((uint)TRANSITION.Jump, Jump);
             CreateFunction((uint)TRANSITION.Fall, Fall);
+            CreateFunction((uint)TRANSITION.Goal, GoalFunc);
 
             CreateFixFunction((uint)FIX_TRANSITION.None, None);
             CreateFixFunction((uint)FIX_TRANSITION.Move, FixMove);
@@ -214,6 +221,14 @@ namespace TeamProject
 
         [SerializeField]
         private float jumpWidth = 0.6f;
+
+        [SerializeField]
+        private LayerMask goalMask;
+
+        [SerializeField]
+        [Header("シームレス開始までのゴールとの距離")]
+        private float goalLenght;
+
         // 移動
         private void Move()
         {
@@ -298,7 +313,38 @@ namespace TeamProject
                 SEManager.Instance.Play(walkSEPath[randInt]);
                 soundSpanNow = 0.0f;
             }
+
+            // シームレス移動のためのゴール判定
+            Ray goalRay = new Ray(transform.position, transform.forward);
+
+            if (Physics.Raycast(goalRay, out hit, goalLenght, goalMask))
+            {
+                if (goalOnce)
+                {
+                    goalOnce = false;
+                    hit.transform.root.GetComponent<Goal>().PlayerLook(this);
+
+                    // Debug.Break();
+                    var cam = cameraObject.GetComponent<Camera>();
+                    cam.SetFunction((uint)Camera.TRANS.Goal);
+                    cam.StartSeamless();
+                    cam.GetPlayer(this);
+                }
+                Debug.Log(hit.distance);
+                if (hit.distance < 6f)
+                {
+                    //  Debug.Break();
+                    hit.transform.root.gameObject.GetComponent<Goal>().GoalIn(this);
+                    SetFunction((uint)TRANSITION.Goal);
+                }
+            }
             // Debug.DrawRay(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
+            
+        }
+
+        private void OnDrawGizmos()
+        {
+            Debug.DrawRay(transform.position, transform.forward, Color.red, goalLenght);
         }
 
         private void FixMove()
@@ -719,6 +765,11 @@ namespace TeamProject
             return true;
         }
 
+        private void GoalFunc()
+        {
+            rb.velocity = new Vector3();
+        }
+
         public void EndFindAnima()
         {
             StartCoroutine(ToMove());
@@ -828,6 +879,17 @@ namespace TeamProject
 
                 // 検査に移動
                 SetFunction((int)TRANSITION.RootCheck);
+            }
+        }
+
+        public void PlayerRendNot()
+        {
+            if (!bodyMesh.isVisible)
+            {
+                for (int i = 0; i < transform.GetChild(0).childCount; i++)
+                {
+                    transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+                }
             }
         }
     }

@@ -178,6 +178,12 @@ MonoBehaviour:
   downLength: 4.47
   firstChoiceObject: {fileID: 0}
   soundSpan: 0.2
+  bodyMesh: {fileID: 2659654569716904114}
+  jumpWidth: 0.6
+  goalMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  goalLenght: 15
   kobitoLayer:
     serializedVersion: 2
     m_Bits: 7680
@@ -536,6 +542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8684251187902555887, guid: cdd268661ca207142b14bb526fe34b57,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8567405457744681452, guid: cdd268661ca207142b14bb526fe34b57,
         type: 3}
@@ -1593,6 +1604,12 @@ Transform:
 --- !u!1 &7072865732299228573 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5775550052059115417, guid: cdd268661ca207142b14bb526fe34b57,
+    type: 3}
+  m_PrefabInstance: {fileID: 3603229093170145796}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &2659654569716904114 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1651062367082650294, guid: cdd268661ca207142b14bb526fe34b57,
     type: 3}
   m_PrefabInstance: {fileID: 3603229093170145796}
   m_PrefabAsset: {fileID: 0}

@@ -8,6 +8,8 @@ namespace TeamProject {
         [SerializeField]
         private GameObject effect;
 
+        [SerializeField]
+        private BetaGoalAnimation betaGoalAnimation;
 
         private void OnEffectActive()
         {
@@ -38,6 +40,11 @@ namespace TeamProject {
                     break;
             }
             BGMManager.Instance.Play(BGMPath.BGM_GOAL, 1, 0, 1, false, true);
+        }
+
+        private void StartLogoAnimation()
+        {
+            betaGoalAnimation.EndGoalAnimation();
         }
     }
 }

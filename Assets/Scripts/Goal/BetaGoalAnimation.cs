@@ -18,6 +18,8 @@ namespace TeamProject
         }
         
         private bool startFlag;
+        [SerializeField]
+        private Animation flowAnim;
         private Animation[] anim = new Animation[(uint)Anima.Max];
 
         private int goalNum;
@@ -32,42 +34,51 @@ namespace TeamProject
 
         private void Awake()
         {
-            for (int i = 0; i < (int)Anima.Max; i++)
-            {
-                anim[i] = transform.GetChild(i).GetComponent<Animation>();
-            }
+            anim = transform.GetComponentsInChildren<Animation>();
+
+            // for (int i = 0; i < (int)Anima.Max; i++)
+            // {
+                // anim[i] = transform.GetChild(i).GetComponent<Animation>();
+            // }
             startFlag = false;
         }
 
-        private void Update()
-        {
-            if (!startFlag) return;
-
-            bool allFalse = true; 
-
-            foreach (var itr in anim)
-            {
-                if (!itr.isPlaying)
-                {
-                    allFalse = false;
-                }
-            }
-
-            if (!allFalse)
-            {
-                EndGoalAnimation();
-            }
-        }
+        //private void Update()
+        //{
+        //    if (!startFlag) return;
+        //
+        //    bool allFalse = true;
+        //
+        //    foreach (var itr in anim)
+        //    {
+        //        Debug.Log(itr.isPlaying);
+        //        if (!itr.isPlaying)
+        //        {
+        //            allFalse = false;
+        //        }
+        //    }
+        //    if (!flowAnim.isPlaying)
+        //    {
+        //        allFalse = false;
+        //    }
+        //
+        //    Debug.Log(allFalse);
+        //    if (!allFalse)
+        //    {
+        //        EndGoalAnimation();
+        //    }
+        //}
 
 
         public void StartGoalAnimation(goalFunc _func , int _goalNum,int _goalMaxNum)
         {
+            flowAnim.gameObject.SetActive(true);
             // 全てのアニメーションを再生
             foreach(var itr in anim)
             {
                 itr.Play();
             }
-
+            flowAnim.Play();
             startFlag = true;
 
             goalNum = _goalNum;
@@ -76,7 +87,7 @@ namespace TeamProject
             func = _func;
         }
 
-        void EndGoalAnimation()
+        public void EndGoalAnimation()
         {
             func(goalNumMax, goalNum);
         }
