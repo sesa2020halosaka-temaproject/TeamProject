@@ -8,7 +8,7 @@ public class CameraOut : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("DelayMethod", 0.5f);
+        Invoke("DelayMethod", 1.0f);
     }
 
     // Update is called once per frame

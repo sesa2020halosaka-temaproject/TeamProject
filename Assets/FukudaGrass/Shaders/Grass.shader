@@ -13,7 +13,7 @@
 	}
 		SubShader
 	{
-	 Tags {  "RenderType" = "Opaque" }
+	 Tags {  "RenderType" = "Transparent" }
 	 LOD 100
 	 Cull Off
 
