@@ -27,6 +27,11 @@ namespace TeamProject
 
         private GameObject subCamera;
 
+        private UnityEngine.Camera mainCamCom;
+        private UnityEngine.Camera subCamCom;
+
+        private float veiwMain;
+
         private Goal goal;
 
         private GameObject mainCameraGameObject;
@@ -36,7 +41,17 @@ namespace TeamProject
 
         private GameObject laneObj;
 
+        private Vector3 lanePos;
+
         private Quaternion laneQua;
+
+        [SerializeField]
+        private float goalSpeed=1f;
+
+        private PlayerVer2 player;
+
+        private bool seamlessEnd = false;
+        public bool SeamlessEnd { get { return seamlessEnd; } }
 
         // Start is called before the first frame update
         void Start()
@@ -50,7 +65,10 @@ namespace TeamProject
 
             SetFunction((uint)TRANS.Upd);
 
+            mainCamCom = UnityEngine.Camera.main;
             mainCameraGameObject = UnityEngine.Camera.main.gameObject;
+
+            veiwMain = mainCamCom.fieldOfView;
 
             volume = GetComponentInChildren<Volume>();
 
@@ -68,14 +86,33 @@ namespace TeamProject
             // volumeをオフに
             volume.enabled = false;
 
-            var stick = InputManager.InputManager.Instance.GetRStick();
+            // var stick = InputManager.InputManager.Instance.GetRStick();
 
             Vector3 rot = transform.rotation.eulerAngles;
 
-            float x, y;
+            float x=0, y=0;
+            float speedTime = speed * Time.deltaTime;
 
-            x = stick.x * speed * Time.deltaTime;
-            y = stick.y * speed * Time.deltaTime;
+            if (Input.GetKey(KeyCode.W))
+            {
+                y = speedTime;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                y = -speedTime;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                x = speedTime;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                x = -speedTime;
+            }
+
+
+            //  x = stick.x * speed * Time.deltaTime;
+            // y = stick.y * speed * Time.deltaTime;
 
             rot.x += y;
             rot.y -= x;
@@ -104,27 +141,37 @@ namespace TeamProject
             var goalTrans = goal.transform;
             var subCamTrans = subCamera.transform;
             var laneTrans = laneObj.transform;
+            var playerTrans = player.transform;
+            var playerHedPos = playerTrans.position + new Vector3(0f, 2f);
 
-            time += Time.deltaTime;
+            time += Time.deltaTime * goalSpeed;
 
-            //camTrans.position = Vector3.Slerp(startPos, laneTrans.position, time);
+            // camTrans.position = Vector3.Slerp(startPos, playerHedPos, time);
+            // camTrans.position = Vector3.Lerp(startPos, playerHedPos, time);
 
-            //camTrans.rotation = Quaternion.Slerp(startQua, laneTrans.rotation, time);
-            camTrans.position = Vector3.Slerp(startPos, subCamTrans.position, time);
+            // camTrans.rotation = Quaternion.Slerp(startQua, playerTrans.rotation, time);
+
+            camTrans.position = Vector3.Lerp(startPos, subCamTrans.position, time);
 
             camTrans.rotation = Quaternion.Slerp(startQua, subCamTrans.rotation, time);
-            // camTrans.LookAt(goalTrans.position + new Vector3(0f, 1f * goalTrans.localScale.y), Vector3.up);
 
-            if (1f <= time)
+            player.PlayerRendNot();
+
+            mainCamCom.fieldOfView -= (veiwMain - subCamCom.fieldOfView) * Time.deltaTime * goalSpeed;
+            if (mainCamCom.fieldOfView < subCamCom.fieldOfView) mainCamCom.fieldOfView = subCamCom.fieldOfView;
+            //if (0.8f <= time)
+            //{
+            //    player.gameObject.SetActive(false);
+            //}
+            if (1f * goalSpeed <= time)
             {
-                // time = 0f;
-                // SetFunction((uint)TRANS.Goal2);
-
-                // laneQua = camTrans.rotation;
-
-                ////  Debug.Break();
-                // Debug.Log(laneQua.eulerAngles + "+" + subCamera.transform.rotation.eulerAngles);
-                goal.GoalStart();
+                //time = Time.deltaTime * goalSpeed;
+                //SetFunction((uint)TRANS.Goal2);
+                //laneQua = camTrans.rotation;
+                //lanePos = camTrans.position;
+                mainCamCom.fieldOfView = subCamCom.fieldOfView;
+               //  gameObject.SetActive(false);
+                seamlessEnd = true;
             }
         }
 
@@ -136,16 +183,19 @@ namespace TeamProject
             var laneTrans = laneObj.transform;
 
             time += Time.deltaTime;
+            if (1f < time) { time = 1f; }
 
-            camTrans.position = Vector3.Slerp(laneTrans.position, subCamTrans.position, time);
+            camTrans.position = Vector3.Lerp(lanePos, subCamTrans.position, time);
 
             camTrans.rotation = Quaternion.Lerp(laneQua, subCamTrans.rotation, time);
 
+            mainCamCom.fieldOfView -= (veiwMain - subCamCom.fieldOfView) * Time.deltaTime;
             // camTrans.LookAt(goalTrans.position + new Vector3(0f, 1f * goalTrans.localScale.y), Vector3.up);
-
-            if (1f <= time)
+            if (camTrans.position == subCamTrans.position)
             {
+                mainCamCom.fieldOfView = subCamCom.fieldOfView;
                 goal.GoalStart();
+                gameObject.SetActive(false);
             }
         }
 
@@ -154,12 +204,21 @@ namespace TeamProject
             goal = _goal;
 
             subCamera = goal.SubCameraObj;
-
-            startPos = mainCameraGameObject.transform.position;
-            startQua = mainCameraGameObject.transform.rotation;
+            subCamCom = subCamera.GetComponent<UnityEngine.Camera>();
 
             laneObj = _goal.LaneObj;
             laneObj.transform.LookAt(goal.transform.position + new Vector3(0f, 1f * goal.transform.localScale.y), Vector3.up);
+        }
+
+        public void StartSeamless()
+        {
+            startPos = mainCameraGameObject.transform.position;
+            startQua = mainCameraGameObject.transform.rotation;
+        }
+
+        public void GetPlayer(PlayerVer2 _player)
+        {
+            player = _player;
         }
     }
 }

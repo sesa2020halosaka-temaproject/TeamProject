@@ -30,6 +30,11 @@ namespace TeamProject
 
         private int minionNum, minionMaxNum;
 
+        private bool playerGoal=false;
+
+        private PlayerVer2 player;
+
+        private bool goalOnce = true;
         // Start is called before the first frame update
         void Start()
         {
@@ -43,6 +48,19 @@ namespace TeamProject
 
             // とりあえず回転をZEROに
             transform.rotation = Quaternion.identity;
+            
+            camera.SetGoalCom(this);
+        }
+
+        private void Update()
+        {
+            if (!playerGoal) return;
+
+            if (camera.SeamlessEnd && goalOnce)
+            {
+                goalOnce = false;
+                GoalStart();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -51,17 +69,16 @@ namespace TeamProject
             var obj = other.transform.root.gameObject;
             if (obj.tag == "Player")
             {
+                playerGoal = true;
                 var platoon = obj.GetComponent<MinionPlatoon>();
-                var player = obj.GetComponent<PlayerVer2>();
+                player = obj.GetComponent<PlayerVer2>();
 
                 var chiceList = GameObject.FindGameObjectsWithTag("ChoiceObject");
 
                 int num = 0;
                 Debug.Log(chiceList.Length);
                 foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
-
-                rendObject.SetActive(false);
-
+                Debug.Log("ミニオンの数" + platoon.MinionNum + "ミニオンの最大数" + num);
                 for (int i = 0; i < platoon.MinionNum && i < minionObject.Length; i++)
                 {
                     minionObject[i].SetActive(true);
@@ -72,26 +89,48 @@ namespace TeamProject
                     itr.gameObject.SetActive(false);
                 }
 
-                player.gameObject.SetActive(false);
+                //player.gameObject.SetActive(false);
 
-                 camera.gameObject.SetActive(false);
+                // camera.gameObject.SetActive(false);
 
                 // ゴールの情報を渡す
                 // camera.SetGoalCom(this);
 
-                camera.SetFunction((uint)Camera.TRANS.Goal);
+                // camera.SetFunction((uint)Camera.TRANS.Goal);
 
                 minionNum = platoon.MinionNum; minionMaxNum= num;
+                player.SetFunction((uint)PlayerVer2.TRANSITION.Goal);
+                if (camera.NowFunctionNum == (uint)Camera.TRANS.Upd) GoalStart();
+                //GoalStart();
 
-                var pPos = player.transform.position;
-                var aniObPos = animObject.transform.position;
-                pPos.y = aniObPos.y;
-
-                animObject.transform.LookAt(pPos, Vector3.up);// = Quaternion.AngleAxis(, Vector3.up);
-                animObject.transform.rotation *= Quaternion.AngleAxis(-90f, Vector3.up);
-                GoalStart();
             }
         }
+        public void GoalIn(PlayerVer2 _player)
+        {
+            playerGoal = true;
+            var platoon = _player.GetComponent<MinionPlatoon>();
+            player = _player;
+
+            var chiceList = GameObject.FindGameObjectsWithTag("ChoiceObject");
+
+            int num = 0;
+            Debug.Log(chiceList.Length);
+            foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
+            Debug.Log("ミニオンの数" + platoon.MinionNum + "ミニオンの最大数" + num);
+            for (int i = 0; i < platoon.MinionNum && i < minionObject.Length; i++)
+            {
+                minionObject[i].SetActive(true);
+            }
+
+            foreach (var itr in platoon.MinionList)
+            {
+                itr.gameObject.SetActive(false);
+            }
+            
+            minionNum = platoon.MinionNum; minionMaxNum = num;
+            player.SetFunction((uint)PlayerVer2.TRANSITION.Goal);
+        }
+
         public IEnumerator ToTitle()
         {
             yield return new WaitForSeconds(3.0f);
@@ -101,10 +140,24 @@ namespace TeamProject
 
         public void GoalStart()
         {
+            rendObject.SetActive(false);
+
+            player.gameObject.SetActive(false);
+            //player.PlayerRendNot();
             animObject.gameObject.SetActive(true);
             // ゴールのリザルトを送る
             animObject.StartGoalAnimation(goalLogoAnimation.Goal, minionNum, minionMaxNum);
 
+           // player.gameObject.GetComponentInChildren<Animator>().SetTrigger("Goal");
         }
-    }
+
+        public void PlayerLook(PlayerVer2 _player)
+        {
+            var pPos = _player.transform.position;
+            var aniObPos = animObject.transform.position;
+            pPos.y = aniObPos.y;
+            animObject.transform.LookAt(pPos, Vector3.up);// = Quaternion.AngleAxis(, Vector3.up);
+            animObject.transform.rotation *= Quaternion.AngleAxis(-90f, Vector3.up);
+        }
+}
 }
