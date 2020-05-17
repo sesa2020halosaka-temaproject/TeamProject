@@ -141,7 +141,7 @@ namespace TeamProject
 
             //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
 
-            
+
             //上下矢印の処理
             StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
             //左右矢印の処理
@@ -158,17 +158,29 @@ namespace TeamProject
             switch (StageChangeManager.GetSelectState())
             {
                 case SELECT_STATE.KEY_WAIT:
-                    m_Counter++;
-
-                    //m_InputStopFrameの分だけ待たせる
-                    if (m_Counter > m_InputStopFrame && !m_KeyWait_Flag)
+                    if (!m_KeyWait_Flag)
                     {
-                        //フラグをONにする
-                        m_KeyWait_Flag = !m_KeyWait_Flag;
-                        m_Counter = 0;
+                        //上下左右の入力がないときにカウントアップする
+                        if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
+                            && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow)
+                            && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow)
+                            && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
+                            )
+                        {
+                            m_Counter++;
+
+                        }
+
+                        //m_InputStopFrameの分だけ待たせる
+                        if (m_Counter > m_InputStopFrame)
+                        {
+                            //フラグをONにする
+                            m_KeyWait_Flag = !m_KeyWait_Flag;
+                            m_Counter = 0;
+                        }
                     }
                     //フラグがONになったら入力可能にする
-                    if (m_KeyWait_Flag)
+                    else if (m_KeyWait_Flag)
                     {
 
                         //ステージ選択（WSキー or スティック上下）
@@ -199,7 +211,7 @@ namespace TeamProject
                     //固定用ドリールートをセット
                     _Main_DollyCam.SetPathFixingDolly();
                     _Sub_DollyCam.SetPathFixingDolly();
-                       //_DollyCart.SetPathFixingDolly();
+                    //_DollyCart.SetPathFixingDolly();
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();
@@ -266,17 +278,17 @@ namespace TeamProject
                     Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());
                     count++;
                     Debug.Log("count" + count);
-                    m_Counter++;
-                    if (!m_KeyWait_Flag)
-                    {
-                        m_KeyWait_Flag = !m_KeyWait_Flag;
+                    //m_Counter++;
+                    //if (!m_KeyWait_Flag)
+                    //{
+                    //    m_KeyWait_Flag = !m_KeyWait_Flag;
 
-                    }
-                    if (m_Counter > m_InputStopFrame)
-                    {
-                        m_KeyWait_Flag = !m_KeyWait_Flag;
-                        m_Counter = 0;
-                    }
+                    //}
+                    //if (m_Counter > m_InputStopFrame)
+                    //{
+                    //    m_KeyWait_Flag = !m_KeyWait_Flag;
+                    //    m_Counter = 0;
+                    //}
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();

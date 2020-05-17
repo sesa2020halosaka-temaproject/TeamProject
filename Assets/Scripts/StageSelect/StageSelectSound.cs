@@ -36,8 +36,6 @@ namespace TeamProject
             for (int i = 0; i < (int)WORLD_NO.ALL_WORLD; i++)
             {
                 AudioClip[i] = Resources.Load<AudioClip>(AudioName[i]);
-                Debug.Log(AudioClip[i] + " not found");
-
                 if (AudioClip[i] == null)
                 {
                     Debug.LogError(AudioClip[i] + " not found");
