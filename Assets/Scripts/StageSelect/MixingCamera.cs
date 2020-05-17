@@ -76,6 +76,7 @@ namespace TeamProject
                         //方向転換完了
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("GO");
+                        StageChangeManager.DollyCartStateChange("GO");
 
 
 
@@ -91,6 +92,7 @@ namespace TeamProject
                         // this.MixState("ZERO");
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("BACK");
+                        StageChangeManager.DollyCartStateChange("BACK");
                         //ResetWeight();
 
                         ////ドリーカメラの初期設定
@@ -111,6 +113,7 @@ namespace TeamProject
                         //方向転換完了
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("WORLD");
+                        StageChangeManager.DollyCartStateChange("WORLD");
 
 
 

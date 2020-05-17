@@ -19,6 +19,7 @@ namespace TeamProject
         private static StageSelect.SELECT_STATE m_SelectState = StageSelect.SELECT_STATE.KEY_WAIT;
         private static MixingCamera.MIXING_STATE m_MixingState = MixingCamera.MIXING_STATE.FIXING;
         private static DollyCamera.DOLLY_MOVE m_DollyState = DollyCamera.DOLLY_MOVE.FIXING;
+        private static DollyCartManager.DOLLYCART_MOVE m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.FIXING;
 
         private static int m_LeftEdge = (int)WORLD_NO.W1;//ワールド移動制限用左端
         private static int m_RightEdge = (int)WORLD_NO.W4;//ワールド移動制限用右端
@@ -74,7 +75,7 @@ namespace TeamProject
             //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow) && WorldNumber != m_RightEdge)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 WorldNumber += 1;
@@ -95,7 +96,7 @@ namespace TeamProject
 
             }
             //左入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow) && WorldNumber != m_LeftEdge)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))// && WorldNumber != m_LeftEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
                 WorldNumber -= 1;
@@ -299,6 +300,40 @@ namespace TeamProject
 
         //============================================================
         //ドリーカート処理
+        public static DollyCartManager.DOLLYCART_MOVE DollyCartState()
+        {
+            return m_DollyCartState;
+        }
+        public static void DollyCartStateChange(string _Word)
+        {
+            if (_Word == "GO")
+            {
+                m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.GO;
+
+            }
+            else if (_Word == "BACK")
+            {
+                m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.BACK;
+
+            }
+            else if (_Word == "WORLD")
+            {
+                m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.WORLD;
+
+            }
+            else if (_Word == "FIXING")
+            {
+                m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.FIXING;
+
+            }
+            else
+            {
+                Debug.LogAssertion("DOLLYCART_MOVEの言葉が違います。");
+                m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.FIXING;
+
+            }
+        }
+
         public static void DollyCartFlagON()
         {
             m_DollyCart_flag = true;

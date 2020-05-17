@@ -81,7 +81,7 @@ namespace TeamProject
             get
             {
                 var world = CurrentWorld + 1;
-                if (world >= 4) { world = 1; }
+                if (world >= 4) { world = 0; }
 
                 return world;
             }

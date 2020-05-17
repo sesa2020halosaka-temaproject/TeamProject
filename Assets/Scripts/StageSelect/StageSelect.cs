@@ -29,8 +29,8 @@ namespace TeamProject
         public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
         public DollyCartManager _DollyCart;
 
-        public int m_Counter = 0;//
-        public int m_InputStopFrame;//ステージやワールドの移動後のキー入力を待たせるフラグ
+        public float m_Counter = 0;//
+        public float m_InputStopFrame;//ステージやワールドの移動後のキー入力を待たせるフラグ
         public bool m_KeyWait_Flag = false;
         public bool m_WorldEndMixing_Flag = false;
         private int count = 0;
@@ -141,7 +141,7 @@ namespace TeamProject
 
             //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
 
-            
+
             //上下矢印の処理
             StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
             //左右矢印の処理
@@ -158,17 +158,30 @@ namespace TeamProject
             switch (StageChangeManager.GetSelectState())
             {
                 case SELECT_STATE.KEY_WAIT:
-                    m_Counter++;
 
-                    //m_InputStopFrameの分だけ待たせる
-                    if (m_Counter > m_InputStopFrame && !m_KeyWait_Flag)
+                    if (!m_KeyWait_Flag)
                     {
-                        //フラグをONにする
-                        m_KeyWait_Flag = !m_KeyWait_Flag;
-                        m_Counter = 0;
+                        //上下左右の入力がないときにカウントアップする
+                        if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
+                            && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow)
+                            && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow)
+                            && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
+                            )
+                        {
+                            m_Counter += Time.deltaTime;
+
+                        }
+
+                        //m_InputStopFrameの分だけ待たせる
+                        if (m_Counter > m_InputStopFrame)
+                        {
+                            //フラグをONにする
+                            m_KeyWait_Flag = !m_KeyWait_Flag;
+                            m_Counter = 0;
+                        }
                     }
                     //フラグがONになったら入力可能にする
-                    if (m_KeyWait_Flag)
+                    else if (m_KeyWait_Flag)
                     {
 
                         //ステージ選択（WSキー or スティック上下）
@@ -199,13 +212,16 @@ namespace TeamProject
                     //固定用ドリールートをセット
                     _Main_DollyCam.SetPathFixingDolly();
                     _Sub_DollyCam.SetPathFixingDolly();
-                       //_DollyCart.SetPathFixingDolly();
+                    //_DollyCart.SetPathFixingDolly();
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();
 
                     //Dollyカメラの初期化
                     ResetDollyCamera();
+
+                    //DollyCartの初期化
+                    ResetDollyCart();
 
                     ////Dollyカメラの状態をFIXINGに戻す
                     //StageChangeManager.DollyStateChange("FIXING");
@@ -230,6 +246,7 @@ namespace TeamProject
                         Debug.Log("StageChangeManager.DollyFlagCheck():" + StageChangeManager.DollyFlagCheck());
                         //Dollyカメラの状態を設定する
                         StageChangeManager.DollyStateChange("FIXING");
+                        StageChangeManager.DollyCartStateChange("FIXING");
 
                         //ステージセレクトの状態を設定する
                         StageChangeManager.SelectStateChange("KEY_WAIT");
@@ -260,23 +277,16 @@ namespace TeamProject
                         Debug.Log("STAGE_MOVING終わり");
                     }
 
+                    //Dollyカメラの座標をドリーカートの座標に合わせる
+                    _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+                    _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+
                     //StageChangeManager.Update();
                     break;
                 case SELECT_STATE.BEFORE_WORLD_MOVING:
                     Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());
                     count++;
                     Debug.Log("count" + count);
-                    m_Counter++;
-                    if (!m_KeyWait_Flag)
-                    {
-                        m_KeyWait_Flag = !m_KeyWait_Flag;
-
-                    }
-                    if (m_Counter > m_InputStopFrame)
-                    {
-                        m_KeyWait_Flag = !m_KeyWait_Flag;
-                        m_Counter = 0;
-                    }
 
                     //Mixingカメラの初期化
                     ResetMixingCamera();
@@ -323,6 +333,7 @@ namespace TeamProject
                         //各種状態を待機状態に戻す
                         //Dollyカメラの状態を設定する
                         StageChangeManager.DollyStateChange("FIXING");
+                        StageChangeManager.DollyCartStateChange("FIXING");
 
                         //ステージセレクトの状態を設定する
                         StageChangeManager.SelectStateChange("KEY_WAIT");
@@ -349,7 +360,7 @@ namespace TeamProject
                         _Main_DollyCam.SetPathFixingDolly();
                         _Sub_DollyCam.SetPathFixingDolly();
                         //_DollyCart.SetPathFixingDolly();
-                        _Main_DollyCam.sss();
+
                         //_Sub_DollyCam.PathPositionReset();
                         //ステージ番号の更新
                         if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
@@ -365,6 +376,11 @@ namespace TeamProject
                         Debug.Log("WORLD_MOVINGおしまい");
 
                     }
+
+                    //Dollyカメラの座標をドリーカートの座標に合わせる
+                    _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+                    _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+
 
                     //WorldChangeManagr.Update();
                     break;
@@ -566,24 +582,24 @@ namespace TeamProject
         //DollyCartの初期化
         public void ResetDollyCart()
         {
-            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
-            {
-                Debug.Log("UP：処理が間違っています。");
-                return;
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
-            {
-                Debug.Log("DOWN：処理が間違っています。");
-                return;
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
-            {
-                //StageChangeManager.DollyStateChange("WORLD");
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
-            {
-                //StageChangeManager.DollyStateChange("WORLD");
-            }
+            //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            //{
+            //    Debug.Log("UP：処理が間違っています。");
+            //    return;
+            //}
+            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            //{
+            //    Debug.Log("DOWN：処理が間違っています。");
+            //    return;
+            //}
+            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+            //{
+            //    //StageChangeManager.DollyStateChange("WORLD");
+            //}
+            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+            //{
+            //    //StageChangeManager.DollyStateChange("WORLD");
+            //}
 
             _DollyCart.SetDollyPath();
             //_DollyCart.SetAddTime();

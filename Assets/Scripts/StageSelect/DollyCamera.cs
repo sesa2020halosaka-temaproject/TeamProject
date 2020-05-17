@@ -116,16 +116,6 @@ namespace TeamProject
 
         }
 
-        // ウェイポイントの最大番号をセット
-        public void SetPathPositionMax(float maxpos)
-        {
-            this.pathPositionMax = maxpos;
-        }
-        // ウェイポイントの最小番号をセット
-        public void SetPathPositionMin(float minpos)
-        {
-            this.pathPositionMin = minpos;
-        }
         public void DollyUpdate()
         {
 
@@ -283,6 +273,16 @@ namespace TeamProject
             }
 
         }
+        // ウェイポイントの最大番号をセット
+        public void SetPathPositionMax(float maxpos)
+        {
+            this.pathPositionMax = maxpos;
+        }
+        // ウェイポイントの最小番号をセット
+        public void SetPathPositionMin(float minpos)
+        {
+            this.pathPositionMin = minpos;
+        }
 
         //カメラのパス位置を初期化する
         public void PathPositionReset()
@@ -401,14 +401,6 @@ namespace TeamProject
             this.dolly.m_Path = m_DoTr.m_Dolly_FIXING;
             //パス位置を0にする
             this.dolly.m_PathPosition = 0;
-        }
-
-        public void sss()
-        {
-            Debug.Log("["+dolly.m_Path.transform.position+"]");
-            CinemachinePath.Waypoint waypoint;
-            this.dolly.m_PathPosition = 0;
-
         }
     }//public class DollyCamera : MonoBehaviour END
 }//namespace END

@@ -14,12 +14,24 @@ namespace TeamProject
         public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
         public CinemachineDollyCart _DollyCart;
 
+        //カメラのパスの位置の移動
+        public enum DOLLYCART_MOVE
+        {
+            FIXING,//固定
+            GO,  //進める
+            BACK,   //戻る
+            WORLD,  //ワールド間移動
+            ALL_STATES//全要素数
 
-        public DollyCamera.DOLLY_MOVE m_DollyMove;
+        }
+        public DOLLYCART_MOVE m_DollyMove;
+
+       // public DollyCamera.DOLLY_MOVE m_DollyMove;
 
         public float pathPositionMax;
         public float pathPositionMin;
         public float AddTime;//移動速度の方向
+        public float Stage_MoveRatio;//ステージ間の移動速度の倍率
         public float World_MoveRatio;//ワールド間の移動速度の倍率
 
         // Start is called before the first frame update
@@ -43,22 +55,38 @@ namespace TeamProject
             AddTime = 1.0f;//移動速度の方向
                            //World_MoveRatio=1.0f;//ワールド間の移動速度の倍率
 
-            m_DollyMove = DollyCamera.DOLLY_MOVE.FIXING;
+            m_DollyMove = DOLLYCART_MOVE.FIXING;
         }
 
         // Update is called once per frame
         void Update()
         {
-            m_DollyMove = StageChangeManager.DollyState();
+            m_DollyMove = StageChangeManager.DollyCartState();
             switch (m_DollyMove)
             {
-                case DollyCamera.DOLLY_MOVE.FIXING:
+                case DOLLYCART_MOVE.FIXING:
                     break;
-                case DollyCamera.DOLLY_MOVE.GO:
+                case DOLLYCART_MOVE.GO:
+                    this._DollyCart.m_Position += AddTime * Time.deltaTime * Stage_MoveRatio;
+                    if (this._DollyCart.m_Position >= this.pathPositionMax)
+                    {
+                        this._DollyCart.m_Position = this.pathPositionMax;
+                        //移動完了
+                        StageChangeManager.DollyCartFlagON();
+
+                    }
                     break;
-                case DollyCamera.DOLLY_MOVE.BACK:
+                case DOLLYCART_MOVE.BACK:
+                    this._DollyCart.m_Position += AddTime * Time.deltaTime * Stage_MoveRatio;
+                    if (this._DollyCart.m_Position <= this.pathPositionMin)
+                    {
+                        this._DollyCart.m_Position = this.pathPositionMin;
+                        //移動完了
+                        StageChangeManager.DollyCartFlagON();
+
+                    }
                     break;
-                case DollyCamera.DOLLY_MOVE.WORLD:
+                case DOLLYCART_MOVE.WORLD:
                     //位置の更新
                     this._DollyCart.m_Position += AddTime * Time.deltaTime * World_MoveRatio;
 
@@ -74,7 +102,7 @@ namespace TeamProject
 
 
                     break;
-                case DollyCamera.DOLLY_MOVE.ALL_STATES:
+                case DOLLYCART_MOVE.ALL_STATES:
                     break;
                 default:
                     break;
@@ -124,21 +152,23 @@ namespace TeamProject
         //カメラのパス位置を初期化する
         public void PathPositionReset()
         {
-            m_WP.SetWayPoint();
+            //m_WP.SetWayPoint();
             //Debug.Log(pos);
             if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
             {
+                _DollyCart.m_Position = pathPositionMin;
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
             {
+                _DollyCart.m_Position = pathPositionMax;
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
-                _DollyCart.m_Position = m_WP.m_Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
+                _DollyCart.m_Position = pathPositionMin;
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
-                _DollyCart.m_Position = m_WP.m_Stage_WayPoint[(int)StageStatusManager.Instance.StageInWorld];
+                _DollyCart.m_Position = pathPositionMin;
             }
 
             //Debug.Log(this.dolly.m_PathPosition);
@@ -150,8 +180,10 @@ namespace TeamProject
             switch (StageChangeManager.GetStageChangeKey())
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.UP:
+                    this._DollyCart.m_Path = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
+                    this._DollyCart.m_Path = m_DoTr.m_Dolly_PrevStage[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
                     this._DollyCart.m_Path = m_DoTr.m_Dolly_PrevWorld[(int)StageStatusManager.Instance.CurrentStage];//前ワールド移動用ドリーパスをセット
