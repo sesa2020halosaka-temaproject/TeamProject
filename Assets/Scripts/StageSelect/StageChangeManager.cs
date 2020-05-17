@@ -74,7 +74,7 @@ namespace TeamProject
             //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow) && WorldNumber != m_RightEdge)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 WorldNumber += 1;
@@ -95,7 +95,7 @@ namespace TeamProject
 
             }
             //左入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow) && WorldNumber != m_LeftEdge)
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))// && WorldNumber != m_LeftEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
                 WorldNumber -= 1;
