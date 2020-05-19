@@ -53,6 +53,9 @@ namespace TeamProject
         private bool[] oldArrow = new bool[(int)ArrowCoad.Max];
 
         private bool enterOnce = true;
+
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -78,10 +81,10 @@ namespace TeamProject
 
             bool[] arrow = new bool[(int)ArrowCoad.Max];
 
-            arrow[(int)ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
-            arrow[(int)ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow);
-            arrow[(int)ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
-            arrow[(int)ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
+            arrow[(int)ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.UpArrow);
+            arrow[(int)ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.DownArrow);
+            arrow[(int)ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.RightArrow);
+            arrow[(int)ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.LeftArrow);
 
 
             if (arrow[(int)ArrowCoad.LeftArrow] && !oldArrow[(int)ArrowCoad.LeftArrow])
@@ -151,6 +154,10 @@ namespace TeamProject
                 goalCharaAnimationAnimator[i] = obj.GetComponent<Animator>();
 
                 goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
+
+                var goalLogoMinion = obj.GetComponent<GoalLogoMinion>();
+                
+                // goalLogoMinion.SetImage();
             }
 
             anima.SetTrigger("Darkness");
@@ -237,5 +244,10 @@ namespace TeamProject
                 StageStatusManager.Instance.Stage_Status[curr] = (CLEAR_STATUS)starNum;
             }
         }
+        private void SetPlatoon(MinionPlatoon _platoon)
+        {
+           //  goalLogoMinion
+        }
+
     }
 }
