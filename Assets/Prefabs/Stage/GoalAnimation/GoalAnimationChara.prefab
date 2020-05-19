@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3452228753600243504}
   - component: {fileID: 4614357470436657042}
   - component: {fileID: 690744905708516876}
+  - component: {fileID: 8941852404346695870}
   m_Layer: 5
   m_Name: GoalAnimationChara
   m_TagString: Untagged
@@ -70,6 +71,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94be47b3374ed7244ae662e5e779c2e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8941852404346695870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524273628670560499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9139bc152e1901748ba991468a357d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minionLogoImage:
+  - {fileID: 21300000, guid: 583cbc3735a94e748aa3fd57053828d2, type: 3}
+  - {fileID: 21300000, guid: 450f5a752f3a3434493491764d3b22a9, type: 3}
+  - {fileID: 21300000, guid: e149407d00237dc429bd43ca278919e4, type: 3}
+  - {fileID: 0}
 --- !u!1 &5614217634620035596
 GameObject:
   m_ObjectHideFlags: 0
