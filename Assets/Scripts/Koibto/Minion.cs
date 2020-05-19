@@ -12,13 +12,22 @@ namespace TeamProject
         private bool once = false;
 
         private Animator anima;
-        
+
+        private uint minionNumber = 0;
+
         enum TRANS
         {
             None,
             Wait,
             Move,
             Max,
+        }
+
+        public enum MINION_TYPE
+        {
+            ANEMONE,
+            STICK,
+            FLAG
         }
 
         [SerializeField]
@@ -29,7 +38,16 @@ namespace TeamProject
         private bool FindEndFlag;
 
         private GameObject player;
-       
+
+        [SerializeField]
+        [Header("Modelのリスト(追加したらここにアタッチ)")]
+        private GameObject[] ModelList;
+
+        [SerializeField]
+        [Header("どのモデルを適用するか")]
+        private MINION_TYPE modelNumber;
+
+        public MINION_TYPE ModelNumber { get { return modelNumber; } }
 
         // Start is called before the first frame update
         void Start()
@@ -43,7 +61,18 @@ namespace TeamProject
             SetFunction((uint)TRANS.Wait);
 
             rb = GetComponent<Rigidbody>();
-            anima = transform.GetComponentInChildren<Animator>();
+
+            // 一度全体のモデルのactiveをfalse
+            foreach(var itr in ModelList)
+            {
+                itr.SetActive(false);
+            }
+
+            // 指定のモデルのみをTrueに
+            ModelList[(uint)modelNumber].SetActive(true);
+
+            // まとめられているものからAnimatorがついている
+            anima = ModelList[(uint)modelNumber].transform.GetComponent<Animator>();
         }
         
         private  void None()
