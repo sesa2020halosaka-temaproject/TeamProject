@@ -15,20 +15,20 @@ namespace TeamProject
             LIGHT_RAIN = 0, //小雨の音
             RAIN,//雨の音
             ALL_AMBIENT,//全環境音数
-            YOBI,//予備
             NONE,//音無し
         }
         [Header("追加環境音の切り替え")]
         public AMBIENT_SOUND m_AmbientBGM;
+
+        [Header("Trueにすると下記でセットされたBGMが鳴ります。")]
+        [Header("チェック無し時はワールドに合わせたBGMと環境音が鳴ります")]
+        public bool m_DebugBGM = false;
 
         [Header("BGMをセットすること(確認デバッグ用)")]
         public AudioClip m_Start_BGM;
         public AudioClip m_Start_Ambient;
 
         private WORLD_NO _WorldNumber;
-
-        [Header("Trueにすると上記でセットされたBGMが鳴ります。")]
-        public bool m_DebugBGM = false;
 
         //==============================================================
         //関数ここから
@@ -58,11 +58,9 @@ namespace TeamProject
             {
                 //BGMスタート
                 BGMManager.Instance.Play(m_Start_BGM.name);
-                //BGMSwitcher.CrossFade(m_Start_BGM.name);
 
-                //草のなびく音追加
-                BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
-                //BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
+                //ステージ環境音の追加
+                BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, isLoop: true, allowsDuplicate: true);
 
             }
             else
@@ -114,8 +112,6 @@ namespace TeamProject
                     break;
                 case AMBIENT_SOUND.RAIN:
                     BGMManager.Instance.Play(SEPath.SE_RAIN, allowsDuplicate: true, isLoop: true);
-                    break;
-                case AMBIENT_SOUND.YOBI:
                     break;
                 case AMBIENT_SOUND.NONE:
                     break;

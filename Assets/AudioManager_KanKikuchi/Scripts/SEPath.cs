@@ -15,6 +15,7 @@ public static class SEPath{
 	public const string SE_CLEAR                   = "SE/Stereo/SE_Ste_Result/SE_Clear";
 	public const string SE_CURSOL_MOVE             = "SE/Mono/SE_Mono_System/SE_CursolMove";
 	public const string SE_FAILURE                 = "SE/Stereo/SE_Ste_Result/SE_Failure";
+	public const string SE_FLYING_PC               = "SE/Stereo/SE_Ste_Player/SE_FlyingPC";
 	public const string SE_GOAL                    = "SE/Stereo/SE_Ste_Goal/SE_Goal";
 	public const string SE_GRASS_WAVE_FALL         = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Fall";
 	public const string SE_GRASS_WAVE_SPRING       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Spring";
