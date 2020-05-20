@@ -58,11 +58,9 @@ namespace TeamProject
             {
                 //BGMスタート
                 BGMManager.Instance.Play(m_Start_BGM.name);
-                //BGMSwitcher.CrossFade(m_Start_BGM.name);
 
-                //草のなびく音追加
-                BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
-                //BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE, /*volumeRate: Volume,*/ delay: FadeIn_Time, isLoop: true, allowsDuplicate: true);
+                //ステージ環境音の追加
+                BGMManager.Instance.Play("SE/stereo/SE_Ste_Ambient/" + m_Start_Ambient.name, isLoop: true, allowsDuplicate: true);
 
             }
             else
