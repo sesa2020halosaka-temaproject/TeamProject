@@ -70,15 +70,23 @@ namespace TeamProject
             if (obj.tag == "Player")
             {
                 playerGoal = true;
+
                 var platoon = obj.GetComponent<MinionPlatoon>();
+
                 player = obj.GetComponent<PlayerVer2>();
 
+                goalLogoAnimation.SetPlatoon(platoon);
+                
                 var chiceList = GameObject.FindGameObjectsWithTag("ChoiceObject");
 
                 int num = 0;
+
                 Debug.Log(chiceList.Length);
+
                 foreach (var itr in chiceList) { if (itr.layer == 9) num++; Debug.Log(itr.transform.root.name); }
+
                 Debug.Log("ミニオンの数" + platoon.MinionNum + "ミニオンの最大数" + num);
+
                 for (int i = 0; i < platoon.MinionNum && i < minionObject.Length; i++)
                 {
                     minionObject[i].SetActive(true);
@@ -99,10 +107,11 @@ namespace TeamProject
                 // camera.SetFunction((uint)Camera.TRANS.Goal);
 
                 minionNum = platoon.MinionNum; minionMaxNum= num;
+
                 player.SetFunction((uint)PlayerVer2.TRANSITION.Goal);
+
                 if (camera.NowFunctionNum == (uint)Camera.TRANS.Upd) GoalStart();
                 //GoalStart();
-
             }
         }
         public void GoalIn(PlayerVer2 _player)
@@ -110,6 +119,8 @@ namespace TeamProject
             playerGoal = true;
             var platoon = _player.GetComponent<MinionPlatoon>();
             player = _player;
+
+            goalLogoAnimation.SetPlatoon(platoon);
 
             var chiceList = GameObject.FindGameObjectsWithTag("ChoiceObject");
 
@@ -145,6 +156,7 @@ namespace TeamProject
             player.gameObject.SetActive(false);
             //player.PlayerRendNot();
             animObject.gameObject.SetActive(true);
+            
             // ゴールのリザルトを送る
             animObject.StartGoalAnimation(goalLogoAnimation.Goal, minionNum, minionMaxNum);
 
