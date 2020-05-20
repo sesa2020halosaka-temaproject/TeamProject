@@ -54,7 +54,7 @@ namespace TeamProject
 
         private bool enterOnce = true;
 
-
+        private MinionPlatoon platoon;
 
         // Start is called before the first frame update
         void Start()
@@ -145,6 +145,9 @@ namespace TeamProject
 
             var length = kobitoLogoLeftPos - kobitoLogoRightPos;
             var onceLengeth = length / kobitoMaxNum;
+            Debug.Log(platoon.MinionList.ToArray().Length);
+
+            var goalLogoMinionList = new List<GoalLogoMinion>();
 
             for (int i = 0; i < kobitoMaxNum; i++)
             {
@@ -155,9 +158,12 @@ namespace TeamProject
 
                 goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
 
-                var goalLogoMinion = obj.GetComponent<GoalLogoMinion>();
-                
-                // goalLogoMinion.SetImage();
+                goalLogoMinionList.Add(obj.GetComponent<GoalLogoMinion>());
+            }
+
+            for(int i = 0; i < platoon.MinionNum; i++)
+            {
+                goalLogoMinionList[i].SetImage(platoon.MinionList[i].ModelNumber);
             }
 
             anima.SetTrigger("Darkness");
@@ -244,9 +250,9 @@ namespace TeamProject
                 StageStatusManager.Instance.Stage_Status[curr] = (CLEAR_STATUS)starNum;
             }
         }
-        private void SetPlatoon(MinionPlatoon _platoon)
+        public void SetPlatoon(MinionPlatoon _platoon)
         {
-           //  goalLogoMinion
+            platoon = _platoon;
         }
 
     }
