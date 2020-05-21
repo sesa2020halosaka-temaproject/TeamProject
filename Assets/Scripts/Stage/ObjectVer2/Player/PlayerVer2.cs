@@ -691,7 +691,13 @@ namespace TeamProject
 
         }
 
-        public LayerMask test;
+        // public LayerMask test;
+
+        [SerializeField]
+        private  LayerMask rayCheck;
+
+        [SerializeField]
+        private LayerMask rayCheckCeiling;
 
         private bool TopRayCheck()
         {
@@ -737,7 +743,7 @@ namespace TeamProject
             for (int i = 0; i < (uint)rayNum; i++)
             {
                 RaycastHit hit;
-                Physics.Raycast(rayArray[i], out hit, 10000f, test);
+                Physics.Raycast(rayArray[i], out hit, 10000f, rayCheck);
 
                 // 長さを代入
                 lengthArray[i] = hit.distance;
