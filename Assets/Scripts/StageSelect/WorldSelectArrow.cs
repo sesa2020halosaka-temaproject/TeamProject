@@ -11,8 +11,8 @@ namespace TeamProject
         //現在ワールド位置 
         //StageStatusManager.Instance.CurrentWorld;
         public static GameObject m_Canvas;//一番上の親オブジェクト
-        public static GameObject m_Next;//上矢印用オブジェクト
-        public static GameObject m_Prev;//下矢印用オブジェクト
+        public static GameObject m_Next;//右矢印用オブジェクト
+        public static GameObject m_Prev;//左矢印用オブジェクト
 
         public static bool m_AdvancedWorld4_Flag = false;//ワールド４に進出したかどうかフラグ
 
