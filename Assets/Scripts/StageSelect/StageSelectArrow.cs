@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TeamProject
 {
@@ -13,6 +14,18 @@ namespace TeamProject
         public static GameObject m_Next;//上矢印用オブジェクト
         public static GameObject m_Prev;//下矢印用オブジェクト
 
+        //スプライトのパス
+        public static string[] m_UI_StageName = {
+            "01_Stage01","01_Stage02","01_Stage03","01_Stage04","01_Stage05",
+            "02_Stage01","02_Stage02","02_Stage03","02_Stage04","02_Stage05",
+            "03_Stage01","03_Stage02","03_Stage03","03_Stage04","03_Stage05",
+            "04_Stage01","04_Stage02","04_Stage03","04_Stage04","04_Stage05",
+        };
+        public static string m_NextName;//次ステージ用パス
+        public static string m_PrevName;//前ステージ用パス
+        //スプライトのパス（固定部分）
+        public const string m_ConstPath = "Sprites/StageSelect/UI_StageNamePlate/UI_World";
+
         private void Awake()
         {
             m_Canvas = transform.root.gameObject;//一番上の親を取得
@@ -24,6 +37,7 @@ namespace TeamProject
         // Start is called before the first frame update
         void Start()
         {
+            ChangeStageNameIcon();
         }
 
         // Update is called once per frame
@@ -37,7 +51,7 @@ namespace TeamProject
             switch (_StageInWorld)
             {
                 case (int)IN_WORLD_NO.S1://Stage01
-                    TwoSetActives(true, false);
+                    TwoSetActives(false, true);
 
                     break;
                 case (int)IN_WORLD_NO.S2:
@@ -48,7 +62,7 @@ namespace TeamProject
 
                     break;
                 case (int)IN_WORLD_NO.S5://Stage05
-                    TwoSetActives(false, true);
+                    TwoSetActives(true, false);
 
                     break;
                 case (int)IN_WORLD_NO.ALLSTAGE:
@@ -63,7 +77,7 @@ namespace TeamProject
             switch (StageNumber)
             {
                 case (int)IN_WORLD_NO.S1://Stage01
-                    TwoSetActives(true, false);
+                    TwoSetActives(false, true);
 
                     break;
                 case (int)IN_WORLD_NO.S2:
@@ -74,7 +88,7 @@ namespace TeamProject
 
                     break;
                 case (int)IN_WORLD_NO.S5://Stage05
-                    TwoSetActives(false, true);
+                    TwoSetActives(true, false);
 
                     break;
                 case (int)IN_WORLD_NO.ALLSTAGE:
@@ -85,7 +99,7 @@ namespace TeamProject
         }
 
         //上下の矢印のアクティブを同時に設定
-        private static void TwoSetActives(bool Next, bool Prev)
+        private static void TwoSetActives(bool Prev, bool Next)
         {
             m_Next.SetActive(Next);
             m_Prev.SetActive(Prev);
@@ -97,5 +111,35 @@ namespace TeamProject
             m_Next.SetActive(false);
             m_Prev.SetActive(false);
         }
+
+        //前後どちらの移動かによる矢印のアクティブ設定
+        public static void TwoArrowsSetting()
+        {
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+            {
+                TwoSetActives(false, true);
+            }
+            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            {
+                TwoSetActives(true, false);
+            }
+        }
+
+        //次と前のステージを示すUIの差し替え
+        public static void ChangeStageNameIcon()
+        {
+           // Debug.Log("NamePlate");
+           //スプライトのパスを切り替える
+            m_NextName = m_ConstPath + m_UI_StageName[(int)StageStatusManager.Instance.NextStage];
+            m_PrevName = m_ConstPath + m_UI_StageName[(int)StageStatusManager.Instance.PrevStage];
+
+            //次のステージの表示スプライトを差し替える
+            m_Next.transform.GetChild(1).GetComponent<Image>().sprite = null;
+            m_Next.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_NextName);
+            
+            //前のステージの表示スプライトを差し替える
+            m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = null;
+            m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_PrevName);
+        }//Sprites/StageSelect/UI_StageNamePlate/UI_World01_Stage01.png
     }//public class StageSelectArrow : MonoBehaviour END
 }//namespace END

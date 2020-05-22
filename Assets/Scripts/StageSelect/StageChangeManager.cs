@@ -29,13 +29,15 @@ namespace TeamProject
             UP, DOWN, LEFT, RIGHT, ALL
         }
         private static STAGE_CHANGE_KEY m_StageChangeKey;
+
+        private static WorldSelectHold m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
         //============================================================
         //ステージセレクト処理
         //ステージ移動更新
         //public static void Update()
         //{
         //}
-
+        
         public static void StageChange()
         {
             //ステージ番号を0～5に振り分ける(入力制限をかけるため)
@@ -73,51 +75,70 @@ namespace TeamProject
 
             }
             //-------------------------------------------
+
+
+            //-------------------------------------------
+        }//    void StageChange()   END
+
+        public static void WorldChange()
+        {
+            //ステージ番号を0～5に振り分ける(入力制限をかけるため)
+            int StageNumber = StageStatusManager.Instance.StageInWorld;
+            //ステージ番号から現在のワールドを確認する
+            int WorldNumber = StageStatusManager.Instance.CurrentWorld;
+            //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
-                WorldNumber += 1;
-                if (WorldNumber >= 4)
+                if (m_Hold.NextWorldMoveBeginCheck())
                 {
-                    WorldNumber = 1;
+                    WorldNumber += 1;
+                    if (WorldNumber >= 4)
+                    {
+                        WorldNumber = 1;
+                    }
+                    Debug.Log("右入力後WorldNumber:" + WorldNumber);
+
+                    WorldFlagChange();
+                    //カーソルの移動音
+                    SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+
+                    //ステージ番号の変更キー設定
+                    m_StageChangeKey = STAGE_CHANGE_KEY.RIGHT;
+                    //ステージ番号の変更
+                    //StageStatusManager.Instance.CurrentStage = (STAGE_NO)(WorldNumber * 5);
+
                 }
-                Debug.Log("右入力後WorldNumber:" + WorldNumber);
-
-                WorldFlagChange();
-                //カーソルの移動音
-                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-
-                //ステージ番号の変更キー設定
-                m_StageChangeKey = STAGE_CHANGE_KEY.RIGHT;
-                //ステージ番号の変更
-                //StageStatusManager.Instance.CurrentStage = (STAGE_NO)(WorldNumber * 5);
 
             }
             //左入力
             else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))// && WorldNumber != m_LeftEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
-                WorldNumber -= 1;
-                if (WorldNumber < 0)
+                if (m_Hold.PrevWorldMoveBeginCheck())
                 {
-                    WorldNumber = 3;
+                    WorldNumber -= 1;
+                    if (WorldNumber < 0)
+                    {
+                        WorldNumber = 3;
+                    }
+                    Debug.Log("左入力後WorldNumber:" + WorldNumber);
+
+                    WorldFlagChange();
+                    //カーソルの移動音
+                    SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+                    //ステージ番号の変更キー設定
+                    m_StageChangeKey = STAGE_CHANGE_KEY.LEFT;
+                    //ステージ番号の変更
+                    //StageStatusManager.Instance.CurrentStage = (STAGE_NO)(WorldNumber * 5);
+
                 }
-                Debug.Log("左入力後WorldNumber:" + WorldNumber);
-
-                WorldFlagChange();
-                //カーソルの移動音
-                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
-                //ステージ番号の変更キー設定
-                m_StageChangeKey = STAGE_CHANGE_KEY.LEFT;
-                //ステージ番号の変更
-                //StageStatusManager.Instance.CurrentStage = (STAGE_NO)(WorldNumber * 5);
-
             }
 
             //-------------------------------------------
-        }//    void StageChange()   END
+        }//    void WorldChange()   END
 
         //フラグの切り替え(ON <－> OFF)
         public static void StageFlagChange()

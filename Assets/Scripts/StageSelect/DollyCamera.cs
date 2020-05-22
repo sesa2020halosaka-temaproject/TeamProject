@@ -402,5 +402,11 @@ namespace TeamProject
             //パス位置を0にする
             this.dolly.m_PathPosition = 0;
         }
+
+        //ドリーの位置に終点の位置をセットする
+        public void SetEndPathPosition()
+        {
+            this.dolly.m_PathPosition = pathPositionMax;
+        }
     }//public class DollyCamera : MonoBehaviour END
 }//namespace END

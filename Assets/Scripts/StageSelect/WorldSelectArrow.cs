@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TeamProject
 {
@@ -10,10 +11,20 @@ namespace TeamProject
         //現在ワールド位置 
         //StageStatusManager.Instance.CurrentWorld;
         public static GameObject m_Canvas;//一番上の親オブジェクト
-        public static GameObject m_Next;//上矢印用オブジェクト
-        public static GameObject m_Prev;//下矢印用オブジェクト
+        public static GameObject m_Next;//右矢印用オブジェクト
+        public static GameObject m_Prev;//左矢印用オブジェクト
 
         public static bool m_AdvancedWorld4_Flag = false;//ワールド４に進出したかどうかフラグ
+
+        //スプライトのパス（固定部分）
+        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_";
+
+        //スプライトのパス
+        public static string[] m_UI_WorldName = {
+            "World01","World02","World03","World04"
+        };//Assets/Resources/Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_World02
+        public static string m_NextName;//次ワールド用パス
+        public static string m_PrevName;//前ワールド用パス
 
         private void Awake()
         {
@@ -25,6 +36,8 @@ namespace TeamProject
         // Start is called before the first frame update
         void Start()
         {
+            ChangeWorldNameIcon();
+
         }
 
         // Update is called once per frame
@@ -97,5 +110,23 @@ namespace TeamProject
         {
             return m_AdvancedWorld4_Flag;
         }
+
+        //次と前のワールドを示すUIの差し替え
+        public static void ChangeWorldNameIcon()
+        {
+            // Debug.Log("NamePlate");
+            //スプライトのパスを切り替える
+            m_NextName = m_ConstPath + m_UI_WorldName[StageStatusManager.Instance.NextWorld];
+            m_PrevName = m_ConstPath + m_UI_WorldName[StageStatusManager.Instance.PrevWorld];
+
+            //次のワールドの表示スプライトを差し替える
+            m_Next.transform.GetChild(1).GetComponent<Image>().sprite = null;
+            m_Next.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_NextName);
+
+            //前のワールドの表示スプライトを差し替える
+            m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = null;
+            m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_PrevName);
+        }//Sprites/StageSelect/UI_StageNamePlate/UI_World01_Stage01.png
+
     }//public class WorldSelectArrow : MonoBehaviour END
 }//namespace END
