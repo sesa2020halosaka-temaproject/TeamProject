@@ -209,6 +209,11 @@ namespace TeamProject
                     //フラグをONにする
                     m_KeyWait_Flag = !m_KeyWait_Flag;
                     m_Counter = 0;
+
+                    //アイコンの差し替え
+                    StageSelectArrow.ChangeStageNameIcon();
+                    WorldSelectArrow.ChangeWorldNameIcon();
+
                 }
             }
             //フラグがONになったら入力可能にする
@@ -260,7 +265,7 @@ namespace TeamProject
             //StageChangeManager.DollyStateChange("FIXING");
 
             //上下矢印の非アクティブ化
-            StageSelectArrow.TwoArrowsDeactivate();
+            StageSelectArrow.TwoArrowsSetting();
             //左右矢印の非アクティブ化
             WorldSelectArrow.TwoArrowsDeactivate();
 
@@ -310,6 +315,7 @@ namespace TeamProject
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("STAGE_MOVING終わり");
+
             }
 
             //Dollyカメラの座標をドリーカートの座標に合わせる
@@ -417,7 +423,6 @@ namespace TeamProject
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("WORLD_MOVING");
-
             }
 
             //Dollyカメラの座標をドリーカートの座標に合わせる
@@ -445,41 +450,41 @@ namespace TeamProject
                 _Main_DollyCam.SetEndPathPosition();
                 _Sub_DollyCam.SetEndPathPosition();
 
-            //各種状態を待機状態に戻す
-            //Dollyカメラの状態を設定する
-            StageChangeManager.DollyStateChange("FIXING");
-            StageChangeManager.DollyCartStateChange("FIXING");
+                //各種状態を待機状態に戻す
+                //Dollyカメラの状態を設定する
+                StageChangeManager.DollyStateChange("FIXING");
+                StageChangeManager.DollyCartStateChange("FIXING");
 
-            //ステージセレクトの状態を設定する
-            StageChangeManager.SelectStateChange("KEY_WAIT");
+                //ステージセレクトの状態を設定する
+                StageChangeManager.SelectStateChange("KEY_WAIT");
 
-            //フラグをfalseにする
-            StageChangeManager.WorldFlagChange();
-            StageChangeManager.DollyCartFlagReset();
-            StageChangeManager.DollyFlagReset();
+                //フラグをfalseにする
+                StageChangeManager.WorldFlagChange();
+                StageChangeManager.DollyCartFlagReset();
+                StageChangeManager.DollyFlagReset();
 
-            //Dollyカメラの座標をドリーカートの座標に合わせる
-            _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
-            _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+                //Dollyカメラの座標をドリーカートの座標に合わせる
+                _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+                _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
 
-            //固定用ドリールートをセット
-            _Main_DollyCam.SetPathFixingDolly();
-            _Sub_DollyCam.SetPathFixingDolly();
-            //_DollyCart.SetPathFixingDolly();
+                //固定用ドリールートをセット
+                _Main_DollyCam.SetPathFixingDolly();
+                _Sub_DollyCam.SetPathFixingDolly();
+                //_DollyCart.SetPathFixingDolly();
 
-            //_Sub_DollyCam.PathPositionReset();
-            //ステージ番号の更新
-            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
-            {
-                StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
-            }
-            else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
-            {
-                StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
-            }
-            //LookAtを一か所に固定
-            _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
-            Debug.Log("WORLD_MOVINGスキップ");
+                //_Sub_DollyCam.PathPositionReset();
+                //ステージ番号の更新
+                if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+                {
+                    StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
+                }
+                else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+                {
+                    StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
+                }
+                //LookAtを一か所に固定
+                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
+                Debug.Log("WORLD_MOVINGスキップ");
 
                 FadeManager.FadeOut("StageSelectScene", ToTitle_FadeOut_Time);
             }
