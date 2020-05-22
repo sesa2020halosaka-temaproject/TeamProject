@@ -37,7 +37,7 @@ namespace TeamProject
         //public static void Update()
         //{
         //}
-        
+
         public static void StageChange()
         {
             //ステージ番号を0～5に振り分ける(入力制限をかけるため)
@@ -92,6 +92,7 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
+                Debug.Log("m_Hold = " + m_Hold);
                 if (m_Hold.NextWorldMoveBeginCheck())
                 {
                     WorldNumber += 1;
@@ -382,6 +383,15 @@ namespace TeamProject
 
             }
             return false;
+        }
+
+        public static void GetComponentWorldSelectHold()
+        {
+            if (m_Hold == null)
+            {
+
+            m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
+            }
         }
 
     }//public class StageChangeManager END

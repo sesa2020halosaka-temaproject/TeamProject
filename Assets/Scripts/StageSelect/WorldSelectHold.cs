@@ -93,6 +93,9 @@ namespace TeamProject
                     m_SizeDeltaX = m_Prev3.GetComponent<RectTransform>().sizeDelta.x;
                     if (m_Prev3.GetComponent<RectTransform>().sizeDelta.x >= m_MaxWidth_L)
                     {
+                        Debug.Log("左入力最大まで溜まりました。");
+                        m_Prev3.GetComponent<RectTransform>().sizeDelta = new Vector2(m_MaxWidth_L, m_MaxHeight_L);
+
                         PrevWorldMoveFlagOn();
                     }
 
@@ -119,6 +122,9 @@ namespace TeamProject
                     m_SizeDeltaX = m_Next3.GetComponent<RectTransform>().sizeDelta.x;
                     if (m_Next3.GetComponent<RectTransform>().sizeDelta.x >= m_MaxWidth_R)
                     {
+                        Debug.Log("右入力最大まで溜まりました。");
+                        m_Next3.GetComponent<RectTransform>().sizeDelta = new Vector2(m_MaxWidth_R, m_MaxHeight_R);
+
                         NextWorldMoveFlagOn();
                     }
                     break;
@@ -222,19 +228,19 @@ namespace TeamProject
             }
             else if (m_BeforeInput_L && !m_CurrentInput_L)
             {
-                Debug.Log("END！");
+               // Debug.Log("END！");
 
                 m_InputState_L = INPUTSTATE.END;
             }
             else if (!m_BeforeInput_L && m_CurrentInput_L)
             {
-                Debug.Log("START！");
+                //Debug.Log("START！");
 
                 m_InputState_L = INPUTSTATE.START;
             }
             else if (m_BeforeInput_L && m_CurrentInput_L)
             {
-                Debug.Log("HOLD！");
+              //  Debug.Log("HOLD！");
                 m_InputState_L = INPUTSTATE.HOLD;
             }
         }// END
@@ -247,19 +253,19 @@ namespace TeamProject
             }
             else if (m_BeforeInput_R && !m_CurrentInput_R)
             {
-                Debug.Log("END！");
+                //Debug.Log("END！");
 
                 m_InputState_R = INPUTSTATE.END;
             }
             else if (!m_BeforeInput_R && m_CurrentInput_R)
             {
-                Debug.Log("START！");
+               // Debug.Log("START！");
 
                 m_InputState_R = INPUTSTATE.START;
             }
             else if (m_BeforeInput_R && m_CurrentInput_R)
             {
-                Debug.Log("HOLD！");
+               // Debug.Log("HOLD！");
                 m_InputState_R = INPUTSTATE.HOLD;
             }
         }// END
