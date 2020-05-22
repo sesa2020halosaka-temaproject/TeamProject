@@ -11,13 +11,16 @@ namespace TeamProject
         public enum TRANSITION
         {
             None,       // 何もしない(使わないが一応)
+            StageStart, // ステージの初めのアニメーションの処理      
             Move,       // 移動
             Choice,     // 選択
             GetChoice,  // 選択オブジェクトの取得
             RootCheck,  // ルートチェック
             Jump,       // ジャンプ
             Fall,       // 落下処理
-            Goal,
+            Goal,       // ゴール処理
+            DecoyMiss,  // デコイ飛ばすルートミス
+            Miss,       // 普通ルートミス
             MAX,        // MAX(使用しない)
         }
 
@@ -135,6 +138,9 @@ namespace TeamProject
         [SerializeField]
         private SkinnedMeshRenderer bodyMesh;
 
+        private bool startAnimationEndFlag = false;
+        public bool StartAnimationEndFlag { get { return startAnimationEndFlag; } } 
+
         // Start is called before the first frame update
         void Start()
         {
@@ -144,6 +150,7 @@ namespace TeamProject
 
             // 各種関数セット
             CreateFunction((uint)TRANSITION.None, None);
+            CreateFunction((uint)TRANSITION.StageStart, StageStart);
             CreateFunction((uint)TRANSITION.Move, Move);
             CreateFunction((uint)TRANSITION.Choice, Choice);
             CreateFunction((uint)TRANSITION.GetChoice, GetChoice);
@@ -156,7 +163,7 @@ namespace TeamProject
             CreateFixFunction((uint)FIX_TRANSITION.Move, FixMove);
 
             // 初期関数セット
-            SetFunction((uint)TRANSITION.GetChoice);
+            SetFunction((uint)TRANSITION.StageStart);
             SetFixFunction((uint)FIX_TRANSITION.None);
 
             // カメラを親を取得
@@ -187,21 +194,6 @@ namespace TeamProject
 
             GetChoice();
 
-            if (firstChoiceObject != null)
-            {
-                choicePosition = firstChoiceObject.transform.position;
-                choiceObject = firstChoiceObject;
-                pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
-
-
-                var vec = choicePosition - transform.position;
-                transform.LookAt(vec.normalized, Vector3.up);
-                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
-
-                notChoice = false;
-                SetFunction((uint)TRANSITION.RootCheck);
-            }
-
             grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
             walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
 
@@ -217,6 +209,28 @@ namespace TeamProject
             // None
         }
 
+        private void StageStart()
+        {
+            if (startAnimationEndFlag)
+            {
+                SetFunction((uint)TRANSITION.GetChoice);
+                if (firstChoiceObject != null)
+                {
+                    choicePosition = firstChoiceObject.transform.position;
+                    choiceObject = firstChoiceObject;
+                    pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+
+
+                    var vec = choicePosition - transform.position;
+                    transform.LookAt(vec.normalized, Vector3.up);
+                    transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
+                    notChoice = false;
+                    SetFunction((uint)TRANSITION.RootCheck);
+                }
+            }
+        }
+
         private bool oldFall = true;
 
         [SerializeField]
@@ -228,6 +242,13 @@ namespace TeamProject
         [SerializeField]
         [Header("シームレス開始までのゴールとの距離")]
         private float goalLenght;
+
+        [SerializeField]
+        [Header("デコイのPrefabの設定")]
+        private GameObject decoyPrefab;
+
+        [SerializeField]
+        private int beforFrame;
 
         // 移動
         private void Move()
@@ -555,14 +576,21 @@ namespace TeamProject
                 return;
             }
 
+            var outPos = new Vector3();
+
             // 天井のレイを確認
-            var topRayCheck = TopRayCheck();
+            var topRayCheck = TopRayCheck(out outPos);
 
             if (!topRayCheck)
             {
+                // ここでFALSEが出ると妖精を飛ばす
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
-                // anima.SetTrigger("UnFind");
+
+                var decoy = Instantiate(decoyPrefab);
+
+                decoy.GetComponent<PlayerAfterimage>().SetParam(transform.position, outPos);
+
                 return;
             }
 
@@ -699,8 +727,11 @@ namespace TeamProject
         [SerializeField]
         private LayerMask rayCheckCeiling;
 
-        private bool TopRayCheck()
+        private bool TopRayCheck(out Vector3 _outPos)
         {
+            // Vectorの受け取りの初期化
+            // falseが出たらoutに代入
+            _outPos = new Vector3();
             // 長さを図る
             var lengthPosition = choicePosition - transform.position;
 
@@ -740,6 +771,7 @@ namespace TeamProject
             // 地面判定のオブジェクトのみのレイを取って
             // 配列に入れる
             var lengthArray = new float[(uint)rayNum];
+            var outPos = new Vector3[(uint)rayNum];
             for (int i = 0; i < (uint)rayNum; i++)
             {
                 RaycastHit hit;
@@ -747,6 +779,8 @@ namespace TeamProject
 
                 // 長さを代入
                 lengthArray[i] = hit.distance;
+                outPos[i] = hit.point;
+                Debug.Log(i + "aa" + outPos[i]);
             }
 
             // 配列の低い数字から長さの差分をとる(初期は要素0を代入)
@@ -762,6 +796,7 @@ namespace TeamProject
                 if (judgeHight < -diff)
                 {
                     Debug.Log("Inしたよ");
+                    _outPos = outPos[i- beforFrame];Debug.Log(_outPos);
                     return false;
                 }
                 oldLength = lengthArray[i];
@@ -897,6 +932,11 @@ namespace TeamProject
                     transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
                 }
             }
+        }
+
+        public void StartAnimationEnd()
+        {
+            startAnimationEndFlag = true;
         }
     }
 }
