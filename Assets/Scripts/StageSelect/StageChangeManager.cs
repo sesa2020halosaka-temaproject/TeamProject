@@ -73,9 +73,21 @@ namespace TeamProject
 
             }
             //-------------------------------------------
+
+
+            //-------------------------------------------
+        }//    void StageChange()   END
+
+        public static void WorldChange()
+        {
+            //ステージ番号を0～5に振り分ける(入力制限をかけるため)
+            int StageNumber = StageStatusManager.Instance.StageInWorld;
+            //ステージ番号から現在のワールドを確認する
+            int WorldNumber = StageStatusManager.Instance.CurrentWorld;
+            //-------------------------------------------
             //ここから下ワールド間の移動処理
             //右入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 WorldNumber += 1;
@@ -117,7 +129,7 @@ namespace TeamProject
             }
 
             //-------------------------------------------
-        }//    void StageChange()   END
+        }//    void WorldChange()   END
 
         //フラグの切り替え(ON <－> OFF)
         public static void StageFlagChange()
