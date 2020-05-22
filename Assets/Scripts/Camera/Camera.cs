@@ -11,6 +11,7 @@ namespace TeamProject
         public enum TRANS
         {
             None,
+            StageStart,
             Upd,
             Goal,
             Goal2,
@@ -21,7 +22,14 @@ namespace TeamProject
         private float speed;
 
         [SerializeField]
+        [Header("カメラの寄り引きの速度")]
+        private float inOutSpeed;
+
+        [SerializeField]
         private float min, max;
+
+        [SerializeField]
+        private float startRotSpeed;
 
         private Volume volume;
 
@@ -46,12 +54,16 @@ namespace TeamProject
         private Quaternion laneQua;
 
         [SerializeField]
-        private float goalSpeed=1f;
+        private float goalSpeed = 1f;
 
         private PlayerVer2 player;
 
         private bool seamlessEnd = false;
         public bool SeamlessEnd { get { return seamlessEnd; } }
+
+        private float startRot = 0f;
+
+        private Transform child;
 
         // Start is called before the first frame update
         void Start()
@@ -59,11 +71,12 @@ namespace TeamProject
             SetMaxFunctionSize((uint)TRANS.Max);
 
             CreateFunction((uint)TRANS.None, None);
+            CreateFunction((uint)TRANS.StageStart, StageStart);
             CreateFunction((uint)TRANS.Upd, Upd);
             CreateFunction((uint)TRANS.Goal, Goal);
             CreateFunction((uint)TRANS.Goal2, Goal2);
 
-            SetFunction((uint)TRANS.Upd);
+            SetFunction((uint)TRANS.StageStart);
 
             mainCamCom = UnityEngine.Camera.main;
             mainCameraGameObject = UnityEngine.Camera.main.gameObject;
@@ -73,6 +86,10 @@ namespace TeamProject
             volume = GetComponentInChildren<Volume>();
 
             time = 0f;
+
+            startQua = transform.rotation;
+
+            child = transform.GetChild(0);
         }
 
         private void None()
@@ -81,17 +98,41 @@ namespace TeamProject
             volume.enabled = true;
         }
 
+        private void StageStart()
+        {
+            var speedTime = Time.deltaTime * startRotSpeed;
+
+            startRot += speedTime;
+
+            var eulRot = transform.rotation.eulerAngles;
+
+            eulRot.y += speedTime;
+
+            transform.rotation = Quaternion.Euler(eulRot);
+            
+            if (360f < startRot)
+            {
+                transform.rotation = startQua;
+
+                SetFunction((uint)TRANS.Upd);
+            }
+        }
+
         private void Upd()
         {
             // volumeをオフに
             volume.enabled = false;
 
-             var stick = InputManager.InputManager.Instance.GetRStick();
+            var stick = InputManager.InputManager.Instance.GetRStick();
 
+            var r1 = InputManager.InputManager.Instance.GetKey(ButtunCode.R1);
+            var l1 = InputManager.InputManager.Instance.GetKey(ButtunCode.L1);
+            
             Vector3 rot = transform.rotation.eulerAngles;
 
             float x=0, y=0;
             float speedTime = speed * Time.deltaTime;
+            float inOutSpeedTime = inOutSpeed * Time.deltaTime;
 
             //if (Input.GetKey(KeyCode.W))
             //{
@@ -111,8 +152,8 @@ namespace TeamProject
             //}
 
 
-            x = stick.x * speed * Time.deltaTime;
-            y = stick.y * speed * Time.deltaTime;
+            x = stick.x * speedTime;
+            y = stick.y * speedTime;
 
             rot.x += y;
             rot.y -= x;
@@ -124,6 +165,15 @@ namespace TeamProject
             if (max < rot.x + x)
             {
                 rot.x = max;
+            }
+
+            if (r1)
+            {
+                child.localPosition+= new Vector3(0f, 0f, inOutSpeed * Time.deltaTime);
+            }
+            if (l1)
+            {
+                child.localPosition -= new Vector3(0f, 0f, inOutSpeed * Time.deltaTime);
             }
 
             var qua = transform.rotation;

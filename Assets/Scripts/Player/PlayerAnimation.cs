@@ -43,5 +43,10 @@ namespace TeamProject
         {
             SEManager.Instance.Play(SEPath.SE_PLAYER_STOP);
         }
+
+        private void StageStartEnd()
+        {
+            player.StartAnimationEnd();
+        }
     }
 }
