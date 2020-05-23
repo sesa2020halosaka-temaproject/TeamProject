@@ -376,6 +376,11 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.14409156
       objectReference: {fileID: 0}
+    - target: {fileID: 4623532202030105386, guid: adacb55cf56371e4cb3f79e021c34551,
+        type: 3}
+      propertyPath: firstChoiceObject
+      value: 
+      objectReference: {fileID: 2023684699}
     - target: {fileID: 5226882566405447162, guid: adacb55cf56371e4cb3f79e021c34551,
         type: 3}
       propertyPath: m_Name
@@ -840,6 +845,16 @@ PrefabInstance:
     - target: {fileID: 4724552126644822, guid: e03579ae9d87c4eba9735c6877a85e93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64968271349343208, guid: e03579ae9d87c4eba9735c6877a85e93,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64968271349343208, guid: e03579ae9d87c4eba9735c6877a85e93,
+        type: 3}
+      propertyPath: m_CookingOptions
+      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e03579ae9d87c4eba9735c6877a85e93, type: 3}
@@ -3372,6 +3387,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f47af6e22e0afa5449ce2762c7d3b682, type: 3}
+--- !u!1 &2023684699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 258391886574110743, guid: aa7fb9e3e26874748b6f9f48a153c364,
+    type: 3}
+  m_PrefabInstance: {fileID: 931131347}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2044110587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3403,6 +3424,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.z
       value: 0.07108696
+      objectReference: {fileID: 0}
+    - target: {fileID: 709699303096113484, guid: 539cbec1208a55f439eba5c3f224d9c2,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 709699303096113484, guid: 539cbec1208a55f439eba5c3f224d9c2,
+        type: 3}
+      propertyPath: m_CookingOptions
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1608138258770827482, guid: 539cbec1208a55f439eba5c3f224d9c2,
         type: 3}
