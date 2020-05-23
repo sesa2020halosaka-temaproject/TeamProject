@@ -65,6 +65,7 @@ namespace TeamProject
         private void Awake()
         {
             m_SelectSound = this.GetComponent<StageSelectSound>();
+            StageChangeManager.GetComponentWorldSelectHold();
         }
         // Start is called before the first frame update
         void Start()
