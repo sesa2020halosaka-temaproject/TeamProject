@@ -146,6 +146,7 @@ namespace TeamProject
             var length = kobitoLogoLeftPos - kobitoLogoRightPos;
             var onceLengeth = length / kobitoMaxNum;
             Debug.Log(platoon.MinionList.ToArray().Length);
+            Debug.Log(_maxKobitoNum);
 
             var goalLogoMinionList = new List<GoalLogoMinion>();
 

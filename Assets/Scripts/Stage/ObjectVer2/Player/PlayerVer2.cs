@@ -354,9 +354,10 @@ namespace TeamProject
                 Debug.Log(hit.distance);
                 if (hit.distance < 6f)
                 {
-                    //  Debug.Break();
+                    Debug.Break();
                     hit.transform.root.gameObject.GetComponent<Goal>().GoalIn(this);
                     SetFunction((uint)TRANSITION.Goal);
+                    // gameObject.SetActive(false);
                 }
             }
             // Debug.DrawRay(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
@@ -405,9 +406,19 @@ namespace TeamProject
             }
 
             var choicePositionConv = CameraConversion(choicePosition);
-            float min = choiceObjectList[0].convers.x, max = choiceObjectList[0].convers.x;
-            direction[(uint)DIRECTION.TOP] = choiceObjectList[0];
-            direction[(uint)DIRECTION.BACK] = choiceObjectList[0];
+            float min = 0, max = 0;
+
+            foreach(var itr in choiceObjectList)
+            {
+                if (itr.befor.tag != "Hit")
+                {
+                    max = itr.convers.x;
+                    min = itr.convers.x;
+                    direction[(uint)DIRECTION.TOP] = itr;
+                    direction[(uint)DIRECTION.BACK] = itr;
+                    break;
+                }
+            }
 
             // 左右上下のオブジェクト割り出し
             foreach (var itr in choiceObjectList)
@@ -804,7 +815,7 @@ namespace TeamProject
                 // 長さを代入
                 lengthArray[i] = hit.distance;
                 outPos[i] = hit.point;
-                Debug.Log(i + "aa" + outPos[i]);
+               //  Debug.Log(i + "aa" + outPos[i]);
             }
 
             // 配列の低い数字から長さの差分をとる(初期は要素0を代入)
@@ -1045,9 +1056,16 @@ namespace TeamProject
                 }
                 else
                 {
-                    up = choicePosition = _direc2.befor.transform.position;
-                    // オブジェクト情報を設定
-                    choiceObject = _direc2.befor;
+                    if (_direc2 != null)
+                    {
+                        up = choicePosition = _direc2.befor.transform.position;
+                        // オブジェクト情報を設定
+                        choiceObject = _direc2.befor;
+                    }
+                    else
+                    {
+                        up = choicePosition;
+                    }
                 }
 
                 pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
