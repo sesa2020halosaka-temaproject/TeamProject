@@ -405,6 +405,10 @@ namespace TeamProject
             }
 
             var choicePositionConv = CameraConversion(choicePosition);
+            float min = choiceObjectList[0].convers.x, max = choiceObjectList[0].convers.x;
+            direction[(uint)DIRECTION.TOP] = choiceObjectList[0];
+            direction[(uint)DIRECTION.BACK] = choiceObjectList[0];
+
             // 左右上下のオブジェクト割り出し
             foreach (var itr in choiceObjectList)
             {
@@ -435,43 +439,63 @@ namespace TeamProject
                         direction[(uint)DIRECTION.RIGHT] = itr;
                     }
                 }
-                // 後
-                if (diff.z < -0.1f)
+
+                if (max < itr.convers.x)
                 {
-                    if (direction[(uint)DIRECTION.BACK] == null)
-                    {
-                        direction[(uint)DIRECTION.BACK] = itr;
-                    }
-                    else if (itr.convers.z > direction[(uint)DIRECTION.BACK].convers.z)
-                    {
-                        direction[(uint)DIRECTION.BACK] = itr;
-                    }
+                    max = itr.convers.x;
+                    direction[(uint)DIRECTION.TOP] = itr;
                 }
-                else if (0.1f < diff.z)   // 前
+                if (itr.convers.x < min)
                 {
-                    if (direction[(uint)DIRECTION.TOP] == null)
-                    {
-                        direction[(uint)DIRECTION.TOP] = itr;
-                    }
-                    else if (itr.convers.z < direction[(uint)DIRECTION.TOP].convers.z)
-                    {
-                        direction[(uint)DIRECTION.TOP] = itr;
-                    }
+                    min = itr.convers.x;
+                    direction[(uint)DIRECTION.BACK] = itr;
                 }
+
+                //// 後
+                //if (diff.z < -0.1f)
+                //{
+                //    if (direction[(uint)DIRECTION.BACK] == null)
+                //    {
+                //        direction[(uint)DIRECTION.BACK] = itr;
+                //    }
+                //    else if (itr.convers.z > direction[(uint)DIRECTION.BACK].convers.z)
+                //    {
+                //        direction[(uint)DIRECTION.BACK] = itr;
+                //    }
+                //}
+                //// 前
+                //else if (0.1f < diff.z) 
+                //{
+                //    if (direction[(uint)DIRECTION.TOP] == null)
+                //    {
+                //        direction[(uint)DIRECTION.TOP] = itr;
+                //    }
+                //    else if (itr.convers.z < direction[(uint)DIRECTION.TOP].convers.z)
+                //    {
+                //        direction[(uint)DIRECTION.TOP] = itr;
+                //    }
+                //}
             }
 
             bool[] arrow = new bool[(uint)InputManager.ArrowCoad.Max];
 
-            arrow[(int)InputManager.ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
-            arrow[(int)InputManager.ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow);
+            // arrow[(int)InputManager.ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
+            // arrow[(int)InputManager.ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow);
             arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
             arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
 
             // キー入力
-            MinionChoice(arrow[(uint)InputManager.ArrowCoad.UpArrow] && !oldArrow[(uint)InputManager.ArrowCoad.UpArrow], ref direction[(uint)DIRECTION.TOP]);
-            MinionChoice(arrow[(uint)InputManager.ArrowCoad.DownArrow] && !oldArrow[(uint)InputManager.ArrowCoad.DownArrow], ref direction[(uint)DIRECTION.BACK]);
-            MinionChoice(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],ref direction[(uint)DIRECTION.RIGHT]);
-            MinionChoice(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],ref direction[(uint)DIRECTION.LEFT]);
+            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.UpArrow] && !oldArrow[(uint)InputManager.ArrowCoad.UpArrow], ref direction[(uint)DIRECTION.TOP]);
+            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.DownArrow] && !oldArrow[(uint)InputManager.ArrowCoad.DownArrow], ref direction[(uint)DIRECTION.BACK]);
+            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow], ref direction[(uint)DIRECTION.RIGHT]);
+            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow], ref direction[(uint)DIRECTION.LEFT]);
+
+            MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
+                ref direction[(uint)DIRECTION.RIGHT],
+                direction[(uint)DIRECTION.BACK]);
+            MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
+                ref direction[(uint)DIRECTION.LEFT], 
+                direction[(uint)DIRECTION.TOP]);
            
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             {
@@ -806,6 +830,85 @@ namespace TeamProject
             return true;
         }
 
+        private bool TopRayCheckVer2(out Vector3 _outPos)
+        {
+            // Vectorの受け取りの初期化
+            // falseが出たらoutに代入
+            _outPos = new Vector3();
+            // 長さを図る
+            var lengthPosition = choicePosition - transform.position;
+
+            lengthPosition.y = 0f;
+
+            var length = lengthPosition.magnitude;
+
+            // レイを作成する個数を
+            // 長さと倍率で洗い出す
+
+            // レイの個数(倍率 * 長さ)
+            var rayNum = length * stepJudgeAccuracy;
+
+            if (rayNum == 0) return true;
+
+            // レイを個数分生成
+            var rayArray = new Ray[(uint)rayNum];
+            var lerpStart = transform.position;
+            var lerpEnd = choicePosition;
+            LayerMask mask;
+
+            mask = 11;// GroundCollider
+
+            // 高さ入れる
+            lerpStart.y = lerpEnd.y = rayTopLength;
+
+            for (int i = 0; i < (uint)rayNum; i++)
+            {
+                // 位置の補間を作成
+                var inter = Vector3.Lerp(lerpStart, lerpEnd, (float)i / rayNum);
+
+                // Debug.Log(inter);
+                // 真下に向かってRayを作成
+                rayArray[i] = new Ray(inter, -Vector3.up);
+            }
+
+            // 地面判定のオブジェクトのみのレイを取って
+            // 配列に入れる
+            var lengthArray = new float[(uint)rayNum];
+            var outPos = new Vector3[(uint)rayNum];
+            for (int i = 0; i < (uint)rayNum; i++)
+            {
+                RaycastHit hit;
+                Physics.Raycast(rayArray[i], out hit, 10000f, rayCheck);
+
+                // 長さを代入
+                lengthArray[i] = hit.distance;
+                outPos[i] = hit.point;
+                Debug.Log(i + "aa" + outPos[i]);
+            }
+
+            // 配列の低い数字から長さの差分をとる(初期は要素0を代入)
+            float diff = 0;
+            float oldLength = lengthArray[0];
+
+            // 差分が設定値以上ならがけなので即座に
+            // returnn false(以下は大丈夫)
+            for (int i = 0; i < (uint)rayNum; i++)
+            {
+                diff = lengthArray[i] - oldLength;
+                Debug.Log(diff);
+                if (judgeHight < -diff)
+                {
+                    Debug.Log("Inしたよ");
+                    _outPos = outPos[i - beforFrame]; Debug.Log(_outPos);
+                    return false;
+                }
+                oldLength = lengthArray[i];
+            }
+
+            // 最後まで来たら成功
+            return true;
+        }
+
         private void GoalFunc()
         {
             rb.velocity = new Vector3();
@@ -908,7 +1011,44 @@ namespace TeamProject
                     choiceObject = _direc.befor;
                 }
                 else
+                {
                     up = choicePosition;
+                    // オブジェクト情報を設定
+                    // choiceObject = _direc.befor;
+                }
+
+                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
+                notChoice = false;
+
+                transform.LookAt(up, Vector3.up);
+                transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+
+                SEManager.Instance.Play(SEPath.SE_MINION_SELECT);
+
+                // 検査に移動
+                SetFunction((int)TRANSITION.RootCheck);
+            }
+        }
+
+        private void MinionChoiceVer2(bool _keyFlag, ref ConversPosition _direc, ConversPosition _direc2)
+        {
+            if (_keyFlag)
+            {
+                Debug.Log("InputWKey");
+                Vector3 up;
+
+                if (_direc != null)
+                {
+                    choicePosition = up = _direc.befor.transform.position;
+                    // オブジェクト情報を設定
+                    choiceObject = _direc.befor;
+                }
+                else
+                {
+                    up = choicePosition = _direc2.befor.transform.position;
+                    // オブジェクト情報を設定
+                    choiceObject = _direc2.befor;
+                }
 
                 pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
