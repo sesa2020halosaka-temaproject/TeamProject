@@ -35,6 +35,8 @@ namespace TeamProject
         private PlayerVer2 player;
 
         private bool goalOnce = true;
+
+        private bool goalInOnce = true;
         // Start is called before the first frame update
         void Start()
         {
@@ -59,17 +61,23 @@ namespace TeamProject
             if (camera.SeamlessEnd && goalOnce)
             {
                 goalOnce = false;
+                Debug.Log("個々が悪いよおおおおおおおおおおおおおおお");
                 GoalStart();
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!goalInOnce)
+            {
+                return;
+            }
             Debug.Log("Goal");
             var obj = other.transform.root.gameObject;
             if (obj.tag == "Player")
             {
                 playerGoal = true;
+                goalInOnce = false;
 
                 var platoon = obj.GetComponent<MinionPlatoon>();
 
@@ -116,6 +124,11 @@ namespace TeamProject
         }
         public void GoalIn(PlayerVer2 _player)
         {
+            if (!goalInOnce)
+            {
+                return;
+            }
+            goalInOnce = false;
             playerGoal = true;
             var platoon = _player.GetComponent<MinionPlatoon>();
             player = _player;

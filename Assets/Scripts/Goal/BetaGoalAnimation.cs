@@ -83,12 +83,13 @@ namespace TeamProject
 
             goalNum = _goalNum;
             goalNumMax = _goalMaxNum;
-
+            Debug.Log("Asajygera");
             func = _func;
         }
 
         public void EndGoalAnimation()
         {
+            Debug.Log("Bgjreaiogjea");
             func(goalNumMax, goalNum);
         }
     }
