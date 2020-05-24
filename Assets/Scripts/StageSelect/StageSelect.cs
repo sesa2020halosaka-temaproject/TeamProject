@@ -59,6 +59,9 @@ namespace TeamProject
         private int db_cnt = 0;//デバッグログ確認用カウント
 
         private StageSelectSound m_SelectSound;
+        private CurrentToNextWorldUIManager m_ToNextWName;
+        private WorldStatusUIManager m_WorldStatus;
+        private StageSelectUIManager m_StageSelectUIManager;
         //=================================================================
         //関数ここから
         //=================================================================
@@ -66,6 +69,10 @@ namespace TeamProject
         {
             m_SelectSound = this.GetComponent<StageSelectSound>();
             StageChangeManager.GetComponentWorldSelectHold();
+
+            m_StageSelectUIManager = this.GetComponent<StageSelectUIManager>();
+            //m_ToNextWName = GameObject.Find("CurrentToNextWorld").GetComponent<CurrentToNextWorldUIManager>();
+            //m_WorldStatus = GameObject.Find("WorldStatus").GetComponent<WorldStatusUIManager>();
         }
         // Start is called before the first frame update
         void Start()
@@ -354,8 +361,12 @@ namespace TeamProject
             //ステージセレクトの状態を設定する
             StageChangeManager.SelectStateChange("WORLD_MOVING");
 
-            //BGMのクロスフェード（仮実装）
+            //BGMのクロスフェード
             m_SelectSound.CrossFade();
+
+            //ワールド移動中のUIの画像変更
+            m_StageSelectUIManager.ChangeWorldNameIcon();
+            //m_WorldStatus.ChangeWorldNameIcon();
 
         }
         //ワールド移動中
