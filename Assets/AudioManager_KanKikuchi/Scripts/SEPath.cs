@@ -22,6 +22,8 @@ public static class SEPath{
 	public const string SE_GRASS_WAVE_SUMMER       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Summer";
 	public const string SE_GRASS_WAVE_WINTER       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Winter";
 	public const string SE_LIGHT_RAIN              = "SE/Stereo/SE_Ste_Ambient/SE_LightRain";
+	public const string SE_MENU_CLOSE              = "SE/Mono/SE_Mono_System/SE_MenuClose";
+	public const string SE_MENU_OPEN               = "SE/Mono/SE_Mono_System/SE_MenuOpen";
 	public const string SE_MINION_LANDING1         = "SE/Mono/SE_Mono_Minion/SE_Minion_Landing1";
 	public const string SE_MINION_LANDING2         = "SE/Mono/SE_Mono_Minion/SE_Minion_Landing2";
 	public const string SE_MINION_LANDING3         = "SE/Mono/SE_Mono_Minion/SE_Minion_Landing3";
