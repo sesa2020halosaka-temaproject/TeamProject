@@ -222,7 +222,7 @@ namespace TeamProject
             //環境音追加
             //SEセット
             SetCurrentWorldAmbient();
-            BGMManager.Instance.Play(m_Ambient_Name, volumeRate: m_SEVolume, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+            BGMManager.Instance.Play(m_Ambient_Name, volumeRate: 1.0f, delay: 0.0f, isLoop: true, allowsDuplicate: true);
             BGMManager.Instance.FadeIn(m_Ambient_Name, duration: 2.0f);
         }//StageSelectStartBGM() END
 
