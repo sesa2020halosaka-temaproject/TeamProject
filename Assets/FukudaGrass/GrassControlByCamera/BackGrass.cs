@@ -10,10 +10,14 @@ public class BackGrass : MonoBehaviour
     Dictionary<GameObject, GameObject> Collisions = new Dictionary<GameObject, GameObject>();
 
     [SerializeField]
-    GameObject camera;
-    const int resolution = 256;
-    private void Start()
+     GameObject camera;
+
+    [SerializeField]
+    int flg = 0;
+    const int resolution = 128;
+    private void Awake()
     {
+
         RenderTexture grassmap = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.ARGB32);
         grassmap.Create();
         foreach (var r in GetComponentsInChildren<Renderer>())
@@ -26,6 +30,27 @@ public class BackGrass : MonoBehaviour
             if (c.gameObject == gameObject) continue;
             c.enabled = true;
             c.targetTexture = grassmap;
+        }
+    }
+
+    private void Update()
+    {
+        if (flg < 5)
+        {
+            RenderTexture grassmap = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.ARGB32);
+            grassmap.Create();
+            foreach (var r in GetComponentsInChildren<Renderer>())
+            {
+                if (r.gameObject == gameObject) continue;
+                r.material.SetTexture("_MainTex", grassmap);
+            }
+            foreach (var c in GetComponentsInChildren<Camera>())
+            {
+                if (c.gameObject == gameObject) continue;
+                c.enabled = true;
+                c.targetTexture = grassmap;
+            }
+            flg++;
         }
     }
 
