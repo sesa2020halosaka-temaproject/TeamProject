@@ -948,13 +948,14 @@ namespace TeamProject
             while (true)
             {
                 RaycastHit hit;
-                var hitFlag = Physics.Raycast(rayArray[0], out hit, 10000f);
+                var hitFlag = Physics.SphereCast(rayArray[0], 1f, out hit, 10000f);
                 
                 if (!hitFlag)
                 {
+                    foreach (var itr in elaseObject) itr.SetActive(false);
                     // プレイヤーにすら当たらなかったのでなんかおかしいからfalseを返す
                     // Debug.Break();
-                    return false;
+                        return false;
                 }
 
                 if (hit.collider.tag == "Player")
@@ -977,6 +978,7 @@ namespace TeamProject
                 {
                     // Instantiate(new GameObject(), rayArray[rayNum - 1].origin, Quaternion.identity);
                     // 当たらなかったのでなんかおかしいからfalseを返す
+                    foreach (var itr in elaseObject) itr.SetActive(false);
                     Debug.Log("当たってねえ所");
                     Debug.Break();
                     return false;
@@ -1034,7 +1036,7 @@ namespace TeamProject
 
             for(int i = 0; i < num; i++)
             {
-                var hight = 1f;
+                var hight = 0.5f;
                 // 小人の位置情報が明らか高ければ崖
                 if (outPosList[i].y + hight < choicePosition.y)
                 {
