@@ -116,8 +116,8 @@ namespace TeamProject {
             var endFlag = endTime < time; 
 
              oldLength = lenght;
-            Debug.Log(endTime);
-            Debug.Log(time);
+            //Debug.Log(endTime);
+            //Debug.Log(time);
 
 
             // 位置が近いと終了処理を出す(Playerのデコイを出現させる)

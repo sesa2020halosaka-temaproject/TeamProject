@@ -614,7 +614,8 @@ namespace TeamProject
             var outPos = new Vector3();
 
             // 天井のレイを確認
-            var topRayCheck = TopRayCheck(out outPos);
+            // var topRayCheck = TopRayCheck(out outPos);
+            var topRayCheck = TopRayChecVer3(ref outPos);
 
             if (!topRayCheck)
             {
@@ -841,11 +842,65 @@ namespace TeamProject
             return true;
         }
 
-        private bool TopRayCheckVer2(out Vector3 _outPos)
+        private bool TopRayCheckVer2(ref Vector3 _outPos)
+        {
+            var lerpStart = transform.position;
+            var lerpEnd = choicePosition;
+
+            var lengthPosition = lerpEnd - lerpStart;
+
+            lengthPosition.y = 0f;
+
+            var lerpLenght = lengthPosition.magnitude;
+
+            // レイの個数(倍率 * 長さ)
+            var rayNum = (int)(lerpLenght * stepJudgeAccuracy);
+
+            if (rayNum == 0)
+            {
+                return false;
+            }
+
+            // ここから追加のArrayが存在するか取得
+            Root.SetLerp(lerpStart, lerpEnd);
+
+            float[] rayTopArraya = new float[rayNum];
+
+            // 初期取りのRayTopは指定のものに
+            for (int i = 0; i < rayNum; i++)
+            {
+                rayTopArraya[i] = rayTopLength;
+            }
+
+            List<Root> rootList = new List<Root>();
+
+            // 基本ルートの洗い出し
+            while (true)
+            {
+                Root root = Root.Create(ref rayTopArraya, rayNum);
+
+                if (root == null) break;
+
+                rootList.Add(root);
+            }
+
+            // ルートで実際に使うルートを再検索
+           　var mainRootList = Root.CreateMainRoot(rootList);
+
+            foreach(var itr in rootList)
+            {
+                Root.Check(itr, judgeHight, beforFrame, ref _outPos);
+            }
+
+            return true; 
+        }
+
+        private bool TopRayChecVer3(ref Vector3 _outPos)
         {
             // Vectorの受け取りの初期化
             // falseが出たらoutに代入
             _outPos = new Vector3();
+
             // 長さを図る
             var lengthPosition = choicePosition - transform.position;
 
@@ -857,12 +912,14 @@ namespace TeamProject
             // 長さと倍率で洗い出す
 
             // レイの個数(倍率 * 長さ)
-            var rayNum = length * stepJudgeAccuracy;
+            var rayNum = (int)(length * stepJudgeAccuracy);
 
             if (rayNum == 0) return true;
 
+           // rayNum++;
+            
             // レイを個数分生成
-            var rayArray = new Ray[(uint)rayNum];
+            var rayArray = new Ray[rayNum];
             var lerpStart = transform.position;
             var lerpEnd = choicePosition;
             LayerMask mask;
@@ -872,7 +929,7 @@ namespace TeamProject
             // 高さ入れる
             lerpStart.y = lerpEnd.y = rayTopLength;
 
-            for (int i = 0; i < (uint)rayNum; i++)
+            for (int i = 0; i < rayNum; i++)
             {
                 // 位置の補間を作成
                 var inter = Vector3.Lerp(lerpStart, lerpEnd, (float)i / rayNum);
@@ -882,11 +939,65 @@ namespace TeamProject
                 rayArray[i] = new Ray(inter, -Vector3.up);
             }
 
+            // ------------------------------------ここから追記
+            var elaseObject = new List<GameObject>();
+
+            // プレイヤーの位置にレイを飛ばし、プレイヤーが来るまで回す
+            while (true)
+            {
+                RaycastHit hit;
+                var hitFlag = Physics.Raycast(rayArray[0], out hit, 10000f);
+                
+                if (!hitFlag)
+                {
+                    // プレイヤーにすら当たらなかったのでなんかおかしいからfalseを返す
+                    // Debug.Break();
+                    return false;
+                }
+
+                if (hit.collider.tag == "Player")
+                {
+                    break;
+                }
+
+                // 当たり判定を消す、消したものを記憶しておく
+                var obj = hit.collider.gameObject;
+                obj.SetActive(false);
+                elaseObject.Add(obj);
+            }
+
+            // 同じく小人もする(重なってたらどうする？、位置が近くなった時にしようか)
+            while (true)
+            {
+                RaycastHit hit;
+                var hitFlag = Physics.SphereCast(rayArray[rayNum - 1], 1f, out hit, 10000f);
+                if (!hitFlag)
+                {
+                    // Instantiate(new GameObject(), rayArray[rayNum - 1].origin, Quaternion.identity);
+                    // 当たらなかったのでなんかおかしいからfalseを返す
+                    Debug.Log("当たってねえ所");
+                    Debug.Break();
+                    return false;
+                }
+
+                if (hit.collider.tag == "Kobito" || hit.collider.transform.parent.tag == "Goal")
+                {
+                    break;
+                }
+
+                // 当たり判定を消す、消したものを記憶しておく
+                var obj = hit.collider.gameObject;
+                obj.SetActive(false);
+                elaseObject.Add(obj);
+
+            }
+            // ------------------------------------ここまで追記
+
             // 地面判定のオブジェクトのみのレイを取って
             // 配列に入れる
-            var lengthArray = new float[(uint)rayNum];
-            var outPos = new Vector3[(uint)rayNum];
-            for (int i = 0; i < (uint)rayNum; i++)
+            var lengthArray = new float[rayNum];
+            var outPos = new Vector3[rayNum];
+            for (int i = 0; i < rayNum; i++)
             {
                 RaycastHit hit;
                 Physics.Raycast(rayArray[i], out hit, 10000f, rayCheck);
@@ -894,26 +1005,41 @@ namespace TeamProject
                 // 長さを代入
                 lengthArray[i] = hit.distance;
                 outPos[i] = hit.point;
-                Debug.Log(i + "aa" + outPos[i]);
             }
+
+            foreach (var itr in elaseObject) itr.SetActive(true);
 
             // 配列の低い数字から長さの差分をとる(初期は要素0を代入)
             float diff = 0;
             float oldLength = lengthArray[0];
+            var outPosList = new List<Vector3>();
+            int num = 0;
 
             // 差分が設定値以上ならがけなので即座に
             // returnn false(以下は大丈夫)
-            for (int i = 0; i < (uint)rayNum; i++)
+            for (int i = 0; i < rayNum; i++)
             {
                 diff = lengthArray[i] - oldLength;
                 Debug.Log(diff);
                 if (judgeHight < -diff)
                 {
-                    Debug.Log("Inしたよ");
-                    _outPos = outPos[i - beforFrame]; Debug.Log(_outPos);
-                    return false;
+                    outPosList.Add(outPos[i - beforFrame]);
+                    num++;
+                   //  return false;
                 }
                 oldLength = lengthArray[i];
+            }
+
+            for(int i = 0; i < num; i++)
+            {
+                var hight = 1f;
+                // 小人の位置情報が明らか高ければ崖
+                if (outPosList[i].y + hight < choicePosition.y)
+                {
+                    // 参照物を返す
+                    _outPos = outPosList[i];
+                    return false;
+                }
             }
 
             // 最後まで来たら成功
