@@ -126,6 +126,8 @@ namespace TeamProject
 
         private string[] grassSEPath;
         private string[] walkSEPath;
+        private string[] walkRainSEPath;
+        private string[] walkSnowSEPaht;
 
         private float soundSpanNow = 0.0f;
         [SerializeField]
@@ -1060,6 +1062,9 @@ namespace TeamProject
             StartCoroutine(JumpEnd());
         }
 
+        [SerializeField]
+        private float fallMiss = 0.5f;
+
         private void Fall()
         {
             Ray ray = new Ray(transform.position, -Vector3.up);
@@ -1073,7 +1078,7 @@ namespace TeamProject
             if (Physics.Raycast(ray, out hit))
             {
                 Debug.Log(hit.distance);
-                if (hit.distance < 0.05f)
+                if (hit.distance < fallMiss)
                 {
                     Debug.Log("Playerが");
                     // とりあえず地面あるから
