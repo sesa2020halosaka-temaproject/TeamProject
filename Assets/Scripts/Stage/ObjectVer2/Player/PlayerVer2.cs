@@ -84,6 +84,7 @@ namespace TeamProject
 
         // 選択時の矢印保持用のオブジェクト
         private GameObject pickArrowObject;
+        private BetaPickArrow pickArrowCom;
 
         // Choiceできるオブジェクトのリスト
         private List<ConversPosition> choiceObjectList;
@@ -174,11 +175,11 @@ namespace TeamProject
             cameraObject = UnityEngine.Camera.main.transform.root.gameObject;
 
             // 矢印オブジェクトを生成
-            pickArrowObject = Instantiate(pickArrowPrefab);
-            var pickArrowCompoent = pickArrowObject.GetComponent<BetaPickArrow>();
+            pickArrowObject = Instantiate(pickArrowPrefab, new Vector3(0f, pickArrowHight) + transform.position, Quaternion.identity);
+            pickArrowCom = pickArrowObject.GetComponent<BetaPickArrow>();
 
             // プレイヤーコンポーネント
-            pickArrowCompoent.PlayerComponent = this;
+            pickArrowCom.PlayerComponent = this;
 
             // 初期はChoiceするオブジェクトがないのでtrue
             notChoice = true;
@@ -224,7 +225,7 @@ namespace TeamProject
                 {
                     choicePosition = firstChoiceObject.transform.position;
                     choiceObject = firstChoiceObject;
-                    pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+                    pickArrowCom.ChoicePosition = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
 
 
                     var vec = choicePosition - transform.position;
@@ -579,7 +580,7 @@ namespace TeamProject
             if (minLength != 10000f)
             {
                 RootCheck();
-                pickArrowObject.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+                pickArrowCom.ChoicePosition = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
 
                 var vec = choicePosition - transform.position;
                 transform.LookAt(choicePosition, Vector3.up);
@@ -1167,7 +1168,7 @@ namespace TeamProject
                     // choiceObject = _direc.befor;
                 }
 
-                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
+                pickArrowCom.ChoicePosition = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
 
                 transform.LookAt(up, Vector3.up);
@@ -1207,7 +1208,7 @@ namespace TeamProject
                     }
                 }
 
-                pickArrowObject.transform.position = up + new Vector3(0f, pickArrowHight, 0f);
+                pickArrowCom.ChoicePosition = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
 
                 transform.LookAt(up, Vector3.up);
