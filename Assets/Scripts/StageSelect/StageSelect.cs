@@ -364,12 +364,13 @@ namespace TeamProject
             m_SelectSound.CrossFade();
 
             //ワールド移動中のUIの画像変更
-            m_StageSelectUIManager.ChangeWorldNameIcon();
+            //m_StageSelectUIManager.ChangeWorldNameIcon();
+            m_StageSelectUIManager.GetCurrentToNextWorldUIObject().ChangeWorldNameIcon();
             //m_WorldStatus.ChangeWorldNameIcon();
 
             //
             m_StageSelectUIManager.GetWorldStatusUIObject().UIOutMove();
-
+            m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIInMove();
         }
         //ワールド移動中
         private void StateWorldMoving()
@@ -425,7 +426,15 @@ namespace TeamProject
                 //_DollyCart.SetPathFixingDolly();
 
                 //_Sub_DollyCam.PathPositionReset();
-                //ステージ番号の更新
+
+                 //
+                m_StageSelectUIManager.GetWorldStatusUIObject().ChangeWorldNameIcon();
+
+                m_StageSelectUIManager.GetWorldStatusUIObject().UIInMove();
+                m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIOutMove();
+
+                //最後に処理させること（分かりやすくするために）
+               //ステージ番号の更新
                 if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
                 {
                     StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
@@ -434,12 +443,13 @@ namespace TeamProject
                 {
                     StageStatusManager.Instance.CurrentStage = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
                 }
+
+                m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
+                m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
+
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("WORLD_MOVING");
-
-                m_StageSelectUIManager.GetWorldStatusUIObject().UIInMove();
-
             }
 
             //Dollyカメラの座標をドリーカートの座標に合わせる

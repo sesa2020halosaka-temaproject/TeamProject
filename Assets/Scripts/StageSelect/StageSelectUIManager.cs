@@ -8,6 +8,9 @@ namespace TeamProject
     //ステージセレクト内のUIを管理するクラス（クリア状況UIとワールド移動中UI）
     public class StageSelectUIManager : MonoBehaviour
     {
+        [Header("クリア状況UIの移動する時間")]
+        public float m_UIMoveOut_Time;
+        public float m_UIMoveIn_Time;
         //現在ワールド位置 
         //StageStatusManager.Instance.CurrentWorld;
         public GameObject m_Canvas;//一番上の親オブジェクト
@@ -62,7 +65,7 @@ namespace TeamProject
         void Update()
         {
             m_WorldStatusUI.WorldStatusUIUpdate();
-
+            m_ToNextWUI.ToNextWorldUIUpdate();
         }//void Update()    END
 
         //ワールドを示すUIの差し替え
