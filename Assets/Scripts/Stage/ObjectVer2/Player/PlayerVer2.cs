@@ -923,7 +923,7 @@ namespace TeamProject
             // レイの個数(倍率 * 長さ)
             var rayNum = (int)(length * stepJudgeAccuracy);
 
-            if (rayNum == 0) return true;
+            if (rayNum <= 0 + beforFrame) return true;
 
            // rayNum++;
             
@@ -1034,6 +1034,8 @@ namespace TeamProject
                 Debug.Log(diff);
                 if (judgeHight < -diff)
                 {
+                    var elem = i - beforFrame;
+                    if (elem < 0) continue;
                     outPosList.Add(outPos[i - beforFrame]);
                     num++;
                    //  return false;
