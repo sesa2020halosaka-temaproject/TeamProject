@@ -46,7 +46,7 @@ namespace TeamProject
             //m_Next = transform.GetChild(1).gameObject;//次のワールド名UI用オブジェクト
             //m_Current = transform.GetChild(2).gameObject;//現在のワールド名UI用オブジェクト
 
-            m_ToNextWUI=this.transform.GetChild(0).transform.GetChild(3).gameObject.GetComponent<CurrentToNextWorldUIManager>();
+            m_ToNextWUI = this.transform.GetChild(0).transform.GetChild(3).gameObject.GetComponent<CurrentToNextWorldUIManager>();
             m_WorldStatusUI = this.transform.GetChild(0).transform.GetChild(2).gameObject.GetComponent<WorldStatusUIManager>();
 
         }
@@ -59,10 +59,11 @@ namespace TeamProject
         }
 
         // Update is called once per frame
-        //void Update()
-        //{
+        void Update()
+        {
+            m_WorldStatusUI.WorldStatusUIUpdate();
 
-        //}//void Update()    END
+        }//void Update()    END
 
         //ワールドを示すUIの差し替え
         public void ChangeWorldNameIcon()
@@ -72,5 +73,18 @@ namespace TeamProject
             //次のワールドの表示スプライトを差し替える
             //現在のワールドの表示スプライトを差し替える
         }//
+
+        //CurrentToNextWorldUIManagerのオブジェクトを渡す
+        public CurrentToNextWorldUIManager GetCurrentToNextWorldUIObject()
+        {
+            return m_ToNextWUI;
+        }
+
+        //WorldStatusUIManagerのオブジェクトを渡す
+        public WorldStatusUIManager GetWorldStatusUIObject()
+        {
+            return m_WorldStatusUI;
+        }
+
     } //public class StageSelectUIManager : MonoBehaviour    END
 } //namespace TeamProject    END

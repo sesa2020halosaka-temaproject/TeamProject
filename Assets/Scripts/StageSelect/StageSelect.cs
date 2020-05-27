@@ -59,8 +59,8 @@ namespace TeamProject
         private int db_cnt = 0;//デバッグログ確認用カウント
 
         private StageSelectSound m_SelectSound;
-        private CurrentToNextWorldUIManager m_ToNextWName;
-        private WorldStatusUIManager m_WorldStatus;
+        //private CurrentToNextWorldUIManager m_ToNextWName;
+        //private WorldStatusUIManager m_WorldStatus;
         private StageSelectUIManager m_StageSelectUIManager;
         //=================================================================
         //関数ここから
@@ -279,7 +279,6 @@ namespace TeamProject
 
             //ステージ移動の状態へ移行
             StageChangeManager.SelectStateChange("STAGE_MOVING");
-
         }
         //ステージ移動中
         private void StateStageMoving()
@@ -368,6 +367,9 @@ namespace TeamProject
             m_StageSelectUIManager.ChangeWorldNameIcon();
             //m_WorldStatus.ChangeWorldNameIcon();
 
+            //
+            m_StageSelectUIManager.GetWorldStatusUIObject().UIOutMove();
+
         }
         //ワールド移動中
         private void StateWorldMoving()
@@ -435,6 +437,9 @@ namespace TeamProject
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("WORLD_MOVING");
+
+                m_StageSelectUIManager.GetWorldStatusUIObject().UIInMove();
+
             }
 
             //Dollyカメラの座標をドリーカートの座標に合わせる
