@@ -18,19 +18,19 @@ public class BackGrass : MonoBehaviour
     private void Awake()
     {
 
-        RenderTexture grassmap = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.ARGB32);
-        grassmap.Create();
-        foreach (var r in GetComponentsInChildren<Renderer>())
-        {
-            if (r.gameObject == gameObject) continue;
-            r.material.SetTexture("_MainTex", grassmap);
-        }
-        foreach (var c in GetComponentsInChildren<Camera>())
-        {
-            if (c.gameObject == gameObject) continue;
-            c.enabled = true;
-            c.targetTexture = grassmap;
-        }
+        //RenderTexture grassmap = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.ARGB32);
+        //grassmap.Create();
+        //foreach (var r in GetComponentsInChildren<Renderer>())
+        //{
+        //    if (r.gameObject == gameObject) continue;
+        //    r.material.SetTexture("_MainTex", grassmap);
+        //}
+        //foreach (var c in GetComponentsInChildren<Camera>())
+        //{
+        //    if (c.gameObject == gameObject) continue;
+        //    c.enabled = true;
+        //    c.targetTexture = grassmap;
+        //}
     }
 
     private void Update()
