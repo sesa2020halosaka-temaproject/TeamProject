@@ -124,6 +124,8 @@ namespace TeamProject
         [SerializeField]
         private GameObject firstChoiceObject = null;
 
+        private WalkSoundManage walkSoundManage;
+
         private string[] grassSEPath;
         private string[] walkSEPath;
         private string[] walkRainSEPath;
@@ -203,6 +205,8 @@ namespace TeamProject
             oldArrow[(int)InputManager.ArrowCoad.DownArrow] = false;
             oldArrow[(int)InputManager.ArrowCoad.RightArrow] = false;
             oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = false;
+
+            walkSoundManage = GetComponent<WalkSoundManage>();
         }
 
         // None
@@ -332,6 +336,8 @@ namespace TeamProject
 
             if (soundSpan < soundSpanNow)
             {
+                // 足音と草のサウンド
+                walkSoundManage.PlayWalkSound();
                 SEManager.Instance.Play(grassSEPath[randInt], 0.1f);
                 SEManager.Instance.Play(walkSEPath[randInt]);
                 soundSpanNow = 0.0f;
