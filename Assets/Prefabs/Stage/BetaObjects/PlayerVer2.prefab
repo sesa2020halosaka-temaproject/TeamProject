@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 4623532202030105386}
   - component: {fileID: 4316840325798689013}
   - component: {fileID: 4002138958120631313}
+  - component: {fileID: 451981741439647160}
   m_Layer: 0
   m_Name: PlayerVer2
   m_TagString: Player
@@ -170,8 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  stepJudgeAccuracy: 3
-  judgeHight: 0.8
+  stepJudgeAccuracy: 5
+  judgeHight: 0.5
   rayTopLength: 100
   pickArrowPrefab: {fileID: 4092936419803429701, guid: a06a0834fedf57e4483d65ea6b7f19f1,
     type: 3}
@@ -184,7 +185,7 @@ MonoBehaviour:
   goalMask:
     serializedVersion: 2
     m_Bits: 4096
-  goalLenght: 15
+  goalLenght: 1
   decoyPrefab: {fileID: 5492348456918303062, guid: 23df674622290254096f20c843021f05,
     type: 3}
   beforFrame: 15
@@ -197,6 +198,7 @@ MonoBehaviour:
   rayCheckCeiling:
     serializedVersion: 2
     m_Bits: 264192
+  fallMiss: 0.5
 --- !u!54 &4316840325798689013
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -227,6 +229,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaitaRadius: 2
   Wight: 0.5
+--- !u!114 &451981741439647160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226882566405447162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6669976c122b8478e2df10e4e133a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 1048576
 --- !u!114 &818825358806146950
 MonoBehaviour:
   m_ObjectHideFlags: 0

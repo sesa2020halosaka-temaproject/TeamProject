@@ -74,12 +74,12 @@ namespace TeamProject
         {
             // 当たり判定前準備
             RaycastHit hit;
-            Ray ray = new Ray(transform.position, Vector3.up);
+            Ray ray = new Ray(transform.position + new Vector3(0f, 3f, 0f), -Vector3.up);
             bool hitFlag = false;
             byte bitFlagChack = (byte)WalkMoad.Normal;
 
             hitFlag = Physics.Raycast(ray, out hit, 10f, layer);
-
+            
             if (hitFlag)
             {
                 // 追加あればここに
@@ -94,24 +94,33 @@ namespace TeamProject
         {
             if (CheckFlag(WalkMoad.Normal))
             {
+                Debug.Log("WalkManager:Normalなってます");
                 Play(walkNormalSEPath);
             }
             if (CheckFlag(WalkMoad.Ground))
             {
+                Debug.Log("WalkManager:Groundなってます");
                 Play(walkGroundSEPath);
             }
             if (CheckFlag(WalkMoad.Grass))
             {
+                Debug.Log("WalkManager:Grassなってます");
                 Play(walkGrassSEPath);
                 Play(separateDrySEPaht);
+
+                if (CheckFlag(WalkMoad.Rain))
+                {
+                    Play(separateRainSEPaht);
+                }
             }
             if (CheckFlag(WalkMoad.Rain))
             {
+                Debug.Log("WalkManager:Rainなってます");
                 Play(walkRainSEPath);
-                Play(separateRainSEPaht);
             }
             if (CheckFlag(WalkMoad.Snow))
             {
+                Debug.Log("WalkManager:Snowなってます");
                 Play(walkSnowSEPaht);
                 Play(separateSnowSEPaht);
             }
