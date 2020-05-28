@@ -904,6 +904,9 @@ namespace TeamProject
             return true; 
         }
 
+        [SerializeField]
+        private LayerMask topElaseMask;
+
         private bool TopRayChecVer3(ref Vector3 _outPos)
         {
             // Vectorの受け取りの初期化
@@ -955,7 +958,7 @@ namespace TeamProject
             while (true)
             {
                 RaycastHit hit;
-                var hitFlag = Physics.SphereCast(rayArray[0], 1f, out hit, 10000f);
+                var hitFlag = Physics.SphereCast(rayArray[0], 1f, out hit, 10000f, topElaseMask);
                 
                 if (!hitFlag)
                 {
@@ -980,7 +983,7 @@ namespace TeamProject
             while (true)
             {
                 RaycastHit hit;
-                var hitFlag = Physics.SphereCast(rayArray[rayNum - 1], 1f, out hit, 10000f);
+                var hitFlag = Physics.SphereCast(rayArray[rayNum - 1], 1f, out hit, 10000f, topElaseMask);
                 if (!hitFlag)
                 {
                     // Instantiate(new GameObject(), rayArray[rayNum - 1].origin, Quaternion.identity);
