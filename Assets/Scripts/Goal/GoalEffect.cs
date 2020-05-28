@@ -46,5 +46,9 @@ namespace TeamProject {
         {
             betaGoalAnimation.EndGoalAnimation();
         }
+        private void GoalSE()
+        {
+            SEManager.Instance.Play(SEPath.SE_GOAL);
+        }
     }
 }

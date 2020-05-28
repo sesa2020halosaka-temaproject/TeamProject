@@ -277,6 +277,9 @@ namespace TeamProject
             //左右矢印の非アクティブ化
             WorldSelectArrow.TwoArrowsDeactivate();
 
+            //
+            m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().UIMoveStateChange();
+
             //ステージ移動の状態へ移行
             StageChangeManager.SelectStateChange("STAGE_MOVING");
         }
@@ -369,7 +372,7 @@ namespace TeamProject
             //m_WorldStatus.ChangeWorldNameIcon();
 
             //
-            m_StageSelectUIManager.GetWorldStatusUIObject().UIOutMove();
+            m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveOut();
             m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIInMove();
         }
         //ワールド移動中
@@ -430,7 +433,7 @@ namespace TeamProject
                  //
                 m_StageSelectUIManager.GetWorldStatusUIObject().ChangeWorldNameIcon();
 
-                m_StageSelectUIManager.GetWorldStatusUIObject().UIInMove();
+                m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveIn();
                 m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIOutMove();
 
                 //最後に処理させること（分かりやすくするために）
@@ -446,6 +449,7 @@ namespace TeamProject
 
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
+                m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
 
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
