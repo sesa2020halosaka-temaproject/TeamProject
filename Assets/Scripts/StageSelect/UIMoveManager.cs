@@ -20,15 +20,15 @@ namespace TeamProject
         }
         public UI_MOVESTATE m_UI_MoveState = UI_MOVESTATE.FIXING;
         // Start is called before the first frame update
-        void Start()
-        {
+        //void Start()
+        //{
 
-        }
+        //}
 
-        // Update is called once per frame
-        void Update()
-        {
-        }
+        //// Update is called once per frame
+        //void Update()
+        //{
+        //}
 
         public void UIMove(GameObject _GameObject, Vector3 StartPosition, Vector3 EndPosition, float MoveTime)
         {        //二点間の距離を代入(スピード調整に使う)
@@ -37,7 +37,7 @@ namespace TeamProject
             // 現在の位置
             m_PosRatio += (Time.deltaTime / MoveTime);/// distance_two;
 
-            // オブジェクトの移動(ここだけ変わった！)
+            // オブジェクトの移動
 
             _GameObject.transform.localPosition = Vector3.Lerp(StartPosition, EndPosition, m_PosRatio);
         }

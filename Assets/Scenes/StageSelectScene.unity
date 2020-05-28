@@ -638,7 +638,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "x\uFF13"
+  m_Text: x03
 --- !u!222 &98493375
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -754,18 +754,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9244f371bb6f7a742b6354155749550d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UIMoveOut_Time: 2
-  m_UIMoveIn_Time: 0.5
-  m_Canvas: {fileID: 0}
-  m_Next: {fileID: 0}
-  m_Current: {fileID: 0}
-  m_UI_WorldName:
-  - World01
-  - World02
-  - World03
-  - World04
-  m_NextName: 
-  m_CurrentName: 
+  m_UIMoveOut_Time: 0.4
+  m_UIMoveIn_Time: 0.2
+  m_UIMoveUP_Time: 0.2
+  m_UIMoveDown_Time: 0.2
   select_state: 0
 --- !u!114 &118190160
 MonoBehaviour:
@@ -3333,7 +3325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &623111242
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4006,6 +3998,7 @@ GameObject:
   - component: {fileID: 671368743}
   - component: {fileID: 671368745}
   - component: {fileID: 671368744}
+  - component: {fileID: 671368746}
   m_Layer: 0
   m_Name: BG_CurrentStage
   m_TagString: Untagged
@@ -4045,7 +4038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.39215687, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 0, a: 0.78431374}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4068,6 +4061,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 671368742}
   m_CullTransparentMesh: 0
+--- !u!114 &671368746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 671368742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9031288c774c37748b2510dc63944bcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BGMoveUp_Time: 0.2
+  m_BGMoveDown_Time: 0.2
+  m_FlashTime: 1
+  m_MaxAlpha: 5
+  m_MinAlpha: 200
+  m_StagePositionX: 0
+  m_StagePositionZ: 0
+  m_StagePositionY:
+  - -50
+  - 0
+  - 50
+  - 100
+  - 150
+  m_StartPosition: {x: 0, y: 0, z: 0}
+  m_EndPosition: {x: 0, y: 0, z: 0}
+  m_MoveState: 0
 --- !u!1 &684165003
 GameObject:
   m_ObjectHideFlags: 0
@@ -5238,7 +5259,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773784130}
-  m_LocalRotation: {x: 0.42689934, y: -0.010431962, z: 0.004925096, w: 0.9042256}
+  m_LocalRotation: {x: 0.4268993, y: -0.010432006, z: 0.0049251164, w: 0.9042256}
   m_LocalPosition: {x: 28.5, y: 85, z: -1275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6281,7 +6302,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "x\uFF14"
+  m_Text: x10
 --- !u!222 &1009622814
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6399,7 +6420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1054878623
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6779,7 +6800,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "x\uFF14"
+  m_Text: x05
 --- !u!222 &1109262660
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8513,7 +8534,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 630, y: -790}
+  m_AnchoredPosition: {x: -630, y: -800}
   m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1386389367
@@ -12314,7 +12335,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "x\uFF15"
+  m_Text: x15
 --- !u!222 &1977735056
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12485,7 +12506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2007268594
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13057,7 +13078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "x\uFF14"
+  m_Text: x04
 --- !u!222 &2065382382
 CanvasRenderer:
   m_ObjectHideFlags: 0
