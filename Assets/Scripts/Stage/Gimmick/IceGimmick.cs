@@ -10,6 +10,9 @@ namespace TeamProject
 
         private Collider coll;
 
+        [SerializeField] 
+        private Collider collChild;
+
         [SerializeField]
         private uint fallNum = 1;
 
@@ -30,6 +33,7 @@ namespace TeamProject
         public void StartBreak()
         {
             coll.enabled = false;
+            collChild.enabled = false;
         }
 
         // オブジェクト自体を消す処理
