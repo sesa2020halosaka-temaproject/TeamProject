@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -92,5 +93,6 @@ namespace TeamProject
             Debug.Log("Bgjreaiogjea");
             func(goalNumMax, goalNum);
         }
+
     }
 }
