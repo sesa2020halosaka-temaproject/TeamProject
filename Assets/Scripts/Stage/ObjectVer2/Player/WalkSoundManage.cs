@@ -14,6 +14,7 @@ namespace TeamProject
         private string[] walkRainSEPath;
         private string[] walkSnowSEPaht;
         private string[] walkWaterSEPaht;
+        private string[] walkIceSEPaht;
 
         private string[] separateDrySEPaht;
         private string[] separateRainSEPaht;
@@ -34,6 +35,7 @@ namespace TeamProject
             Rain = 0b0001000,
             Snow = 0b0010000,
             Water = 0b0100000,
+            Ice = 0b1000000,
         }
 
         // Start is called before the first frame update
@@ -47,6 +49,7 @@ namespace TeamProject
             walkRainSEPath = new string[4] { SEPath.SE_PLAYER_WALK_RAIN1, SEPath.SE_PLAYER_WALK_RAIN2, SEPath.SE_PLAYER_WALK_RAIN3, SEPath.SE_PLAYER_WALK_RAIN4 };
             walkSnowSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_SNOW1, SEPath.SE_PLAYER_WALK_SNOW2, SEPath.SE_PLAYER_WALK_SNOW3, SEPath.SE_PLAYER_WALK_SNOW4 };
             walkWaterSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_WATER1, SEPath.SE_PLAYER_WALK_WATER2, SEPath.SE_PLAYER_WALK_WATER3, SEPath.SE_PLAYER_WALK_WATER4 };
+            walkIceSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_WATER1, SEPath.SE_PLAYER_WALK_WATER2, SEPath.SE_PLAYER_WALK_WATER3, SEPath.SE_PLAYER_WALK_WATER4 };
 
             // 草のかき分け等
             separateDrySEPaht = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
@@ -106,9 +109,11 @@ namespace TeamProject
             {
                 Debug.Log("WalkManager:Grassなってます");
                 Play(walkGrassSEPath);
-                Play(separateDrySEPaht);
-
                 if (CheckFlag(WalkMoad.Rain))
+                {
+                    Play(separateDrySEPaht);
+                }
+                else
                 {
                     Play(separateRainSEPaht);
                 }
@@ -123,6 +128,11 @@ namespace TeamProject
                 Debug.Log("WalkManager:Snowなってます");
                 Play(walkSnowSEPaht);
                 Play(separateSnowSEPaht);
+            }
+            if (CheckFlag(WalkMoad.Ice))
+            {
+                Debug.Log("WalkManager:Iceなってます");
+                Play(walkIceSEPaht);
             }
         }
 
@@ -150,6 +160,10 @@ namespace TeamProject
 
                 case "Water":   // Waternの時
                     _bitFlag |= (byte)WalkMoad.Water;
+                    break;
+
+                case "IceGimmick":   // Iceの時
+                    _bitFlag |= (byte)WalkMoad.Ice;
                     break;
             }
         }

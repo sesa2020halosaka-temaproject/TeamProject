@@ -127,10 +127,10 @@ namespace TeamProject
 
         private WalkSoundManage walkSoundManage;
 
-        private string[] grassSEPath;
-        private string[] walkSEPath;
-        private string[] walkRainSEPath;
-        private string[] walkSnowSEPaht;
+        //private string[] grassSEPath;
+        //private string[] walkSEPath;
+        //private string[] walkRainSEPath;
+        //private string[] walkSnowSEPaht;
 
         private float soundSpanNow = 0.0f;
         [SerializeField]
@@ -199,8 +199,8 @@ namespace TeamProject
 
             GetChoice();
 
-            grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
-            walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
+            //grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
+            //walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
 
             oldArrow[(int)InputManager.ArrowCoad.UpArrow] = false;
             oldArrow[(int)InputManager.ArrowCoad.DownArrow] = false;
@@ -339,8 +339,8 @@ namespace TeamProject
             {
                 // 足音と草のサウンド
                 walkSoundManage.PlayWalkSound();
-                SEManager.Instance.Play(grassSEPath[randInt], 0.1f);
-                SEManager.Instance.Play(walkSEPath[randInt]);
+                //SEManager.Instance.Play(grassSEPath[randInt], 0.1f);
+                //SEManager.Instance.Play(walkSEPath[randInt]);
                 soundSpanNow = 0.0f;
             }
 
@@ -363,7 +363,7 @@ namespace TeamProject
                 Debug.Log(hit.distance);
                 if (hit.distance < 6f)
                 {
-                    Debug.Break();
+                 //    Debug.Break();
                     hit.transform.root.gameObject.GetComponent<Goal>().GoalIn(this);
                     SetFunction((uint)TRANSITION.Goal);
                     // gameObject.SetActive(false);
