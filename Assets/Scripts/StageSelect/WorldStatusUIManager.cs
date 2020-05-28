@@ -85,6 +85,8 @@ namespace TeamProject
             m_MoveInTime = m_StageSelectUIManager.m_UIMoveIn_Time;
             StageStarUpdate();
             SetMinionCount();
+            UIStateFixing();
+
         }
 
         // Update is called once per frame
@@ -109,7 +111,7 @@ namespace TeamProject
                     {
                         this.transform.localPosition = m_InPosition;
                         Debug.Log("In完了");
-                        m_UIMoveState = UIMoveManager.UI_MOVESTATE.FIXING; //PosRatioZeroReset
+                        UIStateFixing();
                         m_UIMoveManager.PosRatioZeroReset();
                     }
 
@@ -122,7 +124,7 @@ namespace TeamProject
                     {
                         this.transform.localPosition = m_OutPosition;
                         Debug.Log("OUT完了");
-                        m_UIMoveState = UIMoveManager.UI_MOVESTATE.FIXING;
+                        UIStateFixing();
                         m_UIMoveManager.PosRatioZeroReset();
 
                     }
@@ -225,33 +227,23 @@ namespace TeamProject
 
 
             }
-            //m_StageObj[0].transform.GetChild(1).gameObject;
-            //////親ゲームオブジェクトの取得
-            ////GameObject ParentObj = this.gameObject;
-            ////星用ゲームオブジェクト取得
-            //for (int i = 0; i < (int)UI_INDEX.ALL_INDEX; i++)
-            //{
-            //    m_StageObj[i] = ParentObj.transform.GetChild(i).gameObject;
-            //}
-
-            ////ステージ番号がセットされていない時はエラー
-            //if (m_StageNumber < 0)
-            //{
-            //    Debug.Log(this.name + "B:m_StageNumber = " + m_StageNumber + "！");
-            //    Debug.Log(this.name + "のステージ番号が登録されていません！");
-            //}
         }//StageStarUpdate END
 
-        public void UIOutMove()
+        //UI_MOVESTATEを変更する
+        public void UIStateMoveOut()
         {
             m_UIMoveState = UIMoveManager.UI_MOVESTATE.MOVEOUT;
         }
-        public void UIInMove()
+        public void UIStateMoveIn()
         {
             m_UIMoveState = UIMoveManager.UI_MOVESTATE.MOVEIN;
         }
+        public void UIStateFixing()
+        {
+            m_UIMoveState = UIMoveManager.UI_MOVESTATE.FIXING;
+        }
 
-
+        //小人の数のinspector上の数値からテキストに変換する
         public void SetMinionCount()
         {
             int CurrentWorld = StageStatusManager.Instance.CurrentWorld;
@@ -260,7 +252,7 @@ namespace TeamProject
             {
                 if (m_StageMinions[CurrentStage + i] < 10)
                 {
-
+                    //一桁なら十の位に０を追加する。
                     m_MinionCount[i].text = "x0" + m_StageMinions[CurrentStage + i].ToString();
                 }
                 else
