@@ -69,9 +69,9 @@ namespace TeamProject
             oldArrow[(int)ArrowCoad.RightArrow] = false;
             oldArrow[(int)ArrowCoad.LeftArrow] = false;
 
-            var text = GetComponentInChildren<UnityEngine.UI.Text>();
-            //text.text = EditorSceneManager.GetActiveScene().name;
-            text.text = SceneManager.GetActiveScene().name;
+            // var text = GetComponentInChildren<UnityEngine.UI.Text>();
+            // text.text = EditorSceneManager.GetActiveScene().name;
+            // text.text = SceneManager.GetActiveScene().name;
         }
 
         // Update is called once per frame
