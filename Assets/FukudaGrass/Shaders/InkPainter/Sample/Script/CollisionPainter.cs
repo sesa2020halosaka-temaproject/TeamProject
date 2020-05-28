@@ -23,18 +23,24 @@ namespace Es.InkPainter.Sample
 			++waitCount;
 		}
 
-		public void OnCollisionStay(Collision collision)
+		public void OnTriggerStay(Collider collision)
 		{
 			if(waitCount < wait)
 				return;
 			waitCount = 0;
 
-			foreach(var p in collision.contacts)
-			{
-				var canvas = p.otherCollider.GetComponent<InkCanvas>();
-				if(canvas != null)
-					canvas.Paint(brush, p.point);
-			}
+
+            collision.ClosestPointOnBounds(this.transform.position);
+            var canvas = collision.GetComponent<InkCanvas>();
+            if (canvas != null)
+                canvas.Paint(brush, collision.ClosestPointOnBounds(this.transform.position));
+
+   //         foreach (var p in collision.contacts)
+			//{
+			//	var canvas = p.otherCollider.GetComponent<InkCanvas>();
+			//	if(canvas != null)
+			//		canvas.Paint(brush, p.point);
+			//}
 		}
 	}
 }
