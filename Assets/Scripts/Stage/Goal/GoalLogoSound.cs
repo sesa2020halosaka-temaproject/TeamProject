@@ -7,6 +7,13 @@ namespace TeamProject
 {
     public class GoalLogoSound : MonoBehaviour
     {
+        private GoalLogoBeta goalLogoBeta;
+
+        private void Start()
+        {
+            goalLogoBeta = transform.GetComponentInParent<GoalLogoBeta>();
+        }
+
         private void GoodLogoSound()
         {
             SEManager.Instance.Play(SEPath.SE_STAMP);
@@ -49,7 +56,7 @@ namespace TeamProject
 
         private void NextMinion()
         {
-            transform.GetComponentInParent<GoalLogoBeta>().NextMinion();
+            goalLogoBeta.NextMinion(); 
         }
     }
 }

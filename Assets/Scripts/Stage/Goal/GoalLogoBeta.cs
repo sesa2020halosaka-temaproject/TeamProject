@@ -41,6 +41,16 @@ namespace TeamProject
         [SerializeField]
         private GameObject goalCharaAnimationObject;
 
+        // ステージの画像データ
+        [SerializeField]
+        private Sprite[] numberSprite;
+
+        [SerializeField]
+        private UnityEngine.UI.Image stageNumImage;
+
+        [SerializeField]
+        private UnityEngine.UI.Image worldNumImage;
+
         // メインのアニメーション
         private Animator anima;
 
@@ -69,9 +79,11 @@ namespace TeamProject
             oldArrow[(int)ArrowCoad.RightArrow] = false;
             oldArrow[(int)ArrowCoad.LeftArrow] = false;
 
-            // var text = GetComponentInChildren<UnityEngine.UI.Text>();
-            // text.text = EditorSceneManager.GetActiveScene().name;
-            // text.text = SceneManager.GetActiveScene().name;
+            var worNum = StageStatusManager.Instance.CurrentWorld;
+            var staNum = StageStatusManager.Instance.StageInWorld;
+
+            worldNumImage.sprite = numberSprite[worNum + 1];
+            stageNumImage.sprite = numberSprite[staNum + 1];
         }
 
         // Update is called once per frame
@@ -123,6 +135,7 @@ namespace TeamProject
             oldArrow[(int)ArrowCoad.RightArrow] = arrow[(int)ArrowCoad.RightArrow];
             oldArrow[(int)ArrowCoad.LeftArrow] = arrow[(int)ArrowCoad.LeftArrow];
 
+
         }
 
 
@@ -130,7 +143,6 @@ namespace TeamProject
         {
             if (once) return;
 
-            StartCoroutine(GetKeyStart());
             kobitoNum = _kobitoNum;
             kobitoMaxNum = _maxKobitoNum;
 
@@ -162,6 +174,11 @@ namespace TeamProject
                 goalLogoMinionList.Add(obj.GetComponent<GoalLogoMinion>());
             }
 
+            for(int i = 0; i < kobitoNum; i++)
+            {
+                goalLogoMinionList[i].On();
+            }
+
             for(int i = 0; i < platoon.MinionNum; i++)
             {
                 goalLogoMinionList[i].SetImage(platoon.MinionList[i].ModelNumber);
@@ -169,7 +186,10 @@ namespace TeamProject
 
             anima.SetTrigger("Darkness");
 
-            foreach (var itr in goalCharaAnimationAnimator) itr.SetBool("Goal", true);
+            foreach (var itr in goalCharaAnimationAnimator)
+            {
+                itr.SetBool("Goal", true);
+            }
 
             anima.SetInteger("Stamp", starNum);
 
@@ -186,10 +206,10 @@ namespace TeamProject
                 return;
             }
 
-            Debug.Log(playMinionAnimeNumber);
+            Debug.Log("GoalLogoBata"+playMinionAnimeNumber);
 
             // 次のアニメーション再生
-            goalCharaAnimationAnimator[playMinionAnimeNumber].SetBool("Flag", true);
+            goalCharaAnimationAnimator[playMinionAnimeNumber].SetTrigger("Flag");
 
             playMinionAnimeNumber++;
         }
@@ -237,7 +257,7 @@ namespace TeamProject
         }
         public IEnumerator GetKeyStart()
         {
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(0.5f);
 
             once = true;
         }
@@ -256,5 +276,9 @@ namespace TeamProject
             platoon = _platoon;
         }
 
+        private void KeyStart()
+        {
+            StartCoroutine(GetKeyStart());
+        }
     }
 }
