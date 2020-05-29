@@ -62,7 +62,7 @@ namespace TeamProject
 
                 keyString[(int)ButtunCode.A] = Tuple.Create("joystick button 0", KeyCode.LeftShift);
                 keyString[(int)ButtunCode.B] = Tuple.Create("joystick button 1", KeyCode.Space);
-                keyString[(int)ButtunCode.X] = Tuple.Create("joystick button 2", KeyCode.C);
+                keyString[(int)ButtunCode.X] = Tuple.Create("joystick button 2", KeyCode.F);
                 keyString[(int)ButtunCode.Y] = Tuple.Create("joystick button 3", KeyCode.V);
                 keyString[(int)ButtunCode.R1] = Tuple.Create("joystick button 4", KeyCode.E);
                 keyString[(int)ButtunCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);
