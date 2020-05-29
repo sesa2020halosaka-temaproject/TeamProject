@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TeamProject
 {
@@ -10,13 +11,17 @@ namespace TeamProject
         [Header("背景の移動する時間")]
         public float m_BGMoveUp_Time;
         public float m_BGMoveDown_Time;
-        [Header("点滅する時間")]
+        [Header("点滅する時間"), Range(0.1f, 10.0f)]
         public float m_FlashTime;
 
-        [Header("α値の最大値"),Range(1,255)]
-        public float m_MaxAlpha;
-        [Header("α値の最小値"),Range(0,254)]
+        [Header("α値の最小値"), Range(0, 254)]
         public float m_MinAlpha;
+        [Header("α値の最大値"), Range(1, 255)]
+        public float m_MaxAlpha;
+        [Header("α値の最大・最小の割合")]
+        public float m_MaxAlphaRatio;
+        public float m_MinAlphaRatio;
+        private float m_AlphaRatio;
 
         [Header("ステージ名UIの座標保持用")]
         //ステージ名の座標保持用
@@ -40,11 +45,16 @@ namespace TeamProject
         private UIMoveManager m_UIMoveManager;
 
         private StageSelectUIManager m_StageSelectUIManager;
+        private Image m_BGImage;
+        public Color m_BGColor;
 
+        public bool m_AlphaUp_Flag = false;
         private void Awake()
         {
             m_UIMoveManager = new UIMoveManager();
             m_StageSelectUIManager = this.transform.root.GetComponent<StageSelectUIManager>();
+            m_BGImage = this.GetComponent<Image>();
+            m_BGColor = m_BGImage.color;
         }
         // Start is called before the first frame update
         void Start()
@@ -52,6 +62,11 @@ namespace TeamProject
             SetStartPosition();
             m_BGMoveUp_Time = m_StageSelectUIManager.m_UIMoveUP_Time;
             m_BGMoveDown_Time = m_StageSelectUIManager.m_UIMoveDown_Time;
+
+            float AlphaLength = 255.0f;// Mathf.Abs( m_MaxAlpha - m_MinAlpha);
+            m_MinAlphaRatio = m_MinAlpha / AlphaLength;
+            m_MaxAlphaRatio = m_MaxAlpha / AlphaLength;
+            m_BGColor.a = m_MaxAlphaRatio;
         }
 
         // Update is called once per frame
@@ -61,12 +76,16 @@ namespace TeamProject
          //
         public void UIBackGroundCurrentStageUpdate()
         {
+
+                    BGAlphaUpdate();
             switch (m_MoveState)
             {
                 case UI_MOVESTATE.FIXING:
                     break;
                 case UI_MOVESTATE.GO:
-                    Debug.Log("背景GO未完了");
+                    //Debug.Log("背景GO未完了");
+                    //m_BGColor.a = m_MaxAlphaRatio;
+                    //m_AlphaUp_Flag = false;
 
                     m_UIMoveManager.UIMove(this.gameObject, m_StartPosition, m_EndPosition, m_BGMoveUp_Time);
                     if (this.transform.localPosition.y >= m_EndPosition.y)
@@ -78,7 +97,10 @@ namespace TeamProject
                     }
                     break;
                 case UI_MOVESTATE.BACK:
-                    Debug.Log("背景BACK未完了");
+                    //Debug.Log("背景BACK未完了");
+                    //m_BGColor.a = m_MaxAlphaRatio;
+                    //m_AlphaUp_Flag = false;
+
                     m_UIMoveManager.UIMove(this.gameObject, m_StartPosition, m_EndPosition, m_BGMoveDown_Time);
                     if (this.transform.localPosition.y <= m_EndPosition.y)
                     {
@@ -103,7 +125,34 @@ namespace TeamProject
 
             this.transform.localPosition = new Vector3(m_StagePositionX, m_StagePositionY[StageInWorld], m_StagePositionZ);
         }
+        //
+        public void BGAlphaUpdate()
+        {
+            //点滅表示の為のα値操作
+            if (m_AlphaUp_Flag)
+            {
+                m_BGColor.a += Time.deltaTime / m_FlashTime;
+            }
+            else
+            {
+                m_BGColor.a -= Time.deltaTime / m_FlashTime;
 
+            }
+            if (m_BGColor.a >= m_MaxAlphaRatio)
+            {
+                m_BGColor.a = m_MaxAlphaRatio;
+                m_AlphaUp_Flag = false;
+            }
+            else if (m_BGColor.a <= m_MinAlphaRatio)
+            {
+                m_BGColor.a = m_MinAlphaRatio;
+                m_AlphaUp_Flag = true;
+            }
+
+            //m_BGColor.a = Mathf.Clamp(m_BGColor.a, m_MinAlphaRatio, m_MaxAlphaRatio);
+            m_BGImage.color = m_BGColor;
+
+        }
         //UI_MOVESTATEを変更する
         public void UIMoveStateGo()
         {
