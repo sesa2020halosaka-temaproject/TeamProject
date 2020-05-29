@@ -254,8 +254,17 @@ namespace TeamProject
         [Header("デコイのPrefabの設定")]
         private GameObject decoyPrefab;
 
+        private GameObject decoyObject;
+
         [SerializeField]
         private int beforFrame;
+
+        [SerializeField]
+        private Transform rayTopPos;
+
+        private bool hadoukenFlag = false;
+
+        private Vector3 hadoukenPos;
 
         // 移動
         private void Move()
@@ -278,7 +287,7 @@ namespace TeamProject
             vel.y = ySpeed;
             rb.velocity = vel;
 
-            Ray ray = new Ray(transform.position + transform.forward *2f+ Vector3.up, -Vector3.up);
+            Ray ray = new Ray(rayTopPos.position, -Vector3.up);
 
             RaycastHit hit;
             var hitFlag = Physics.Raycast(ray, downLength);
@@ -530,6 +539,14 @@ namespace TeamProject
                 }
                 else
                 {
+                    if (decoyObject == null && !hadoukenFlag)
+                    {
+                        var decoy = Instantiate(decoyPrefab);
+
+                        decoy.GetComponent<PlayerAfterimage>().SetParam(transform.position, hadoukenPos);
+
+                        decoyObject = decoy;
+                    }
                     anima.SetTrigger("UnFind");
                 }
             }
@@ -625,17 +642,14 @@ namespace TeamProject
             // 天井のレイを確認
             // var topRayCheck = TopRayCheck(out outPos);
             var topRayCheck = TopRayChecVer3(ref outPos);
-
+            hadoukenFlag = topRayCheck;
+            hadoukenPos = outPos;
             if (!topRayCheck)
             {
                 // ここでFALSEが出ると妖精を飛ばす
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
-
-                var decoy = Instantiate(decoyPrefab);
-
-                decoy.GetComponent<PlayerAfterimage>().SetParam(transform.position, outPos);
-
+                
                 return;
             }
 

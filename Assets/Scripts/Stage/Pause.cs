@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TeamProject.InputManager;
 using KanKikuchi.AudioManager;
 
@@ -43,6 +44,15 @@ namespace TeamProject {
 
         private Camera camera;
 
+        [SerializeField]
+        private Sprite[] sprite;
+
+        [SerializeField]
+        private Image stageNumber;
+
+        [SerializeField]
+        private Image worldNumber;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -79,6 +89,13 @@ namespace TeamProject {
             SetFunction((uint)TRANS.PauseWait);
 
             camera = UnityEngine.Camera.main.transform.parent.GetComponent<Camera>();
+
+            // sprite
+            var worNum = StageStatusManager.Instance.CurrentWorld;
+            var staNum = StageStatusManager.Instance.StageInWorld;
+
+            stageNumber.sprite = sprite[staNum + 1];
+            worldNumber.sprite = sprite[worNum + 1];
         }
         
         private void None()
