@@ -46,14 +46,15 @@
 
 			SubShader
 		{
-			Tags{ "RenderType" = "Opaque" "Queue" = "Geometry+10" }
-				LOD 100
+			Tags{ "RenderType" = "Transparent" "Queue" = "Transparent+2" }
+				LOD 200
 
-				Pass
+			Pass
 			{
 			CULL Back
 			ZWrite Off
 			ZTest Greater
+			
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
