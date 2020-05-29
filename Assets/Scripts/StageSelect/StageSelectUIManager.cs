@@ -33,6 +33,8 @@ namespace TeamProject
         private CurrentToNextWorldUIManager m_ToNextWUI;
         private WorldStatusUIManager m_WorldStatusUI;
         private UIBackGroundCurrentStage m_UIBackGroundCurrentStage;
+        private WorldSelectArrow m_WorldSelectArrow;
+        private StageSelectArrow m_StageSelectArrow;
         private GameObject m_SkipButtonObj;
         //ステージセレクトUIの状態
         public enum UI_STATE
@@ -53,11 +55,12 @@ namespace TeamProject
             //m_Next = transform.GetChild(1).gameObject;//次のワールド名UI用オブジェクト
             //m_Current = transform.GetChild(2).gameObject;//現在のワールド名UI用オブジェクト
 
-            m_ToNextWUI = this.transform.GetChild(0).transform.GetChild(3).GetComponent<CurrentToNextWorldUIManager>();
+            m_StageSelectArrow = this.transform.GetChild(0).transform.GetChild(0).GetComponent<StageSelectArrow>();
+            m_WorldSelectArrow = this.transform.GetChild(0).transform.GetChild(1).GetComponent<WorldSelectArrow>();
             GameObject WorldStatusObj = this.transform.GetChild(0).transform.GetChild(2).gameObject;
             m_WorldStatusUI = WorldStatusObj.GetComponent<WorldStatusUIManager>();
             m_UIBackGroundCurrentStage = WorldStatusObj.transform.GetChild(0).transform.GetChild(0).GetComponent<UIBackGroundCurrentStage>();
-
+            m_ToNextWUI = this.transform.GetChild(0).transform.GetChild(3).GetComponent<CurrentToNextWorldUIManager>();
         }
         // Start is called before the first frame update
         void Start()
@@ -76,6 +79,8 @@ namespace TeamProject
             m_WorldStatusUI.WorldStatusUIUpdate();
             m_ToNextWUI.ToNextWorldUIUpdate();
             m_UIBackGroundCurrentStage.UIBackGroundCurrentStageUpdate();
+            //m_StageSelectArrow.StageSelectArrowUpdate();
+            m_WorldSelectArrow.WorldSelectArrowUpdate();
         }//void Update()    END
 
         //ワールドを示すUIの差し替え
@@ -108,6 +113,13 @@ namespace TeamProject
         {
             return m_UIBackGroundCurrentStage;
         }
-
+        public StageSelectArrow GetStageSelectArrow()
+        {
+            return m_StageSelectArrow;
+        }
+        public WorldSelectArrow GetWorldSelectArrow()
+        {
+            return m_WorldSelectArrow;
+        }
     } //public class StageSelectUIManager : MonoBehaviour    END
 } //namespace TeamProject    END

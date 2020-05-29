@@ -42,13 +42,11 @@ namespace TeamProject
 
         private UIMoveManager m_UIMoveManager;
         private UIMoveManager.UI_MOVESTATE m_UIMoveState;
-
         private StageSelectUIManager m_StageSelectUIManager;
+
         public CLEAR_STATUS m_ClearStatus;//ステージのクリア状況
         public GameObject[] m_Star_Obj = new GameObject[(int)UI_INDEX.STAR03];//星用ゲームオブジェクト
         public GameObject m_CompleteObj;
-        public float m_Distance;
-        public float m_Distance2;
         //UI特定用の列挙
         public enum UI_INDEX
         {
@@ -64,7 +62,6 @@ namespace TeamProject
 
         private void Awake()
         {
-            m_UIMoveManager = new UIMoveManager();
             //m_Next = transform.GetChild(1).gameObject;//次のワールド名UI用オブジェクト
             m_Current = transform.GetChild(1).gameObject;//現在のワールド名UI用オブジェクト
             for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
@@ -72,7 +69,8 @@ namespace TeamProject
                 m_StageObj[i] = this.transform.GetChild(i + 2).gameObject;
                 m_MinionCount[i] = m_StageObj[i].transform.GetChild((int)UI_INDEX.MINION_COUNT).GetComponent<Text>();
             }
-            m_StageSelectUIManager = this.transform.root.GetComponent<StageSelectUIManager>();
+             m_UIMoveManager = new UIMoveManager();
+           m_StageSelectUIManager = this.transform.root.GetComponent<StageSelectUIManager>();
         }
         // Start is called before the first frame update
         void Start()
@@ -97,8 +95,6 @@ namespace TeamProject
 
         public void WorldStatusUIUpdate()
         {
-            m_Distance = m_InPosition.y - m_OutPosition.y;
-            m_Distance2 = m_OutPosition.y - m_InPosition.y;
             switch (m_UIMoveState)
             {
                 case UIMoveManager.UI_MOVESTATE.FIXING:

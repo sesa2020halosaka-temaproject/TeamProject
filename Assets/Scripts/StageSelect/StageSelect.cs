@@ -275,8 +275,12 @@ namespace TeamProject
             //上下矢印の非アクティブ化
             StageSelectArrow.TwoArrowsSetting();
             //左右矢印の非アクティブ化
-            WorldSelectArrow.TwoArrowsDeactivate();
+            //WorldSelectArrow.TwoArrowsDeactivate();
+            //上下矢印を画面外へ移動させる
 
+            //左右矢印を画面外へ移動させる
+            m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
+            
             //
             m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().UIMoveStateChange();
 
@@ -322,6 +326,9 @@ namespace TeamProject
                 //_Sub_DollyCam.SetPathFixingDolly();
                 //_DollyCart.SetPathFixingDolly();
 
+                //左右矢印を画面内へ移動させる
+                m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("STAGE_MOVING終わり");
@@ -354,7 +361,9 @@ namespace TeamProject
             //上下矢印の非アクティブ化
             StageSelectArrow.TwoArrowsDeactivate();
             //左右矢印の非アクティブ化
-            WorldSelectArrow.TwoArrowsDeactivate();
+           //WorldSelectArrow.TwoArrowsDeactivate();
+            //左右矢印を画面外へ移動させる
+            m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
 
 
             ////Dollyカメラの状態をFIXINGに戻す
@@ -452,6 +461,8 @@ namespace TeamProject
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
                 m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
+                //左右矢印を画面内へ移動させる
+                m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
 
                 //LookAtを一か所に固定
