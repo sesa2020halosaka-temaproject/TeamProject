@@ -374,6 +374,7 @@ namespace TeamProject
             //
             m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveOut();
             m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIInMove();
+            m_StageSelectUIManager.SkipButtonSetActive(true);
         }
         //ワールド移動中
         private void StateWorldMoving()
@@ -435,6 +436,7 @@ namespace TeamProject
 
                 m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveIn();
                 m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIOutMove();
+                m_StageSelectUIManager.SkipButtonSetActive(false);
 
                 //最後に処理させること（分かりやすくするために）
                //ステージ番号の更新
@@ -450,6 +452,7 @@ namespace TeamProject
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
                 m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
+
 
                 //LookAtを一か所に固定
                 _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);

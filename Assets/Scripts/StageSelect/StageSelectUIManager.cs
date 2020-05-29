@@ -33,7 +33,7 @@ namespace TeamProject
         private CurrentToNextWorldUIManager m_ToNextWUI;
         private WorldStatusUIManager m_WorldStatusUI;
         private UIBackGroundCurrentStage m_UIBackGroundCurrentStage;
-
+        private GameObject m_SkipButtonObj;
         //ステージセレクトUIの状態
         public enum UI_STATE
         {
@@ -62,6 +62,10 @@ namespace TeamProject
         // Start is called before the first frame update
         void Start()
         {
+            //スキップボタンのゲームオブジェクト取得
+            m_SkipButtonObj = this.transform.GetChild(0).transform.GetChild(4).gameObject;
+            SkipButtonSetActive(false);
+
             m_WorldStatusUI.StartWorldNameIcon();
             m_ToNextWUI.ChangeWorldNameIcon();
         }
@@ -82,6 +86,11 @@ namespace TeamProject
             //
             //
         }//
+
+        public void SkipButtonSetActive(bool _bool)
+        {
+            m_SkipButtonObj.SetActive(_bool);
+        }
 
         //CurrentToNextWorldUIManagerのオブジェクトを渡す
         public CurrentToNextWorldUIManager GetCurrentToNextWorldUIObject()
