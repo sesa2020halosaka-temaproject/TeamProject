@@ -26,6 +26,22 @@ namespace TeamProject
         private float inOutSpeed;
 
         [SerializeField]
+        [Header("一階層の高さ")]
+        private float hightLenge;
+
+        [SerializeField, Range(1, 5)]
+        [Header("ステージごとの階層")]
+        private int hight = 1;
+
+        [SerializeField]
+        [Header("階層分けのキー割り当て")]
+        private ButtunCode hightChangeButtun;
+
+        [SerializeField]
+        [Header("移動差分量")]
+        private float deffSpeed = 0.6f;
+
+        [SerializeField]
         private float min, max;
 
         [SerializeField]
@@ -65,6 +81,10 @@ namespace TeamProject
 
         private Transform child;
 
+        private int nowHight;
+
+        private float targetHight;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -90,6 +110,10 @@ namespace TeamProject
             startQua = transform.rotation;
 
             child = transform.GetChild(0);
+
+            nowHight = hight;
+
+            targetHight = transform.position.y;
         }
 
         private void None()
@@ -181,6 +205,18 @@ namespace TeamProject
             qua.eulerAngles = rot;
             transform.rotation = qua;
 
+            // 高さ変更
+            HightChange();
+
+            var diff = targetHight - transform.position.y;
+
+            diff *= deffSpeed;
+
+            var nowPos = transform.position;
+
+            nowPos.y += diff;
+
+            transform.position = nowPos;
         }
 
         private float time;
@@ -270,5 +306,28 @@ namespace TeamProject
         {
             player = _player;
         }
+
+        // 高さ変更部分
+        private void HightChange()
+        {
+            var inputKey = InputManager.InputManager.Instance.GetKeyDown(hightChangeButtun);
+
+            if (inputKey)
+            {
+                nowHight--;
+
+                targetHight -= hightLenge;
+
+                // 高さが想定以上に行ったとき
+                if (nowHight < 1)
+                {
+                    nowHight = hight;
+
+                    targetHight += hightLenge * hight;
+                }
+            }
+        }
     }
 }
+
+

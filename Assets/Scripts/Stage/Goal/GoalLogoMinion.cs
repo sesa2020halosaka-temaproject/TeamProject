@@ -11,6 +11,9 @@ namespace TeamProject
         Sprite[] minionLogoImage;
 
         [SerializeField]
+        Image imageBack;
+
+        [SerializeField]
         Image imageCom;
 
         private void Start()
@@ -26,6 +29,12 @@ namespace TeamProject
             // 画像変更
             imageCom.sprite
                 = minionLogoImage[(uint)_type];
+        }
+
+        public void On()
+        {
+            imageBack.gameObject.SetActive(false);
+            imageCom.gameObject.SetActive(true);
         }
     }
 }
