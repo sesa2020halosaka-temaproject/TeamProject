@@ -105,9 +105,10 @@ namespace TeamProject
                 return world;
             }
         }
-       
 
+        public bool m_WatchOpeningFlag;//オープニングを見たかどうかフラグ(true:見た,false:見てない)
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
+        public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];//各ステージの小人取得数
 
         static private string[] stageString;
         public string[] StageString { get { return stageString; } }
@@ -143,15 +144,21 @@ namespace TeamProject
             }
             //Debug.Log("Awake!");
 
-            //全ステージを未クリア状態にする
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
             {
+            //全ステージを未クリア状態にする
                 Stage_Status[i] = CLEAR_STATUS.NOT;
+                //小人の取得数をゼロリセット
+                Minion_Count[i] = 0;
                 // Debug.Log("未クリア状態にしました。");
             }
             CurrentStage = STAGE_NO.STAGE01;
             // Debug.Log("STAGE01をセット。");
 
+            //オープニング見たかどうかフラグのリセット
+            m_WatchOpeningFlag = false;
+
+            //破棄されないようにする
             DontDestroyOnLoad(this.gameObject);
         }//public void Awake()  END
 
