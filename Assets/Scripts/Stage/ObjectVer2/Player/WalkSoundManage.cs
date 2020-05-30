@@ -49,7 +49,7 @@ namespace TeamProject
             walkRainSEPath = new string[4] { SEPath.SE_PLAYER_WALK_RAIN1, SEPath.SE_PLAYER_WALK_RAIN2, SEPath.SE_PLAYER_WALK_RAIN3, SEPath.SE_PLAYER_WALK_RAIN4 };
             walkSnowSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_SNOW1, SEPath.SE_PLAYER_WALK_SNOW2, SEPath.SE_PLAYER_WALK_SNOW3, SEPath.SE_PLAYER_WALK_SNOW4 };
             walkWaterSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_WATER1, SEPath.SE_PLAYER_WALK_WATER2, SEPath.SE_PLAYER_WALK_WATER3, SEPath.SE_PLAYER_WALK_WATER4 };
-            walkIceSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_WATER1, SEPath.SE_PLAYER_WALK_WATER2, SEPath.SE_PLAYER_WALK_WATER3, SEPath.SE_PLAYER_WALK_WATER4 };
+            walkIceSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_ICE1, SEPath.SE_PLAYER_WALK_ICE2, SEPath.SE_PLAYER_WALK_ICE3, SEPath.SE_PLAYER_WALK_ICE4 };
 
             // 草のかき分け等
             separateDrySEPaht = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
