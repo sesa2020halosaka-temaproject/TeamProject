@@ -65,6 +65,21 @@ public class BGMManager : AudioManager<BGMManager> {
     }
     RunPlayer(audioPath, volumeRate, delay, pitch, isLoop);
   }
+  // 増山追記 volumeの単位をデシベルで管理
+  static public float ToDecibel(float linear, float dbMin)
+  {
+    var decibel = dbMin;
+    if (linear > 0f)
+    {
+      decibel = 20f * Mathf.Log10(linear);
+        decibel = Mathf.Max(decibel, dbMin);
+    }
+    return decibel;
+  }
 
+  static public float FromDecibel(float _decibel)
+  {
+    return Mathf.Pow(10f, _decibel / 20f);
+  }
 }
 }
