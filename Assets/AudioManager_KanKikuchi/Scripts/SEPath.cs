@@ -12,10 +12,12 @@ public static class SEPath{
 	public const string SE_AMB_STAGE_SELECT_SPRING = "SE/Stereo/SE_Ste_Ambient/SE_Amb_StageSelect_Spring";
 	public const string SE_AMB_STAGE_SELECT_SUMMER = "SE/Stereo/SE_Ste_Ambient/SE_Amb_StageSelect_Summer";
 	public const string SE_AMB_STAGE_SELECT_WINTER = "SE/Stereo/SE_Ste_Ambient/SE_Amb_StageSelect_Winter";
+	public const string SE_BROKEN_ICE              = "SE/Stereo/SE_Ste_Player/SE_BrokenIce";
 	public const string SE_CLEAR                   = "SE/Stereo/SE_Ste_Result/SE_Clear";
 	public const string SE_CURSOL_MOVE             = "SE/Mono/SE_Mono_System/SE_CursolMove";
 	public const string SE_FAILURE                 = "SE/Stereo/SE_Ste_Result/SE_Failure";
 	public const string SE_FLYING_PC               = "SE/Stereo/SE_Ste_Player/SE_FlyingPC";
+	public const string SE_GET_MINION              = "SE/Mono/SE_Mono_Minion/SE_GetMinion";
 	public const string SE_GOAL                    = "SE/Stereo/SE_Ste_Goal/SE_Goal";
 	public const string SE_GRASS_WAVE_FALL         = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Fall";
 	public const string SE_GRASS_WAVE_SPRING       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Spring";
@@ -77,6 +79,10 @@ public static class SEPath{
 	public const string SE_PLAYER_WALK_GROUND2     = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ground2";
 	public const string SE_PLAYER_WALK_GROUND3     = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ground3";
 	public const string SE_PLAYER_WALK_GROUND4     = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ground4";
+	public const string SE_PLAYER_WALK_ICE1        = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ice1";
+	public const string SE_PLAYER_WALK_ICE2        = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ice2";
+	public const string SE_PLAYER_WALK_ICE3        = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ice3";
+	public const string SE_PLAYER_WALK_ICE4        = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Ice4";
 	public const string SE_PLAYER_WALK_NORMAL1     = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Normal1";
 	public const string SE_PLAYER_WALK_NORMAL2     = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Normal2";
 	public const string SE_PLAYER_WALK_NORMAL3     = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Normal3";

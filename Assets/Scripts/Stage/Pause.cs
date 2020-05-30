@@ -20,6 +20,9 @@ namespace TeamProject {
         // ポーズ中のフラグ
         private bool pauseFlag;
 
+        private uint beforPlayerTrans;
+        private uint beforCamerTrans;
+
         // ポーズ中のフラグ
         public bool PauseFlag { get { return pauseFlag; } }
 
@@ -154,7 +157,7 @@ namespace TeamProject {
 
                 // 何も反応しないようにする
                 SetFunction((uint)TRANS.None);
-
+                Time.timeScale = 1f;
                 SEManager.Instance.Play(SEPath.SE_OK);
             }
 
@@ -177,7 +180,7 @@ namespace TeamProject {
         // ポーズ待ち
         private void PauseWait()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.Menu) && player.NowFunctionNum == (int)PlayerVer2.TRANSITION.Choice)
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.Menu) && player.NowFunctionNum != (int)PlayerVer2.TRANSITION.Goal)
             {
                 PauseStart();
             }
@@ -191,8 +194,16 @@ namespace TeamProject {
             logo.transform.parent.gameObject.SetActive(true);
 
             SetFunction((uint)TRANS.Pause);
-            player.SetFunction((uint)PlayerVer2.TRANSITION.None);
+            beforPlayerTrans = player.NowFunctionNum;
+            beforCamerTrans = camera.NowFunctionNum;
             camera.SetFunction((uint)Camera.TRANS.None);
+            player.SetFunction((uint)PlayerVer2.TRANSITION.None);
+
+
+            var dec = BGMManager.FromDecibel(-7f);
+
+            BGMManager.Instance.ChangeBaseVolume(dec);
+            Time.timeScale = 0;
         }
 
         public void PauseEnd()
@@ -202,8 +213,13 @@ namespace TeamProject {
             pauseFlag = false;
 
             SetFunction((uint)TRANS.PauseWait);
-            player.SetFunction((uint)PlayerVer2.TRANSITION.Choice); ;
-            camera.SetFunction((uint)Camera.TRANS.Upd);
+            player.SetFunction(beforPlayerTrans);
+            camera.SetFunction(beforCamerTrans);
+            
+            var dec = BGMManager.FromDecibel(0f);
+
+            BGMManager.Instance.ChangeBaseVolume(dec);
+            Time.timeScale = 1f;
         }
 
         public IEnumerator ToTitle()

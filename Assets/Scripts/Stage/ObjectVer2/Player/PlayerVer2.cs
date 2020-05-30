@@ -218,7 +218,8 @@ namespace TeamProject
 
         private void StageStart()
         {
-            if (startAnimationEndFlag)
+            Debug.Log("ここいるはずなんだけどおおおおおおおおおおおおおおおおおおお");
+            if (!startAnimationEndFlag)
             {
                 SetFunction((uint)TRANSITION.GetChoice);
                 if (firstChoiceObject != null)

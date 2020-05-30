@@ -83,6 +83,9 @@ namespace TeamProject
 
         private int nowHight;
 
+        //カメラの
+        public int NowHight { get { return nowHight; } }
+
         private float targetHight;
 
         // Start is called before the first frame update
@@ -182,14 +185,23 @@ namespace TeamProject
             rot.x += y;
             rot.y -= x;
 
-            if (rot.x + x < min)
+            if (rot.x < min)
             {
                 rot.x = min;
             }
-            if (max < rot.x + x)
+            if (max < rot.x)
             {
                 rot.x = max;
             }
+
+            //if (rot.y + y < min)
+            //{
+            //    rot.y = min;
+            //}
+            //if (max < rot.y + y)
+            //{
+            //    rot.y = max;
+            //}
 
             if (r1)
             {

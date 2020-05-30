@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -16,11 +17,13 @@ namespace TeamProject
         [SerializeField]
         private uint fallNum = 1;
 
+        private Animator iceAnime;
+
         private void Start()
         {
             coll = GetComponent<Collider>();
 
-            Debug.Log(coll+"gporekaopgkrepogokerakgpoaker ogkpaeok");
+            iceAnime = GetComponentInChildren<Animator>();
         }
         
         // 壊れるかどうかのJudge
@@ -32,8 +35,10 @@ namespace TeamProject
         // 当たり判定を消す処理
         public void StartBreak()
         {
+            SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
             coll.enabled = false;
             collChild.enabled = false;
+            iceAnime.SetTrigger("On");
         }
 
         // オブジェクト自体を消す処理

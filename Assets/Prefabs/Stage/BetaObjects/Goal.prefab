@@ -238,7 +238,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1835485953386919216}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &4353824217833362313
 VisualEffect:
@@ -459,8 +459,8 @@ Transform:
   - {fileID: 6955933556041841776}
   - {fileID: 3489425362767347647}
   - {fileID: 572097464995800578}
-  - {fileID: 2721549428145953733}
   - {fileID: 5028425213435397538}
+  - {fileID: 2721549428145953733}
   - {fileID: 1272997144854956254}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -951,7 +951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5028425213435397538
 Transform:
   m_ObjectHideFlags: 0
@@ -959,12 +959,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3968089208109491758}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.77000004, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: -0, y: 0.000000029802322, z: 0.0000000018626451, w: 1}
+  m_LocalPosition: {x: -1.8, y: 6.52, z: -1.25}
+  m_LocalScale: {x: 0.49999997, y: 0.49999997, z: 0.49999997}
   m_Children: []
   m_Father: {fileID: 1835485953386919216}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &4513214234656728451
 Light:
@@ -978,8 +978,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 9410.142
-  m_Range: 12.6
+  m_Intensity: 370727.6
+  m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1025,7 +1025,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
-  m_ShadowRadius: 0
+  m_ShadowRadius: 5.5
   m_ShadowAngle: 0
 --- !u!114 &3623970380570492002
 MonoBehaviour:
@@ -1047,12 +1047,12 @@ MonoBehaviour:
   m_PointlightHDType: 0
   m_SpotLightShape: 0
   m_AreaLightShape: 0
-  m_Intensity: 16.2
+  m_Intensity: 21.5
   m_EnableSpotReflector: 0
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
   m_LightDimmer: 1
-  m_VolumetricDimmer: 1
+  m_VolumetricDimmer: 0
   m_LightUnit: 4
   m_FadeDistance: 10000
   m_AffectDiffuse: 1
@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_ShapeWidth: 0.5
   m_ShapeHeight: 0.5
   m_AspectRatio: 1
-  m_ShapeRadius: 0.025
+  m_ShapeRadius: 5.5
   m_SoftnessScale: 1
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30

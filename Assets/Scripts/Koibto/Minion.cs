@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -122,6 +123,9 @@ namespace TeamProject
             if (platoon != null) { platoon.In(this);  Debug.Log("toetokeoakge"); }
 
             player = obj.gameObject;
+
+            // SE再生
+            SEManager.Instance.Play(SEPath.SE_GET_MINION);
 
             SetFunction((uint)TRANS.Move);
             once = true;

@@ -36,6 +36,9 @@ public abstract class AudioManager<T> : SingletonMonoBehaviour<T> where T : Mono
 	//ボリュームの基準と倍率
 	private float _baseVolume = 1f;
 
+    // 増山追記　現在のvolumeの受け取り
+    public float BaseVolume { get { return _baseVolume; } }
+
 	//=================================================================================
 	//初期化、破棄
 	//=================================================================================
