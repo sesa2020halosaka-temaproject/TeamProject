@@ -49,6 +49,7 @@ namespace TeamProject
         private UIMoveManager m_UIMoveManager_Prev;
         public UIMoveManager.UI_MOVESTATE m_UIMoveState;
         private StageSelectUIManager m_StageSelectUIManager;
+        private StageSelect m_StageSelect;
 
         private void Awake()
         {
@@ -59,7 +60,8 @@ namespace TeamProject
             m_UIMoveManager_Next = new UIMoveManager();
             m_UIMoveManager_Prev = new UIMoveManager();
             m_StageSelectUIManager = this.transform.root.GetComponent<StageSelectUIManager>();
-        }
+            m_StageSelect = m_Canvas.GetComponent<StageSelect>();
+                }
         // Start is called before the first frame update
         void Start()
         {
@@ -90,19 +92,22 @@ namespace TeamProject
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEIN:
                     Debug.Log("IN中です");
-
-                    m_UIMoveManager_Next.UIMove(m_Next, m_OutPosition_Next, m_InPosition_Next, m_MoveInTime);
-                    if (m_Next.transform.localPosition.x <= m_InPosition_Next.x)
+                    if (m_StageSelect.KeyWaitFlagCheck())
                     {
-                        m_Next.transform.localPosition = m_InPosition_Next;
-                        m_EndFlag_Next = true;
 
-                    }
-                    m_UIMoveManager_Prev.UIMove(m_Prev, m_OutPosition_Prev, m_InPosition_Prev, m_MoveInTime);
-                    if (m_Prev.transform.localPosition.x >= m_InPosition_Prev.x)
-                    {
-                        m_Prev.transform.localPosition = m_InPosition_Prev;
-                        m_EndFlag_Prev = true;
+                        m_UIMoveManager_Next.UIMove(m_Next, m_OutPosition_Next, m_InPosition_Next, m_MoveInTime);
+                        if (m_Next.transform.localPosition.x <= m_InPosition_Next.x)
+                        {
+                            m_Next.transform.localPosition = m_InPosition_Next;
+                            m_EndFlag_Next = true;
+
+                        }
+                        m_UIMoveManager_Prev.UIMove(m_Prev, m_OutPosition_Prev, m_InPosition_Prev, m_MoveInTime);
+                        if (m_Prev.transform.localPosition.x >= m_InPosition_Prev.x)
+                        {
+                            m_Prev.transform.localPosition = m_InPosition_Prev;
+                            m_EndFlag_Prev = true;
+                        }
                     }
                     if (FlagCheck())
                     {
@@ -135,6 +140,7 @@ namespace TeamProject
                         m_UIMoveManager_Prev.PosRatioZeroReset();
                         UIStateFixing();
                         ResetFlag();
+                        
                     }
 
                     break;

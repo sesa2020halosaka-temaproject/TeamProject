@@ -72,7 +72,7 @@ namespace TeamProject
                     {
                         this._DollyCart.m_Position = this.pathPositionMax;
                         //移動完了
-                        StageChangeManager.DollyCartFlagON();
+                        StageChangeManager.DollyCartFlagChange(true);
 
                     }
                     break;
@@ -82,7 +82,7 @@ namespace TeamProject
                     {
                         this._DollyCart.m_Position = this.pathPositionMin;
                         //移動完了
-                        StageChangeManager.DollyCartFlagON();
+                        StageChangeManager.DollyCartFlagChange(true);
 
                     }
                     break;
@@ -96,7 +96,7 @@ namespace TeamProject
 
                         Debug.Log("ドリーカート移動完了");
                         //移動完了
-                        StageChangeManager.DollyCartFlagON();
+                        StageChangeManager.DollyCartFlagChange(true);
 
                     }
 
