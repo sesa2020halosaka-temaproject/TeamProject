@@ -71,6 +71,9 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
+        }
+        public void WorldSelectUpdate()
+        {
             //前のフレームの入力状態の保存
             m_BeforeInput_L = m_CurrentInput_L;
             m_BeforeInput_R = m_CurrentInput_R;
@@ -88,7 +91,7 @@ namespace TeamProject
                 case INPUTSTATE.START:
                     break;
                 case INPUTSTATE.HOLD:
-                    m_HoldCount += m_MaxWidth_L*Time.deltaTime / m_HoldTime;
+                    m_HoldCount += m_MaxWidth_L * Time.deltaTime / m_HoldTime;
                     m_Prev3.GetComponent<RectTransform>().sizeDelta = new Vector2(m_HoldCount, m_MaxHeight_L);
                     m_SizeDeltaX = m_Prev3.GetComponent<RectTransform>().sizeDelta.x;
                     if (m_Prev3.GetComponent<RectTransform>().sizeDelta.x >= m_MaxWidth_L)
@@ -97,6 +100,7 @@ namespace TeamProject
                         m_Prev3.GetComponent<RectTransform>().sizeDelta = new Vector2(m_MaxWidth_L, m_MaxHeight_L);
 
                         PrevWorldMoveFlagOn();
+                        m_HoldCount = 0.0f;
                     }
 
                     break;
@@ -117,7 +121,7 @@ namespace TeamProject
                 case INPUTSTATE.START:
                     break;
                 case INPUTSTATE.HOLD:
-                    m_HoldCount += m_MaxWidth_R*Time.deltaTime / m_HoldTime;
+                    m_HoldCount += m_MaxWidth_R * Time.deltaTime / m_HoldTime;
                     m_Next3.GetComponent<RectTransform>().sizeDelta = new Vector2(m_HoldCount, m_MaxHeight_R);
                     m_SizeDeltaX = m_Next3.GetComponent<RectTransform>().sizeDelta.x;
                     if (m_Next3.GetComponent<RectTransform>().sizeDelta.x >= m_MaxWidth_R)
@@ -126,6 +130,7 @@ namespace TeamProject
                         m_Next3.GetComponent<RectTransform>().sizeDelta = new Vector2(m_MaxWidth_R, m_MaxHeight_R);
 
                         NextWorldMoveFlagOn();
+                        m_HoldCount = 0.0f;
                     }
                     break;
                 case INPUTSTATE.END:
@@ -138,8 +143,8 @@ namespace TeamProject
                 default:
                     break;
             }
-        }
 
+        }//WorldSelectUpdate() END
         public bool NextWorldMoveBeginCheck()
         {
             if (m_NextMove_Flag)

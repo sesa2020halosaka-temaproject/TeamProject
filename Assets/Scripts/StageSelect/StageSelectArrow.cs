@@ -8,6 +8,26 @@ namespace TeamProject
     //ステージ選択可能表示矢印用
     public class StageSelectArrow : MonoBehaviour
     {
+        [Header("UIの移動する時間")]
+        private float m_MoveOutTime;
+        private float m_MoveInTime;
+
+        [Header("UIの画面内位置")]
+        public Vector3 m_InPosition_Next;
+        public Vector3 m_InPosition_Prev;
+        [Header("UIの画面外位置")]
+        public Vector3 m_OutPosition_Next;
+        public Vector3 m_OutPosition_Prev;
+
+        public float m_InPos_Next_Y;
+        public float m_OutPos_Next_Y;
+        public float m_InPos_Prev_Y;
+        public float m_OutPos_Prev_Y;
+
+        private bool m_EndFlag_Next;
+        private bool m_EndFlag_Prev;
+
+
         //現在ステージ位置 
         //StageStatusManager.Instance.CurrentStage;
         public static GameObject m_Canvas;//一番上の親オブジェクト
@@ -45,6 +65,15 @@ namespace TeamProject
         //{
 
         //}//void Update()    END
+
+        //更新処理
+        public void StageSelectArrowUpdate()
+        {
+
+        }//StageSelectUpdate() END
+
+
+
         //ステージ状況に応じた処理
         public static void SetCurrentStage(int _StageInWorld)
         {
@@ -128,15 +157,15 @@ namespace TeamProject
         //次と前のステージを示すUIの差し替え
         public static void ChangeStageNameIcon()
         {
-           // Debug.Log("NamePlate");
-           //スプライトのパスを切り替える
+            // Debug.Log("NamePlate");
+            //スプライトのパスを切り替える
             m_NextName = m_ConstPath + m_UI_StageName[(int)StageStatusManager.Instance.NextStage];
             m_PrevName = m_ConstPath + m_UI_StageName[(int)StageStatusManager.Instance.PrevStage];
 
             //次のステージの表示スプライトを差し替える
             m_Next.transform.GetChild(1).GetComponent<Image>().sprite = null;
             m_Next.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_NextName);
-            
+
             //前のステージの表示スプライトを差し替える
             m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = null;
             m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_PrevName);

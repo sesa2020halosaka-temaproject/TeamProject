@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using KanKikuchi.AudioManager;
 using UnityEngine;
-using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -44,27 +42,24 @@ namespace TeamProject
             int StageNumber = StageStatusManager.Instance.StageInWorld;
             //ステージ番号から現在のワールドを確認する
             int WorldNumber = StageStatusManager.Instance.CurrentWorld;
-            //Debug.Log("StageNumber:" + StageNumber);
-            //Debug.Log("WorldNumber:" + WorldNumber);
+
             //上入力
             if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow) && StageNumber != (int)STAGE_NO.STAGE05)
             //if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
             {
-                StageFlagChange();
+                StageFlagChange(true);
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
 
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.UP;
-                //ステージ番号の変更
-                //StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
             }
             //下入力
             else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow) && StageNumber != (int)STAGE_NO.STAGE01)
             //else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
             {
-                StageFlagChange();
+                StageFlagChange(true);
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
@@ -102,7 +97,7 @@ namespace TeamProject
                     }
                     Debug.Log("右入力後WorldNumber:" + WorldNumber);
 
-                    WorldFlagChange();
+                    WorldFlagChange(true);
                     //カーソルの移動音
                     SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
 
@@ -127,13 +122,11 @@ namespace TeamProject
                     }
                     Debug.Log("左入力後WorldNumber:" + WorldNumber);
 
-                    WorldFlagChange();
+                    WorldFlagChange(true);
                     //カーソルの移動音
                     SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
                     //ステージ番号の変更キー設定
                     m_StageChangeKey = STAGE_CHANGE_KEY.LEFT;
-                    //ステージ番号の変更
-                    //StageStatusManager.Instance.CurrentStage = (STAGE_NO)(WorldNumber * 5);
 
                 }
             }
@@ -142,15 +135,15 @@ namespace TeamProject
         }//    void WorldChange()   END
 
         //フラグの切り替え(ON <－> OFF)
-        public static void StageFlagChange()
+        public static void StageFlagChange(bool _bool)
         {
-            m_StageChange_flag = !m_StageChange_flag;
+            m_StageChange_flag = _bool;
         }
 
         //フラグの切り替え(ON <－> OFF)
-        public static void WorldFlagChange()
+        public static void WorldFlagChange(bool _bool)
         {
-            m_WorldChange_flag = !m_WorldChange_flag;
+            m_WorldChange_flag = _bool;
         }
 
         //ステージ移動中かどうか
@@ -356,9 +349,9 @@ namespace TeamProject
             }
         }
 
-        public static void DollyCartFlagON()
+        public static void DollyCartFlagChange(bool _bool)
         {
-            m_DollyCart_flag = true;
+            m_DollyCart_flag = _bool;
         }
         public static bool DollyCartFlagCheck()
         {
@@ -367,10 +360,6 @@ namespace TeamProject
                 return true;
             }
             return false;
-        }
-        public static void DollyCartFlagReset()
-        {
-            m_DollyCart_flag = false;
         }
 
 
