@@ -21,10 +21,6 @@ namespace TeamProject
         {
             renderer = gameObject.GetComponentInChildren<Renderer>();
             mat = renderer.material;
-
-            Debug.Log("aaaa");
-            // renderer.material.SetColor("_BaseColor", new Color(0.2f, 0.2f, 0.2f, 0f));
-            // .material.SetColor("_BaseColor", new Color(0.2f, 0.2f, 0.2f, 0.3f));
         }
 
         // Update is called once per frame
