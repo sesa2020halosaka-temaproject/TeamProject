@@ -193,6 +193,10 @@ namespace TeamProject {
             SetFunction((uint)TRANS.Pause);
             player.SetFunction((uint)PlayerVer2.TRANSITION.None);
             camera.SetFunction((uint)Camera.TRANS.None);
+            
+            var dec = BGMManager.FromDecibel(-7f);
+
+            BGMManager.Instance.ChangeBaseVolume(dec);
         }
 
         public void PauseEnd()
@@ -204,6 +208,10 @@ namespace TeamProject {
             SetFunction((uint)TRANS.PauseWait);
             player.SetFunction((uint)PlayerVer2.TRANSITION.Choice); ;
             camera.SetFunction((uint)Camera.TRANS.Upd);
+            
+            var dec = BGMManager.FromDecibel(0f);
+
+            BGMManager.Instance.ChangeBaseVolume(dec);
         }
 
         public IEnumerator ToTitle()
