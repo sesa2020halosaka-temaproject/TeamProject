@@ -83,6 +83,9 @@ namespace TeamProject
 
         private int nowHight;
 
+        //カメラの
+        public int NowHight { get { return nowHight; } }
+
         private float targetHight;
 
         // Start is called before the first frame update
