@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -32,6 +33,7 @@ namespace TeamProject
         // 当たり判定を消す処理
         public void StartBreak()
         {
+            SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
             coll.enabled = false;
             collChild.enabled = false;
         }
