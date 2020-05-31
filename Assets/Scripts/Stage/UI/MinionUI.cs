@@ -8,6 +8,9 @@ namespace TeamProject
     public class MinionUI : MonoBehaviour
     {
         [SerializeField]
+        private Image image;
+
+        [SerializeField]
         private Image nowNomOne;
         [SerializeField]
         private Image nowNomTen;
@@ -22,7 +25,10 @@ namespace TeamProject
 
         private PlayerVer2 player;
         private MinionPlatoon minionPlatoon;
-        
+
+        [SerializeField]
+        private Pause pause;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -64,8 +70,19 @@ namespace TeamProject
             }
         }
 
+        private void ImageActive(bool _flag)
+        {
+            image.gameObject.SetActive(_flag);
+            nowNomOne.gameObject.SetActive(_flag);
+            nowNomTen.gameObject.SetActive(_flag);
+            maxNomOne.gameObject.SetActive(_flag);
+            maxNomTen.gameObject.SetActive(_flag);
+        }
+
         private void Update()
         {
+            ImageActive(!(player.NowFunctionNum == (uint)PlayerVer2.TRANSITION.Goal || pause.NowFunctionNum != (uint)Pause.TRANS.PauseWait));
+
             // minionPlatoon;
             var num = minionPlatoon.MinionNum;
 

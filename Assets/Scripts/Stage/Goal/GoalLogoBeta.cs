@@ -374,6 +374,14 @@ namespace TeamProject
                 // SEMa
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
+
+            if (_enter && enterOnce)
+            {
+                enterOnce = false;
+                SEManager.Instance.Play(SEPath.SE_OK);
+                // フェードアウト
+                StartCoroutine(ToTitle());
+            }
         }
     }
 }
