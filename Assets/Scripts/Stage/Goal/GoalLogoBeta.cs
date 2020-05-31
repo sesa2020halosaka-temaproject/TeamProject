@@ -216,6 +216,8 @@ namespace TeamProject
 
                 selImg.rectTransform.anchoredPosition = new Vector2(-270, -384);
                 retImg.rectTransform.anchoredPosition = new Vector2(270, -384);
+
+                stageChoice = StageChoice.Retry;
             }
             else
             {
