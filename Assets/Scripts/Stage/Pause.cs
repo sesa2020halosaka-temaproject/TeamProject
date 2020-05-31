@@ -30,7 +30,7 @@ namespace TeamProject {
         private GameObject logo;
 
         // ロゴのアニメーション
-        private Animator anima;
+        // private Animator anima;
 
         private List<string> logoNames;
 
@@ -56,6 +56,20 @@ namespace TeamProject {
         [SerializeField]
         private Image worldNumber;
 
+        [SerializeField]
+        private Image retImg;
+        [SerializeField]
+        private Image selImg;
+        [SerializeField]
+        private Image titlImg;
+
+        [SerializeField]
+        private Sprite[] ret = new Sprite[2];
+        [SerializeField]
+        private Sprite[] sel = new Sprite[2];
+        [SerializeField]
+        private Sprite[] tit = new Sprite[2];
+
         // Start is called before the first frame update
         void Start()
         {
@@ -63,7 +77,7 @@ namespace TeamProject {
 
             logo = transform.GetChild(0).GetChild(0).gameObject;
 
-            anima = logo.GetComponentInChildren<Animator>();
+            // anima = logo.GetComponentInChildren<Animator>();
 
             nowLogoNumber = 0;
             maxLogoNumber = logo.transform.childCount;
@@ -144,9 +158,28 @@ namespace TeamProject {
             // どちらか押されると反応
             if (upTrigger || downTrigger)
             {
-                anima.SetTrigger(logoNames[nowLogoNumber]);
+                // anima.SetTrigger(logoNames[nowLogoNumber]);
 
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            switch (nowLogoNumber)
+            {
+                case 0:
+                    retImg.sprite = ret[1];
+                    selImg.sprite = sel[0];
+                    titlImg.sprite = tit[0];
+                    break;
+                case 1:
+                    retImg.sprite = ret[0];
+                    selImg.sprite = sel[1];
+                    titlImg.sprite = tit[0];
+                    break;
+                case 2:
+                    retImg.sprite = ret[0];
+                    selImg.sprite = sel[0];
+                    titlImg.sprite = tit[1];
+                    break;
             }
 
             // セレクト
@@ -226,17 +259,21 @@ namespace TeamProject {
         {
             yield return new WaitForSeconds(0.0f);
             Debug.Log("タイトルへ戻りまーす！");
-            
-            switch (logoNames[nowLogoNumber])
+
+            var dec = BGMManager.FromDecibel(0f);
+
+            BGMManager.Instance.ChangeBaseVolume(dec);
+
+            switch (nowLogoNumber)
             {
-                case "Title":
+                case 2:
                     FadeManager.FadeOut("TitleScene");
                     break;
-                case "Retry":
+                case 0:
                     var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
                     FadeManager.FadeOut(sceneName);
                     break;
-                case "Select":
+                case 1:
                     FadeManager.FadeOut("StageSelectScene");
                     break;
             }

@@ -456,6 +456,15 @@ namespace TeamProject
                 {
                     if (minionCom.Floor != camereaCompoent.NowHight) continue;
                 }
+
+                if (itr.befor.tag == "Goal")
+                {
+                    var goalCom = itr.befor.GetComponent<Goal>();
+                    if(goalCom != null)
+                    {
+                        if (goalCom.Floor != camereaCompoent.NowHight) continue;
+                    }
+                }
                 Debug.Log("ChoiceObject" + itr.befor.name);
 
                 // 差分割り出し
