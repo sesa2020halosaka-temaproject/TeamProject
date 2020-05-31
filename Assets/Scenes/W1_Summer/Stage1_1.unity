@@ -136,12 +136,12 @@ PrefabInstance:
     - target: {fileID: 6723611849608135820, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: modelNumber
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.14
+      value: 18.46
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
@@ -151,7 +151,7 @@ PrefabInstance:
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1223.56
+      value: -1221.11
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
@@ -207,10 +207,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionVer2
       objectReference: {fileID: 0}
+    - target: {fileID: 6723611849608135820, guid: aa7fb9e3e26874748b6f9f48a153c364,
+        type: 3}
+      propertyPath: modelNumber
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.7
+      value: 25.86
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
@@ -220,7 +225,7 @@ PrefabInstance:
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1222.22
+      value: -1222.87
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
@@ -944,6 +949,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4623532202030105386, guid: adacb55cf56371e4cb3f79e021c34551,
+        type: 3}
+      propertyPath: firstChoiceObject
+      value: 
+      objectReference: {fileID: 588838246}
     - target: {fileID: 4862264643847029644, guid: adacb55cf56371e4cb3f79e021c34551,
         type: 3}
       propertyPath: m_IsActive
@@ -962,7 +972,7 @@ PrefabInstance:
     - target: {fileID: 8356303815552039345, guid: adacb55cf56371e4cb3f79e021c34551,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.5
+      value: 15.13
       objectReference: {fileID: 0}
     - target: {fileID: 8356303815552039345, guid: adacb55cf56371e4cb3f79e021c34551,
         type: 3}
@@ -972,7 +982,7 @@ PrefabInstance:
     - target: {fileID: 8356303815552039345, guid: adacb55cf56371e4cb3f79e021c34551,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1211.3
+      value: -1211.1
       objectReference: {fileID: 0}
     - target: {fileID: 8356303815552039345, guid: adacb55cf56371e4cb3f79e021c34551,
         type: 3}
@@ -1125,7 +1135,7 @@ PrefabInstance:
     - target: {fileID: 1835485953386919216, guid: 8666ee03d58026f478071f1fbc33face,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.67
+      value: 29.05
       objectReference: {fileID: 0}
     - target: {fileID: 1835485953386919216, guid: 8666ee03d58026f478071f1fbc33face,
         type: 3}
@@ -1135,7 +1145,7 @@ PrefabInstance:
     - target: {fileID: 1835485953386919216, guid: 8666ee03d58026f478071f1fbc33face,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1229.7
+      value: -1230.2
       objectReference: {fileID: 0}
     - target: {fileID: 1835485953386919216, guid: 8666ee03d58026f478071f1fbc33face,
         type: 3}
@@ -1432,6 +1442,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf8068028719af49ad5d9a444f61239, type: 3}
+--- !u!1 &588838246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 258391886574110743, guid: aa7fb9e3e26874748b6f9f48a153c364,
+    type: 3}
+  m_PrefabInstance: {fileID: 13908183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &637540313
 PrefabInstance:
   m_ObjectHideFlags: 0
