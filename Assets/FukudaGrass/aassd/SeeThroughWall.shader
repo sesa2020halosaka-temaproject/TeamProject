@@ -10,8 +10,11 @@ Shader "chenjd/SeeThroughWall"
 	{
 		Tags { "RenderType"="Opaque" }
 
+
 		Pass
 		{
+
+
 			ZTest Greater
 			Blend One One
 
