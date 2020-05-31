@@ -294,10 +294,15 @@ namespace TeamProject
         {
             var curr = (int)StageStatusManager.Instance.CurrentStage;
             var star = StageStatusManager.Instance.Stage_Status[curr];
+            var nowSaveMinionNum = StageStatusManager.Instance.Minion_Count[curr];
 
             if ((int)star < starNum)
             {
                 StageStatusManager.Instance.Stage_Status[curr] = (CLEAR_STATUS)starNum;
+            }
+            if (nowSaveMinionNum < kobitoNum)
+            {
+                StageStatusManager.Instance.Minion_Count[curr] = kobitoNum;
             }
         }
         public void SetPlatoon(MinionPlatoon _platoon)
