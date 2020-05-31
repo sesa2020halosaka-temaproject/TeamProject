@@ -37,6 +37,12 @@ namespace TeamProject
         private bool goalOnce = true;
 
         private bool goalInOnce = true;
+
+        [SerializeField, Range(1, 5)]
+        [Header("ゴールも階層分けいるらしいので追加")]
+        private int floor;
+
+        public int Floor { get { return floor; } }
         // Start is called before the first frame update
         void Start()
         {
