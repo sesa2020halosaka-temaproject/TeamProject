@@ -35,6 +35,8 @@ namespace TeamProject
                     grass = grassAutEffectObject;
                     break;
                 case IN_WORLD_NO.S3:
+                    effect = grassSneowEffectObject.GetComponent<VisualEffect>();
+                    grass = grassSneowEffectObject;
                     break;
                 case IN_WORLD_NO.S4:
                     break;
