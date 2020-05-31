@@ -438,6 +438,8 @@ namespace TeamProject
 
                 //UIの更新ステージナンバーの更新後用
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
+                m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionMaxCount();
+                
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
                 m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
 
