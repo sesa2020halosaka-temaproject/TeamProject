@@ -25,6 +25,9 @@ namespace TeamProject
         [SerializeField]
         private float speed = 1f;
 
+        [SerializeField]
+        private Minion[] fallMinion;
+
         private void Start()
         {
             coll = GetComponent<Collider>();
@@ -59,6 +62,7 @@ namespace TeamProject
         // オブジェクト自体を消す処理
         public void EndBreak()
         {
+           //  foreach (var itr in fallMinion) itr.DonwFloor();
             Destroy(this);
         }
     }

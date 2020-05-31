@@ -13,25 +13,43 @@ namespace TeamProject
         [SerializeField]
         private GameObject[] f1KakiwakeObject; // 一番上の階層
         [SerializeField]
+        private GameObject[] f1ColliderObject; // 地面のコライダー 
+
+        [SerializeField]
         private GameObject[] f2;
         [SerializeField]
         private GameObject[] f2KakiwakeObject; // 一番上の階層
+        [SerializeField]
+        private GameObject[] f2ColliderObject; // 地面のコライダー 
+
         [SerializeField]
         private GameObject[] f3;
         [SerializeField]
         private GameObject[] f3KakiwakeObject; // 一番上の階層
         [SerializeField]
+        private GameObject[] f3ColliderObject; // 地面のコライダー 
+
+        [SerializeField]
         private GameObject[] f4;
         [SerializeField]
         private GameObject[] f4KakiwakeObject; // 一番上の階層
         [SerializeField]
+        private GameObject[] f4ColliderObject; // 地面のコライダー 
+
+        [SerializeField]
         private GameObject[] f5;
         [SerializeField]
         private GameObject[] f5KakiwakeObject; // 一番上の階層
+        [SerializeField]
+        private GameObject[] f5ColliderObject; // 地面のコライダー 
+
 
         // Rendererデータ
         private MeshRenderer[][] meshRenderer;
         private MeshRenderer[][] meshKakiwakeRenderer;
+
+        private GameObject[][] floorHitObject;
+        public GameObject[][] FloorHitObject { get { return floorHitObject; } }
 
         private Camera hightData;
 
@@ -46,6 +64,7 @@ namespace TeamProject
         {
             meshRenderer = new MeshRenderer[maxFloor][];
             meshKakiwakeRenderer = new MeshRenderer[maxFloor][];
+            floorHitObject = new GameObject[maxFloor][];
 
             meshRenderer[0] = GetAllComponent<MeshRenderer>(f1);
             meshRenderer[1] = GetAllComponent<MeshRenderer>(f2);
@@ -58,6 +77,13 @@ namespace TeamProject
             meshKakiwakeRenderer[2] = GetAllComponent<MeshRenderer>(f3KakiwakeObject);
             meshKakiwakeRenderer[3] = GetAllComponent<MeshRenderer>(f4KakiwakeObject);
             meshKakiwakeRenderer[4] = GetAllComponent<MeshRenderer>(f5KakiwakeObject);
+
+
+            floorHitObject[0] = f1ColliderObject;
+            floorHitObject[1] = f2ColliderObject;
+            floorHitObject[2] = f3ColliderObject;
+            floorHitObject[3] = f4ColliderObject;
+            floorHitObject[4] = f5ColliderObject;
 
             hightData = GetComponent<Camera>();
 
