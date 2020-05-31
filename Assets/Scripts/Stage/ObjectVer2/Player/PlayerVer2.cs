@@ -457,7 +457,7 @@ namespace TeamProject
                     if (minionCom.Floor != camereaCompoent.NowHight) continue;
                 }
 
-                if (itr.befor.tag == "Gola")
+                if (itr.befor.tag == "Goal")
                 {
                     var goalCom = itr.befor.GetComponent<Goal>();
                     if(goalCom != null)
