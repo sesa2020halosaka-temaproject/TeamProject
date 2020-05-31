@@ -6,7 +6,7 @@
 		}
 
 			SubShader{
-				Tags {"Queue" = "Geometry-1"}
+				Tags {"Queue" = "Geometry-1" "RenderType" = "Transparent"}
 
 				Pass{
 					Zwrite On

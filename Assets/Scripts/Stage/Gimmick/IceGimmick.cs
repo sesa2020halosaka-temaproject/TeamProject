@@ -20,7 +20,7 @@ namespace TeamProject
         private Animator iceAnime;
 
         [SerializeField]
-        private SpriteRenderer[] renderer;
+        private MeshRenderer[] renderer;
 
         [SerializeField]
         private float speed = 1f;
@@ -35,9 +35,10 @@ namespace TeamProject
         private void Update()
         {
             if (coll.enabled) return;
-            var col = renderer[0].color;
-            col.a -= speed;//  * Time.deltaTime;
-            foreach (var itr in renderer) itr.material.color = col;
+            
+            //var col = renderer[0].material.color;
+            //col.a -= speed;//  * Time.deltaTime;
+            foreach (var itr in renderer) itr.enabled = false;
         }
 
         // 壊れるかどうかのJudge
@@ -49,7 +50,7 @@ namespace TeamProject
         // 当たり判定を消す処理
         public void StartBreak()
         {
-            SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
+           // SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
             coll.enabled = false;
             collChild.enabled = false;
             iceAnime.SetTrigger("On");
