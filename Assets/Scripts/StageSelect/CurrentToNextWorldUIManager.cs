@@ -26,7 +26,7 @@ namespace TeamProject
         public GameObject m_Current;//現在のワールド名UI用オブジェクト
 
         //スプライトのパス（固定部分）
-        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_Detail_";
+        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldName/UI_StageSelect_Menu_";
         //
         //スプライトのパス
         public string[] m_UI_WorldName = {

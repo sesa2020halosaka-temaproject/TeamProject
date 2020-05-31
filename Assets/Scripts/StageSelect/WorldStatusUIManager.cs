@@ -9,7 +9,7 @@ namespace TeamProject
     public class WorldStatusUIManager : MonoBehaviour
     {
         [Header("ステージ内の小人の数を入力する→左下UIに反映される")]
-        public uint[] m_StageMinions = new uint[(int)STAGE_NO.STAGE_NUM];
+        public uint[] m_StageMaxMinions = new uint[(int)STAGE_NO.STAGE_NUM];
         [Header("UIの移動する時間")]
         private float m_MoveOutTime;
         private float m_MoveInTime;
@@ -27,11 +27,14 @@ namespace TeamProject
                                    // public GameObject m_Next;//次のワールド名UI用オブジェクト
         public GameObject m_Current;//現在のワールド名UI用オブジェクト
         public GameObject[] m_StageObj = new GameObject[(int)IN_WORLD_NO.ALLSTAGE];//ワールド内ステージUI用オブジェクト
-        public Text[] m_MinionCount = new Text[(int)IN_WORLD_NO.ALLSTAGE];
+        public GameObject[] m_Star_Obj = new GameObject[THREE];//星用ゲームオブジェクト
+        public Text[] m_MinionCount = new Text[(int)IN_WORLD_NO.ALLSTAGE]; //小人取得数テキスト
+        public Text[] m_MinionMaxCount = new Text[(int)IN_WORLD_NO.ALLSTAGE];  //小人最大数テキスト
+        public GameObject m_CompleteObj;//コンプリート文字オブジェクト
 
-
+        private const int THREE = 3;
         //スプライトのパス（固定部分）
-        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_Detail_";
+        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldName/UI_StageSelect_Menu_";
         //
         //スプライトのパス
         public string[] m_UI_WorldName = {
@@ -45,17 +48,14 @@ namespace TeamProject
         private StageSelectUIManager m_StageSelectUIManager;
 
         public CLEAR_STATUS m_ClearStatus;//ステージのクリア状況
-        public GameObject[] m_Star_Obj = new GameObject[(int)UI_INDEX.STAR03];//星用ゲームオブジェクト
-        public GameObject m_CompleteObj;
         //UI特定用の列挙
         public enum UI_INDEX
         {
-            SATGENAME,     //ステージ名
             STAR01,        //左の星
             STAR02,        //中の星
             STAR03,        //右の星
-            MINION_ICON,   //ドングリアイコン
-            MINION_COUNT,  //小人数テキスト
+            MINION_COUNT,  //小人取得数テキスト
+            MINION_MAXCOUNT,  //小人最大数テキスト
             COMPLETE,      //コンプリートUI
             ALL_INDEX      //インデックス数
         }
@@ -68,6 +68,7 @@ namespace TeamProject
             {
                 m_StageObj[i] = this.transform.GetChild(i + 2).gameObject;
                 m_MinionCount[i] = m_StageObj[i].transform.GetChild((int)UI_INDEX.MINION_COUNT).GetComponent<Text>();
+                m_MinionMaxCount[i] = m_StageObj[i].transform.GetChild((int)UI_INDEX.MINION_MAXCOUNT).GetComponent<Text>();
             }
              m_UIMoveManager = new UIMoveManager();
            m_StageSelectUIManager = this.transform.root.GetComponent<StageSelectUIManager>();
@@ -182,10 +183,10 @@ namespace TeamProject
             {
                 m_StageObj[i] = this.transform.GetChild(i + 2).gameObject;
                 m_CompleteObj = m_StageObj[i].transform.GetChild((int)UI_INDEX.COMPLETE).gameObject;
-                for (int star = 0; star < (int)UI_INDEX.STAR03; star++)
+                for (int star = 0; star < THREE; star++)
                 {
                     //星3つのオブジェクト取得
-                    m_Star_Obj[star] = m_StageObj[i].transform.GetChild(star + 1).gameObject;
+                    m_Star_Obj[star] = m_StageObj[i].transform.GetChild(star).gameObject;
                 }
                 int CurrentStage = StageStatusManager.Instance.CurrentWorld * 5 + i;
                 m_ClearStatus = StageStatusManager.Instance.Stage_Status[CurrentStage];
@@ -239,21 +240,43 @@ namespace TeamProject
             m_UIMoveState = UIMoveManager.UI_MOVESTATE.FIXING;
         }
 
-        //小人の数のinspector上の数値からテキストに変換する
+        //小人の取得数を保持しているの数値からテキストに変換する
         public void SetMinionCount()
         {
             int CurrentWorld = StageStatusManager.Instance.CurrentWorld;
             int CurrentStage = CurrentWorld * 5;
             for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
             {
-                if (m_StageMinions[CurrentStage + i] < 10)
+                if (m_StageMaxMinions[CurrentStage + i] < 10)
                 {
                     //一桁なら十の位に０を追加する。
-                    m_MinionCount[i].text = "x0" + m_StageMinions[CurrentStage + i].ToString();
+                    m_MinionCount[i].text = "0" + StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
                 }
                 else
                 {
-                    m_MinionCount[i].text = "x" + m_StageMinions[CurrentStage + i].ToString();
+                    m_MinionCount[i].text = StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
+
+                }
+
+            }
+        }
+
+        //小人の最大数をinspector上の数値からテキストに変換する
+        public void SetMinionMaxCount()
+        {
+            int CurrentWorld = StageStatusManager.Instance.CurrentWorld;
+            int CurrentStage = CurrentWorld * 5;
+            for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
+            {
+                if (m_StageMaxMinions[CurrentStage + i] < 10)
+                {
+                    //一桁なら十の位に０を追加する。
+                    m_MinionMaxCount[i].text = "0" + m_StageMaxMinions[CurrentStage + i].ToString();
+                }
+                else
+                {
+                    //二桁ならそのまま表示する。
+                    m_MinionMaxCount[i].text =  m_StageMaxMinions[CurrentStage + i].ToString();
 
                 }
 

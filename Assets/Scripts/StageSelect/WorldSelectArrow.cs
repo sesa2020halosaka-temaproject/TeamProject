@@ -36,12 +36,12 @@ namespace TeamProject
         public static bool m_AdvancedWorld4_Flag = false;//ワールド４に進出したかどうかフラグ
 
         //スプライトのパス（固定部分）
-        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_";
+        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldName/UI_StageSelect_";
 
         //スプライトのパス
         public static string[] m_UI_WorldName = {
             "World01","World02","World03","World04"
-        };//Assets/Resources/Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_World02
+        };
         public static string m_NextName;//次ワールド用パス
         public static string m_PrevName;//前ワールド用パス
 
