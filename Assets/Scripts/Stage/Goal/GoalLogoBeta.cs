@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using KanKikuchi.AudioManager;
 using UnityEngine.SceneManagement;
 using TeamProject.InputManager;
@@ -26,6 +27,7 @@ namespace TeamProject
         private int kobitoNum;
         private int kobitoMaxNum;
 
+        private bool clear;
 
         // ロゴアニメーションのミニオンに左右の場所
         [SerializeField]
@@ -66,6 +68,19 @@ namespace TeamProject
 
         private MinionPlatoon platoon;
 
+        [SerializeField]
+        private Image selImg;
+        [SerializeField]
+        private Sprite[] select = new Sprite[2];
+        [SerializeField]
+        private Image retImg;
+        [SerializeField]
+        private Sprite[] retry = new Sprite[2];
+        [SerializeField]
+        private Image nexImg;
+        [SerializeField]
+        private Sprite[] next = new Sprite[2];
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -98,44 +113,44 @@ namespace TeamProject
             arrow[(int)ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.RightArrow);
             arrow[(int)ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.LeftArrow);
 
+            var triggerRight = arrow[(int)ArrowCoad.RightArrow] && !oldArrow[(int)ArrowCoad.RightArrow];
+            var triggerLeft = arrow[(int)ArrowCoad.LeftArrow] && !oldArrow[(int)ArrowCoad.LeftArrow];
 
-            if (arrow[(int)ArrowCoad.LeftArrow] && !oldArrow[(int)ArrowCoad.LeftArrow])
+
+            if (clear)
             {
-                stageChoice--;
-                if (stageChoice == StageChoice.MIN)
-                {
-                    stageChoice = StageChoice.MAX - 1;
-
-                }
-                anima.SetTrigger("LeftKey");
-                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+                Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B));
+            }
+            else
+            {
+                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B));
             }
 
-            if (arrow[(int)ArrowCoad.RightArrow] && !oldArrow[(int)ArrowCoad.RightArrow])
+            switch (stageChoice)
             {
-                stageChoice++;
-                if (stageChoice == StageChoice.MAX)
-                {
-                    stageChoice = StageChoice.MIN + 1;
-                }
-                // SEMa
-                anima.SetTrigger("RightKey");
-                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+                case StageChoice.Select:
+                    selImg.sprite = select[1];
+                    retImg.sprite = retry[0];
+                    nexImg.sprite = next[0];
+                    break;
+
+                case StageChoice.Retry:
+                    selImg.sprite = select[0];
+                    retImg.sprite = retry[1];
+                    nexImg.sprite = next[0];
+                    break;
+
+                case StageChoice.Next:
+                    selImg.sprite = select[0];
+                    retImg.sprite = retry[0];
+                    nexImg.sprite = next[1];
+                    break;
             }
 
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B)&& enterOnce)
-            {
-                enterOnce = false;
-                SEManager.Instance.Play(SEPath.SE_OK);
-                // フェードアウト
-                StartCoroutine(ToTitle());
-            }
             oldArrow[(int)ArrowCoad.UpArrow] = arrow[(int)ArrowCoad.UpArrow];
             oldArrow[(int)ArrowCoad.DownArrow] = arrow[(int)ArrowCoad.DownArrow];
             oldArrow[(int)ArrowCoad.RightArrow] = arrow[(int)ArrowCoad.RightArrow];
             oldArrow[(int)ArrowCoad.LeftArrow] = arrow[(int)ArrowCoad.LeftArrow];
-
-
         }
 
 
@@ -192,6 +207,20 @@ namespace TeamProject
             }
 
             anima.SetInteger("Stamp", starNum);
+
+            // 小人の数がクリア未満です
+            if (_kobitoNum <= 1)
+            {
+                clear = false;
+                nexImg.enabled = false;
+
+                selImg.rectTransform.anchoredPosition = new Vector2(-270, -384);
+                retImg.rectTransform.anchoredPosition = new Vector2(270, -384);
+            }
+            else
+            {
+                clear = true;
+            }
 
             NextMinion();
         }
@@ -279,6 +308,65 @@ namespace TeamProject
         private void KeyStart()
         {
             StartCoroutine(GetKeyStart());
+        }
+
+        private void Clear(bool _rightFlag, bool _leftFlag, bool _enter)
+        {
+
+            if (_leftFlag)
+            {
+                stageChoice--;
+                if (stageChoice == StageChoice.MIN)
+                {
+                    stageChoice = StageChoice.MAX - 1;
+
+                }
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            if (_rightFlag)
+            {
+                stageChoice++;
+                if (stageChoice == StageChoice.MAX)
+                {
+                    stageChoice = StageChoice.MIN + 1;
+                }
+                // SEMa
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            if (_enter && enterOnce)
+            {
+                enterOnce = false;
+                SEManager.Instance.Play(SEPath.SE_OK);
+                // フェードアウト
+                StartCoroutine(ToTitle());
+            }
+        }
+
+        private void NotClear(bool _rightFlag, bool _leftFlag, bool _enter)
+        {
+            if (_leftFlag)
+            {
+                stageChoice--;
+                if (stageChoice == StageChoice.MIN)
+                {
+                    stageChoice = StageChoice.MAX - 2;
+
+                }
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            if (_rightFlag)
+            {
+                stageChoice++;
+                if (stageChoice == StageChoice.MAX - 1)
+                {
+                    stageChoice = StageChoice.MIN + 1;
+                }
+                // SEMa
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
         }
     }
 }

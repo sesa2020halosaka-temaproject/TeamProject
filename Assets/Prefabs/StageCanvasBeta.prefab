@@ -787,6 +787,18 @@ MonoBehaviour:
   - {fileID: -3504070508810688282, guid: db608e82cd75d744ca6e9d6a8f1cf2c8, type: 3}
   stageNumber: {fileID: 7090631826183382415}
   worldNumber: {fileID: 1026106543114641977}
+  retImg: {fileID: 4222321195601811160}
+  selImg: {fileID: 6973129755125355312}
+  titlImg: {fileID: 6465925066988034140}
+  ret:
+  - {fileID: 21300000, guid: a405da56cfaebd64b8ddea32ec9e6645, type: 3}
+  - {fileID: 21300000, guid: b4216daa920c31c47b77c399e382f166, type: 3}
+  sel:
+  - {fileID: 21300000, guid: 202acd4e024b6ed4ba81a72654698527, type: 3}
+  - {fileID: 21300000, guid: 33a5f80bb09d9fc44bcda989291e97e1, type: 3}
+  tit:
+  - {fileID: 21300000, guid: 7ad2da8270d204e4593bc2d1d5b75441, type: 3}
+  - {fileID: 21300000, guid: 237c0341f1aa3c444a12180324faa50f, type: 3}
 --- !u!1 &2949795469108384414
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +881,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7856744471303934607}
-  - component: {fileID: 8105487601155909915}
   - component: {fileID: 314114309051231150}
   m_Layer: 0
   m_Name: MoveLogo
@@ -895,25 +906,6 @@ Transform:
   m_Father: {fileID: 5881300773472008057}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &8105487601155909915
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3325010718363757841}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c35c5bb24b80a6a4dabe112afaeb488f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &314114309051231150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1071,7 +1063,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 380, y: 0}
-  m_SizeDelta: {x: 792, y: 510}
+  m_SizeDelta: {x: 700, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8231872573192183727
 CanvasRenderer:
@@ -1099,7 +1091,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8b9967a7644c98749b00b325903e395d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dfeefb113ff5d67469efc9f9aea14d86, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1325,7 +1317,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 380, y: 0}
-  m_SizeDelta: {x: 749, y: 501}
+  m_SizeDelta: {x: 700, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7591265487688958137
 CanvasRenderer:
@@ -1353,7 +1345,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 84aa611e2b8985a4c9c7384bffb00b70, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c5580549281f3de4d925bb224d1fc9b8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2123,7 +2115,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 380, y: 0}
-  m_SizeDelta: {x: 588, y: 476}
+  m_SizeDelta: {x: 700, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8793970482139071306
 CanvasRenderer:
@@ -2151,7 +2143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7c553a94088aeb4408d6afb7d8d1f893, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c8e4e515c54d9c9449c8c0dc834c75dd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2358,7 +2350,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8789304367783031575}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 3f75703abc7a7e2459c011f0ed577aca, type: 2}
   m_CullingMode: 0
@@ -2398,6 +2390,18 @@ MonoBehaviour:
   - {fileID: -4201631475951777421, guid: db608e82cd75d744ca6e9d6a8f1cf2c8, type: 3}
   stageNumImage: {fileID: 5812245962846814617}
   worldNumImage: {fileID: 6831532675712744462}
+  selImg: {fileID: 6989655185730205762}
+  select:
+  - {fileID: 21300000, guid: 8d180f23c2d80434a944febab53bd3a0, type: 3}
+  - {fileID: 21300000, guid: 6aa05e3afa69bef4a9efbee2d3e511d0, type: 3}
+  retImg: {fileID: 1985596057863331292}
+  retry:
+  - {fileID: 21300000, guid: 6c698ec997d56f245b78270ef1d5fb05, type: 3}
+  - {fileID: 21300000, guid: 4b49c7e1aed9bc742955c941b3186b42, type: 3}
+  nexImg: {fileID: 2371335056316022006}
+  next:
+  - {fileID: 21300000, guid: bf1896a7a3a8e1d4e9dc592aa1301b5a, type: 3}
+  - {fileID: 21300000, guid: 3b64f45052910d641b67e2d68b1e7222, type: 3}
 --- !u!114 &6757509219273475005
 MonoBehaviour:
   m_ObjectHideFlags: 0
