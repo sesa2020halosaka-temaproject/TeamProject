@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace TeamProject
 
         void StratAnime()
         {
-            foreach(var itr in iceMatGet)
+            foreach (var itr in iceMatGet)
             {
                 itr.On();
             }
