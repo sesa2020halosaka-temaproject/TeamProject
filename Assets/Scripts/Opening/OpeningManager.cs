@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
 namespace TeamProject
 {
@@ -13,6 +14,7 @@ namespace TeamProject
         public VideoClip m_VideoClip;
         public VideoPlayer m_VideoPlayer;
         public GameObject m_PausePanelObj;
+       // private RawImage rawImage;
 
         public enum MOVIE_STATE
         {
@@ -23,46 +25,46 @@ namespace TeamProject
             ALLSTATE//
         }
         public MOVIE_STATE m_MovieState;
+
         // Start is called before the first frame update
         void Start()
         {
             m_MovieState = MOVIE_STATE.START;
+            //ポーズ用パネルオブジェクトの設定
+            m_PausePanelObj = GameObject.Find("PAUSE_Panel");
+            m_PausePanelObj.SetActive(false);
+
+            //ムービー系統の設定
+            if (m_VideoPlayer == null)
+            {
+                Debug.Log("VideoPlayerがセットされていません！");
+                m_VideoPlayer = this.GetComponent<VideoPlayer>();
+                Debug.Log("だから" + m_VideoPlayer.name+                    "をセットしました！");
+            }
             if (m_VideoClip == null)
             {
                 Debug.LogError("VideoClipがセットされていません！");
-            }
-            if (m_VideoPlayer == null)
-            {
-                Debug.LogError("VideoPlayerがセットされていません！");
-            }
-            m_PausePanelObj = GameObject.Find("PAUSE_Panel");
-            m_PausePanelObj.SetActive(false);
-            //            m_VideoClip.
-            // m_VideoPlayer.isPlaying   
+                }
 
-            //var videoPlayer = gameObject.AddComponent<UnityEngine.Video.VideoPlayer>();
-            //var audioSource = gameObject.AddComponent<AudioSource>();
-            //即時再生はさせない
+            // 即再生されるのを防ぐ.
             m_VideoPlayer.playOnAwake = false;
 
             //ビデオをセット
             m_VideoPlayer.clip = m_VideoClip;
 
+            //VideoRenderModeをRenderTextureに設定
+            m_VideoPlayer.renderMode = VideoRenderMode.RenderTexture;
             //VideoRenderModeをCameraNearPlaneに設定
-            m_VideoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
+            //m_VideoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
 
             //ループさせない。
             m_VideoPlayer.isLooping = false;
 
-            //m_VideoPlayer.targetMaterialRenderer = GetComponent<Renderer>();
-            //m_VideoPlayer.targetMaterialProperty = "_MainTex";
-            //m_VideoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.AudioSource;
-            //m_VideoPlayer.SetTargetAudioSource(0, audioSource);
-
             //再生させる
             m_VideoPlayer.Play();
-        }
 
+
+        }
         // Update is called once per frame
         void Update()
         {
@@ -114,7 +116,8 @@ namespace TeamProject
                     {
                         if( (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu))|| (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.A)))
                         {
-
+                            //STARTボタンorAボタン
+                            //ポーズから視聴中に戻る
                             m_VideoPlayer.Play();
                             m_MovieState = MOVIE_STATE.WATCH;
                             m_PausePanelObj.SetActive(false);
@@ -123,9 +126,10 @@ namespace TeamProject
                         }
                         else  if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.B))
                         {
-                            //ムービースキップ予定地
+                            //Bボタン
+                            //ムービースキップ
                             //m_VideoPlayer.Play();
-                            m_PausePanelObj.SetActive(false);
+                            // m_PausePanelObj.SetActive(false);
                             m_MovieState = MOVIE_STATE.SCENE_CHANGE;
 
                         }
