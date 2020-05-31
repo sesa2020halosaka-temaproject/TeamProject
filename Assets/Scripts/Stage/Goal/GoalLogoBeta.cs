@@ -171,7 +171,7 @@ namespace TeamProject
             else starNum = 2;
 
             var length = kobitoLogoLeftPos - kobitoLogoRightPos;
-            var onceLengeth = length / kobitoMaxNum;
+            var onceLengeth = length / (kobitoMaxNum - 1);
             Debug.Log(platoon.MinionList.ToArray().Length);
             Debug.Log(_maxKobitoNum);
 
