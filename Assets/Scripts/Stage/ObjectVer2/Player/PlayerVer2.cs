@@ -91,6 +91,7 @@ namespace TeamProject
 
         // カメラオブジェクト
         private GameObject cameraObject;
+        private Camera camereaCompoent;
 
         // 現在Choiceされている位置情報
         private Vector3 choicePosition;
@@ -144,8 +145,8 @@ namespace TeamProject
         private SkinnedMeshRenderer bodyMesh;
 
         private bool startAnimationEndFlag = false;
-        public bool StartAnimationEndFlag { get { return startAnimationEndFlag; } } 
-
+        public bool StartAnimationEndFlag { get { return startAnimationEndFlag; } }
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -167,12 +168,10 @@ namespace TeamProject
             CreateFixFunction((uint)FIX_TRANSITION.None, None);
             CreateFixFunction((uint)FIX_TRANSITION.Move, FixMove);
 
-            // 初期関数セット
-            SetFunction((uint)TRANSITION.StageStart);
-            SetFixFunction((uint)FIX_TRANSITION.None);
 
             // カメラを親を取得
             cameraObject = UnityEngine.Camera.main.transform.root.gameObject;
+            camereaCompoent = cameraObject.GetComponent<Camera>();
 
             // 矢印オブジェクトを生成
             pickArrowObject = Instantiate(pickArrowPrefab, new Vector3(0f, pickArrowHight) + transform.position, Quaternion.identity);
@@ -197,7 +196,9 @@ namespace TeamProject
 
             minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Wait);
 
-            GetChoice();
+            // 初期関数セット
+            SetFunction((uint)TRANSITION.StageStart);
+            SetFixFunction((uint)FIX_TRANSITION.None);
 
             //grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
             //walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
@@ -218,12 +219,13 @@ namespace TeamProject
 
         private void StageStart()
         {
-            Debug.Log("ここいるはずなんだけどおおおおおおおおおおおおおおおおおおお");
-            if (!startAnimationEndFlag)
+            if (startAnimationEndFlag)
             {
                 SetFunction((uint)TRANSITION.GetChoice);
                 if (firstChoiceObject != null)
                 {
+                    GetChoice();
+
                     choicePosition = firstChoiceObject.transform.position;
                     choiceObject = firstChoiceObject;
                     pickArrowCom.ChoicePosition = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
@@ -431,6 +433,11 @@ namespace TeamProject
             {
                 if (itr.befor.tag != "Hit")
                 {
+                    var minionCom = itr.befor.GetComponent<Minion>();
+                    if (minionCom != null)
+                    {
+                        if (minionCom.Floor != camereaCompoent.NowHight) continue;
+                    }
                     max = itr.convers.x;
                     min = itr.convers.x;
                     direction[(uint)DIRECTION.TOP] = itr;
@@ -443,6 +450,14 @@ namespace TeamProject
             foreach (var itr in choiceObjectList)
             {
                 if (itr.befor.tag == "Hit") continue;
+
+                var minionCom = itr.befor.GetComponent<Minion>();
+                if (minionCom != null)
+                {
+                    if (minionCom.Floor != camereaCompoent.NowHight) continue;
+                }
+                Debug.Log("ChoiceObject" + itr.befor.name);
+
                 // 差分割り出し
                 var diff = itr.convers - choicePositionConv;
                 //  Debug.Log(itr.convers + "+" + itr.befor.name + "dif" + diff);
@@ -526,7 +541,9 @@ namespace TeamProject
             MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
                 ref direction[(uint)DIRECTION.LEFT], 
                 direction[(uint)DIRECTION.TOP]);
-           
+
+            Debug.Log("NowChoice" + choiceObject.name);
+
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             {
                 Debug.Log(rootCheckFlag);

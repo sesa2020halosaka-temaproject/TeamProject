@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 250042011587963381}
   - component: {fileID: 2176799930982609244}
   - component: {fileID: 8763038369756381378}
+  - component: {fileID: 1551161710304087459}
   m_Layer: 10
   m_Name: D_Rock_01
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8748892135801146194, guid: ceef75b2caad3ff41a220c3de324f399, type: 3}
+  - {fileID: 2100000, guid: f43c8da7354fc5b42b5e9bf7b22daa08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,6 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &1551161710304087459
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4158405053430400813}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3008538, y: 0.30140594, z: 0.29262868}
+  m_Center: {x: -0.00000009685755, y: 0.13171606, z: 0}
 --- !u!1 &8228107257472407782
 GameObject:
   m_ObjectHideFlags: 0

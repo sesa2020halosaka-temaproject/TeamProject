@@ -10,6 +10,9 @@ public class PlayerEffectPlay : MonoBehaviour
     [SerializeField]
     private GameObject grassEffectObject;
 
+    [SerializeField]
+    private GameObject particl;
+
     private VisualEffect effect;
     // Start is called before the first frame update
     void Start()
@@ -34,5 +37,10 @@ public class PlayerEffectPlay : MonoBehaviour
         string[] lan = { SEPath.SE_PLAYER_LANDING1, SEPath.SE_PLAYER_LANDING2, SEPath.SE_PLAYER_LANDING3, SEPath.SE_PLAYER_LANDING4 };
         var rand = Random.Range(0, 3);
         SEManager.Instance.Play(lan[rand]);
+    }
+
+    void QuestionParticl()
+    {
+        Instantiate(particl, transform.parent.position, transform.parent.rotation, transform.parent);
     }
 }

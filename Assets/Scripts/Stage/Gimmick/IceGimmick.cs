@@ -19,13 +19,27 @@ namespace TeamProject
 
         private Animator iceAnime;
 
+        [SerializeField]
+        private SpriteRenderer[] renderer;
+
+        [SerializeField]
+        private float speed = 1f;
+
         private void Start()
         {
             coll = GetComponent<Collider>();
 
             iceAnime = GetComponentInChildren<Animator>();
         }
-        
+
+        private void Update()
+        {
+            if (coll.enabled) return;
+            var col = renderer[0].color;
+            col.a -= speed;//  * Time.deltaTime;
+            foreach (var itr in renderer) itr.material.color = col;
+        }
+
         // 壊れるかどうかのJudge
         public bool Judge(uint _minionNum)
         {
