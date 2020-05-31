@@ -167,7 +167,8 @@ namespace TeamProject
                 switch (StageStatusManager.Instance.CurrentWorld)
                 {
                     case (int)WORLD_NO.W1://World01
-                        TwoSetActives(true, false);
+                        TwoSetActives(true, true);
+                        //TwoSetActives(true, false);
 
                         break;
                     case (int)WORLD_NO.W2://World02
@@ -177,7 +178,8 @@ namespace TeamProject
                         TwoSetActives(true, true);
                         break;
                     case (int)WORLD_NO.W4://World04
-                        TwoSetActives(false, true);
+                        TwoSetActives(true, true);
+                        //TwoSetActives(false, true);
                         break;
                     case (int)WORLD_NO.ALL_WORLD:
                     default:

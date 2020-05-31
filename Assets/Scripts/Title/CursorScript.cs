@@ -55,6 +55,8 @@ namespace TeamProject
         public bool m_CurrentInput = false;//現在のフレーム
         public bool m_BeforeInput = false;//前のフレーム
 
+        [Header("OPを一度でも見たかどうかフラグ")]
+        public bool m_IsWatchOP;
         // Start is called before the first frame update
         void Start()
         {
@@ -74,6 +76,9 @@ namespace TeamProject
             //Menu_Obj[(int)cursor].transform.GetChild(1).gameObject.SetActive(true);
 
             m_CursorMoveFlag = false;
+
+            //OPを見ているかどうかフラグをセット
+            m_IsWatchOP = StageStatusManager.Instance.m_WatchOpeningFlag;
         } //void Start()    END
 
 
@@ -222,8 +227,17 @@ namespace TeamProject
                     switch (cursor)
                     {
                         case CURSORPOSI.GAMESTART:
-                            FadeManager.FadeOut("Stage1_1", time: m_FadeOut_Time);
-                            StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE01;
+                            if (!m_IsWatchOP)
+                            {
+                                //FadeManager.FadeOut("OpeningScene", time: m_FadeOut_Time);
+                                StageStatusManager.Instance.m_WatchOpeningFlag = true;
+                                SceneManager.LoadSceneAsync("OpeningScene");
+                                StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE01;
+                            }
+                            else
+                            {
+                                FadeManager.FadeOut("StageSelectScene", time: m_FadeOut_Time);
+                            }
                             break;
                         case CURSORPOSI.STAGESELECT:
                             FadeManager.FadeOut("StageSelectScene", time: m_FadeOut_Time);
@@ -261,16 +275,19 @@ namespace TeamProject
             {
                 case CURSORPOSI.GAMESTART:
                     if (m_KeyState == KEYSTATE.UP) { cursor = CURSORPOSI.EXIT; }
-                    else if (m_KeyState == KEYSTATE.DOWN) { cursor = CURSORPOSI.STAGESELECT; }
-                    break;
-
-                case CURSORPOSI.STAGESELECT:
-                    if (m_KeyState == KEYSTATE.UP) { cursor = CURSORPOSI.GAMESTART; }
                     else if (m_KeyState == KEYSTATE.DOWN) { cursor = CURSORPOSI.EXIT; }
                     break;
 
+                //=============================================================================
+                //廃止されました
+                case CURSORPOSI.STAGESELECT:
+                    //if (m_KeyState == KEYSTATE.UP) { cursor = CURSORPOSI.GAMESTART; }
+                    //else if (m_KeyState == KEYSTATE.DOWN) { cursor = CURSORPOSI.EXIT; }
+                    break;
+                //=============================================================================
+
                 case CURSORPOSI.EXIT:
-                    if (m_KeyState == KEYSTATE.UP) { cursor = CURSORPOSI.STAGESELECT; }
+                    if (m_KeyState == KEYSTATE.UP) { cursor = CURSORPOSI.GAMESTART; }
                     else if (m_KeyState == KEYSTATE.DOWN) { cursor = CURSORPOSI.GAMESTART; }
                     break;
 
