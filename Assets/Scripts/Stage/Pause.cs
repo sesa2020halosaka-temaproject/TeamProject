@@ -259,7 +259,11 @@ namespace TeamProject {
         {
             yield return new WaitForSeconds(0.0f);
             Debug.Log("タイトルへ戻りまーす！");
-            
+
+            var dec = BGMManager.FromDecibel(0f);
+
+            BGMManager.Instance.ChangeBaseVolume(dec);
+
             switch (nowLogoNumber)
             {
                 case 2:
