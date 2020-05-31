@@ -9,7 +9,7 @@ namespace TeamProject {
 
     public class Pause : System.TransitionObject
     {
-        enum TRANS
+        public enum TRANS
         {
             None,
             Pause,

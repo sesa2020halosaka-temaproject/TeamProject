@@ -216,6 +216,8 @@ namespace TeamProject
 
                 selImg.rectTransform.anchoredPosition = new Vector2(-270, -384);
                 retImg.rectTransform.anchoredPosition = new Vector2(270, -384);
+
+                stageChoice = StageChoice.Retry;
             }
             else
             {
@@ -371,6 +373,14 @@ namespace TeamProject
                 }
                 // SEMa
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            if (_enter && enterOnce)
+            {
+                enterOnce = false;
+                SEManager.Instance.Play(SEPath.SE_OK);
+                // フェードアウト
+                StartCoroutine(ToTitle());
             }
         }
     }
