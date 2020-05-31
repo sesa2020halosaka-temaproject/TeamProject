@@ -230,6 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2197437187415950244}
   - component: {fileID: 4095350663103008560}
+  - component: {fileID: 1214047188834303960}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -269,7 +270,20 @@ MonoBehaviour:
   hightLenge: 0
   hight: 1
   hightChangeButtun: 2
-  min: 10
+  deffSpeed: 0.6
+  min: 4.93
   max: 89
   startRotSpeed: 90
   goalSpeed: 1.2
+--- !u!114 &1214047188834303960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7390177742914241420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e521d4c9b50e0e479068292709e6ba7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
