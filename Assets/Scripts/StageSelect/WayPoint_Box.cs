@@ -20,7 +20,7 @@ namespace TeamProject
         [Header("WayPoint受け渡し用")]
         public float[] m_Stage_WayPoint;            //WayPoint番号受け渡し用配列
 
-            //WayPoint格納配列のセット
+        //現在のワールドにおけるWayPoint格納配列のセット
         public void SetWayPoint()
         {
             switch (StageStatusManager.Instance.CurrentWorld)
