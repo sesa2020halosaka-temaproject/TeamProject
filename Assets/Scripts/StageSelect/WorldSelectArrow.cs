@@ -9,8 +9,8 @@ namespace TeamProject
     public class WorldSelectArrow : MonoBehaviour
     {
         [Header("UIの移動する時間")]
-        private float m_MoveOutTime;
-        private float m_MoveInTime;
+        public float m_MoveOutTime;
+        public float m_MoveInTime;
 
         [Header("UIの画面内位置")]
         public Vector3 m_InPosition_Next;
@@ -21,11 +21,11 @@ namespace TeamProject
 
         public float m_InPos_Next_X;
         public float m_OutPos_Next_X;
-        public float  m_InPos_Prev_X;
+        public float m_InPos_Prev_X;
         public float m_OutPos_Prev_X;
 
-        private bool m_EndFlag_Next;
-        private bool m_EndFlag_Prev;
+        public bool m_EndFlag_Next;
+        public bool m_EndFlag_Prev;
 
         //現在ワールド位置 
         //StageStatusManager.Instance.CurrentWorld;
@@ -36,21 +36,22 @@ namespace TeamProject
         public static bool m_AdvancedWorld4_Flag = false;//ワールド４に進出したかどうかフラグ
 
         //スプライトのパス（固定部分）
-        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_";
+        public const string m_ConstPath = "Sprites/StageSelect/UI_WorldName/UI_StageSelect_";
 
         //スプライトのパス
         public static string[] m_UI_WorldName = {
             "World01","World02","World03","World04"
-        };//Assets/Resources/Sprites/StageSelect/UI_WorldStatus/UI_StageSelect_World02
-        public static string m_NextName;//次ワールド用パス
-        public static string m_PrevName;//前ワールド用パス
+        };
+        public static string m_NextName;                    //次ワールド用パス
+        public static string m_PrevName;                    //前ワールド用パス
 
-        private UIMoveManager m_UIMoveManager_Next;
-        private UIMoveManager m_UIMoveManager_Prev;
-        public UIMoveManager.UI_MOVESTATE m_UIMoveState;
-        private StageSelectUIManager m_StageSelectUIManager;
-        private StageSelect m_StageSelect;
-
+        private UIMoveManager m_UIMoveManager_Next;         //次ワールドUI移動用の変数
+        private UIMoveManager m_UIMoveManager_Prev;         //前ワールドUI移動用の変数
+        public UIMoveManager.UI_MOVESTATE m_UIMoveState;    //UI移動の状態保持用
+        private StageSelectUIManager m_StageSelectUIManager;//StageSelectUIManagerスクリプト用オブジェクト
+        private StageSelect m_StageSelect;                  //StageSelectスクリプト用オブジェクト
+        public float m_count;
+        public float m_count2;
         private void Awake()
         {
             m_Canvas = transform.root.gameObject;//一番上の親を取得
@@ -59,22 +60,23 @@ namespace TeamProject
                                                       //m_CurrentStage = StageSelect.STAGE.STAGE1;
             m_UIMoveManager_Next = new UIMoveManager();
             m_UIMoveManager_Prev = new UIMoveManager();
-            m_StageSelectUIManager = this.transform.root.GetComponent<StageSelectUIManager>();
+            m_StageSelectUIManager = m_Canvas.GetComponent<StageSelectUIManager>();
             m_StageSelect = m_Canvas.GetComponent<StageSelect>();
-                }
+        }
         // Start is called before the first frame update
         void Start()
         {
             ChangeWorldNameIcon();
 
-            m_InPosition_Next  = new Vector3( m_InPos_Next_X, m_Next.transform.localPosition.y, m_Next.transform.localPosition.z);
+            m_InPosition_Next  = new Vector3(m_InPos_Next_X, m_Next.transform.localPosition.y, m_Next.transform.localPosition.z);
             m_OutPosition_Next = new Vector3(m_OutPos_Next_X, m_Next.transform.localPosition.y, m_Next.transform.localPosition.z);
-             m_InPosition_Prev = new Vector3( m_InPos_Prev_X, m_Prev.transform.localPosition.y, m_Prev.transform.localPosition.z);
+            m_InPosition_Prev  = new Vector3(m_InPos_Prev_X, m_Prev.transform.localPosition.y, m_Prev.transform.localPosition.z);
             m_OutPosition_Prev = new Vector3(m_OutPos_Prev_X, m_Prev.transform.localPosition.y, m_Prev.transform.localPosition.z);
 
-            m_MoveOutTime = m_StageSelectUIManager.m_UIMoveOut_Time;
-            m_MoveInTime = m_StageSelectUIManager.m_UIMoveIn_Time;
+            m_MoveOutTime      = m_StageSelectUIManager.m_UIMoveOut_Time;
+            m_MoveInTime       = m_StageSelectUIManager.m_UIMoveIn_Time;
 
+            EndFlagOff();
         }
 
         // Update is called once per frame
@@ -83,15 +85,18 @@ namespace TeamProject
 
         //}//void Update()    END
         //====================
-        //
+        //更新処理
         public void WorldSelectArrowUpdate()
         {
+           // Debug.Log("完了");
+
+            m_count = m_UIMoveManager_Next.m_PosRatio;
+            m_count2 = m_UIMoveManager_Prev.m_PosRatio;
             switch (m_UIMoveState)
             {
                 case UIMoveManager.UI_MOVESTATE.FIXING:
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEIN:
-                    Debug.Log("IN中です");
                     if (m_StageSelect.KeyWaitFlagCheck())
                     {
 
@@ -99,48 +104,46 @@ namespace TeamProject
                         if (m_Next.transform.localPosition.x <= m_InPosition_Next.x)
                         {
                             m_Next.transform.localPosition = m_InPosition_Next;
-                            m_EndFlag_Next = true;
+                            EndFlagOn_Next();
 
                         }
                         m_UIMoveManager_Prev.UIMove(m_Prev, m_OutPosition_Prev, m_InPosition_Prev, m_MoveInTime);
                         if (m_Prev.transform.localPosition.x >= m_InPosition_Prev.x)
                         {
                             m_Prev.transform.localPosition = m_InPosition_Prev;
-                            m_EndFlag_Prev = true;
+                            EndFlagOn_Prev();
                         }
                     }
                     if (FlagCheck())
                     {
-                          Debug.Log("In完了");
-                        m_UIMoveManager_Next.PosRatioZeroReset();
-                        m_UIMoveManager_Prev.PosRatioZeroReset();
-                      UIStateFixing();
-                        ResetFlag();
-                    }
-                    break;
-                case UIMoveManager.UI_MOVESTATE.MOVEOUT:
-                    Debug.Log("OUT中です");
-
-                    m_UIMoveManager_Next.UIMove(m_Next,m_InPosition_Next, m_OutPosition_Next,  m_MoveOutTime);
-                    if (m_Next.transform.localPosition.x >= m_OutPosition_Next.x)
-                    {
-                        m_Next.transform.localPosition = m_OutPosition_Next;
-                        m_EndFlag_Next = true;
-                    }
-                    m_UIMoveManager_Prev.UIMove(m_Prev,m_InPosition_Prev, m_OutPosition_Prev,  m_MoveOutTime);
-                    if (m_Prev.transform.localPosition.x <= m_OutPosition_Prev.x)
-                    {
-                        m_Prev.transform.localPosition = m_OutPosition_Prev;
-                        m_EndFlag_Prev = true;
-                    }
-                    if (FlagCheck())
-                    {
-                        Debug.Log("OUT完了");
                         m_UIMoveManager_Next.PosRatioZeroReset();
                         m_UIMoveManager_Prev.PosRatioZeroReset();
                         UIStateFixing();
-                        ResetFlag();
-                        
+                        EndFlagOff();
+                    }
+                    break;
+                case UIMoveManager.UI_MOVESTATE.MOVEOUT:
+
+                    m_UIMoveManager_Next.UIMove(m_Next, m_InPosition_Next, m_OutPosition_Next, m_MoveOutTime);
+                    if (m_Next.transform.localPosition.x >= m_OutPosition_Next.x)
+                    {
+                        m_Next.transform.localPosition = m_OutPosition_Next;
+                        EndFlagOn_Next();
+                    }
+
+                    m_UIMoveManager_Prev.UIMove(m_Prev, m_InPosition_Prev, m_OutPosition_Prev, m_MoveOutTime);
+                    if (m_Prev.transform.localPosition.x <= m_OutPosition_Prev.x)
+                    {
+                        m_Prev.transform.localPosition = m_OutPosition_Prev;
+                        EndFlagOn_Prev();
+                    }
+                    if (FlagCheck())
+                    {
+                        m_UIMoveManager_Next.PosRatioZeroReset();
+                        m_UIMoveManager_Prev.PosRatioZeroReset();
+                        UIStateFixing();
+                        EndFlagOff();
+
                     }
 
                     break;
@@ -149,7 +152,7 @@ namespace TeamProject
                 default:
                     break;
             }
-        }
+        }//WorldSelectArrowUpdate() END
 
         //====================
         //ワールド状況に応じた処理
@@ -234,16 +237,26 @@ namespace TeamProject
             m_Prev.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(m_PrevName);
         }//Sprites/StageSelect/UI_StageNamePlate/UI_World01_Stage01.png
 
-        //
-        public void ResetFlag()
+        //フラグのOff
+        public void EndFlagOff()
         {
             m_EndFlag_Next = false;
             m_EndFlag_Prev = false;
         }
-        //
+        //フラグのON
+        public void EndFlagOn_Next()
+        {
+            m_EndFlag_Next = true;
+        }
+        public void EndFlagOn_Prev()
+        {
+            m_EndFlag_Prev = true;
+        }
+
+        //両フラグを確認する
         public bool FlagCheck()
         {
-            if (m_EndFlag_Next&&m_EndFlag_Prev)
+            if (m_EndFlag_Next && m_EndFlag_Prev)
             {
                 return true;
             }
