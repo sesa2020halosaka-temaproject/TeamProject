@@ -49,6 +49,8 @@ namespace TeamProject
 
         private GameObject player;
 
+        private FloorErase floorErase;
+
         [SerializeField]
         [Header("Modelのリスト(追加したらここにアタッチ)")]
         private GameObject[] ModelList;
@@ -84,6 +86,8 @@ namespace TeamProject
             // まとめられているものからAnimatorがついている
             anima = ModelList[(uint)modelNumber].transform.GetComponent<Animator>();
 
+            floorErase = UnityEngine.Camera.main.transform.root.gameObject.GetComponent<FloorErase>();
+
            //  particleSystem.Stop();
         }
         
@@ -118,11 +122,12 @@ namespace TeamProject
             }
 
             LookPlayer();
+
         }
 
         private void Wait()
         {
-
+            GetFloor();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -157,5 +162,50 @@ namespace TeamProject
             transform.LookAt(player.transform, Vector3.up);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
         }
+
+        [SerializeField]
+        private LayerMask groundMask;
+
+        // 現在の自分がいるFloorを取得する
+        private void GetFloor()
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(transform.position, -Vector3.up);
+
+            LayerMask layerMask = 11;
+
+            if (!Physics.Raycast(ray, out hit, 5, groundMask)) return;
+
+            GameObject obj = hit.transform.root.gameObject;
+
+            Debug.Log("Minion.cs*" + obj.name);
+
+            var floorObject = floorErase.FloorHitObject;
+
+            for (int i = 0; i < floorObject.Length; i++)
+            {
+                for (int j = 0; j < floorObject[i].Length; j++)
+                {
+                    Debug.Log("Minion.cs*" + floorObject[i][j].transform.root.gameObject);
+                    Debug.Log("Minion.cs*" + obj.GetInstanceID());
+                    Debug.Log("Minion.cs*" + floorObject[i][j].transform.root.gameObject.GetInstanceID());
+                    if (obj.GetInstanceID() == floorObject[i][j].transform.root.gameObject.GetInstanceID())
+                    {
+                        Debug.Log("Minion.cs*NowFloor" + floor);
+                        Debug.Log("Minion.cs*NextFloor" + i);
+                        floor = i+1;
+                    }
+                }
+            }
+        }
+
+        //public void DonwFloor()
+        //{
+        //    floor--;
+        //    if (floor < 1)
+        //    {
+        //        floor = 1;
+        //    }
+        //}
     }
 }
