@@ -145,8 +145,8 @@ namespace TeamProject
         private SkinnedMeshRenderer bodyMesh;
 
         private bool startAnimationEndFlag = false;
-        public bool StartAnimationEndFlag { get { return startAnimationEndFlag; } } 
-
+        public bool StartAnimationEndFlag { get { return startAnimationEndFlag; } }
+        
         // Start is called before the first frame update
         void Start()
         {
@@ -433,6 +433,11 @@ namespace TeamProject
             {
                 if (itr.befor.tag != "Hit")
                 {
+                    var minionCom = itr.befor.GetComponent<Minion>();
+                    if (minionCom != null)
+                    {
+                        if (minionCom.Floor != camereaCompoent.NowHight) continue;
+                    }
                     max = itr.convers.x;
                     min = itr.convers.x;
                     direction[(uint)DIRECTION.TOP] = itr;
@@ -536,7 +541,9 @@ namespace TeamProject
             MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
                 ref direction[(uint)DIRECTION.LEFT], 
                 direction[(uint)DIRECTION.TOP]);
-           
+
+            Debug.Log("NowChoice" + choiceObject.name);
+
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             {
                 Debug.Log(rootCheckFlag);

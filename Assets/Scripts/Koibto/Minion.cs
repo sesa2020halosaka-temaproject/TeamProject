@@ -22,6 +22,9 @@ namespace TeamProject
         
         public int Floor { get { return floor; } }
 
+        [SerializeField]
+        private ParticleSystem particleSystem;
+
         enum TRANS
         {
             None,
@@ -80,6 +83,8 @@ namespace TeamProject
 
             // まとめられているものからAnimatorがついている
             anima = ModelList[(uint)modelNumber].transform.GetComponent<Animator>();
+
+            particleSystem.Stop();
         }
         
         private  void None()
@@ -140,6 +145,9 @@ namespace TeamProject
             anima.SetTrigger("Find");
             
             tag = "Hit";
+
+            // パーティクルの再生
+            particleSystem.Play();
         }
 
         private void LookPlayer()
