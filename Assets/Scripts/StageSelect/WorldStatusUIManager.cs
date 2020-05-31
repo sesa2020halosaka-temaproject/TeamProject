@@ -84,6 +84,7 @@ namespace TeamProject
             m_MoveInTime = m_StageSelectUIManager.m_UIMoveIn_Time;
             StageStarUpdate();
             SetMinionCount();
+            SetMinionMaxCount();
             UIStateFixing();
 
         }
@@ -270,8 +271,10 @@ namespace TeamProject
             {
                 if (m_StageMaxMinions[CurrentStage + i] < 10)
                 {
+                    Debug.Log("m_StageMaxMinions:" + m_StageMaxMinions[CurrentStage + i]);
                     //一桁なら十の位に０を追加する。
                     m_MinionMaxCount[i].text = "0" + m_StageMaxMinions[CurrentStage + i].ToString();
+                    Debug.Log("m_MinionMaxCount[i].text:" + m_MinionMaxCount[i].text);
                 }
                 else
                 {
