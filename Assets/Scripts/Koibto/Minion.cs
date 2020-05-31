@@ -16,6 +16,12 @@ namespace TeamProject
 
         private uint minionNumber = 0;
 
+        [SerializeField, Range(1, 5)]
+        [Header("階層の入力")]
+        private int floor = 1;
+        
+        public int Floor { get { return floor; } }
+
         enum TRANS
         {
             None,
