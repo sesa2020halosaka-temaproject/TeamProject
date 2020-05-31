@@ -23,6 +23,10 @@ namespace TeamProject
         private MeshRenderer[] renderer;
 
         [SerializeField]
+        private SpriteRenderer[] Srenderer;
+
+
+        [SerializeField]
         private float speed = 1f;
 
         [SerializeField]
@@ -38,9 +42,12 @@ namespace TeamProject
         private void Update()
         {
             if (coll.enabled) return;
-            
-            //var col = renderer[0].material.color;
-            //col.a -= speed;//  * Time.deltaTime;
+
+            var col = Srenderer[0].material.color;
+            col.a -= speed;//  * Time.deltaTime;
+
+            foreach (var itr in renderer) itr.material.color=col;
+
             foreach (var itr in renderer) itr.enabled = false;
         }
 
