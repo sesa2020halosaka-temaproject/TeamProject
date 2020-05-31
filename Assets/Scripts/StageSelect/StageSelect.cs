@@ -156,7 +156,7 @@ namespace TeamProject
 
 
             //上下矢印の処理
-            StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
+            StageSelectArrow.SetCurrentStage();
             //左右矢印の処理
             WorldSelectArrow.SetCurrentWorld();
 
@@ -246,7 +246,7 @@ namespace TeamProject
                 FlagCheck();
 
                 //上下矢印の処理
-                StageSelectArrow.SetCurrentStage(StageStatusManager.Instance.StageInWorld);
+                StageSelectArrow.SetCurrentStage();
                 //左右矢印の処理
                 WorldSelectArrow.SetCurrentWorld();
 
@@ -283,15 +283,15 @@ namespace TeamProject
 
             //
             //上下矢印の非アクティブ化
-            StageSelectArrow.TwoArrowsSetting();
+            //StageSelectArrow.TwoArrowsSetting();
             //左右矢印の非アクティブ化
             //WorldSelectArrow.TwoArrowsDeactivate();
             //上下矢印を画面外へ移動させる
-
+            m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveOut();
             //左右矢印を画面外へ移動させる
             m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
 
-            //
+            //UI移動状態を変更する
             m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().UIMoveStateChange();
 
             //ステージ移動の状態へ移行
@@ -320,6 +320,9 @@ namespace TeamProject
                 //アイコンの差し替え
                 StageSelectArrow.ChangeStageNameIcon();
                 WorldSelectArrow.ChangeWorldNameIcon();
+
+                //上下矢印を画面外へ移動させる
+                m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
 
                 //左右矢印を画面内へ移動させる
                 m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
@@ -360,9 +363,12 @@ namespace TeamProject
             ResetDollyCart();
 
             //上下矢印の非アクティブ化
-            StageSelectArrow.TwoArrowsDeactivate();
+            //StageSelectArrow.TwoArrowsDeactivate();
             //左右矢印の非アクティブ化
             //WorldSelectArrow.TwoArrowsDeactivate();
+
+            //上下矢印を画面外へ移動させる
+            m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveOut();
             //左右矢印を画面外へ移動させる
             m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
 
@@ -439,6 +445,8 @@ namespace TeamProject
                 StageSelectArrow.ChangeStageNameIcon();
                 WorldSelectArrow.ChangeWorldNameIcon();
 
+                //上下矢印を画面外へ移動させる
+                m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
                 //左右矢印を画面内へ移動させる
                 m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
