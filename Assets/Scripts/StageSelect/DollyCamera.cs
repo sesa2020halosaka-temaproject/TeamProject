@@ -10,7 +10,6 @@ namespace TeamProject
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
         //[SerializeField] private float cycleTime = 10.0f;
-
         public CinemachineTrackedDolly dolly;
         public float pathPositionMax;
         public float pathPositionMin;
@@ -55,6 +54,7 @@ namespace TeamProject
         //public FixedDollyCamera //_SubDolly;
         private void Awake()
         {
+            
             // バーチャルカメラがセットされていなければ中止
             if (this.virtualCamera == null)
             {
@@ -365,8 +365,13 @@ namespace TeamProject
         public void SetStartDollyPath()
         {
             Debug.Log(this.name +"::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
-           // this.dolly.m_Path = m_DoTr.m_Dolly_GO_4[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
             this.dolly.m_Path = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+        }
+        //開始ドリーカメラ位置のセット
+        public void SetStartDollyPos()
+        {
+            //Debug.Log(this.name +"::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
+            this.transform.position = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld].transform.position;
         }
 
         //virtualカメラのFollowをセット

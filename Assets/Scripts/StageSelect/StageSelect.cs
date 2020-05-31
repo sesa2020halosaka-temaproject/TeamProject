@@ -11,7 +11,7 @@ namespace TeamProject
         //public GameObject[] Stages;//LookAtの対象となるゲームオブジェクトの格納用
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
         public float m_CurrentPathPosition;//現在のパス位置を渡す用
-        private float[] m_WayPoint;//受け渡し用
+       // private float[] m_WayPoint;//受け渡し用
 
         public DollyTrack_Box m_DoTr;//ドリールートの格納用
 
@@ -75,12 +75,12 @@ namespace TeamProject
             StageChangeManager.GetComponentWorldSelectHold();
 
             m_StageSelectUIManager = this.GetComponent<StageSelectUIManager>();
+            m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
             //m_ToNextWName = GameObject.Find("CurrentToNextWorld").GetComponent<CurrentToNextWorldUIManager>();
             //m_WorldStatus = GameObject.Find("WorldStatus").GetComponent<WorldStatusUIManager>();
-           m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
-    }
-    // Start is called before the first frame update
-    void Start()
+        }
+        // Start is called before the first frame update
+        void Start()
         {
             //フェードイン
             FadeManager.FadeIn(1.3f);
@@ -93,57 +93,52 @@ namespace TeamProject
             SEManager.Instance.Stop();
             m_SelectSound.StageSelectStartBGM();
 
+            //WayPoint用ゲームオブジェクト取得
+            m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
+            //WayPointの初期化
+            WayPointInit();
 
+            //================================================
+            //ゲームオブジェクトの取得
+            //================================================
+            //MixingCameraのオブジェクト取得
             _MixCamObj = GameObject.Find("Mixing_VCamera").gameObject;
-            _Mixcam = _MixCamObj.GetComponent<MixingCamera>();
-
+            //DollyCameraのオブジェクト取得
             _Dolly_Current = _MixCamObj.transform.GetChild(0).gameObject;
             _Dolly_Next = _MixCamObj.transform.GetChild(1).gameObject;
-
-            _Sub_DollyCam = _Dolly_Current.GetComponent<DollyCamera>();
-            _Main_DollyCam = _Dolly_Next.GetComponent<DollyCamera>();
-
             //ドリーカート用ゲームオブジェクト
             _DollyCartObj = GameObject.Find("DollyCart").gameObject;
             //ドリーカートを先導するゲームオブジェクト
             _TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;//"Bellwhether"オブジェクトを取得
-            _DollyCart = _DollyCartObj.GetComponent<DollyCartManager>();
-
             //DollyTrack用ゲームオブジェクト取得
             m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
-            //WayPoint用ゲームオブジェクト取得
-            m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
+
+            //================================================
+            //コンポーネントの取得
+            //================================================
+            //MixingCameraコンポーネントの取得
+            _Mixcam = _MixCamObj.GetComponent<MixingCamera>();
+
+            //DollyCameraコンポーネントの取得
+            _Sub_DollyCam = _Dolly_Current.GetComponent<DollyCamera>();
+            _Main_DollyCam = _Dolly_Next.GetComponent<DollyCamera>();
+
+            //ドリーカートコンポーネントの取得
+            _DollyCart = _DollyCartObj.GetComponent<DollyCartManager>();
+
 
             //シーン開始時点のステージから初期化
             //ドリールートの設定
             _Main_DollyCam.SetStartDollyPath();
             _Sub_DollyCam.SetStartDollyPath();
 
-            //ドリーカメラの初期化
-            //WayPoint格納配列のセット
-            m_WP.SetWayPoint();
-            switch (StageStatusManager.Instance.CurrentWorld)
-            {
-                case (int)WORLD_NO.W1:
-                    m_WayPoint = m_WP.SummerStage_WayPoint;
-                    break;
-                case (int)WORLD_NO.W2:
-                    m_WayPoint = m_WP.FallStage_WayPoint;
-                    break;
-                case (int)WORLD_NO.W3:
-                    m_WayPoint = m_WP.WinterStage_WayPoint;
-                    break;
-                case (int)WORLD_NO.W4:
-                    m_WayPoint = m_WP.SpringStage_WayPoint;
-                    break;
-                case (int)WORLD_NO.ALL_WORLD:
-                default:
-                    Debug.LogError("無効な状態です！");
-                    break;
-            }
-            //開始時点のパス位置をセット
-            m_CurrentPathPosition = m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
+            //一応まだ実装できていないカメラにルートの位置をセットする
+            //_Main_DollyCam.SetStartDollyPos();
+            //_Sub_DollyCam.SetStartDollyPos();
 
+
+
+            //ドリーカメラの初期化
             //各ドリーカメラにパス位置をセット
             _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
             _Sub_DollyCam.SetPathPosition(m_CurrentPathPosition);
@@ -206,7 +201,7 @@ namespace TeamProject
             if (!KeyWaitFlagCheck())
             {
                 //上下左右の入力がないときにカウントアップする
-                if (   !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
+                if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
                     && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow)
                     && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow)
                     && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
@@ -439,7 +434,7 @@ namespace TeamProject
                 //UIの更新ステージナンバーの更新後用
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionMaxCount();
-                
+
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
                 m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
 
@@ -606,7 +601,7 @@ namespace TeamProject
         {
             m_KeyWait_Flag = _bool;
         }
-       public bool KeyWaitFlagCheck()
+        public bool KeyWaitFlagCheck()
         {
             return m_KeyWait_Flag;
         }
@@ -744,7 +739,17 @@ namespace TeamProject
             _DollyCart.PathPositionReset();
 
         }
+        //================================================
+        //WayPointの初期化
+        public void WayPointInit()
+        {
+            //現在のワールドにおけるWayPoint格納配列のセット
+            m_WP.SetWayPoint();
 
+            //開始時点のパス位置をセット
+            m_CurrentPathPosition = m_WP.m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
+
+        }
 
     }//public class StageSelect : MonoBehaviour END
 }//namespace END

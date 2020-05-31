@@ -11,13 +11,9 @@ namespace TeamProject
     {
         public CinemachineSmoothPath m_Dolly_FIXING;
         [Header("次のステージへのDollyルート(上入力時)")]
-        public CinemachinePathBase[] m_Dolly_GO_4;
         public CinemachineSmoothPath[] m_Dolly_NextStage;
         [Header("前のステージへのDollyルート(下入力時)")]
-        public CinemachinePathBase[] m_Dolly_BACK_4;
         public CinemachineSmoothPath[] m_Dolly_PrevStage;
-        public CinemachinePathBase[] m_Dolly_W1toW2;
-        public CinemachinePathBase[] m_Dolly_W2toW1;
 
         [Header("次のワールドへのDollyルート(右入力時)")]
         public CinemachineSmoothPath[] m_Dolly_NextWorld;
@@ -25,6 +21,9 @@ namespace TeamProject
         [Header("前のワールドへのDollyルート(左入力時)")]
         public CinemachineSmoothPath[] m_Dolly_PrevWorld;
         // private 
+
+
+
         private void Awake()
         {
             //配列の要素数確保
@@ -62,17 +61,18 @@ namespace TeamProject
                 Debug.Log("m_Dolly_FIXINGはnullじゃなかったよ！:" + m_Dolly_FIXING.name);
 
             }
+            //Debug.Log(""+);
 
         }
         // Start is called before the first frame update
-        void Start()
-        {
-        }
+        //void Start()
+        //{
+        //}
 
         // Update is called once per frame
-        void Update()
-        {
+        //void Update()
+        //{
 
-        }
+        //}
     }//public class DollyTrack_Box : MonoBehaviour END
 }//namespace END
