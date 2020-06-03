@@ -43,7 +43,8 @@ namespace TeamProject
         //public CinemachinePathBase[] m_Dolly_W2toW1;
 
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
-        public DollyTrack_Box m_DoTr;//ドリールートの格納用
+        public DollyTrack_Box m_DoTrBox;//ドリールートの格納用
+        public DollyTrack_Position m_DoTrPos;//ドリールートの格納用
 
 
 
@@ -54,7 +55,7 @@ namespace TeamProject
         //public FixedDollyCamera //_SubDolly;
         private void Awake()
         {
-            
+
             // バーチャルカメラがセットされていなければ中止
             if (this.virtualCamera == null)
             {
@@ -75,8 +76,11 @@ namespace TeamProject
             }
 
             //DollyTrack用ゲームオブジェクト取得
-            m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
-            Debug.Log("m_DoTr:" + m_DoTr.name);
+            m_DoTrBox = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
+
+            //DollyTrack用ゲームオブジェクト取得
+            m_DoTrPos = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Position>();
+            Debug.Log("m_DoTr:" + m_DoTrBox.name);
 
             //WayPoint用ゲームオブジェクト取得
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
@@ -134,18 +138,18 @@ namespace TeamProject
                         this.dolly.m_PathPosition = this.pathPositionMax;
                         //移動完了
                         //Debug.Log("this.name:" + this.name);
-                        if (this.name == "Next_VCamera")
-                        {
-                            //Debug.Log("MAIN");
-                            StageChangeManager.DollyFlagON("MAIN");
+                        //                       if (this.name == "Next_VCamera")
+                        //                       {
+                        //Debug.Log("MAIN");
+                        StageChangeManager.DollyFlagON("MAIN");
 
-                        }
-                        else if (this.name == "Current_VCamera")
-                        {
-                            //Debug.Log("SUB");
+                        //                       }
+                        //else if (this.name == "Current_VCamera")
+                        //{
+                        //    //Debug.Log("SUB");
 
-                            StageChangeManager.DollyFlagON("SUB");
-                        }
+                        //    StageChangeManager.DollyFlagON("SUB");
+                        //}
                         //_SubDolly.SetCinemachineTrackedDolly(dolly);
                         ////_SubDolly.LookAtTargetChange(virtualCamera.LookAt.gameObject);
                         ////_SubDolly.SetPosition(this.gameObject);
@@ -158,14 +162,14 @@ namespace TeamProject
                     {
                         this.dolly.m_PathPosition = this.pathPositionMin;
                         //移動完了
-                        if (this.name == "Next_VCamera")
-                        {
-                            StageChangeManager.DollyFlagON("MAIN");
-                        }
-                        else if (this.name == "Current_VCamera")
-                        {
-                            StageChangeManager.DollyFlagON("SUB");
-                        }
+                        StageChangeManager.DollyFlagON("MAIN");
+                        //if (this.name == "Next_VCamera")
+                        //{
+                        //}
+                        //else if (this.name == "Current_VCamera")
+                        //{
+                        //    StageChangeManager.DollyFlagON("SUB");
+                        //}
 
                         //_SubDolly.SetCinemachineTrackedDolly(dolly);
                         ////_SubDolly.LookAtTargetChange(virtualCamera.LookAt.gameObject);
@@ -184,7 +188,7 @@ namespace TeamProject
                     //    //移動完了直前にミキシングさせる設定へ
                     //       // StageChangeManager.MixingStateChange("WORLD_END");
                     //    }
-                        
+
 
                     //    //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
                     //    //{
@@ -201,18 +205,18 @@ namespace TeamProject
                     {
                         this.dolly.m_PathPosition = this.pathPositionMax;
                         //移動完了
-                        if (this.name == "Next_VCamera")
-                        {
-                            Debug.Log("MAINのドリーカメラ移動完了");
+                        StageChangeManager.DollyFlagON("MAIN");
+                        //if (this.name == "Next_VCamera")
+                        //{
+                        //    Debug.Log("MAINのドリーカメラ移動完了");
 
-                            StageChangeManager.DollyFlagON("MAIN");
-                        }
-                        else if (this.name == "Current_VCamera")
-                        {
-                            Debug.Log("SUBのドリーカメラ移動完了");
+                        //}
+                        //else if (this.name == "Current_VCamera")
+                        //{
+                        //    Debug.Log("SUBのドリーカメラ移動完了");
 
-                            StageChangeManager.DollyFlagON("SUB");
-                        }
+                        //    StageChangeManager.DollyFlagON("SUB");
+                        //}
                         //固定用ドリーパスをセット
                         //SetPathFixingDolly();
                         //m_Flag = false;
@@ -327,11 +331,11 @@ namespace TeamProject
                     AddTime = 1.0f;
                     break;
 
-                case StageChangeManager.STAGE_CHANGE_KEY.ALL:                
+                case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                 default:
                     Debug.Log("DSTAGE_CHANGE_KEYの状態が違います");
                     AddTime = 0.0f;
-                   break;
+                    break;
             }
         }
 
@@ -341,17 +345,17 @@ namespace TeamProject
             switch (StageChangeManager.GetStageChangeKey())
             {
                 case StageChangeManager.STAGE_CHANGE_KEY.UP:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTrBox.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_PrevStage[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTrBox.m_Dolly_PrevStage[StageStatusManager.Instance.CurrentWorld];//後進用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_PrevWorld[(int)StageStatusManager.Instance.CurrentStage];//前ワールド移動用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTrBox.m_Dolly_PrevWorld[(int)StageStatusManager.Instance.CurrentStage];//前ワールド移動用ドリーパスをセット
                     //this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];   //前ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
-                    this.dolly.m_Path = m_DoTr.m_Dolly_NextWorld[(int)StageStatusManager.Instance.CurrentStage];//次ワールド移動用ドリーパスをセット
+                    this.dolly.m_Path = m_DoTrBox.m_Dolly_NextWorld[(int)StageStatusManager.Instance.CurrentStage];//次ワールド移動用ドリーパスをセット
                     //this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];   //次ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
@@ -364,14 +368,14 @@ namespace TeamProject
         //開始ドリールートのセット
         public void SetStartDollyPath()
         {
-            Debug.Log(this.name +"::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
-            this.dolly.m_Path = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
+            Debug.Log(this.name + "::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
+            this.dolly.m_Path = m_DoTrBox.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld];//前進用ドリーパスをセット
         }
         //開始ドリーカメラ位置のセット
         public void SetStartDollyPos()
         {
             //Debug.Log(this.name +"::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
-            this.transform.position = m_DoTr.m_Dolly_NextStage[StageStatusManager.Instance.CurrentWorld].transform.position;
+            this.transform.position = m_DoTrPos.GetCurrentPosition();
         }
 
         //virtualカメラのFollowをセット
@@ -403,7 +407,7 @@ namespace TeamProject
         //固定用ドリールートをセットする
         public void SetPathFixingDolly()
         {
-            this.dolly.m_Path = m_DoTr.m_Dolly_FIXING;
+            this.dolly.m_Path = m_DoTrBox.m_Dolly_FIXING;
             //パス位置を0にする
             this.dolly.m_PathPosition = 0;
         }

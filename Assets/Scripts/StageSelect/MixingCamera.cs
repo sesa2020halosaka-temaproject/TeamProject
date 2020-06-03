@@ -76,7 +76,7 @@ namespace TeamProject
                         //方向転換完了
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("GO");
-                        StageChangeManager.DollyCartStateChange("GO");
+                        //StageChangeManager.DollyCartStateChange("GO");
 
 
 
@@ -92,7 +92,7 @@ namespace TeamProject
                         // this.MixState("ZERO");
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("BACK");
-                        StageChangeManager.DollyCartStateChange("BACK");
+                        // StageChangeManager.DollyCartStateChange("BACK");
                         //ResetWeight();
 
                         ////ドリーカメラの初期設定
@@ -113,7 +113,7 @@ namespace TeamProject
                         //方向転換完了
                         StageChangeManager.MixingStateChange("FIXING");
                         StageChangeManager.DollyStateChange("WORLD");
-                        StageChangeManager.DollyCartStateChange("WORLD");
+                        //StageChangeManager.DollyCartStateChange("WORLD");
 
 
 
@@ -221,9 +221,9 @@ namespace TeamProject
             }
         }// END
 
- 
+
         //現在のターゲットと次のターゲットのLookAtをセットする
-       public void LookAtTargetTwoChanges(STAGE_NO _BeforeStage, STAGE_NO _AfterStage)
+        public void LookAtTargetTwoChanges(STAGE_NO _BeforeStage, STAGE_NO _AfterStage)
         {
             Debug.Log("_BeforeStage:" + _BeforeStage);
             Debug.Log("_AfterStage:" + _AfterStage);
@@ -239,15 +239,15 @@ namespace TeamProject
             vcam_before.LookAt = TargetStages.m_Stages[(int)_BeforeStage].transform;
             vcam_after.LookAt = _AfterObj.transform;
             Debug.Log(vcam_before + ":vcam_before.LookAt:" + vcam_before.LookAt);
-            Debug.Log(vcam_after+":vcam_after.LookAt:" + vcam_after.LookAt);
+            Debug.Log(vcam_after + ":vcam_after.LookAt:" + vcam_after.LookAt);
 
         }// END
         //現在のターゲットと次のターゲットのLookAtをセットする(元のターゲットがGameObject版)
-        public void LookAtTargetTwoChanges( GameObject _BeforeObj,STAGE_NO _AfterStage)
+        public void LookAtTargetTwoChanges(GameObject _BeforeObj, STAGE_NO _AfterStage)
         {
             Debug.Log("_BeforeObj:" + _BeforeObj);
             Debug.Log("_AfterStage:" + _AfterStage);
-             vcam_before.LookAt = _BeforeObj.transform;
+            vcam_before.LookAt = _BeforeObj.transform;
             vcam_after.LookAt = TargetStages.m_Stages[(int)_AfterStage].transform;
         }// END
 
