@@ -69,77 +69,20 @@ namespace TeamProject
         void Update()
         {
             //Debug.LogError(m_VideoPlayer.isPlaying + "！");
-
             switch (m_MovieState)
             {
                 case MOVIE_STATE.START:
-                    if (m_VideoPlayer.isPlaying)
-                    {
-                        m_MovieState = MOVIE_STATE.WATCH;
-
-                    }
-                    else
-                    {
-                        Debug.Log("まだムービーは"+m_VideoPlayer.isPlaying + "だよ！");
-
-
-                    }
+                    StateStartUpdate();
                     break;
                 case MOVIE_STATE.WATCH:
-                    if (!m_VideoPlayer.isPlaying)
-                    {
-                        //ムービーが終わっていれば
-                        //シーン遷移モードにする
-                        m_MovieState = MOVIE_STATE.SCENE_CHANGE;
-
-
-                        // FadeManager.FadeIn
-                    }
-                    else
-                    {
-                        if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu))
-                        {
-                            m_MovieState = MOVIE_STATE.PAUSE;
-                            m_PausePanelObj.SetActive(true);
-
-                        }
-
-                    }
+                    StateWatchUpdate();
 
                     break;
                 case MOVIE_STATE.PAUSE:
-                    if (m_VideoPlayer.isPlaying)
-                    {
-                        m_VideoPlayer.Pause();
-                    }
-                    else
-                    {
-                        if( (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu))|| (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.A)))
-                        {
-                            //STARTボタンorAボタン
-                            //ポーズから視聴中に戻る
-                            m_VideoPlayer.Play();
-                            m_MovieState = MOVIE_STATE.WATCH;
-                            m_PausePanelObj.SetActive(false);
-
-
-                        }
-                        else  if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.B))
-                        {
-                            //Bボタン
-                            //ムービースキップ
-                            //m_VideoPlayer.Play();
-                            // m_PausePanelObj.SetActive(false);
-                            m_MovieState = MOVIE_STATE.SCENE_CHANGE;
-
-                        }
-
-                    }
-
+                    StatePauseUpdate();
                     break;
                 case MOVIE_STATE.SCENE_CHANGE:
-                    SceneManager.LoadScene("Stage1_1");
-
+                    StateSceneChangeUpdate();
                     break;
                 case MOVIE_STATE.ALLSTATE:
                     break;
@@ -147,6 +90,72 @@ namespace TeamProject
                     break;
             }
 
+        }//Update() END
+
+        //スタート時の更新処理
+        private void StateStartUpdate()
+        {
+
+            if (m_VideoPlayer.isPlaying)
+            {
+                m_MovieState = MOVIE_STATE.WATCH;
+
+            }
+            else
+            {
+                Debug.Log("まだムービーは" + m_VideoPlayer.isPlaying + "だよ！");
+
+
+            }
+        }
+
+        private void StateWatchUpdate()
+        {
+            if (!m_VideoPlayer.isPlaying)
+            {
+                //ムービーが終わっていれば
+                //シーン遷移モードにする
+                m_MovieState = MOVIE_STATE.SCENE_CHANGE;
+            }
+            else
+            {
+                if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu))
+                {
+                    m_MovieState = MOVIE_STATE.PAUSE;
+                    m_PausePanelObj.SetActive(true);
+                }
+            }
+        }
+        //ポーズ時の更新処理
+        private void StatePauseUpdate()
+        {
+            if (m_VideoPlayer.isPlaying)
+            {
+                m_VideoPlayer.Pause();
+            }
+            else
+            {
+                if ((InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu)) 
+                    || (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.A)))
+                {
+                    //STARTボタンorAボタン
+                    //ポーズから視聴中に戻る
+                    m_VideoPlayer.Play();
+                    m_MovieState = MOVIE_STATE.WATCH;
+                    m_PausePanelObj.SetActive(false);
+                }
+                else if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.B))
+                {
+                    //Bボタン
+                    //ムービースキップ
+                    m_MovieState = MOVIE_STATE.SCENE_CHANGE;
+                }
+            }
+        }
+        //シーン遷移時の更新処理
+        private void StateSceneChangeUpdate()
+        {
+            SceneManager.LoadScene("Stage1_1");
         }
 
     } //public class OpeningManager : MonoBehaviour    END

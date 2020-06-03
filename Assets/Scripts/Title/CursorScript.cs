@@ -28,7 +28,12 @@ namespace TeamProject
             ALL_STATE//全状態数
         }
         public CURSORSTATE state;//現在の状態
-        public float m_FadeOut_Time;//シーン遷移のフェードアウト時間
+        [Header("ステージセレクトシーンへの遷移のフェードアウト時間")]
+        public float m_FadeOut_Time;
+        public float m_FadeOut_DeltaTime;
+        [Header("オープニングシーンへの遷移のフェードアウト時間")]
+        public float m_OP_FadeOut_Time;
+
         public static bool m_CursorMoveFlag;//カーソル移動許可フラグ（メニューのフェードインが終わるまで待機）
         public float _BeforeTrigger;//1フレーム前の入力状態を取得する
 
@@ -229,10 +234,9 @@ namespace TeamProject
                         case CURSORPOSI.GAMESTART:
                             if (!m_IsWatchOP)
                             {
-                                //FadeManager.FadeOut("OpeningScene", time: m_FadeOut_Time);
                                 StageStatusManager.Instance.m_WatchOpeningFlag = true;
-                                SceneManager.LoadSceneAsync("OpeningScene");
                                 StageStatusManager.Instance.CurrentStage = STAGE_NO.STAGE01;
+                                FadeManager.FadeOut("OpeningScene", time: m_OP_FadeOut_Time);
                             }
                             else
                             {
@@ -256,8 +260,7 @@ namespace TeamProject
                     //決定音鳴らす
                     SEManager.Instance.Play(SEPath.SE_OK);
                     //BGMのフェードアウト
-                    BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time);
-
+                    BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time + m_FadeOut_DeltaTime);
                     break;
                 case KEYSTATE.ALLSTATE:
                     break;
@@ -270,7 +273,6 @@ namespace TeamProject
         //カーソル位置の更新　カーソルの位置における表示UIの変更
         public void UpdateCursorPosition()
         {
-
             switch (cursor)
             {
                 case CURSORPOSI.GAMESTART:
