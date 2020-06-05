@@ -438,6 +438,15 @@ namespace TeamProject
                     {
                         if (minionCom.Floor != camereaCompoent.NowHight) continue;
                     }
+
+                    if (itr.befor.tag == "Goal")
+                    {
+                        var goalCom = itr.befor.GetComponent<Goal>();
+                        if (goalCom != null)
+                        {
+                            if (goalCom.Floor != camereaCompoent.NowHight) continue;
+                        }
+                    }
                     max = itr.convers.x;
                     min = itr.convers.x;
                     direction[(uint)DIRECTION.TOP] = itr;
@@ -1035,7 +1044,7 @@ namespace TeamProject
                     return false;
                 }
 
-                if (hit.collider.tag == "Kobito" || hit.collider.transform.parent.tag == "Goal")
+                if (hit.collider.tag == "Kobito" || hit.collider.transform.root.tag == "Goal")
                 {
                     break;
                 }

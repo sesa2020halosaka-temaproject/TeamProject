@@ -19,6 +19,10 @@ namespace TeamProject
         }
 
         [SerializeField]
+        [Header("ズームの最大、最小のパラメータ")]
+        private float zoomMax, zoomMin;
+
+        [SerializeField]
         private float speed;
 
         [SerializeField]
@@ -32,6 +36,7 @@ namespace TeamProject
         [SerializeField, Range(1, 5)]
         [Header("ステージごとの階層")]
         private int hight = 1;
+        public int Hight { get { return hight; } }
 
         [SerializeField]
         [Header("階層分けのキー割り当て")]
@@ -88,6 +93,12 @@ namespace TeamProject
 
         private float targetHight;
 
+        private GameObject lip,lipStart;
+
+        // ベジュ曲線
+        private Vector3 startPlayerPos, NextPlayerPos, EndPos;
+        private Vector3 startPlayerRot, NextPlayerRot, EndRot;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -117,6 +128,17 @@ namespace TeamProject
             nowHight = hight;
 
             targetHight = transform.position.y;
+            player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject.GetComponent<PlayerVer2>();
+            lip = player.transform.GetChild(4).gameObject;
+            lipStart = player.transform.GetChild(5).gameObject;
+
+            startPlayerPos = lipStart.transform.position;
+            NextPlayerPos = lip.transform.position;
+            EndPos = mainCameraGameObject.transform.position;
+
+            startPlayerRot = lipStart.transform.rotation.eulerAngles;
+            NextPlayerRot = lip.transform.rotation.eulerAngles;
+            EndRot = mainCameraGameObject.transform.rotation.eulerAngles;
         }
 
         private void None()
@@ -125,21 +147,53 @@ namespace TeamProject
             volume.enabled = true;
         }
 
+        //private void StageStart()
+        //{
+        //    // volumeをオフに
+        //    volume.enabled = false;
+
+        //    var speedTime = Time.deltaTime * startRotSpeed;
+
+        //    startRot += speedTime;
+
+        //    var eulRot = transform.rotation.eulerAngles;
+
+        //    eulRot.y += speedTime;
+
+        //    transform.rotation = Quaternion.Euler(eulRot);
+            
+        //    if (360f < startRot)
+        //    {
+        //        transform.rotation = startQua;
+
+        //        SetFunction((uint)TRANS.Upd);
+        //    }
+        //}
         private void StageStart()
         {
-            var speedTime = Time.deltaTime * startRotSpeed;
+            // volumeをオフに
+            volume.enabled = false;
 
-            startRot += speedTime;
+            var speedTime = Time.deltaTime / startRotSpeed;
 
-            var eulRot = transform.rotation.eulerAngles;
+            var pos = GetPoint(startPlayerPos, NextPlayerPos, NextPlayerPos, EndPos, startRot);
+            var rot= GetPoint(startPlayerRot, NextPlayerRot, NextPlayerRot, EndRot, startRot);
 
-            eulRot.y += speedTime;
+            mainCameraGameObject.transform.position = pos;
+            mainCameraGameObject.transform.rotation = Quaternion.Euler(rot);
 
-            transform.rotation = Quaternion.Euler(eulRot);
-            
-            if (360f < startRot)
+
+            //transform.rotation = Quaternion.Euler(eulRot);
+
+            startRot += speedTime;  
+
+            if (1f < startRot)
             {
                 transform.rotation = startQua;
+
+                mainCameraGameObject.transform.position = EndPos;
+                mainCameraGameObject.transform.rotation = Quaternion.Euler(EndRot);
+
 
                 SetFunction((uint)TRANS.Upd);
             }
@@ -152,9 +206,6 @@ namespace TeamProject
 
             var stick = InputManager.InputManager.Instance.GetRStick();
 
-            var r1 = InputManager.InputManager.Instance.GetKey(ButtunCode.R1);
-            var l1 = InputManager.InputManager.Instance.GetKey(ButtunCode.L1);
-            
             Vector3 rot = transform.rotation.eulerAngles;
 
             float x=0, y=0;
@@ -177,8 +228,7 @@ namespace TeamProject
             //{
             //    x = -speedTime;
             //}
-
-
+            
             x = stick.x * speedTime;
             y = stick.y * speedTime;
 
@@ -203,15 +253,6 @@ namespace TeamProject
             //    rot.y = max;
             //}
 
-            if (r1)
-            {
-                child.localPosition+= new Vector3(0f, 0f, inOutSpeed * Time.deltaTime);
-            }
-            if (l1)
-            {
-                child.localPosition -= new Vector3(0f, 0f, inOutSpeed * Time.deltaTime);
-            }
-
             var qua = transform.rotation;
             rot.z = 0.0f;
             qua.eulerAngles = rot;
@@ -219,6 +260,9 @@ namespace TeamProject
 
             // 高さ変更
             HightChange();
+
+            // ズーム処理
+            Zoom();
 
             var diff = targetHight - transform.position.y;
 
@@ -338,6 +382,58 @@ namespace TeamProject
                     targetHight += hightLenge * hight;
                 }
             }
+        }
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+
+            Vector3 thisObjPos = gameObject.transform.position;
+
+            Gizmos.DrawSphere(thisObjPos, 1f);
+        }
+
+        // ベジュ曲線ネット引用
+        private Vector3 GetPoint(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
+        {
+            var oneMinusT = 1f - t;
+            return oneMinusT * oneMinusT * oneMinusT * p0 +
+                   3f * oneMinusT * oneMinusT * t * p1 +
+                   3f * oneMinusT * t * t * p2 +
+                   t * t * t * p3;
+        }
+
+        private void Zoom()
+        {
+            var locPos = mainCameraGameObject.transform.localPosition;
+
+            // 長さ割出
+            var length = locPos.magnitude;
+
+            var r1 = InputManager.InputManager.Instance.GetKey(ButtunCode.R1);
+            var l1 = InputManager.InputManager.Instance.GetKey(ButtunCode.L1);
+
+            if (r1)
+            {
+                length += inOutSpeed * Time.deltaTime;
+            }
+            if (l1)
+            {
+                length -= inOutSpeed * Time.deltaTime;
+            }
+
+            // 正規化して方向ベクトルに変換
+            var nor = locPos.normalized;
+
+            if(zoomMax < length) 
+            {
+                length = zoomMax;
+            }
+            if (length < zoomMin) 
+            {
+                length = zoomMin;
+            }
+
+            mainCameraGameObject.transform.localPosition = nor * length;
         }
     }
 }

@@ -232,6 +232,7 @@ namespace TeamProject {
             camera.SetFunction((uint)Camera.TRANS.None);
             player.SetFunction((uint)PlayerVer2.TRANSITION.None);
 
+            SEManager.Instance.Play(SEPath.SE_MENU_OPEN);
 
             var dec = BGMManager.FromDecibel(-7f);
 
@@ -251,6 +252,7 @@ namespace TeamProject {
             
             var dec = BGMManager.FromDecibel(0f);
 
+            SEManager.Instance.Play(SEPath.SE_MENU_CLOSE);
             BGMManager.Instance.ChangeBaseVolume(dec);
             Time.timeScale = 1f;
         }

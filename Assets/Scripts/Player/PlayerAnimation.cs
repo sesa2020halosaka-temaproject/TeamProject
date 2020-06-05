@@ -48,5 +48,10 @@ namespace TeamProject
         {
             player.StartAnimationEnd();
         }
+
+        private void StartStageStartAnimation()
+        {
+            SEManager.Instance.Play(SEPath.SE_FLYING_PC);
+        }
     }
 }

@@ -319,7 +319,7 @@ namespace TeamProject
 
         private void Clear(bool _rightFlag, bool _leftFlag, bool _enter)
         {
-
+            if (!enterOnce) return;
             if (_leftFlag)
             {
                 stageChoice--;
@@ -342,7 +342,7 @@ namespace TeamProject
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
 
-            if (_enter && enterOnce)
+            if (_enter)
             {
                 enterOnce = false;
                 SEManager.Instance.Play(SEPath.SE_OK);
@@ -353,6 +353,7 @@ namespace TeamProject
 
         private void NotClear(bool _rightFlag, bool _leftFlag, bool _enter)
         {
+            if (!enterOnce) return;
             if (_leftFlag)
             {
                 stageChoice--;
@@ -375,7 +376,7 @@ namespace TeamProject
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }
 
-            if (_enter && enterOnce)
+            if (_enter)
             {
                 enterOnce = false;
                 SEManager.Instance.Play(SEPath.SE_OK);
