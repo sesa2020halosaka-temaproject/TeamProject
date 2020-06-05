@@ -563,32 +563,32 @@ PrefabInstance:
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1KakiwakeObject.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1ColliderObject.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2KakiwakeObject.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2ColliderObject.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
@@ -693,7 +693,7 @@ PrefabInstance:
     - target: {fileID: 4095350663103008560, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: hight
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7390177742914241420, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
@@ -815,7 +815,7 @@ GameObject:
   m_Component:
   - component: {fileID: 318086066}
   - component: {fileID: 318086067}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lambert1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1361,6 +1361,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5285514073026600906, guid: aa7fb9e3e26874748b6f9f48a153c364,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1588,7 +1593,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -596498909943668955, guid: db608e82cd75d744ca6e9d6a8f1cf2c8,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1609,7 +1614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538810204}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -17, y: 9, z: 14}
+  m_LocalPosition: {x: -17, y: 8.1, z: 14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1780,7 +1785,7 @@ GameObject:
   - component: {fileID: 575746698}
   - component: {fileID: 575746697}
   - component: {fileID: 575746696}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Prim.00000000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1956,6 +1961,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinionVer2
       objectReference: {fileID: 0}
+    - target: {fileID: 5285514073026600906, guid: aa7fb9e3e26874748b6f9f48a153c364,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2110,7 +2120,7 @@ GameObject:
   - component: {fileID: 707291923}
   - component: {fileID: 707291922}
   - component: {fileID: 707291921}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Prim.00000000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2727,6 +2737,11 @@ PrefabInstance:
     - target: {fileID: 258391886574110743, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285514073026600906, guid: aa7fb9e3e26874748b6f9f48a153c364,
+        type: 3}
+      propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
@@ -4386,7 +4401,7 @@ PrefabInstance:
     - target: {fileID: -1504981713932161579, guid: c3b5157854f78804b9f093d75268bf36,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: c3b5157854f78804b9f093d75268bf36,
         type: 3}
@@ -5222,7 +5237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1816092334}
   - component: {fileID: 1816092335}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: lambert1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5695,6 +5710,11 @@ PrefabInstance:
     - target: {fileID: 258391886574110743, guid: aa7fb9e3e26874748b6f9f48a153c364,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285514073026600906, guid: aa7fb9e3e26874748b6f9f48a153c364,
+        type: 3}
+      propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8949692748210253236, guid: aa7fb9e3e26874748b6f9f48a153c364,
