@@ -120,7 +120,6 @@ namespace TeamProject
             //用ゲームオブジェクト取得
             m_TargetObj = GameObject.Find("Bellwether").gameObject;
             m_LookAt = m_TargetObj.GetComponent<LookAtObject>();
-
             //================================================
             //コンポーネントの取得
             //================================================
@@ -133,7 +132,6 @@ namespace TeamProject
             //ドリーカートコンポーネントの取得
             //_DollyCart = _DollyCartObj.GetComponent<DollyCartManager>();
 
-
             //シーン開始時点のステージから初期化
             //ドリールートの設定
             //LookAt・注視点の設定
@@ -141,9 +139,11 @@ namespace TeamProject
             //一応まだ実装できていないカメラにルートの位置をセットする
             _Main_DollyCam.SetStartDollyPos();
 
-            _Main_DollyCam.SetPathFixingDolly();//.SetStartDollyPath();
-                                                //各ドリーカメラにパス位置をセット
+            _Main_DollyCam.SetPathFixingDolly();
+            //各ドリーカメラにパス位置をセット
             _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
+
+            //_Dolly_Next.transform.rotation = Quaternion.FromToRotation(Vector3.forward, diff);
 
 
             //_Sub_DollyCam = _Dolly_Current.GetComponent<DollyCamera>();
@@ -585,9 +585,9 @@ namespace TeamProject
 
         private void BackToTitle()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
             //if (Input.GetKeyDown(KeyCode.Escape))
-            {//STARTボタン or Pキー入力
+            {//Aボタン or 左Shiftキー入力
                 FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
             }
 
