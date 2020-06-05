@@ -102,7 +102,7 @@ namespace TeamProject
                 case UIMoveManager.UI_MOVESTATE.FIXING:
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEIN:
-                    Debug.Log("IN中です");
+                   // Debug.Log("IN中です");
 
                     m_UIMoveManager.UIMove(this.gameObject, m_OutPosition, m_InPosition, m_MoveInTime);
                     if (this.transform.localPosition.y >= m_InPosition.y)
@@ -115,7 +115,7 @@ namespace TeamProject
 
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEOUT:
-                    Debug.Log("OUT中です");
+                 //   Debug.Log("OUT中です");
 
                     m_UIMoveManager.UIMove(this.gameObject, m_InPosition, m_OutPosition, m_MoveOutTime);
                     if (this.transform.localPosition.y <= m_OutPosition.y)
@@ -248,14 +248,17 @@ namespace TeamProject
             int CurrentStage = CurrentWorld * 5;
             for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
             {
-                if (m_StageMaxMinions[CurrentStage + i] < 10)
+                if (StageStatusManager.Instance.Minion_Count[CurrentStage + i] < 10)
                 {
+                    Debug.Log("CurrentWorld:" + CurrentWorld+ ":CurrentStage:" + CurrentStage+ ":Minion_Count:" + StageStatusManager.Instance.Minion_Count[CurrentStage + i]+":i:"+i+"]");
+
                     //一桁なら十の位に０を追加する。
                     m_MinionCount[i].text = "0" + StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
                 }
                 else
                 {
                     m_MinionCount[i].text = StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
+                    Debug.Log("CurrentWorld:" + CurrentWorld + "取得数二桁:i:" +i);
 
                 }
 

@@ -11,23 +11,23 @@ namespace TeamProject
         //public GameObject[] Stages;//LookAtの対象となるゲームオブジェクトの格納用
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
         public float m_CurrentPathPosition;//現在のパス位置を渡す用
-       // private float[] m_WayPoint;//受け渡し用
+                                           // private float[] m_WayPoint;//受け渡し用
 
         public DollyTrack_Box m_DoTr;//ドリールートの格納用
 
         public float ToTitle_FadeOut_Time;//タイトルに遷移する時のフェードアウト時間
         public float StageIn_FadeOut_Time;//ステージに遷移する時のフェードアウト時間
-        public GameObject _Dolly_Current;
+                                          // public GameObject _Dolly_Current;
         public GameObject _Dolly_Next;
-        public GameObject _MixCamObj;
-        private MixingCamera _Mixcam;
+        //public GameObject _MixCamObj;
+        //private MixingCamera _Mixcam;
         private DollyCamera _Main_DollyCam;
-        private DollyCamera _Sub_DollyCam;
+        // private DollyCamera _Sub_DollyCam;
         public StageSelectArrow _StageSelectArrow;
 
-        public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
-        public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
-        public DollyCartManager _DollyCart;
+        //public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
+        //public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
+        //public DollyCartManager _DollyCart;
 
         public float m_Counter = 0;//
         public float m_InputStopFrame;//ステージやワールドの移動後のキー入力を待たせるフラグ
@@ -65,7 +65,8 @@ namespace TeamProject
 
         private WorldSelectHold m_Hold;
 
-
+        public GameObject m_TargetObj;
+        public LookAtObject m_LookAt;
         //=================================================================
         //関数ここから
         //=================================================================
@@ -102,50 +103,62 @@ namespace TeamProject
             //ゲームオブジェクトの取得
             //================================================
             //MixingCameraのオブジェクト取得
-            _MixCamObj = GameObject.Find("Mixing_VCamera").gameObject;
+            //_MixCamObj = GameObject.Find("Mixing_VCamera").gameObject;
+
+
             //DollyCameraのオブジェクト取得
-            _Dolly_Current = _MixCamObj.transform.GetChild(0).gameObject;
-            _Dolly_Next = _MixCamObj.transform.GetChild(1).gameObject;
+            //_Dolly_Current = _MixCamObj.transform.GetChild(0).gameObject;
+            _Dolly_Next = GameObject.Find("Dolly_VCam");// _MixCamObj.transform.GetChild(1).gameObject;
             //ドリーカート用ゲームオブジェクト
-            _DollyCartObj = GameObject.Find("DollyCart").gameObject;
+            //_DollyCartObj = GameObject.Find("DollyCart").gameObject;
             //ドリーカートを先導するゲームオブジェクト
-            _TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;//"Bellwhether"オブジェクトを取得
+            //_TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;//"Bellwhether"オブジェクトを取得
             //DollyTrack用ゲームオブジェクト取得
             m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
 
+
+            //用ゲームオブジェクト取得
+            m_TargetObj = GameObject.Find("Bellwether").gameObject;
+            m_LookAt = m_TargetObj.GetComponent<LookAtObject>();
             //================================================
             //コンポーネントの取得
             //================================================
             //MixingCameraコンポーネントの取得
-            _Mixcam = _MixCamObj.GetComponent<MixingCamera>();
+            //_Mixcam = _MixCamObj.GetComponent<MixingCamera>();
 
             //DollyCameraコンポーネントの取得
-            _Sub_DollyCam = _Dolly_Current.GetComponent<DollyCamera>();
             _Main_DollyCam = _Dolly_Next.GetComponent<DollyCamera>();
 
             //ドリーカートコンポーネントの取得
-            _DollyCart = _DollyCartObj.GetComponent<DollyCartManager>();
-
+            //_DollyCart = _DollyCartObj.GetComponent<DollyCartManager>();
 
             //シーン開始時点のステージから初期化
             //ドリールートの設定
-            _Main_DollyCam.SetStartDollyPath();
-            _Sub_DollyCam.SetStartDollyPath();
-
+            //LookAt・注視点の設定
+            _Main_DollyCam.SetLookAtTarget(m_TargetObj);
             //一応まだ実装できていないカメラにルートの位置をセットする
-            //_Main_DollyCam.SetStartDollyPos();
+            _Main_DollyCam.SetStartDollyPos();
+
+            _Main_DollyCam.SetPathFixingDolly();
+            //各ドリーカメラにパス位置をセット
+            _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
+
+            //_Dolly_Next.transform.rotation = Quaternion.FromToRotation(Vector3.forward, diff);
+
+
+            //_Sub_DollyCam = _Dolly_Current.GetComponent<DollyCamera>();
+            //_Sub_DollyCam.SetStartDollyPath();
+
             //_Sub_DollyCam.SetStartDollyPos();
+            //_Sub_DollyCam.SetPathPosition(m_CurrentPathPosition);
 
 
 
             //ドリーカメラの初期化
-            //各ドリーカメラにパス位置をセット
-            _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
-            _Sub_DollyCam.SetPathPosition(m_CurrentPathPosition);
 
-            //LookAt・注視点の設定
-            _Main_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
-            _Sub_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
+            // _Sub_DollyCam.SetLookAtTarget(m_TargetObj);
+            //_Main_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
+            //_Sub_DollyCam.SetLookAtTarget(TargetStages.m_Stages[(int)StageStatusManager.Instance.CurrentStage]);
 
             //Debug.Log((int)StageStatusManager.Instance.CurrentStage);
 
@@ -260,21 +273,23 @@ namespace TeamProject
 
             //固定用ドリールートをセット
             _Main_DollyCam.SetPathFixingDolly();
-            _Sub_DollyCam.SetPathFixingDolly();
+            // _Sub_DollyCam.SetPathFixingDolly();
             //_DollyCart.SetPathFixingDolly();
 
             //Mixingカメラの初期化
-            ResetMixingCamera();
+            //ResetMixingCamera();
 
             //Dollyカメラの初期化
             ResetDollyCamera();
 
             //DollyCartの初期化
-            ResetDollyCart();
+            // ResetDollyCart();
 
             ////Dollyカメラの状態をFIXINGに戻す
             //StageChangeManager.DollyStateChange("FIXING");
 
+            //
+            m_LookAt.ChangeState();
 
             //
             //上下矢印の非アクティブ化
@@ -306,11 +321,9 @@ namespace TeamProject
                 MoveEndSetting();
                 //ステージ番号の更新
                 StageNumberUpdate();
+                //Dollyカメラの座標をドリールートの座標に合わせる
+                _Main_DollyCam.SetStartDollyPos();
 
-                ////固定用ドリールートをセット
-                //_Main_DollyCam.SetPathFixingDolly();
-                //_Sub_DollyCam.SetPathFixingDolly();
-                //_DollyCart.SetPathFixingDolly();
 
                 //アイコンの差し替え
                 StageSelectArrow.ChangeStageNameIcon();
@@ -323,14 +336,14 @@ namespace TeamProject
                 m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
                 //LookAtを一か所に固定
-                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
+                //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("STAGE_MOVING終わり");
 
             }
 
             //Dollyカメラの座標をドリーカートの座標に合わせる
-            _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
-            _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+            //_Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+            //_Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
 
             //StageChangeManager.Update();
 
@@ -348,14 +361,14 @@ namespace TeamProject
             count++;
             Debug.Log("count" + count);
 
-            //Mixingカメラの初期化
-            ResetMixingCamera();
-
             //Dollyカメラの初期化
             ResetDollyCamera();
 
-            //DollyCartの初期化
-            ResetDollyCart();
+            //Mixingカメラの初期化
+            //ResetMixingCamera();
+
+            ////DollyCartの初期化
+            //ResetDollyCart();
 
             //上下矢印の非アクティブ化
             //StageSelectArrow.TwoArrowsDeactivate();
@@ -370,6 +383,9 @@ namespace TeamProject
 
             ////Dollyカメラの状態をFIXINGに戻す
             //StageChangeManager.DollyStateChange("FIXING");
+
+            m_LookAt.ChangeState();
+
 
             //ステージセレクトの状態を設定する
             StageChangeManager.SelectStateChange("WORLD_MOVING");
@@ -408,17 +424,8 @@ namespace TeamProject
             if (StageChangeManager.IsWorldMoveEnd())
             {
                 MoveEndSetting();
-
-                //Dollyカメラの座標をドリーカートの座標に合わせる
-                _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
-                _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
-
                 //固定用ドリールートをセット
                 _Main_DollyCam.SetPathFixingDolly();
-                _Sub_DollyCam.SetPathFixingDolly();
-                //_DollyCart.SetPathFixingDolly();
-
-                //_Sub_DollyCam.PathPositionReset();
 
                 //UIの更新ステージナンバーの更新前用
                 m_StageSelectUIManager.GetWorldStatusUIObject().ChangeWorldNameIcon();
@@ -430,6 +437,9 @@ namespace TeamProject
                 //最後に処理させること（分かりやすくするために）
                 //ステージ番号の更新
                 StageNumberUpdate();
+
+                //Dollyカメラの座標をドリールートの座標に合わせる
+                _Main_DollyCam.SetStartDollyPos();
 
                 //UIの更新ステージナンバーの更新後用
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
@@ -447,15 +457,23 @@ namespace TeamProject
                 //左右矢印を画面内へ移動させる
                 m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
+                Debug.Log("WORLD_MOVING");
 
                 //LookAtを一か所に固定
-                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
-                Debug.Log("WORLD_MOVING");
+                //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
+                //Dollyカメラの座標をドリーカートの座標に合わせる
+                //_Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+                //_Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+
+                // _Sub_DollyCam.SetPathFixingDolly();
+                //_DollyCart.SetPathFixingDolly();
+
+                //_Sub_DollyCam.PathPositionReset();
             }
 
             //Dollyカメラの座標をドリーカートの座標に合わせる
-            _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
-            _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+            //_Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+            //_Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
 
 
             //WorldChangeManagr.Update();
@@ -478,28 +496,28 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu))
             {//STARTボタン or Pキー入力
                 _Main_DollyCam.SetEndPathPosition();
-                _Sub_DollyCam.SetEndPathPosition();
+                // _Sub_DollyCam.SetEndPathPosition();
 
                 //各種状態を待機状態に戻す
                 //Dollyカメラの状態を設定する
                 StageChangeManager.DollyStateChange("FIXING");
-                StageChangeManager.DollyCartStateChange("FIXING");
+                //StageChangeManager.DollyCartStateChange("FIXING");
 
                 //ステージセレクトの状態を設定する
                 StageChangeManager.SelectStateChange("KEY_WAIT");
 
                 //フラグをfalseにする
                 StageChangeManager.WorldFlagChange(false);
-                StageChangeManager.DollyCartFlagChange(false);
+                //StageChangeManager.DollyCartFlagChange(false);
                 StageChangeManager.DollyFlagReset();
 
                 //Dollyカメラの座標をドリーカートの座標に合わせる
-                _Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
-                _Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
+                //_Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
+                //_Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
 
                 //固定用ドリールートをセット
                 _Main_DollyCam.SetPathFixingDolly();
-                _Sub_DollyCam.SetPathFixingDolly();
+                // _Sub_DollyCam.SetPathFixingDolly();
                 //_DollyCart.SetPathFixingDolly();
 
                 //_Sub_DollyCam.PathPositionReset();
@@ -510,7 +528,7 @@ namespace TeamProject
                 StageNumberUpdate();
 
                 //LookAtを一か所に固定
-                _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
+                //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.CurrentStage);
                 Debug.Log("WORLD_MOVINGスキップ");
 
                 FadeManager.FadeOut("StageSelectScene", ToTitle_FadeOut_Time);
@@ -567,9 +585,9 @@ namespace TeamProject
 
         private void BackToTitle()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
             //if (Input.GetKeyDown(KeyCode.Escape))
-            {//STARTボタン or Pキー入力
+            {//Aボタン or 左Shiftキー入力
                 FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
             }
 
@@ -615,7 +633,6 @@ namespace TeamProject
             //各種状態を待機状態に戻す
             //Dollyカメラの状態を設定する
             StageChangeManager.DollyStateChange("FIXING");
-            StageChangeManager.DollyCartStateChange("FIXING");
 
             //ステージセレクトの状態を設定する
             StageChangeManager.SelectStateChange("KEY_WAIT");
@@ -623,7 +640,7 @@ namespace TeamProject
             //フラグをfalseにする
             StageChangeManager.StageFlagChange(false);
             StageChangeManager.WorldFlagChange(false);
-            StageChangeManager.DollyCartFlagChange(false);
+
             StageChangeManager.DollyFlagReset();
 
 
@@ -631,115 +648,123 @@ namespace TeamProject
         }
 
         //================================================
-        //Mixingカメラの初期化
-        public void ResetMixingCamera()
-        {
-            switch (StageChangeManager.GetStageChangeKey())
-            {
-                case StageChangeManager.STAGE_CHANGE_KEY.UP:
-                    _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.NextStage);
-                    StageChangeManager.MixingStateChange("GO");
-                    break;
-                case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
-                    _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.PrevStage);
-                    StageChangeManager.MixingStateChange("BACK");
-                    break;
-                case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                    _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5));
-                    //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
-                    StageChangeManager.MixingStateChange("WORLD");
-                    break;
-                case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
-                    _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5));
-                    //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
-                    StageChangeManager.MixingStateChange("WORLD");
-                    break;
-                case StageChangeManager.STAGE_CHANGE_KEY.ALL:
-                    break;
-                default:
-                    break;
-            }
-
-            _Mixcam.ResetWeight();
-            _Mixcam.SwingFlagOn();
-            _Mixcam.SetSwingTime();
-
-        }//ResetMixingCamera() END
-
-        //Mixingカメラの初期化(MixingカメラがWORLD_ENDの時)
-        public void ResetMixingCamera_WorldEnd()
-        {
-            STAGE_NO _StageNo;
-            switch (StageChangeManager.GetStageChangeKey())
-            {
-                case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
-                    _StageNo = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
-                    //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
-                    break;
-                case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
-                    _StageNo = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
-                    //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
-                    break;
-
-                case StageChangeManager.STAGE_CHANGE_KEY.ALL:
-                default:
-                    Debug.Log("STAGE_CHANGE_KEYの状態が違います");
-                    break;
-            }
-
-
-            _Mixcam.ResetWeight();
-            _Mixcam.SwingFlagOn();
-            _Mixcam.SetSwingTime();
-
-        }
         //Dollyカメラの初期化
         public void ResetDollyCamera()
         {
             //ドリールートのセット
             _Main_DollyCam.SetDollyPath();
-            _Sub_DollyCam.SetDollyPath();
+
             //ドリールートの加算倍率の変更
             _Main_DollyCam.SetAddTime();
-            _Sub_DollyCam.SetAddTime();
+
             //PathPositionの両端(Min,Max)をセット
             _Main_DollyCam.SetPathPositionALL();
-            _Sub_DollyCam.SetPathPositionALL();
+
             //カメラのパス位置(m_Path)を初期化する
-            _Sub_DollyCam.PathPositionReset();
             _Main_DollyCam.PathPositionReset();
 
+            // _Sub_DollyCam.SetDollyPath();
+            //_Sub_DollyCam.SetAddTime();
+            // _Sub_DollyCam.SetPathPositionALL();
+            //_Sub_DollyCam.PathPositionReset();
+
 
         }
+        //====================================================================
+
+        //Mixingカメラの初期化
+        //public void ResetMixingCamera()
+        //{
+        //    switch (StageChangeManager.GetStageChangeKey())
+        //    {
+        //        case StageChangeManager.STAGE_CHANGE_KEY.UP:
+        //            _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.NextStage);
+        //            StageChangeManager.MixingStateChange("GO");
+        //            break;
+        //        case StageChangeManager.STAGE_CHANGE_KEY.DOWN:
+        //            _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, StageStatusManager.Instance.PrevStage);
+        //            StageChangeManager.MixingStateChange("BACK");
+        //            break;
+        //        case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
+        //            _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5));
+        //            //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
+        //            StageChangeManager.MixingStateChange("WORLD");
+        //            break;
+        //        case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
+        //            _Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5));
+        //            //_Mixcam.LookAtTargetTwoChanges(StageStatusManager.Instance.CurrentStage, _TargetObj);
+        //            StageChangeManager.MixingStateChange("WORLD");
+        //            break;
+        //        case StageChangeManager.STAGE_CHANGE_KEY.ALL:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+
+        //    _Mixcam.ResetWeight();
+        //    _Mixcam.SwingFlagOn();
+        //    _Mixcam.SetSwingTime();
+
+        //}//ResetMixingCamera() END
+
+        //Mixingカメラの初期化(MixingカメラがWORLD_ENDの時)
+        //public void ResetMixingCamera_WorldEnd()
+        //{
+        //    STAGE_NO _StageNo;
+        //    switch (StageChangeManager.GetStageChangeKey())
+        //    {
+        //        case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
+        //            _StageNo = (STAGE_NO)(StageStatusManager.Instance.PrevWorld * 5);
+        //            //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
+        //            break;
+        //        case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
+        //            _StageNo = (STAGE_NO)(StageStatusManager.Instance.NextWorld * 5);
+        //            //  _Mixcam.LookAtTargetTwoChanges(_TargetObj, _StageNo);
+        //            break;
+
+        //        case StageChangeManager.STAGE_CHANGE_KEY.ALL:
+        //        default:
+        //            Debug.Log("STAGE_CHANGE_KEYの状態が違います");
+        //            break;
+        //    }
+
+
+        //    _Mixcam.ResetWeight();
+        //    _Mixcam.SwingFlagOn();
+        //    _Mixcam.SetSwingTime();
+
+        //}
         //DollyCartの初期化
-        public void ResetDollyCart()
-        {
-            //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
-            //{
-            //    Debug.Log("UP：処理が間違っています。");
-            //    return;
-            //}
-            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
-            //{
-            //    Debug.Log("DOWN：処理が間違っています。");
-            //    return;
-            //}
-            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
-            //{
-            //    //StageChangeManager.DollyStateChange("WORLD");
-            //}
-            //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
-            //{
-            //    //StageChangeManager.DollyStateChange("WORLD");
-            //}
+        //public void ResetDollyCart()
+        //{
+        //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+        //{
+        //    Debug.Log("UP：処理が間違っています。");
+        //    return;
+        //}
+        //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+        //{
+        //    Debug.Log("DOWN：処理が間違っています。");
+        //    return;
+        //}
+        //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
+        //{
+        //    //StageChangeManager.DollyStateChange("WORLD");
+        //}
+        //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
+        //{
+        //    //StageChangeManager.DollyStateChange("WORLD");
+        //}
 
-            _DollyCart.SetDollyPath();
-            //_DollyCart.SetAddTime();
-            _DollyCart.SetPathPositionALL();
-            _DollyCart.PathPositionReset();
+        //_DollyCart.SetDollyPath();
+        //_DollyCart.SetAddTime();
+        //_DollyCart.SetPathPositionALL();
+        //_DollyCart.PathPositionReset();
 
-        }
+        //}
         //================================================
+
+
         //WayPointの初期化
         public void WayPointInit()
         {
