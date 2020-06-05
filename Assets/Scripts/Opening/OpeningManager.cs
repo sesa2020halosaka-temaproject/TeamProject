@@ -11,13 +11,21 @@ namespace TeamProject
     //ワールド選択可能表示矢印用クラス
     public class OpeningManager : MonoBehaviour
     {
-        [Header("SKIPアイコンが消えるまでの時間"), Range(0.0f, 37.0f)]
-        public float m_InvisibleTime;
         private float m_TimeCount = 0;
-        private bool m_InvisibleFlag = false;
+        private bool m_InvisibleBeginFlag = false;
+        private bool m_InvisibleEndFlag = false;
+        [Header("SKIPアイコンが消え始めるまでの時間"), Range(0.0f, 37.0f)]
+        public float m_InvisibleBeginTime;
+        [Header("SKIPアイコンが消えきるまでの時間"), Range(0.0f, 10.0f)]
+        public float m_InvisibleEndTime;
+        private float m_AlphaMaxRatio;
+
+        public GameObject m_SkipButtonObj;
+        public Image m_SkipButtonUI;
+        public Color m_SkipColor;
+
         public VideoClip m_VideoClip;
         public VideoPlayer m_VideoPlayer;
-        public GameObject m_SkipButtonObj;
         public GameObject m_PausePanelObj;
         // private RawImage rawImage;
 
@@ -30,15 +38,21 @@ namespace TeamProject
             ALLSTATE//
         }
         public MOVIE_STATE m_MovieState;
+        private void Awake()
+        {            //Skipボタン用UIのオブジェクトの取得
+            m_SkipButtonObj = GameObject.Find("SkipObj");
+            m_SkipButtonObj.SetActive(true);
 
+            m_SkipButtonUI = m_SkipButtonObj.transform.GetChild(0).GetComponent<Image>();
+            m_SkipColor = m_SkipButtonUI.color;
+
+        }
         // Start is called before the first frame update
         void Start()
         {
             m_MovieState = MOVIE_STATE.START;
-            //Skipボタン用UIのオブジェクトの取得
-            m_SkipButtonObj = GameObject.Find("SkipObj");
-            m_SkipButtonObj.SetActive(true);
 
+            m_AlphaMaxRatio = m_SkipColor.a;
             //ポーズ用パネルオブジェクトの設定
             m_PausePanelObj = GameObject.Find("PAUSE_Panel");
             m_PausePanelObj.SetActive(false);
@@ -86,16 +100,32 @@ namespace TeamProject
         //SkipボタンUI非表示用カウント関数
         private void InvisibleTimeUpdate()
         {
-            if (!m_InvisibleFlag)
+            if (!m_InvisibleEndFlag)
             {
-                m_TimeCount += Time.deltaTime;
-                if (m_TimeCount > m_InvisibleTime)
-                {
-                    m_TimeCount = 0;
-                    m_SkipButtonObj.SetActive(false);
-                    m_InvisibleFlag = true;
-                }
 
+                if (!m_InvisibleBeginFlag)
+                {
+                    m_TimeCount += Time.deltaTime;
+                    if (m_TimeCount > m_InvisibleBeginTime)
+                    {
+                        m_TimeCount = 0;
+                        // m_SkipButtonObj.SetActive(false);
+                        m_InvisibleBeginFlag = true;
+                    }
+
+                }
+                else
+                {
+                    m_SkipColor.a -= Time.deltaTime * m_AlphaMaxRatio / m_InvisibleEndTime;
+                    if (m_SkipColor.a < 0.0f)
+                    {
+                        m_TimeCount = 0;
+                        m_SkipButtonObj.SetActive(false);
+                        m_InvisibleEndFlag = true;
+                    }
+
+                    m_SkipButtonUI.color = m_SkipColor;
+                }
             }
         }
 
