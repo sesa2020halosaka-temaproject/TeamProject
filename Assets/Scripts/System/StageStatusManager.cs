@@ -107,6 +107,7 @@ namespace TeamProject
         }
 
         public bool m_WatchOpeningFlag;//オープニングを見たかどうかフラグ(true:見た,false:見てない)
+        public bool m_LastStageClearFlag;//ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
         public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];//各ステージの小人取得数
 
