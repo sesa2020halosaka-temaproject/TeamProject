@@ -18,10 +18,13 @@ namespace TeamProject
             ALL_STATE         //全状態数
         }
         public TITLESTATE state;            //現在の状態
+        [Header("ラストステージまでクリアしたかどうかのフラグ")]
+        public bool m_LastStageClearFlag;
         public Color alpha;                 //α値を取るためのカラー変数
         public GameObject TitleLogoObj;     //タイトルロゴ用ゲームオブジェクト
         public GameObject TitleMenuObj;     //タイトルメニュー用ゲームオブジェクト
         public GameObject PressAnyButtonObj;//PressAnyButton用ゲームオブジェクト
+        public GameObject m_EndingBGObj;//ラストステージクリア後背景用ゲームオブジェクト
 
         public float Title_FadeIn_Time;     //タイトル開始のフェードイン時間
         public float Menu_FadeIn_Time;      //メニューのフェードイン時間
@@ -33,6 +36,12 @@ namespace TeamProject
 
         private const int OFF = 0;//OFF用インデックス値
         private const int ON = 1;//ON用インデックス値
+
+        [Header("プロローグシーンへの遷移のフェードアウト時間")]
+        public float m_PR_FadeOut_Time;
+        [Header("プロローグシーンへ戻るまでの操作無し時間")]
+        public float m_BackPrologueMaxTime;
+        public float m_TimeCount;//時間のカウント用
 
         // Start is called before the first frame update
         void Start()
@@ -50,6 +59,7 @@ namespace TeamProject
             TitleLogoObj = this.transform.Find("TitleLogo_Image").gameObject;
             TitleMenuObj = this.transform.Find("TitleMenuObj").gameObject;
             PressAnyButtonObj = this.transform.Find("PressAnyButton").gameObject;
+            m_EndingBGObj = this.transform.Find("EndingBGObj").gameObject;
 
             //カラー変数受け取り
             alpha = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
@@ -62,6 +72,11 @@ namespace TeamProject
 
             Hover_TimeCount = 0.0f;
             if (Hover_TimeMax <= 0) Hover_TimeMax = 1.0f;
+            //ラストステージをクリアしたかどうかフラグをセット
+            m_LastStageClearFlag = StageStatusManager.Instance.m_LastStageClearFlag;
+            //フラグがON（4-5クリア後）なら背景をアクティブにする
+            if (m_LastStageClearFlag) { m_EndingBGObj.SetActive(true); }
+            else                      { m_EndingBGObj.SetActive(false); }
         }
 
         // Update is called once per frame
@@ -88,7 +103,26 @@ namespace TeamProject
                         state = TITLESTATE.TITLE_MENU_FADEIN;
                         //キー入力SE
                         SEManager.Instance.Play(SEPath.SE_OK);
+                        m_TimeCount = 0;
                     }
+                    else
+                    {
+                        m_TimeCount += Time.deltaTime;
+                    }
+                    //キー操作が一定時間ないときにプロローグに戻る
+                    if (m_TimeCount > m_BackPrologueMaxTime)
+                    {
+                        m_TimeCount = 0;
+                        //状態遷移
+                        state = TITLESTATE.TITLE_MENU_WAIT;
+
+                        //シーンのフェードアウト
+                        FadeManager.FadeOut("PrologueScene", time: m_PR_FadeOut_Time);
+                        //BGMのフェードアウト
+                        BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_PR_FadeOut_Time);
+
+                    }
+
                     //UIの表示切替
                     if (Hover_TimeCount > Hover_TimeMax)
                     {
@@ -103,7 +137,7 @@ namespace TeamProject
                         else
                         {
                             //PressAnyButtonをOff状態に切り替える
-                           //PressAnyButton_OFF();
+                            //PressAnyButton_OFF();
                             SwitchingActive.GameObject_OFF(PressAnyButtonObj);
                             Hover_TimeMax = Hover_Off_Time;//Off切り替え時間に変更
 

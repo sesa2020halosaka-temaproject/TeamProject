@@ -33,9 +33,15 @@ namespace TeamProject
         public float m_FadeOut_DeltaTime;
         [Header("オープニングシーンへの遷移のフェードアウト時間")]
         public float m_OP_FadeOut_Time;
+        //[Header("プロローグシーンへの遷移のフェードアウト時間")]
+        //public float m_PR_FadeOut_Time;
+        //[Header("プロローグシーンへ戻るまでの操作無し時間")]
+        //public float m_BackPrologueMaxTime;
+        //public float m_TimeCount;//時間のカウント用
 
         public static bool m_CursorMoveFlag;//カーソル移動許可フラグ（メニューのフェードインが終わるまで待機）
         public float _BeforeTrigger;//1フレーム前の入力状態を取得する
+
 
         //入力状態確認用
         public enum INPUTSTATE
@@ -153,26 +159,41 @@ namespace TeamProject
             //上入力
             if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow))
             {
+                //m_TimeCount = 0;
                 CurrentInputOn();
                 m_KeyState = KEYSTATE.UP;
             }
             //下入力
             else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow))
             {
+                //m_TimeCount = 0;
                 CurrentInputOn();
                 m_KeyState = KEYSTATE.DOWN;
             }
             //カーソルの操作（決定）
             else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             {
+                // m_TimeCount = 0;
                 CurrentInputOn();
                 m_KeyState = KEYSTATE.DECISION;
             }
             else
             {
+                //m_TimeCount += Time.deltaTime;
                 CurrentInputOff();
                 m_KeyState = KEYSTATE.NONE;
             }
+            //if (m_TimeCount > m_BackPrologueMaxTime)
+            //{
+            //    m_TimeCount = 0;
+            //    //カーソル状態の更新
+            //    state = CURSORSTATE.FADE_OUT;
+
+            //    FadeManager.FadeOut("PrologueScene", time: m_PR_FadeOut_Time);
+            //    //BGMのフェードアウト
+            //    BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_FadeOut_Time + m_FadeOut_DeltaTime);
+
+            //}
         }// END
 
         //入力状態の切り替え
