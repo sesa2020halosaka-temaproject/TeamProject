@@ -108,6 +108,8 @@ namespace TeamProject
 
         public bool m_WatchOpeningFlag;//オープニングを見たかどうかフラグ(true:見た,false:見てない)
         public bool m_LastStageClearFlag;//ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
+        public bool m_RemovalLimitFlag;//全ステージ移動可能フラグ(true:制限解除,false:制限あり)
+        public bool m_AllUnlockFlag;//オールアンロックフラグ(true:オールアンロック,false:通常)
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
         public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];//各ステージの小人取得数
 
@@ -147,7 +149,7 @@ namespace TeamProject
 
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
             {
-            //全ステージを未クリア状態にする
+                //全ステージを未クリア状態にする
                 Stage_Status[i] = CLEAR_STATUS.NOT;
                 //小人の取得数をゼロリセット
                 Minion_Count[i] = 0;
@@ -163,6 +165,26 @@ namespace TeamProject
             DontDestroyOnLoad(this.gameObject);
         }//public void Awake()  END
 
+        public void AllUnlockActivation()
+        {
+            for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
+            {
+                //全ステージを星全取得状態にする
+                Stage_Status[i] = CLEAR_STATUS.THREE;
+                //小人の取得数をゼロリセット
+                Minion_Count[i] = 0;
+            }
+            //オープニング見たかどうかフラグをONにする
+            m_WatchOpeningFlag = true;
+            //ラストステージをクリアしたかどうかフラグをONにする
+            m_LastStageClearFlag = true;
+            //全ステージ移動可能フラグをONにする
+            m_RemovalLimitFlag = true;
+            //オールアンロックフラグをONにする
+            m_AllUnlockFlag = true;
+            Debug.Log("オールアンロックモード起動しました。");
+
+        }
         //  public 
     }
 }
