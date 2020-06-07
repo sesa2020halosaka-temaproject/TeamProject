@@ -246,25 +246,47 @@ namespace TeamProject
         {
             int CurrentWorld = StageStatusManager.Instance.CurrentWorld;
             int CurrentStage = CurrentWorld * 5;
-            for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
+            if (!StageStatusManager.Instance.m_AllUnlockFlag)
             {
-                if (StageStatusManager.Instance.Minion_Count[CurrentStage + i] < 10)
+                //通常時
+                for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
                 {
-                    Debug.Log("CurrentWorld:" + CurrentWorld+ ":CurrentStage:" + CurrentStage+ ":Minion_Count:" + StageStatusManager.Instance.Minion_Count[CurrentStage + i]+":i:"+i+"]");
+                    if (StageStatusManager.Instance.Minion_Count[CurrentStage + i] < 10)
+                    {
+                        Debug.Log("CurrentWorld:" + CurrentWorld + ":CurrentStage:" + CurrentStage + ":Minion_Count:" + StageStatusManager.Instance.Minion_Count[CurrentStage + i] + ":i:" + i + "]");
 
-                    //一桁なら十の位に０を追加する。
-                    m_MinionCount[i].text = "0" + StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
+                        //一桁なら十の位に０を追加する。
+                        m_MinionCount[i].text = "0" + StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
+                    }
+                    else
+                    {
+                        m_MinionCount[i].text = StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
+                        Debug.Log("CurrentWorld:" + CurrentWorld + "取得数二桁:i:" + i);
+
+                    }
+
                 }
-                else
+            }
+            else
+            {
+                for (int i = 0; i < (int)IN_WORLD_NO.ALLSTAGE; i++)
                 {
-                    m_MinionCount[i].text = StageStatusManager.Instance.Minion_Count[CurrentStage + i].ToString();
-                    Debug.Log("CurrentWorld:" + CurrentWorld + "取得数二桁:i:" +i);
+                    if (m_StageMaxMinions[CurrentStage + i] < 10)
+                    {
+                        Debug.Log("m_StageMaxMinions:" + m_StageMaxMinions[CurrentStage + i]);
+                        //一桁なら十の位に０を追加する。
+                        m_MinionCount[i].text = "0" + m_StageMaxMinions[CurrentStage + i].ToString();
+                        Debug.Log("m_MinionMaxCount[i].text:" + m_MinionMaxCount[i].text);
+                    }
+                    else
+                    {
+                        //二桁ならそのまま表示する。
+                        m_MinionCount[i].text = m_StageMaxMinions[CurrentStage + i].ToString();
 
+                    }
                 }
-
             }
         }
-
         //小人の最大数をinspector上の数値からテキストに変換する
         public void SetMinionMaxCount()
         {

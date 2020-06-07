@@ -33,9 +33,15 @@ namespace TeamProject
         public float m_FadeOut_DeltaTime;
         [Header("オープニングシーンへの遷移のフェードアウト時間")]
         public float m_OP_FadeOut_Time;
+        //[Header("プロローグシーンへの遷移のフェードアウト時間")]
+        //public float m_PR_FadeOut_Time;
+        //[Header("プロローグシーンへ戻るまでの操作無し時間")]
+        //public float m_BackPrologueMaxTime;
+        //public float m_TimeCount;//時間のカウント用
 
         public static bool m_CursorMoveFlag;//カーソル移動許可フラグ（メニューのフェードインが終わるまで待機）
         public float _BeforeTrigger;//1フレーム前の入力状態を取得する
+
 
         //入力状態確認用
         public enum INPUTSTATE
@@ -59,6 +65,13 @@ namespace TeamProject
         private KEYSTATE m_KeyState;//上下入力識別
         public bool m_CurrentInput = false;//現在のフレーム
         public bool m_BeforeInput = false;//前のフレーム
+
+        public bool m_CurrentInput_L1 = false;//現在のフレーム
+        public bool m_BeforeInput_L1 = false;//前のフレーム
+        public bool m_CurrentInput_R1 = false;//現在のフレーム
+        public bool m_BeforeInput_R1 = false;//前のフレーム
+        public bool m_CurrentInput_START = false;//現在のフレーム
+        public bool m_BeforeInput_START = false;//前のフレーム
 
         [Header("OPを一度でも見たかどうかフラグ")]
         public bool m_IsWatchOP;
@@ -99,6 +112,10 @@ namespace TeamProject
                 case CURSORSTATE.KEYWAIT:
                     //前のフレームの入力状態の保存
                     m_BeforeInput = m_CurrentInput;
+                    m_BeforeInput_L1 = m_CurrentInput_L1;
+                    m_BeforeInput_R1 = m_CurrentInput_R1;
+                    m_BeforeInput_START = m_CurrentInput_START;
+
 
                     //入力キーの識別
                     CheckKeyInput();
@@ -150,31 +167,96 @@ namespace TeamProject
         //入力キーの識別
         public void CheckKeyInput()
         {
-            //上入力
-            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow))
+            if (!LBRBButtonInputCheck() && !STARTButtonInputCheck())
             {
-                CurrentInputOn();
-                m_KeyState = KEYSTATE.UP;
-            }
-            //下入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow))
-            {
-                CurrentInputOn();
-                m_KeyState = KEYSTATE.DOWN;
-            }
-            //カーソルの操作（決定）
-            else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
-            {
-                CurrentInputOn();
-                m_KeyState = KEYSTATE.DECISION;
-            }
-            else
-            {
-                CurrentInputOff();
-                m_KeyState = KEYSTATE.NONE;
-            }
-        }// END
+                //上入力
+                if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow))
+                {
+                    //m_TimeCount = 0;
+                    CurrentInputOn();
+                    m_KeyState = KEYSTATE.UP;
+                }
+                //下入力
+                else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow))
+                {
+                    //m_TimeCount = 0;
+                    CurrentInputOn();
+                    m_KeyState = KEYSTATE.DOWN;
+                }
+                //カーソルの操作（決定）
+                else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                {
+                    // m_TimeCount = 0;
+                    CurrentInputOn();
+                    m_KeyState = KEYSTATE.DECISION;
+                }
+                else
+                {
+                    //m_TimeCount += Time.deltaTime;
+                    CurrentInputOff();
+                    m_KeyState = KEYSTATE.NONE;
+                }
 
+            }
+            else if (LBRBButtonInputCheck())
+            {
+                //カーソルの操作（決定）
+                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                {
+                    //ステージアンロック状態にする
+                    StageStatusManager.Instance.m_RemovalLimitFlag = true;
+                    //星の音鳴らす
+                    SEManager.Instance.Play(SEPath.SE_STAR);
+
+                    CurrentInputOn();
+                    m_KeyState = KEYSTATE.DECISION;
+                }
+
+            }
+            else if (STARTButtonInputCheck())
+            {
+                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                {
+                    //オールアンロック状態にする
+                    StageStatusManager.Instance.AllUnlockActivation();
+                    //OPを見ているかどうかフラグをセット
+                    m_IsWatchOP = StageStatusManager.Instance.m_WatchOpeningFlag;
+
+                    //星の音鳴らす
+                    SEManager.Instance.Play(SEPath.SE_STAR);
+                    CurrentInputOn();
+                    m_KeyState = KEYSTATE.DECISION;
+                }
+            }
+
+            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.R1)) m_CurrentInput_R1 = true;
+            else m_CurrentInput_R1 = false;
+            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.L1)) m_CurrentInput_L1 = true;
+            else m_CurrentInput_L1 = false;
+            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.Menu)) m_CurrentInput_START = true;
+            else m_CurrentInput_START = false;
+        }// END
+        //LBボタンとRBボタン同時押し判定
+        public bool LBRBButtonInputCheck()
+        {
+            bool Bool=false;
+            if (m_CurrentInput_R1)
+            {
+                Debug.Log("m_CurrentInput_R1");
+                if (m_CurrentInput_L1)
+                {
+                    Debug.Log("m_CurrentInput_L1");
+                    Bool = true;
+                }
+
+            }
+            return Bool;//((m_CurrentInput_R1 /*|| m_BeforeInput_R1*/) && (m_CurrentInput_L1/* || m_BeforeInput_L1*/));
+        }
+        //STARTボタン押してるか判定
+        public bool STARTButtonInputCheck()
+        {
+            return (m_CurrentInput_START || m_BeforeInput_START);
+        }
         //入力状態の切り替え
         public void SwitchingInputState()
         {
