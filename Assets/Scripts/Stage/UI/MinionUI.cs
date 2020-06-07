@@ -29,6 +29,9 @@ namespace TeamProject
         [SerializeField]
         private Pause pause;
 
+        [SerializeField]
+        private Image pauseUI;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -77,6 +80,7 @@ namespace TeamProject
             nowNomTen.gameObject.SetActive(_flag);
             maxNomOne.gameObject.SetActive(_flag);
             maxNomTen.gameObject.SetActive(_flag);
+            pauseUI.enabled = _flag;
         }
 
         private void Update()
