@@ -47,7 +47,7 @@ namespace TeamProject
             state = TITLESTATE.SCENE_FADE;
 
             //各ゲームオブジェクト格納
-            TitleLogoObj = this.transform.Find("TitleLogo").gameObject;
+            TitleLogoObj = this.transform.Find("TitleLogo_Image").gameObject;
             TitleMenuObj = this.transform.Find("TitleMenuObj").gameObject;
             PressAnyButtonObj = this.transform.Find("PressAnyButton").gameObject;
 
