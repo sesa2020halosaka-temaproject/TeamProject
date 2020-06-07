@@ -109,6 +109,8 @@ namespace TeamProject
             {
                 next[0] = next[2];
                 next[1] = next[3];
+
+                nexImg.sprite = next[0];
             }
         }
 
