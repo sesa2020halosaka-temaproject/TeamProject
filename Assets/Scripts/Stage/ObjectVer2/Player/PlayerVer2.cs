@@ -575,14 +575,14 @@ namespace TeamProject
                 }
                 else
                 {
-                    if (decoyObject == null && !hadoukenFlag)
-                    {
-                        var decoy = Instantiate(decoyPrefab);
+                    //if (decoyObject == null && !hadoukenFlag)
+                    //{
+                    //    var decoy = Instantiate(decoyPrefab);
 
-                        decoy.GetComponent<PlayerAfterimage>().SetParam(transform.position, hadoukenPos);
+                    //    decoy.GetComponent<PlayerAfterimage>().SetParam(transform.position, hadoukenPos);
 
-                        decoyObject = decoy;
-                    }
+                    //    decoyObject = decoy;
+                    //}
                     anima.SetTrigger("UnFind");
                 }
             }

@@ -48,10 +48,10 @@ namespace TeamProject
         private Sprite[] numberSprite;
 
         [SerializeField]
-        private UnityEngine.UI.Image stageNumImage;
+        private Image stageNumImage;
 
         [SerializeField]
-        private UnityEngine.UI.Image worldNumImage;
+        private Image worldNumImage;
 
         // メインのアニメーション
         private Animator anima;
@@ -99,6 +99,14 @@ namespace TeamProject
 
             worldNumImage.sprite = numberSprite[worNum + 1];
             stageNumImage.sprite = numberSprite[staNum + 1];
+
+            // ステージの番号が5番目のものなら
+            // NextWorldに変更
+            if (staNum == 4)
+            {
+                next[0] = next[2];
+                next[1] = next[3];
+            }
         }
 
         // Update is called once per frame
