@@ -8,12 +8,15 @@ using System;
 
 namespace TeamProject
 {
-    //ワールド選択可能表示矢印用クラス
-    public class OpeningManager : MonoBehaviour
+    //ムービーのみを再生するシーン用基底クラス
+    public class MovieManager : MonoBehaviour
     {
         private float m_TimeCount = 0;
         private bool m_InvisibleBeginFlag = false;
         private bool m_InvisibleEndFlag = false;
+
+        [Header("次に遷移するシーン名")]
+        public string m_NextSceneName;
         [Header("SKIPアイコンが消え始めるまでの時間"), Range(0.0f, 37.0f)]
         public float m_InvisibleBeginTime;
         [Header("SKIPアイコンが消えきるまでの時間"), Range(0.0f, 10.0f)]
@@ -26,7 +29,7 @@ namespace TeamProject
 
         public VideoClip m_VideoClip;
         public VideoPlayer m_VideoPlayer;
-        public GameObject m_PausePanelObj;
+        //public GameObject m_PausePanelObj;
         // private RawImage rawImage;
 
         public enum MOVIE_STATE
@@ -41,11 +44,23 @@ namespace TeamProject
         private void Awake()
         {            //Skipボタン用UIのオブジェクトの取得
             m_SkipButtonObj = GameObject.Find("SkipObj");
-            m_SkipButtonObj.SetActive(true);
+            if (m_InvisibleEndTime <= 0)
+            {
+
+                m_SkipButtonObj.SetActive(false);
+            }
+            else
+            {
+                m_SkipButtonObj.SetActive(true);
+
+            }
 
             m_SkipButtonUI = m_SkipButtonObj.transform.GetChild(0).GetComponent<Image>();
             m_SkipColor = m_SkipButtonUI.color;
+            //----------------------------------------------
+            //ムービー系統の設定
 
+            MovieSetting();
         }
         // Start is called before the first frame update
         void Start()
@@ -53,20 +68,25 @@ namespace TeamProject
             m_MovieState = MOVIE_STATE.START;
 
             m_AlphaMaxRatio = m_SkipColor.a;
+
+            //廃止されました
             //ポーズ用パネルオブジェクトの設定
-            m_PausePanelObj = GameObject.Find("PAUSE_Panel");
-            m_PausePanelObj.SetActive(false);
+            //m_PausePanelObj = GameObject.Find("PAUSE_Panel");
+            //m_PausePanelObj.SetActive(false);
 
 
-            //----------------------------------------------
-            //ムービー系統の設定
+
+        }
+        //ムービー系統の設定
+        private void MovieSetting()
+        {
             if (m_VideoPlayer == null)
             {
                 Debug.Log("VideoPlayerがセットされていません！");
                 m_VideoPlayer = this.GetComponent<VideoPlayer>();
                 Debug.Log("だから" + m_VideoPlayer.name + "をセットしました！");
             }
-            if (m_VideoClip == null)
+            if (m_VideoPlayer.clip == null)
             {
                 Debug.LogError("VideoClipがセットされていません！");
             }
@@ -75,7 +95,7 @@ namespace TeamProject
             m_VideoPlayer.playOnAwake = false;
 
             //ビデオをセット
-            m_VideoPlayer.clip = m_VideoClip;
+            m_VideoClip = m_VideoPlayer.clip;
 
             //VideoRenderModeをRenderTextureに設定
             m_VideoPlayer.renderMode = VideoRenderMode.RenderTexture;
@@ -93,7 +113,7 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-            MoveStateUpdate();
+            //MoveStateUpdate();
             //Debug.LogError(m_VideoPlayer.isPlaying + "！");
         }//Update() END
 
@@ -130,7 +150,7 @@ namespace TeamProject
         }
 
         //MoveState用更新関数
-        private void MoveStateUpdate()
+        public void MoveStateUpdate()
         {
             switch (m_MovieState)
             {
@@ -202,7 +222,7 @@ namespace TeamProject
                     //ポーズから視聴中に戻る
                     m_VideoPlayer.Play();
                     m_MovieState = MOVIE_STATE.WATCH;
-                    m_PausePanelObj.SetActive(false);
+                    //m_PausePanelObj.SetActive(false);
                 }
                 else if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.B))
                 {
@@ -216,8 +236,9 @@ namespace TeamProject
         //シーン遷移時の更新処理
         private void StateSceneChangeUpdate()
         {
-            SceneManager.LoadScene("Stage1_1");
+            SceneManager.LoadScene(m_NextSceneName);
         }
 
-    } //public class OpeningManager : MonoBehaviour    END
+    } //public class MovieManager : MonoBehaviour    END
 } //namespace TeamProject    END
+
