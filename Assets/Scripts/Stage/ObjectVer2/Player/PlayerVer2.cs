@@ -562,7 +562,7 @@ namespace TeamProject
 
             Debug.Log("NowChoice" + choiceObject.name);
 
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
             {
                 Debug.Log(rootCheckFlag);
                 if (rootCheckFlag)
@@ -1003,7 +1003,10 @@ namespace TeamProject
 
             // ------------------------------------ここから追記
             var elaseObject = new List<GameObject>();
-
+            //　バグが出たので、変更
+            // var elaseObjectPlayer = new List<GameObject>(); // プレイヤー
+            // var elaseObjectTarget = new List<GameObject>(); // ターゲット
+            
             // プレイヤーの位置にレイを飛ばし、プレイヤーが来るまで回す
             while (true)
             {
@@ -1013,6 +1016,7 @@ namespace TeamProject
                 if (!hitFlag)
                 {
                     foreach (var itr in elaseObject) itr.SetActive(false);
+                    // foreach (var itr in elaseObjectPlayer) itr.SetActive(false);
                     // プレイヤーにすら当たらなかったのでなんかおかしいからfalseを返す
                     // Debug.Break();
                         return false;
@@ -1027,7 +1031,11 @@ namespace TeamProject
                 var obj = hit.collider.gameObject;
                 obj.SetActive(false);
                 elaseObject.Add(obj);
+                // elaseObjectPlayer.Add(obj);
             }
+
+            // 一旦存在Onにする。ターゲットの分
+            // foreach (var itr in elaseObjectPlayer) itr.SetActive(true);
 
             // 同じく小人もする(重なってたらどうする？、位置が近くなった時にしようか)
             while (true)
@@ -1039,6 +1047,7 @@ namespace TeamProject
                     // Instantiate(new GameObject(), rayArray[rayNum - 1].origin, Quaternion.identity);
                     // 当たらなかったのでなんかおかしいからfalseを返す
                     foreach (var itr in elaseObject) itr.SetActive(false);
+                    // foreach (var itr in elaseObjectTarget) itr.SetActive(false);
                     Debug.Log("当たってねえ所");
                     Debug.Break();
                     return false;
@@ -1052,9 +1061,17 @@ namespace TeamProject
                 // 当たり判定を消す、消したものを記憶しておく
                 var obj = hit.collider.gameObject;
                 obj.SetActive(false);
-                elaseObject.Add(obj);
 
+                elaseObject.Add(obj);
+                // elaseObjectTarget.Add(obj);
             }
+
+            // 一旦存在Onにする。
+            // foreach (var itr in elaseObjectTarget) itr.SetActive(true);
+
+            // プレイヤーとターゲットの足元のオブジェクトを取得し、消したオブジェクトの中にそれがあるか確認
+            // あった場合は絶対たどり着かないのでreturn false;
+            
             // ------------------------------------ここまで追記
 
             // 地面判定のオブジェクトのみのレイを取って
