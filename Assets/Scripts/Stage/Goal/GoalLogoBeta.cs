@@ -80,7 +80,10 @@ namespace TeamProject
         private Image nexImg;
         [SerializeField]
         private Sprite[] next = new Sprite[2];
-        
+
+        [SerializeField]
+        private ParticleSystem[] starParticle = new ParticleSystem[3];
+
         // Start is called before the first frame update
         void Start()
         {
@@ -127,11 +130,11 @@ namespace TeamProject
 
             if (clear)
             {
-                Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B));
+                Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
             }
             else
             {
-                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.B));
+                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
             }
 
             switch (stageChoice)
@@ -265,11 +268,16 @@ namespace TeamProject
             // アニメーション再生
             anima.SetTrigger("NextStar");
 
-
             playStarAnimeNumber++;
         }
 
-        public IEnumerator ToTitle()
+        public void OnStarParticle()
+        {
+            Debug.Log("パーティクルが出るゾ！気を付けろぉ！！" + playStarAnimeNumber);
+            starParticle[playStarAnimeNumber].Play();
+        }
+
+            public IEnumerator ToTitle()
         {
             yield return new WaitForSeconds(0.0f);
             Debug.Log("タイトルへ戻りまーす！");
@@ -281,9 +289,19 @@ namespace TeamProject
             {
                 case StageChoice.Next:
                     var nextNum = (int)StageStatusManager.Instance.NextStage;
-                    var stageString = StageStatusManager.Instance.StageString[nextNum];
-                    StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
-                    FadeManager.FadeOut(stageString);
+
+                    if (STAGE_NO.STAGE20 != (STAGE_NO)nextNum)
+                    {
+                        var stageString = StageStatusManager.Instance.StageString[nextNum];
+                        StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
+                        FadeManager.FadeOut(stageString);
+                    }
+                    else
+                    {
+                        StageStatusManager.Instance.m_LastStageClearFlag = true;
+                        FadeManager.FadeOut("TitleScene");
+                    }
+
                     break;
                 case StageChoice.Retry:
                     var sceneName = SceneManager.GetActiveScene().name;
