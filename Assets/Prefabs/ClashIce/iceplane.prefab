@@ -37,8 +37,8 @@ GameObject:
   - component: {fileID: 8001220760244673193}
   - component: {fileID: 6838826859073290170}
   - component: {fileID: 5808786607395959820}
-  - component: {fileID: 4049319112762188180}
   - component: {fileID: 6155576991526870941}
+  - component: {fileID: 1550943810422457752}
   m_Layer: 11
   m_Name: iceplane
   m_TagString: IceGimmick
@@ -109,20 +109,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &4049319112762188180
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3980857992740464595}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &6155576991526870941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +124,22 @@ MonoBehaviour:
   collChild: {fileID: 9128419813701561280}
   fallNum: 3
   renderer: []
+  Srenderer: []
   speed: 1
+  fallMinion: []
+--- !u!65 &1550943810422457752
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3980857992740464595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8671065945995944046
 MonoBehaviour:
   m_ObjectHideFlags: 0
