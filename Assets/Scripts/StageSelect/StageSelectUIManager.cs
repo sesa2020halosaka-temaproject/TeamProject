@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace TeamProject
 {
@@ -35,7 +32,7 @@ namespace TeamProject
         private UIBackGroundCurrentStage m_UIBackGroundCurrentStage;
         private WorldSelectArrow m_WorldSelectArrow;
         private StageSelectArrow m_StageSelectArrow;
-        private GameObject m_SkipButtonObj;
+        private GameObject m_ButtonInformationObj;
         //ステージセレクトUIの状態
         public enum UI_STATE
         {
@@ -65,9 +62,10 @@ namespace TeamProject
         // Start is called before the first frame update
         void Start()
         {
-            //スキップボタンのゲームオブジェクト取得
-            m_SkipButtonObj = this.transform.GetChild(0).transform.GetChild(4).gameObject;
-            SkipButtonSetActive(false);
+            //右下のボタン操作説明UIのゲームオブジェクト取得
+            m_ButtonInformationObj = this.transform.GetChild(0).transform.GetChild(4).gameObject;
+            //ABボタンUIアクティブ化
+            SwitchingActive.GameObject_OFF(m_ButtonInformationObj);
 
             m_WorldStatusUI.StartWorldNameIcon();
             m_ToNextWUI.ChangeWorldNameIcon();
@@ -94,7 +92,17 @@ namespace TeamProject
 
         public void SkipButtonSetActive(bool _bool)
         {
-            m_SkipButtonObj.SetActive(_bool);
+            m_ButtonInformationObj.SetActive(_bool);
+        }
+        //スキップボタンUIのアクティブ化
+        public void SkipButtonActivate()
+        {
+            SwitchingActive.GameObject_ON(m_ButtonInformationObj);
+        }
+        //ABボタンUIのアクティブ化
+        public void ABButtonActivate()
+        {
+            SwitchingActive.GameObject_OFF(m_ButtonInformationObj);
         }
 
         //CurrentToNextWorldUIManagerのオブジェクトを渡す

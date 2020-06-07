@@ -21,6 +21,9 @@ namespace TeamProject
 
         private static int m_LeftEdge = (int)WORLD_NO.W1;//ワールド移動制限用左端
         private static int m_RightEdge = (int)WORLD_NO.W4;//ワールド移動制限用右端
+        public static bool m_NextStageMoveFlag = false;//次のステージ移動への許可フラグ
+        public static bool m_NextWorldMoveFlag = false;//次のワールド移動への許可フラグ
+        public static bool m_MoveFromW1ToW4Flag = false;//W1からW4への移動許可フラグ
         //ステージを変更するためのキー(キー入力に対応)
         public enum STAGE_CHANGE_KEY
         {
@@ -43,8 +46,11 @@ namespace TeamProject
             //ステージ番号から現在のワールドを確認する
             int WorldNumber = StageStatusManager.Instance.CurrentWorld;
 
-            //上入力
-            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow) && StageNumber != (int)STAGE_NO.STAGE05)
+            //上キー操作処理
+            //条件：上入力、ワールド内ステージ５以外、m_NextStageMoveFlagがtrue
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
+                && StageNumber != (int)STAGE_NO.STAGE05
+                && m_NextStageMoveFlag)
             //if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
             {
                 StageFlagChange(true);
@@ -55,7 +61,8 @@ namespace TeamProject
                 //ステージ番号の変更キー設定
                 m_StageChangeKey = STAGE_CHANGE_KEY.UP;
             }
-            //下入力
+            //下キー操作処理
+            //条件：下入力、ワールド内ステージ１以外
             else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow) && StageNumber != (int)STAGE_NO.STAGE01)
             //else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
             {
@@ -82,9 +89,11 @@ namespace TeamProject
             //ステージ番号から現在のワールドを確認する
             int WorldNumber = StageStatusManager.Instance.CurrentWorld;
             //-------------------------------------------
-            //ここから下ワールド間の移動処理
-            //右入力
-            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))// && WorldNumber != m_RightEdge)
+            //ここから下　ワールド間の移動処理
+            //右キー操作処理
+            //条件：右入力、m_NextWorldMoveFlagがtrue
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
+               && m_NextWorldMoveFlag)// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
                 Debug.Log("m_Hold = " + m_Hold);
@@ -113,6 +122,11 @@ namespace TeamProject
             else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))// && WorldNumber != m_LeftEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
+                if (!m_MoveFromW1ToW4Flag)
+                {
+                    //m_MoveFromW1ToW4Flagがfalseなら処理終了
+                    return;
+                }
                 if (m_Hold.PrevWorldMoveBeginCheck())
                 {
                     WorldNumber -= 1;
@@ -134,6 +148,21 @@ namespace TeamProject
             //-------------------------------------------
         }//    void WorldChange()   END
 
+        //次のステージへの移動フラグの切り替え(ON <－> OFF)
+        public static void NextStageMoveFlagChange(bool _bool)
+        {
+            m_NextStageMoveFlag = _bool;
+        }
+        //次のワールドへのステージ移動フラグの切り替え(ON <－> OFF)
+        public static void NextWorldMoveFlagChange(bool _bool)
+        {
+            m_NextWorldMoveFlag = _bool;
+        }
+        //W1からW4への移動許可フラグの切り替え(ON <－> OFF)
+        public static void MoveFromW1ToW4FlagChange(bool _bool)
+        {
+            m_MoveFromW1ToW4Flag = _bool;
+        }
         //フラグの切り替え(ON <－> OFF)
         public static void StageFlagChange(bool _bool)
         {
