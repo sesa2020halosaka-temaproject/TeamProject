@@ -1681,7 +1681,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 42b7c503d161f744b9d7ab18831725d0, type: 3}
 --- !u!1 &463910599 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3618060790351612653, guid: 42b7c503d161f744b9d7ab18831725d0,
+  m_CorrespondingSourceObject: {fileID: 1238883582184070574, guid: 42b7c503d161f744b9d7ab18831725d0,
     type: 3}
   m_PrefabInstance: {fileID: 463910598}
   m_PrefabAsset: {fileID: 0}
@@ -2380,6 +2380,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6d2ff51017817274ca382c5a37ac301e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4eca39235d9f5344886c1f92927c2294, type: 3}
+--- !u!1 &1133106443 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8008110980074645556, guid: 4eca39235d9f5344886c1f92927c2294,
+    type: 3}
+  m_PrefabInstance: {fileID: 1133106442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1159633237 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5226882566405447162, guid: adacb55cf56371e4cb3f79e021c34551,
@@ -3530,7 +3536,7 @@ PrefabInstance:
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
@@ -3561,7 +3567,7 @@ PrefabInstance:
         type: 3}
       propertyPath: f2.Array.data[0]
       value: 
-      objectReference: {fileID: 463910599}
+      objectReference: {fileID: 1133106443}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2ColliderObject.Array.data[0]
@@ -3570,6 +3576,16 @@ PrefabInstance:
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2KakiwakeObject.Array.data[0]
+      value: 
+      objectReference: {fileID: 124609082}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f2.Array.data[1]
+      value: 
+      objectReference: {fileID: 463910599}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f2.Array.data[2]
       value: 
       objectReference: {fileID: 124609082}
     - target: {fileID: 2197437187415950244, guid: 9fce4846253734c409e18b00064d068b,

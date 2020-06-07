@@ -719,12 +719,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa7fb9e3e26874748b6f9f48a153c364, type: 3}
---- !u!1 &322431134 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 7c8545764bd921f46924034ed5e3e4d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1736898697}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &358590779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 685607269629956070, guid: 3f6b27239a097304bb7dcefa5b37fea7,
@@ -1729,12 +1723,6 @@ GameObject:
 --- !u!1 &920368060 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3651188420542915489, guid: e31be5745b8c3d9479d474a5672b0763,
-    type: 3}
-  m_PrefabInstance: {fileID: 920368055}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &920368062 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3651188422108487305, guid: e31be5745b8c3d9479d474a5672b0763,
     type: 3}
   m_PrefabInstance: {fileID: 920368055}
   m_PrefabAsset: {fileID: 0}
@@ -4180,7 +4168,7 @@ PrefabInstance:
     - target: {fileID: 516618029974956815, guid: 3f6b27239a097304bb7dcefa5b37fea7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 25
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 516618029974956815, guid: 3f6b27239a097304bb7dcefa5b37fea7,
         type: 3}
@@ -4653,6 +4641,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c8545764bd921f46924034ed5e3e4d4, type: 3}
+--- !u!1 &1736898698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5054365552303155993, guid: 7c8545764bd921f46924034ed5e3e4d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1736898697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1736898699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4456693923937229491, guid: 7c8545764bd921f46924034ed5e3e4d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1736898697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1744106963
 GameObject:
   m_ObjectHideFlags: 0
@@ -5413,7 +5413,7 @@ PrefabInstance:
         type: 3}
       propertyPath: f3.Array.data[0]
       value: 
-      objectReference: {fileID: 920368062}
+      objectReference: {fileID: 1736898698}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f3ColliderObject.Array.data[0]
@@ -5423,7 +5423,7 @@ PrefabInstance:
         type: 3}
       propertyPath: f2.Array.data[0]
       value: 
-      objectReference: {fileID: 322431134}
+      objectReference: {fileID: 1736898699}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2KakiwakeObject.Array.data[0]
