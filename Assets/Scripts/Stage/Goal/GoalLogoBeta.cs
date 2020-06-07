@@ -188,9 +188,11 @@ namespace TeamProject
             Debug.Log(platoon.MinionList.ToArray().Length);
             Debug.Log(_maxKobitoNum);
 
-            var goalLogoMinionList = new List<GoalLogoMinion>();
+            var goalLogoMinionList = new GoalLogoMinion[kobitoMaxNum];
 
-            for (int i = 0; i < kobitoMaxNum; i++)
+
+
+            for (int i = kobitoNum; i < kobitoMaxNum; i++)
             {
                 var obj = Instantiate(goalCharaAnimationObject, transform);
 
@@ -199,10 +201,22 @@ namespace TeamProject
 
                 goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
 
-                goalLogoMinionList.Add(obj.GetComponent<GoalLogoMinion>());
+                goalLogoMinionList[i] = obj.GetComponent<GoalLogoMinion>();
             }
 
-            for(int i = 0; i < kobitoNum; i++)
+            for (int i = 0; i < kobitoNum; i++)
+            {
+                var obj = Instantiate(goalCharaAnimationObject, transform);
+
+                goalCharaAnimationRecTrans[i] = obj.GetComponent<RectTransform>();
+                goalCharaAnimationAnimator[i] = obj.GetComponent<Animator>();
+
+                goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
+
+                goalLogoMinionList[i]=obj.GetComponent<GoalLogoMinion>();
+            }
+
+            for (int i = 0; i < kobitoNum; i++)
             {
                 goalLogoMinionList[i].On();
             }
