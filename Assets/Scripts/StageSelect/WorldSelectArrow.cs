@@ -221,6 +221,7 @@ namespace TeamProject
                 case (int)WORLD_NO.W2://World02
                 case (int)WORLD_NO.W3://World03
                 case (int)WORLD_NO.W4://World04
+                    StageChangeManager.MoveFromW1ToW4FlagChange(true);
                     m_PrevUI_Obj.SetActive(true);
                     break;
                 case (int)WORLD_NO.ALL_WORLD:
