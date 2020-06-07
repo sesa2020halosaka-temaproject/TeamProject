@@ -128,8 +128,8 @@ namespace TeamProject {
 
             var upKey = ipMane.GetArrow(ArrowCoad.UpArrow);
             var downKey = ipMane.GetArrow(ArrowCoad.DownArrow);
-            var selectKey = ipMane.GetKeyDown(ButtunCode.B);
-            var returnKey = ipMane.GetKeyDown(ButtunCode.A);
+            var selectKey = ipMane.GetKeyDown(ButtunCode.A);
+            var returnKey = ipMane.GetKeyDown(ButtunCode.B);
 
             var upTrigger = upKey && !oldUpKey;
             var downTrigger = downKey && !oldDownKey;
