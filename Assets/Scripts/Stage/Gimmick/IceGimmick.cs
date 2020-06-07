@@ -46,7 +46,7 @@ namespace TeamProject
             var col = Srenderer[0].material.color;
             col.a -= speed;//  * Time.deltaTime;
 
-            foreach (var itr in renderer) itr.material.color=col;
+            foreach (var itr in Srenderer) itr.gameObject.SetActive(false);
 
             foreach (var itr in renderer) itr.enabled = false;
         }
