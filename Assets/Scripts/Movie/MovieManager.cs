@@ -57,6 +57,7 @@ namespace TeamProject
 
             m_SkipButtonUI = m_SkipButtonObj.transform.GetChild(0).GetComponent<Image>();
             m_SkipColor = m_SkipButtonUI.color;
+            m_AlphaMaxRatio = m_SkipColor.a;
             //----------------------------------------------
             //ムービー系統の設定
 
@@ -66,16 +67,10 @@ namespace TeamProject
         void Start()
         {
             m_MovieState = MOVIE_STATE.START;
-
-            m_AlphaMaxRatio = m_SkipColor.a;
-
             //廃止されました
             //ポーズ用パネルオブジェクトの設定
             //m_PausePanelObj = GameObject.Find("PAUSE_Panel");
             //m_PausePanelObj.SetActive(false);
-
-
-
         }
         //ムービー系統の設定
         private void MovieSetting()
