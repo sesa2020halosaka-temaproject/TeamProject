@@ -100,14 +100,16 @@ namespace TeamProject
             if (m_LastStageClearFlag) { m_EndingBGObj.SetActive(true); }
             else { m_EndingBGObj.SetActive(false); }
 
+              m_DarkPanelColor = m_DarkPanelObj.GetComponent<Image>().color;
 
+          //追加演出用
             //ロゴのムービーのみONにする
             //SwitchingActive.GameObject_OFF(m_TitleLogoObj);
-            //m_TitleLogoObj.SetActive(false);
-            //SwitchingActive.GameObject_ON(m_TitleLogoObj);
-            m_DarkPanelColor = m_DarkPanelObj.GetComponent<Image>().color;
-            //MovieSetting();
-            m_DarkPanelObj.SetActive(false);
+            SwitchingActive.GameObject_ON(m_TitleLogoObj);
+           MovieSetting();
+            //m_LogoMovieObj.SetActive(false);
+            //初期の設定用
+            //m_DarkPanelObj.SetActive(false);
 
         }
 
@@ -119,12 +121,12 @@ namespace TeamProject
                 case TITLESTATE.SCENE_FADE:
                     if (FadeManager.IsFade())
                     {
-                        state = TITLESTATE.PRESS_ANYKEY;
-                        //m_LogoImageObj.SetActive(true);
-                        //m_LogoMovieObj.SetActive(true);
-                        //state = TITLESTATE.LOGO_ANIM;
-                        //SwitchingActive.GameObject_ON(m_TitleLogoObj);
-                        //m_VideoPlayer.Play();
+                        //初期の設定
+                        //state = TITLESTATE.PRESS_ANYKEY;
+
+                        //追加演出の設定
+                        state = TITLESTATE.LOGO_ANIM;
+                        m_VideoPlayer.Play();
 
                     }
                     break;
@@ -159,6 +161,7 @@ namespace TeamProject
                         m_DarkPanelColor.a = 0.0f;
                         m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
                         state = TITLESTATE.PRESS_ANYKEY;
+                        SwitchingActive.GameObject_OFF(m_TitleLogoObj);
 
                     }
                     break;
@@ -212,7 +215,8 @@ namespace TeamProject
                             //PressAnyButton_OFF();
                             SwitchingActive.GameObject_OFF(m_PressAnyButtonObj);
                             Hover_TimeMax = Hover_Off_Time;//Off切り替え時間に変更
-
+                            m_LogoMovieObj.SetActive(true);
+                            m_VideoPlayer.Play();
                         }
                     }
                     Hover_TimeCount += Time.deltaTime;
@@ -295,7 +299,8 @@ namespace TeamProject
             m_VideoPlayer.isLooping = false;
 
             //再生させる
-            // m_VideoPlayer.Play();
+             m_VideoPlayer.Play();
+           //  m_VideoPlayer.Pause();
 
 
         }

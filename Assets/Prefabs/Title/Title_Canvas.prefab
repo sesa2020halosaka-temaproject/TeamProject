@@ -137,7 +137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3661334597165271189
@@ -560,20 +560,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   m_LastStageClearFlag: 0
-  Title_FadeIn_Time: 1.5
+  Title_FadeIn_Time: 1
   Menu_FadeIn_Time: 0.5
   Hover_Off_Time: 0.4
   Hover_On_Time: 1.4
   Hover_TimeMax: 0
+  m_DPanel_FadeIn_Time: 2
+  m_DPanel_TimeCount: 0
+  m_DPanel_Alpha: 0
   m_PR_FadeOut_Time: 2
   m_BackPrologueMaxTime: 100
   m_TimeCount: 0
   m_TitleMenuColor: {r: 0, g: 0, b: 0, a: 0}
-  TitleLogoObj: {fileID: 0}
-  TitleMenuObj: {fileID: 0}
-  PressAnyButtonObj: {fileID: 0}
+  m_TitleLogoObj: {fileID: 0}
+  m_LogoImageObj: {fileID: 0}
+  m_LogoMovieObj: {fileID: 0}
+  m_TitleMenuObj: {fileID: 0}
+  m_PressAnyButtonObj: {fileID: 0}
   m_EndingBGObj: {fileID: 0}
-  m_BlackBGObj: {fileID: 0}
+  m_DarkPanelObj: {fileID: 0}
+  m_VideoPlayer: {fileID: 0}
+  m_DarkPanelColor: {r: 0, g: 0, b: 0, a: 0}
+  m_TitleLogoAnim_Flag: 0
 --- !u!1 &4150686849056012418
 GameObject:
   m_ObjectHideFlags: 0
