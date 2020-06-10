@@ -72,9 +72,9 @@ namespace TeamProject {
 
         private void Move()
         {
-            hight = Mathf.Sin(Time.time * hightSpeed);
+            //hight = Mathf.Sin(Time.time * hightSpeed);
 
-            hight *= hightWight;
+            //hight *= hightWight;
 
             transform.rotation *= Quaternion.AngleAxis(rotSpeed * Time.deltaTime * 360f, Vector3.up);
 
@@ -84,7 +84,7 @@ namespace TeamProject {
 
             nowPos *= distanceMagnification;
 
-            nowPos.y += hight;
+            // nowPos.y += hight;
 
             transform.position += nowPos;
         }
