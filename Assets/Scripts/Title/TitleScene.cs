@@ -161,7 +161,7 @@ namespace TeamProject
                         m_DarkPanelColor.a = 0.0f;
                         m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
                         state = TITLESTATE.PRESS_ANYKEY;
-                        SwitchingActive.GameObject_OFF(m_TitleLogoObj);
+                      //  SwitchingActive.GameObject_OFF(m_TitleLogoObj);
 
                     }
                     break;
@@ -206,17 +206,19 @@ namespace TeamProject
                         {
                             //PressAnyButtonをOn状態に切り替える
                             // PressAnyButton_ON();
-                            SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
+                            //SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
                             Hover_TimeMax = Hover_On_Time;//On切り替え時間に変更
                         }
                         else
                         {
                             //PressAnyButtonをOff状態に切り替える
                             //PressAnyButton_OFF();
-                            SwitchingActive.GameObject_OFF(m_PressAnyButtonObj);
+                            //SwitchingActive.GameObject_OFF(m_PressAnyButtonObj);
                             Hover_TimeMax = Hover_Off_Time;//Off切り替え時間に変更
-                            m_LogoMovieObj.SetActive(true);
-                            m_VideoPlayer.Play();
+
+
+                            //m_LogoMovieObj.SetActive(true);
+                           // m_VideoPlayer.Play();
                         }
                     }
                     Hover_TimeCount += Time.deltaTime;

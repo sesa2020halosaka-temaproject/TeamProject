@@ -106,12 +106,12 @@ namespace TeamProject
             }
         }
 
-        public bool m_WatchOpeningFlag;//オープニングを見たかどうかフラグ(true:見た,false:見てない)
-        public bool m_LastStageClearFlag;//ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
-        public bool m_RemovalLimitFlag;//全ステージ移動可能フラグ(true:制限解除,false:制限あり)
-        public bool m_AllUnlockFlag;//オールアンロックフラグ(true:オールアンロック,false:通常)
+        public bool m_WatchOpeningFlag;                                                //オープニングを見たかどうかフラグ(true:見た,false:見てない)
+        public bool m_LastStageClearFlag;                                              //ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
+        public bool m_RemovalLimitFlag;                                                //全ステージ移動可能フラグ(true:制限解除,false:制限あり)
+        public bool m_AllUnlockFlag;                                                   //オールアンロックフラグ(true:オールアンロック,false:通常)
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
-        public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];//各ステージの小人取得数
+        public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];                  //各ステージの小人取得数
 
         static private string[] stageString;
         public string[] StageString { get { return stageString; } }
