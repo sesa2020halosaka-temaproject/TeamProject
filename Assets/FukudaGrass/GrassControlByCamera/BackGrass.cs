@@ -6,7 +6,7 @@ public class BackGrass : MonoBehaviour
 {
     
     [SerializeField]
-    GameObject CollisionObject;
+    //GameObject CollisionObject;
     Dictionary<GameObject, GameObject> Collisions = new Dictionary<GameObject, GameObject>();
 
     [SerializeField]
@@ -35,7 +35,7 @@ public class BackGrass : MonoBehaviour
 
     private void Update()
     {
-        if (flg < 5)
+        if (flg < 7)
         {
             RenderTexture grassmap = new RenderTexture(resolution, resolution, 16, RenderTextureFormat.ARGB32);
             grassmap.Create();
@@ -57,7 +57,7 @@ public class BackGrass : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (Collisions.ContainsKey(collision.gameObject)) return;
-        Collisions.Add(collision.gameObject, Instantiate(CollisionObject, collision.gameObject.transform.position, transform.rotation));
+       // Collisions.Add(collision.gameObject, Instantiate(CollisionObject, collision.gameObject.transform.position, transform.rotation));
         camera.SetActive(true);
 
 
