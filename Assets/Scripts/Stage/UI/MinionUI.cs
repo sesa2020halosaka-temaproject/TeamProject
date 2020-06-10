@@ -9,6 +9,8 @@ namespace TeamProject
     {
         [SerializeField]
         private Image image;
+        [SerializeField]
+        private Image image2;
 
         [SerializeField]
         private Image nowNomOne;
@@ -31,6 +33,8 @@ namespace TeamProject
 
         [SerializeField]
         private Image pauseUI;
+
+        private Animator anime;
 
         // Start is called before the first frame update
         void Start()
@@ -71,6 +75,8 @@ namespace TeamProject
 
                 maxNomTen.sprite = numberSprite[numV % 10];
             }
+
+            anime = GetComponent<Animator>();
         }
 
         private void ImageActive(bool _flag)
@@ -104,6 +110,11 @@ namespace TeamProject
 
                 nowNomTen.sprite = numberSprite[numV % 10];
             }
+        }
+
+        public void MinionCountAnimation()
+        {
+            anime.SetTrigger("Play");
         }
     }
 }

@@ -182,6 +182,11 @@ namespace TeamProject
             mainCameraGameObject.transform.position = pos;
             mainCameraGameObject.transform.rotation = Quaternion.Euler(rot);
 
+            // 終わり際に速度を半減してみる
+            if(0.8f < startRot)
+            {
+                speedTime *= 0.8f;
+            }
 
             //transform.rotation = Quaternion.Euler(eulRot);
 

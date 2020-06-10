@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using KanKikuchi.AudioManager;
 
 namespace TeamProject
@@ -61,6 +62,24 @@ namespace TeamProject
 
         public MINION_TYPE ModelNumber { get { return modelNumber; } }
 
+        // 通常のマテリアル
+        private Material normalMaterial;
+
+        // 福田さんのアウトラインマテリアルのアタッチ
+        [SerializeField]
+        [Header("福田さんのアウトラインマテリアル")]
+        private Material outLineMaterial;
+
+        // Modelのレンダラー
+        // [x][y]
+        // x:アネモネかどうか0body,1anemone;
+        // y:メッシュのデータ
+        private SkinnedMeshRenderer[] modelRendere;
+
+        private bool choiceFlag;
+
+        public bool ChoiceFlag { set { choiceFlag = value; } }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -79,16 +98,33 @@ namespace TeamProject
             {
                 itr.SetActive(false);
             }
+            // 現在選択されているモデルのペアレントデータ
+            var activeModelObject = ModelList[(uint)modelNumber];
 
             // 指定のモデルのみをTrueに
-            ModelList[(uint)modelNumber].SetActive(true);
+            activeModelObject.SetActive(true);
 
             // まとめられているものからAnimatorがついている
-            anima = ModelList[(uint)modelNumber].transform.GetComponent<Animator>();
+            anima = activeModelObject.transform.GetComponent<Animator>();
 
             floorErase = UnityEngine.Camera.main.transform.root.gameObject.GetComponent<FloorErase>();
+            
+            // メッシュデータ受け取り
+            modelRendere = activeModelObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            
+            List<Material> mateList = new List<Material>();
 
-           //  particleSystem.Stop();
+            //// なんかこれで検索排出してくれるらしい
+            //// マテリアルごとに分ける
+            //var ane = from itr in meshRenderer where itr.material.name == "M_Aenmone" select itr;
+            //var body = from itr in meshRenderer where itr.material.name == "M_Minion_02_Ver0511" select itr;
+
+            //// マテリアルの導入
+            //modelRendere[0] = ane.ToArray();
+            //modelRendere[1] = body.ToArray();
+            // 分けなくても1のマテリアル追加したらよかったやんけハゲ
+
+           // modelRendere[0].materials
         }
         
         private  void None()
@@ -122,7 +158,7 @@ namespace TeamProject
             }
 
             LookPlayer();
-
+            
         }
 
         private void Wait()
@@ -151,7 +187,7 @@ namespace TeamProject
             
             tag = "Hit";
 
-            Instantiate(particleSystem, transform.position, transform.rotation);
+            Instantiate(particleSystem, transform.position, transform.rotation, transform);
 
             // パーティクルの再生
            //  particleSystem.Play();
@@ -186,16 +222,28 @@ namespace TeamProject
             {
                 for (int j = 0; j < floorObject[i].Length; j++)
                 {
-                    Debug.Log("Minion.cs*" + floorObject[i][j].transform.root.gameObject);
-                    Debug.Log("Minion.cs*" + obj.GetInstanceID());
-                    Debug.Log("Minion.cs*" + floorObject[i][j].transform.root.gameObject.GetInstanceID());
+                    Debug.Log("Minion.cs * " + floorObject[i][j].transform.root.gameObject);
+                    Debug.Log("Minion.cs * " + obj.GetInstanceID());
+                    Debug.Log("Minion.cs * " + floorObject[i][j].transform.root.gameObject.GetInstanceID());
                     if (obj.GetInstanceID() == floorObject[i][j].transform.root.gameObject.GetInstanceID())
                     {
-                        Debug.Log("Minion.cs*NowFloor" + floor);
-                        Debug.Log("Minion.cs*NextFloor" + i);
-                        floor = i+1;
+                        Debug.Log("Minion.cs * NowFloor" + floor);
+                        Debug.Log("Minion.cs * NextFloor" + i);
+                        floor = i + 1;
                     }
                 }
+            }
+        }
+
+        private void MatChage()
+        {
+            // Choiceされている
+            if (choiceFlag)
+            {
+            }
+            else // されていない
+            {
+             //   foreach(var itr in )
             }
         }
 
