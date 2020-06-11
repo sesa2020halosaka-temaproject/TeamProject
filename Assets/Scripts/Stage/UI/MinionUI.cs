@@ -36,6 +36,8 @@ namespace TeamProject
 
         private Animator anime;
 
+        private int beforMinionNum = 0;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -65,6 +67,7 @@ namespace TeamProject
             {
                 maxNomOne.sprite = numberSprite[num];
                 maxNomTen.enabled = false;
+                maxNomOne.SetNativeSize();
             }
             else
             {
@@ -72,8 +75,10 @@ namespace TeamProject
 
                 maxNomOne.sprite = numberSprite[num % 10];
                 numV /= 10;
+                maxNomOne.SetNativeSize();
 
                 maxNomTen.sprite = numberSprite[numV % 10];
+                maxNomTen.SetNativeSize();
             }
 
             anime = GetComponent<Animator>();
@@ -82,6 +87,7 @@ namespace TeamProject
         private void ImageActive(bool _flag)
         {
             image.gameObject.SetActive(_flag);
+            image2.gameObject.SetActive(_flag);
             nowNomOne.gameObject.SetActive(_flag);
             nowNomTen.gameObject.SetActive(_flag);
             maxNomOne.gameObject.SetActive(_flag);
@@ -100,6 +106,7 @@ namespace TeamProject
             {
                 nowNomOne.sprite = numberSprite[num];
                 nowNomTen.enabled = false;
+                nowNomOne.SetNativeSize();
             }
             else
             {
@@ -107,9 +114,18 @@ namespace TeamProject
 
                 nowNomOne.sprite = numberSprite[num % 10];
                 numV /= 10;
+                nowNomOne.SetNativeSize();
 
                 nowNomTen.sprite = numberSprite[numV % 10];
+                nowNomTen.SetNativeSize();
             }
+
+            if (beforMinionNum != num)
+            {
+                anime.SetTrigger("Play");
+            }
+
+            beforMinionNum = num;
         }
 
         public void MinionCountAnimation()

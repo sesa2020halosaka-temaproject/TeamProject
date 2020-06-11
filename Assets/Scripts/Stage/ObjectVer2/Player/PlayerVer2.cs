@@ -429,7 +429,7 @@ namespace TeamProject
             var choicePositionConv = CameraConversion(choicePosition);
             float min = 0, max = 0;
 
-            foreach(var itr in choiceObjectList)
+            foreach (var itr in choiceObjectList)
             {
                 if (itr.befor.tag != "Hit")
                 {
@@ -469,7 +469,7 @@ namespace TeamProject
                 if (itr.befor.tag == "Goal")
                 {
                     var goalCom = itr.befor.GetComponent<Goal>();
-                    if(goalCom != null)
+                    if (goalCom != null)
                     {
                         if (goalCom.Floor != camereaCompoent.NowHight) continue;
                     }
@@ -557,7 +557,7 @@ namespace TeamProject
                 ref direction[(uint)DIRECTION.RIGHT],
                 direction[(uint)DIRECTION.BACK]);
             MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
-                ref direction[(uint)DIRECTION.LEFT], 
+                ref direction[(uint)DIRECTION.LEFT],
                 direction[(uint)DIRECTION.TOP]);
 
             Debug.Log("NowChoice" + choiceObject.name);
@@ -591,6 +591,16 @@ namespace TeamProject
             oldArrow[(int)InputManager.ArrowCoad.DownArrow] = arrow[(int)InputManager.ArrowCoad.DownArrow];
             oldArrow[(int)InputManager.ArrowCoad.RightArrow] = arrow[(int)InputManager.ArrowCoad.RightArrow];
             oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = arrow[(int)InputManager.ArrowCoad.LeftArrow];
+
+            if (choiceObject != null)
+            {
+                var minion = choiceObject.GetComponent<Minion>();
+
+                if (minion != null)
+                {
+                    minion.OnFlag();
+                }
+            }
         }
 
         // 選択の配列取得
@@ -1307,6 +1317,13 @@ namespace TeamProject
         public void StartAnimationEnd()
         {
             startAnimationEndFlag = true;
+        }
+
+        private void ChoiceMinion()
+        {
+            var minion = choiceObject.transform.root.GetComponent<Minion>();
+
+            minion.OnFlag();
         }
     }
 }
