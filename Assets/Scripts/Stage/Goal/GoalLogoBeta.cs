@@ -84,6 +84,9 @@ namespace TeamProject
         [SerializeField]
         private ParticleSystem[] starParticle = new ParticleSystem[3];
 
+        private bool lastOnce = false;
+        private bool lastStage = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -103,12 +106,23 @@ namespace TeamProject
             worldNumImage.sprite = numberSprite[worNum + 1];
             stageNumImage.sprite = numberSprite[staNum + 1];
 
+            // ラストステージかつ最終ゴールが終わっているか
+            lastOnce = StageStatusManager.Instance.m_LastStageClearFlag;
+            lastStage = StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20;
             // ステージの番号が5番目のものなら
             // NextWorldに変更
             if (staNum == 4)
             {
                 next[0] = next[2];
                 next[1] = next[3];
+
+                // 最終ステージですね
+                if (StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20)
+                {
+
+                    next[0] = next[4];
+                    next[1] = next[5];
+                }
 
                 nexImg.sprite = next[0];
             }
@@ -130,9 +144,24 @@ namespace TeamProject
             var triggerLeft = arrow[(int)ArrowCoad.LeftArrow] && !oldArrow[(int)ArrowCoad.LeftArrow];
 
 
-            if (clear)
+            if (clear && !lastStage)
             {
                 Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+            }
+            else if (!clear && !lastStage)
+            {
+                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+            }
+            else if (clear && lastStage)
+            {
+                if (!lastOnce)
+                {
+                    LastClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                }
+                else
+                {
+                    Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                }
             }
             else
             {
@@ -213,7 +242,7 @@ namespace TeamProject
 
                 goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
 
-                goalLogoMinionList[i]=obj.GetComponent<GoalLogoMinion>();
+                goalLogoMinionList[i] = obj.GetComponent<GoalLogoMinion>();
             }
 
             for (int i = 0; i < kobitoNum; i++)
@@ -221,7 +250,7 @@ namespace TeamProject
                 goalLogoMinionList[i].On();
             }
 
-            for(int i = 0; i < platoon.MinionNum; i++)
+            for (int i = 0; i < platoon.MinionNum; i++)
             {
                 goalLogoMinionList[i].SetImage(platoon.MinionList[i].ModelNumber);
             }
@@ -249,6 +278,16 @@ namespace TeamProject
             else
             {
                 clear = true;
+            }
+
+            if (StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20&&!lastOnce)
+            {
+                clear = false;
+
+                nexImg.rectTransform.anchoredPosition = new Vector2(0, -384);
+
+                selImg.enabled = false;
+                retImg.enabled = false;
             }
 
             NextMinion();
@@ -293,7 +332,7 @@ namespace TeamProject
             starParticle[playStarAnimeNumber].Play();
         }
 
-            public IEnumerator ToTitle()
+        public IEnumerator ToTitle()
         {
             yield return new WaitForSeconds(0.0f);
             Debug.Log("タイトルへ戻りまーす！");
@@ -328,6 +367,7 @@ namespace TeamProject
                     break;
             }
         }
+
         public IEnumerator GetKeyStart()
         {
             yield return new WaitForSeconds(0.5f);
@@ -414,6 +454,34 @@ namespace TeamProject
                 {
                     stageChoice = StageChoice.MIN + 1;
                 }
+                // SEMa
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            if (_enter)
+            {
+                enterOnce = false;
+                SEManager.Instance.Play(SEPath.SE_OK);
+                // フェードアウト
+                StartCoroutine(ToTitle());
+            }
+        }
+
+        private void LastClear(bool _rightFlag, bool _leftFlag, bool _enter)
+        {
+            
+            if (!enterOnce) return;
+
+            // ステージをネクストのみで
+            stageChoice = StageChoice.Next;
+
+            if (_leftFlag)
+            {
+                SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
+            }
+
+            if (_rightFlag)
+            {
                 // SEMa
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
             }

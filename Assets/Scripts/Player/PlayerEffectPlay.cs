@@ -20,6 +20,9 @@ namespace TeamProject
 
         private GameObject grass;
         private VisualEffect effect;
+
+        [SerializeField]
+        private GameObject playerStartParticl;
         // Start is called before the first frame update
         void Start()
         {
@@ -68,6 +71,11 @@ namespace TeamProject
         void QuestionParticl()
         {
             Instantiate(particl, transform.parent.position, transform.parent.rotation, transform.parent);
+        }
+
+        private void PlayerStartParticle()
+        {
+            Instantiate(playerStartParticl, transform.parent.position, transform.parent.rotation);
         }
     }
 }

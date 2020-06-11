@@ -80,6 +80,14 @@ namespace TeamProject
 
         public bool ChoiceFlag { set { choiceFlag = value; } }
 
+        [SerializeField]
+        [Header("透過マテリアル")]
+        private GameObject sphereMaterialObject;
+
+
+        private bool matChangeFlag = false;
+        private bool matOldChangeFlag = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -129,7 +137,6 @@ namespace TeamProject
         
         private  void None()
         {
-
         }
 
         private void Move()
@@ -158,12 +165,15 @@ namespace TeamProject
             }
 
             LookPlayer();
-            
+
+            ChangeMaterial();
         }
 
         private void Wait()
         {
             GetFloor();
+
+            ChangeMaterial();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -187,10 +197,12 @@ namespace TeamProject
             
             tag = "Hit";
 
-            Instantiate(particleSystem, transform.position, transform.rotation, transform);
+            Instantiate(particleSystem, transform.position + new Vector3(0f, 0.5f), transform.rotation, transform);
+
+            sphereMaterialObject.SetActive(false);
 
             // パーティクルの再生
-           //  particleSystem.Play();
+            // particleSystem.Play();
         }
 
         private void LookPlayer()
@@ -235,25 +247,53 @@ namespace TeamProject
             }
         }
 
-        private void MatChage()
+        public void MatChange(bool flag)
         {
-            // Choiceされている
-            if (choiceFlag)
+            if (modelRendere == null) return;
+            if (flag)
             {
+                if (modelRendere[0].materials.Length == 1) return;
+                
             }
-            else // されていない
+            else
             {
-             //   foreach(var itr in )
+                if (modelRendere[0].materials.Length == 2) return;
+              
             }
         }
 
-        //public void DonwFloor()
-        //{
-        //    floor--;
-        //    if (floor < 1)
-        //    {
-        //        floor = 1;
-        //    }
-        //}
+        private void ChangeMaterial()
+        {
+            // 現在選択、過去未選択
+            if (matChangeFlag && !matOldChangeFlag)
+            {
+                foreach (var itr in modelRendere)
+                {
+                    var mats = new Material[2];
+                    mats[0] = itr.material;
+                    mats[1] = outLineMaterial;
+                    itr.materials = mats;
+                }
+            }
+            // 現在未選択、過去選択
+            else if (!matChangeFlag && matOldChangeFlag)
+            {
+                foreach (var itr in modelRendere)
+                {
+                    var mats = new Material[1];
+                    mats[0] = itr.material;
+                    itr.materials = mats;
+                }
+            }
+
+            matOldChangeFlag = matChangeFlag;
+
+            matChangeFlag = false;
+        }
+
+        public void OnFlag()
+        {
+            matChangeFlag = true;
+        }
     }
 }
