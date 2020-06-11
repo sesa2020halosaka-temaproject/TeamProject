@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 namespace TeamProject
 {
@@ -37,6 +38,9 @@ namespace TeamProject
         private Animator anime;
 
         private int beforMinionNum = 0;
+
+        [SerializeField]
+        private VisualEffect visualEffect;
 
         // Start is called before the first frame update
         void Start()
@@ -122,7 +126,7 @@ namespace TeamProject
 
             if (beforMinionNum != num)
             {
-                anime.SetTrigger("Play");
+                MinionCountAnimation();
             }
 
             beforMinionNum = num;
@@ -131,6 +135,10 @@ namespace TeamProject
         public void MinionCountAnimation()
         {
             anime.SetTrigger("Play");
+
+            visualEffect.gameObject.SetActive(true);
+
+            visualEffect.Play();
         }
     }
 }
