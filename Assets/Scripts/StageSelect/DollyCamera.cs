@@ -9,6 +9,7 @@ namespace TeamProject
     public class DollyCamera : MonoBehaviour
     {
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
+        private float m_CurrentFovRatio;//現在の画角の割合
         //[SerializeField] private float cycleTime = 10.0f;
         public CinemachineTrackedDolly dolly;
         public float pathPositionMax;
@@ -84,7 +85,7 @@ namespace TeamProject
 
             //WayPoint用ゲームオブジェクト取得
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
-
+            Debug.Log("FOV" + virtualCamera.m_Lens.FieldOfView);
         }
         private void Start()
         {
@@ -117,7 +118,7 @@ namespace TeamProject
             this.pathPositionMax = this.dolly.m_Path.MaxPos;
             this.pathPositionMin = this.dolly.m_Path.MinPos;
 
-
+            ResetFovRatio();
         }
 
         public void DollyUpdate()
@@ -137,22 +138,7 @@ namespace TeamProject
                     {
                         this.dolly.m_PathPosition = this.pathPositionMax;
                         //移動完了
-                        //Debug.Log("this.name:" + this.name);
-                        //                       if (this.name == "Next_VCamera")
-                        //                       {
-                        //Debug.Log("MAIN");
-                        StageChangeManager.DollyFlagON("MAIN");
-
-                        //                       }
-                        //else if (this.name == "Current_VCamera")
-                        //{
-                        //    //Debug.Log("SUB");
-
-                        //    StageChangeManager.DollyFlagON("SUB");
-                        //}
-                        //_SubDolly.SetCinemachineTrackedDolly(dolly);
-                        ////_SubDolly.LookAtTargetChange(virtualCamera.LookAt.gameObject);
-                        ////_SubDolly.SetPosition(this.gameObject);
+                        StageChangeManager.DollyFlagON();
                     }
 
                     break;
@@ -162,64 +148,17 @@ namespace TeamProject
                     {
                         this.dolly.m_PathPosition = this.pathPositionMin;
                         //移動完了
-                        StageChangeManager.DollyFlagON("MAIN");
-                        //if (this.name == "Next_VCamera")
-                        //{
-                        //}
-                        //else if (this.name == "Current_VCamera")
-                        //{
-                        //    StageChangeManager.DollyFlagON("SUB");
-                        //}
-
-                        //_SubDolly.SetCinemachineTrackedDolly(dolly);
-                        ////_SubDolly.LookAtTargetChange(virtualCamera.LookAt.gameObject);
-                        ////_SubDolly.SetPosition(this.gameObject);
+                        StageChangeManager.DollyFlagON();
                     }
 
                     break;
                 case DOLLY_MOVE.WORLD:
                     this.dolly.m_PathPosition += AddTime * Time.deltaTime * World_MoveRatio;
-                    //if (!m_Flag && (this.dolly.m_PathPosition > this.pathPositionMax - m_Adjust))
-                    //{
-                    //    m_Flag = true;
-                    //    if (StageChangeManager.MixingState()!=MixingCamera.MIXING_STATE.WORLD_END)
-                    //    {
-                    //        Debug.Log("WORLD_END入ります。");
-                    //    //移動完了直前にミキシングさせる設定へ
-                    //       // StageChangeManager.MixingStateChange("WORLD_END");
-                    //    }
-
-
-                    //    //if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
-                    //    //{
-                    //    //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.PrevWorld * 5]);
-                    //    //}
-                    //    //else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
-                    //    //{
-                    //    //    SetLookAtTarget(TargetStages.m_Stages[StageStatusManager.Instance.NextWorld * 5]);
-                    //    //}
-
-                    //}
-
                     if (this.dolly.m_PathPosition >= this.pathPositionMax)
                     {
                         this.dolly.m_PathPosition = this.pathPositionMax;
                         //移動完了
-                        StageChangeManager.DollyFlagON("MAIN");
-                        //if (this.name == "Next_VCamera")
-                        //{
-                        //    Debug.Log("MAINのドリーカメラ移動完了");
-
-                        //}
-                        //else if (this.name == "Current_VCamera")
-                        //{
-                        //    Debug.Log("SUBのドリーカメラ移動完了");
-
-                        //    StageChangeManager.DollyFlagON("SUB");
-                        //}
-                        //固定用ドリーパスをセット
-                        //SetPathFixingDolly();
-                        //m_Flag = false;
+                        StageChangeManager.DollyFlagON();
                     }
 
 
@@ -240,14 +179,16 @@ namespace TeamProject
             return Move_flag;
         }
 
+        private void LateUpdate()
+        {
+           // SetMainCameraPos();
 
+        }
 
         //カメラのパス位置を設定する
         public void SetPathPosition(float pos)
         {
-            //Debug.Log(pos);
             dolly.m_PathPosition = pos;
-            //Debug.Log(this.dolly.m_PathPosition);
         }
 
         //PathPositionの両端(Min,Max)をセット
@@ -376,6 +317,15 @@ namespace TeamProject
         {
             //Debug.Log(this.name +"::StageStatusManager.Instance.CurrentWorld::" + StageStatusManager.Instance.CurrentWorld);
             this.transform.position = m_DoTrPos.GetCurrentPosition();
+            //SetMainCameraPos();
+        }
+        //メインカメラの位置に仮想カメラ位置をセット
+        public void SetMainCameraPos()
+        {
+            //Debug.Log(" UnityEngine.Camera.main.transform.position:" + UnityEngine.Camera.main.transform.position);
+            //UnityEngine.Camera.main.transform.position = this.transform.position;
+            this.transform.position = UnityEngine.Camera.main.transform.position;
+            //Debug.Log(" UnityEngine.Camera.main.transform.position:" + UnityEngine.Camera.main.transform.position);
         }
 
         //virtualカメラのFollowをセット
@@ -408,8 +358,6 @@ namespace TeamProject
         public void SetPathFixingDolly()
         {
             this.dolly.m_Path = m_DoTrBox.m_Dolly_FIXING;
-            //パス位置を0にする
-            this.dolly.m_PathPosition = 0;
         }
 
         //ドリーの位置に終点の位置をセットする
@@ -417,5 +365,33 @@ namespace TeamProject
         {
             this.dolly.m_PathPosition = pathPositionMax;
         }
+
+        //カメラの画角をセットする
+        public void SetFOV(float _Fov)
+        {
+            virtualCamera.m_Lens.FieldOfView = _Fov;
+            //Debug.Log("FOV" + virtualCamera.m_Lens.FieldOfView);
+
+
+        }
+        //画角の割合のリセット
+        public void ResetFovRatio()
+        {
+            m_CurrentFovRatio = 0.0f;   
+        }
+
+        //カメラのズーム処理
+        public void CameraZoom( float StartFov, float EndFov, float ZoomTime)
+        { 
+            float TempFov;
+            // 現在の画角の割合
+            m_CurrentFovRatio += (Time.deltaTime / ZoomTime);
+
+            // 画角のズーム
+            TempFov = Mathf.Lerp(StartFov, EndFov, m_CurrentFovRatio);
+            //画角のセット
+            SetFOV(TempFov);
+        }
+
     }//public class DollyCamera : MonoBehaviour END
 }//namespace END
