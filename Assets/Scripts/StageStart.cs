@@ -71,32 +71,32 @@ namespace TeamProject
 
                 switch (_WorldNumber)
                 {
-                    case WORLD_NO.W1:
+                    //case WORLD_NO.W1:
 
-                        //BGMスタート
-                        BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
-                        //ステージ環境音の追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
+                    //    //BGMスタート
+                    //    BGMManager.Instance.Play(BGMPath.BGM_GAME_SUMMER, allowsDuplicate: true);
+                    //    //ステージ環境音の追加
+                    //    BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SUMMER, allowsDuplicate: true, isLoop: true);
 
-                        break;
-                    case WORLD_NO.W2:
-                        //BGMスタート
-                        BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL, allowsDuplicate: true);
-                        //ステージ環境音の追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
-                        break;
-                    case WORLD_NO.W3:
-                        //BGMスタート
-                        BGMManager.Instance.Play(BGMPath.BGM_GAME_WINTER, allowsDuplicate: true);
-                        //ステージ環境音の追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_WINTER, allowsDuplicate: true, isLoop: true);
-                        break;
-                    case WORLD_NO.W4:
-                        //BGMスタート
-                        BGMManager.Instance.Play(BGMPath.BGM_GAME_SPRING, allowsDuplicate: true);
-                        //ステージ環境音の追加
-                        BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SPRING, allowsDuplicate: true, isLoop: true);
-                        break;
+                    //    break;
+                    //case WORLD_NO.W2:
+                    //    //BGMスタート
+                    //    BGMManager.Instance.Play(BGMPath.BGM_GAME_FALL, allowsDuplicate: true);
+                    //    //ステージ環境音の追加
+                    //    BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_FALL, allowsDuplicate: true, isLoop: true);
+                    //    break;
+                    //case WORLD_NO.W3:
+                    //    //BGMスタート
+                    //    BGMManager.Instance.Play(BGMPath.BGM_GAME_WINTER, allowsDuplicate: true);
+                    //    //ステージ環境音の追加
+                    //    BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_WINTER, allowsDuplicate: true, isLoop: true);
+                    //    break;
+                    //case WORLD_NO.W4:
+                    //    //BGMスタート
+                    //    BGMManager.Instance.Play(BGMPath.BGM_GAME_SPRING, allowsDuplicate: true);
+                    //    //ステージ環境音の追加
+                    //    BGMManager.Instance.Play(SEPath.SE_GRASS_WAVE_SPRING, allowsDuplicate: true, isLoop: true);
+                    //    break;
                     case WORLD_NO.ALL_WORLD:
                         break;
                     default:

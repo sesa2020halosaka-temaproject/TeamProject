@@ -316,6 +316,9 @@ namespace TeamProject
                 //SetFunction((uint)TRANS.Goal2);
                 //laneQua = camTrans.rotation;
                 //lanePos = camTrans.position;
+                camTrans.position = subCamTrans.position;
+                camTrans.rotation =  subCamTrans.rotation;
+
                 mainCamCom.fieldOfView = subCamCom.fieldOfView;
                //  gameObject.SetActive(false);
                 seamlessEnd = true;

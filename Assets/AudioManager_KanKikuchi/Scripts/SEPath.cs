@@ -51,6 +51,7 @@ public static class SEPath{
 	public const string SE_MINION_WALK_WATER3      = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water3";
 	public const string SE_MINION_WALK_WATER4      = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water4";
 	public const string SE_MINION_COUNT            = "SE/Mono/SE_Mono_System/SE_MinionCount";
+	public const string SE_MINION_JUMP             = "SE/Mono/SE_Mono_Minion/SE_MinionJump";
 	public const string SE_MINION_SELECT           = "SE/Mono/SE_Mono_System/SE_MinionSelect";
 	public const string SE_OK                      = "SE/Stereo/SE_Ste_System/SE_OK";
 	public const string SE_PLAYER_LANDING1         = "SE/Mono/SE_Mono_Player/SE_Player_Landing1";
