@@ -8,16 +8,27 @@ namespace TeamProject
 {
     public class StageSelect : MonoBehaviour
     {
+        [Header("タイトル遷移時のフェードアウト時間"), Range(0.0f, 10.0f)]
+        public float ToTitle_FadeOut_Time;//タイトルに遷移する時のフェードアウト時間
+
+        [Header("ステージ遷移時のフェードアウト時間"), Range(0.0f, 10.0f)]
+        public float StageIn_FadeOut_Time;//ステージに遷移する時のフェードアウト時間
+
+        [Header("ステージ遷移時のズーム時間"), Range(0.0f, 20.0f)]
+        public float StageIn_Zoom_Time;//時間
+
+        [Header("開始FOV"), Range(1.0f, 90.0f)]
+        public float m_StartFOV;
+
+        [Header("ステージ遷移時の最終FOV"), Range(1.0f, 90.0f)]
+        public float m_EndFOV;
+
         //public GameObject[] Stages;//LookAtの対象となるゲームオブジェクトの格納用
         public WayPoint_Box m_WP;//ドリールートのパス位置格納用
         public float m_CurrentPathPosition;//現在のパス位置を渡す用
-                                           // private float[] m_WayPoint;//受け渡し用
 
         public DollyTrack_Box m_DoTr;//ドリールートの格納用
 
-        public float ToTitle_FadeOut_Time;//タイトルに遷移する時のフェードアウト時間
-        public float StageIn_FadeOut_Time;//ステージに遷移する時のフェードアウト時間
-                                          // public GameObject _Dolly_Current;
         public GameObject _Dolly_Next;
         //public GameObject _MixCamObj;
         //private MixingCamera _Mixcam;
@@ -67,6 +78,8 @@ namespace TeamProject
 
         public GameObject m_TargetObj;
         public LookAtObject m_LookAt;
+
+        private bool m_StageInUIMoveFlag = false;
         //=================================================================
         //関数ここから
         //=================================================================
@@ -136,17 +149,17 @@ namespace TeamProject
             //ドリールートの設定
             //LookAt・注視点の設定
             _Main_DollyCam.SetLookAtTarget(m_TargetObj);
-            //一応まだ実装できていないカメラにルートの位置をセットする
+            //Dollyカメラの座標をドリールートの座標に合わせる
             _Main_DollyCam.SetStartDollyPos();
 
             _Main_DollyCam.SetPathFixingDolly();
             //各ドリーカメラにパス位置をセット
             _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
-
-
+            //開始画角のセット
+            _Main_DollyCam.SetFOV(m_StartFOV);
             //現在のステージ位置でのアクティブ化処理
             m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromCurrentStage();
-            
+
             //左右矢印の処理
             //現在のワールド位置での移動制限とアクティブ化処理
             m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
@@ -166,8 +179,12 @@ namespace TeamProject
                     break;
                 case SELECT_STATE.BEFORE_STAGE_MOVING:
                     StateBeforeStageMoving();
+                    //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+
                     break;
                 case SELECT_STATE.STAGE_MOVING:
+                    //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+
                     StateStageMoving();
                     break;
                 case SELECT_STATE.BEFORE_WORLD_MOVING:
@@ -187,6 +204,15 @@ namespace TeamProject
                     break;
             }//switch (StageChangeManager.GetSelectState()) END
         }//void Update()    END
+        //private void LateUpdate()
+        //{
+        //    if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
+        //    {
+        //        Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+
+        //    }
+
+        //}
 
         //---------------------------------------------------
         //Update()内の関数ここから
@@ -214,6 +240,13 @@ namespace TeamProject
                     KeyWaitFlagChange(true);
                     m_Counter = 0;
 
+                    //Dollyカメラの座標をドリールートの座標に合わせる
+                    //_Main_DollyCam.SetStartDollyPos();
+
+                    //固定用ドリールートをセット
+                    //_Main_DollyCam.SetPathFixingDolly();
+                    //_Main_DollyCam.SetPathPosition(0.0f);
+
                 }
             }
             //フラグがONになったら入力可能にする
@@ -240,8 +273,8 @@ namespace TeamProject
                 //上下矢印のアクティブ化と非強調化
                 m_StageSelectUIManager.GetStageSelectArrow().UINoFlashing();
                 //ステージクリア状況での処理
-                 //現在のステージ位置でのアクティブ化処理
-               m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromStage();
+                //現在のステージ位置でのアクティブ化処理
+                m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromStage();
 
                 //左右矢印の処理
                 //現在のワールド位置での移動制限とアクティブ化処理
@@ -259,9 +292,12 @@ namespace TeamProject
         {
             count++;
             Debug.Log("count" + count);
+            //Dollyカメラの座標をドリールートの座標に合わせる
+            //_Main_DollyCam.SetStartDollyPos();
 
             //固定用ドリールートをセット
             _Main_DollyCam.SetPathFixingDolly();
+            _Main_DollyCam.SetPathPosition(0.0f);
 
             //Dollyカメラの初期化
             ResetDollyCamera();
@@ -285,11 +321,14 @@ namespace TeamProject
 
             //ステージ移動の状態へ移行
             StageChangeManager.SelectStateChange("STAGE_MOVING");
+
         }
 
         //ステージ移動中
         private void StateStageMoving()
         {
+            //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+
             //_Mixcam.MixingUpdate();
             //_Main_DollyCam.DollyUpdate();
             //_Sub_DollyCam.DollyUpdate();
@@ -336,9 +375,12 @@ namespace TeamProject
         //ワールド移動前の準備
         private void StateBeforeWorldMoving()
         {
-            Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());
-            count++;
-            Debug.Log("count" + count);
+            //Debug.Log("StageChangeManager.GetStageChangeKey()" + StageChangeManager.GetStageChangeKey());
+            //count++;
+            //Debug.Log("count" + count);
+            //固定用ドリールートをセット
+            _Main_DollyCam.SetPathFixingDolly();
+            _Main_DollyCam.SetPathPosition(0.0f);
 
             //Dollyカメラの初期化
             ResetDollyCamera();
@@ -402,9 +444,9 @@ namespace TeamProject
             //ワールド移動完了後
             if (StageChangeManager.IsWorldMoveEnd())
             {
+
+                //移動処理の終了の為の初期化設定
                 MoveEndSetting();
-                //固定用ドリールートをセット
-                _Main_DollyCam.SetPathFixingDolly();
 
                 //UIの更新ステージナンバーの更新前用
                 m_StageSelectUIManager.GetWorldStatusUIObject().ChangeWorldNameIcon();
@@ -419,6 +461,12 @@ namespace TeamProject
 
                 //Dollyカメラの座標をドリールートの座標に合わせる
                 _Main_DollyCam.SetStartDollyPos();
+                //固定用ドリールートをセット
+                _Main_DollyCam.SetPathFixingDolly();
+                _Main_DollyCam.SetPathPosition(0.0f);
+
+
+
 
                 //UIの更新ステージナンバーの更新後用
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
@@ -464,7 +512,19 @@ namespace TeamProject
         //シーン遷移中
         private void StateSceneMoving()
         {
+            if (!m_StageInUIMoveFlag)
+            {
+                m_StageInUIMoveFlag = true;
+                //上下矢印を画面外へ移動させる
+                m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveOut();
+                //左右矢印を画面外へ移動させる
+                m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
+                //ステージ情報UIを画面外移動させる
+                m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveOut();
+            }
 
+            //ステージにズームする処理
+            _Main_DollyCam.CameraZoom(m_StartFOV, m_EndFOV, StageIn_Zoom_Time);
         }
         //Update()内の関数ここまで
         //---------------------------------------------------
@@ -475,7 +535,6 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu))
             {//STARTボタン or Pキー入力
                 _Main_DollyCam.SetEndPathPosition();
-                // _Sub_DollyCam.SetEndPathPosition();
 
                 //各種状態を待機状態に戻す
                 //Dollyカメラの状態を設定する
@@ -490,16 +549,9 @@ namespace TeamProject
                 //StageChangeManager.DollyCartFlagChange(false);
                 StageChangeManager.DollyFlagReset();
 
-                //Dollyカメラの座標をドリーカートの座標に合わせる
-                //_Dolly_Next.transform.position = _DollyCart.GetDollyCartPosition();
-                //_Dolly_Current.transform.position = _DollyCart.GetDollyCartPosition();
-
                 //固定用ドリールートをセット
                 _Main_DollyCam.SetPathFixingDolly();
-                // _Sub_DollyCam.SetPathFixingDolly();
-                //_DollyCart.SetPathFixingDolly();
-
-                //_Sub_DollyCam.PathPositionReset();
+                _Main_DollyCam.SetPathPosition(0.0f);
 
                 //---------------------
                 //ステージ番号の更新

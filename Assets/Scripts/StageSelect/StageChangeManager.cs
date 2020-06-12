@@ -29,7 +29,7 @@ namespace TeamProject
         {
             UP, DOWN, LEFT, RIGHT, ALL
         }
-        private static STAGE_CHANGE_KEY m_StageChangeKey;
+        private static STAGE_CHANGE_KEY m_StageChangeKey;// = STAGE_CHANGE_KEY.ALL;
 
         private static WorldSelectHold m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
         //============================================================
@@ -53,6 +53,7 @@ namespace TeamProject
                 && m_NextStageMoveFlag)
             //if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
             {
+
                 StageFlagChange(true);
                 //カーソルの移動音
                 SEManager.Instance.Play(SEPath.SE_CURSOL_MOVE);
@@ -316,17 +317,9 @@ namespace TeamProject
             }
         }
 
-        public static void DollyFlagON(string _Word)
+        public static void DollyFlagON()
         {
-            if (_Word == "MAIN")
-            {
-                m_MainDolly_flag = true;
-            }
-            else if (_Word == "SUB")
-            {
-                //m_SubDolly_flag = true;
-
-            }
+            m_MainDolly_flag = true;
         }
         public static void DollyFlagReset()
         {
@@ -343,59 +336,11 @@ namespace TeamProject
         }
 
         //============================================================
-        //ドリーカート処理
-        //public static DollyCartManager.DOLLYCART_MOVE DollyCartState()
-        //{
-        //    return m_DollyCartState;
-        //}
-        //public static void DollyCartStateChange(string _Word)
-        //{
-        //    if (_Word == "GO")
-        //    {
-        //        m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.GO;
-
-        //    }
-        //    else if (_Word == "BACK")
-        //    {
-        //        m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.BACK;
-
-        //    }
-        //    else if (_Word == "WORLD")
-        //    {
-        //        m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.WORLD;
-
-        //    }
-        //    else if (_Word == "FIXING")
-        //    {
-        //        m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.FIXING;
-
-        //    }
-        //    else
-        //    {
-        //        Debug.LogAssertion("DOLLYCART_MOVEの言葉が違います。");
-        //        m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.FIXING;
-
-        //    }
-        //}
-
-        //public static void DollyCartFlagChange(bool _bool)
-        //{
-        //    m_DollyCart_flag = _bool;
-        //}
-        //public static bool DollyCartFlagCheck()
-        //{
-        //    if (m_DollyCart_flag)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
 
         //ワールド間移動の完了確認処理
         public static bool IsWorldMoveEnd()
         {
-            if (/*DollyCartFlagCheck() &&*/ DollyFlagCheck())
+            if (DollyFlagCheck())
             {
                 return true;
 
