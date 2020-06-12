@@ -15,6 +15,8 @@ namespace TeamProject
         [SerializeField]
         private float speed;
 
+        private float nowInt = 0;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -25,17 +27,19 @@ namespace TeamProject
 
         private void Awake()
         {
-            light.intensity = 0;
+            light.SetIntensity(0, LightUnit.Ev100);
         }
 
         // Update is called once per frame
         void Update()
         {
-            //light.intensity += lastInt * Time.deltaTime * speed;
+            nowInt += lastInt * Time.deltaTime * speed;
 
-            //if(lastInt <= light.intensity)
+            light.SetIntensity(nowInt, LightUnit.Ev100);
+
+            //if (lastInt <= nowInt)
             //{
-            //    light.intensity = lastInt;
+            //    nowInt = lastInt;
             //}
         }
     }
