@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using TeamProject.InputManager;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -376,6 +377,7 @@ namespace TeamProject
         {
             var inputKey = InputManager.InputManager.Instance.GetKeyDown(hightChangeButtun);
 
+            var oldHight = nowHight;
             if (inputKey)
             {
                 nowHight--;
@@ -389,6 +391,10 @@ namespace TeamProject
 
                     targetHight += hightLenge * hight;
                 }
+            }
+            if (oldHight != nowHight)
+            {
+                SEManager.Instance.Play(SEPath.SE_HIERARCHY);
             }
         }
         private void OnDrawGizmos()
