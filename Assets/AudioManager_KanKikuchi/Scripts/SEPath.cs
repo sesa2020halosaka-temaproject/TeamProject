@@ -23,6 +23,7 @@ public static class SEPath{
 	public const string SE_GRASS_WAVE_SPRING       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Spring";
 	public const string SE_GRASS_WAVE_SUMMER       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Summer";
 	public const string SE_GRASS_WAVE_WINTER       = "SE/Stereo/SE_Ste_Ambient/SE_Grass_Wave_Winter";
+	public const string SE_HIERARCHY               = "SE/Mono/SE_Mono_Minion/SE_Hierarchy";
 	public const string SE_LIGHT_RAIN              = "SE/Stereo/SE_Ste_Ambient/SE_LightRain";
 	public const string SE_MENU_CLOSE              = "SE/Mono/SE_Mono_System/SE_MenuClose";
 	public const string SE_MENU_OPEN               = "SE/Mono/SE_Mono_System/SE_MenuOpen";
@@ -51,6 +52,7 @@ public static class SEPath{
 	public const string SE_MINION_WALK_WATER3      = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water3";
 	public const string SE_MINION_WALK_WATER4      = "SE/Mono/SE_Mono_Minion/SE_Minion_Walk_Water4";
 	public const string SE_MINION_COUNT            = "SE/Mono/SE_Mono_System/SE_MinionCount";
+	public const string SE_MINION_JUMP             = "SE/Mono/SE_Mono_Minion/SE_MinionJump";
 	public const string SE_MINION_SELECT           = "SE/Mono/SE_Mono_System/SE_MinionSelect";
 	public const string SE_OK                      = "SE/Stereo/SE_Ste_System/SE_OK";
 	public const string SE_PLAYER_LANDING1         = "SE/Mono/SE_Mono_Player/SE_Player_Landing1";
@@ -99,6 +101,7 @@ public static class SEPath{
 	public const string SE_PLAYER_WALK_WATER2      = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water2";
 	public const string SE_PLAYER_WALK_WATER3      = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water3";
 	public const string SE_PLAYER_WALK_WATER4      = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water4";
+	public const string SE_PLAY_START              = "SE/Mono/SE_Mono_Minion/SE_PlayStart";
 	public const string SE_RAIN                    = "SE/Stereo/SE_Ste_Ambient/SE_Rain";
 	public const string SE_STAMP                   = "SE/Mono/SE_Mono_Result/SE_Stamp";
 	public const string SE_STAR                    = "SE/Stereo/SE_Ste_Result/SE_Star";

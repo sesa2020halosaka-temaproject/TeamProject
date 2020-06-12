@@ -572,6 +572,8 @@ namespace TeamProject
                     minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Move);
                     oldHight = transform.position.y;
                     anima.SetTrigger("Find");
+
+                    SEManager.Instance.Play(SEPath.SE_PLAY_START);
                 }
                 else
                 {

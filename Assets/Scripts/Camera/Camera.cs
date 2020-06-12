@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using TeamProject.InputManager;
+using KanKikuchi.AudioManager;
 
 namespace TeamProject
 {
@@ -316,6 +317,9 @@ namespace TeamProject
                 //SetFunction((uint)TRANS.Goal2);
                 //laneQua = camTrans.rotation;
                 //lanePos = camTrans.position;
+                camTrans.position = subCamTrans.position;
+                camTrans.rotation =  subCamTrans.rotation;
+
                 mainCamCom.fieldOfView = subCamCom.fieldOfView;
                //  gameObject.SetActive(false);
                 seamlessEnd = true;
@@ -373,6 +377,7 @@ namespace TeamProject
         {
             var inputKey = InputManager.InputManager.Instance.GetKeyDown(hightChangeButtun);
 
+            var oldHight = nowHight;
             if (inputKey)
             {
                 nowHight--;
@@ -386,6 +391,10 @@ namespace TeamProject
 
                     targetHight += hightLenge * hight;
                 }
+            }
+            if (oldHight != nowHight)
+            {
+                SEManager.Instance.Play(SEPath.SE_HIERARCHY);
             }
         }
         private void OnDrawGizmos()
