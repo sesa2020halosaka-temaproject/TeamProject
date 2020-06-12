@@ -18,22 +18,32 @@ namespace TeamProject
         private void Start()
         {
             base.Start();
-
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }  
-
+        
         public void Hoge()
         {
             Clear();
 
             PaintStart(startPos);
 
+            if (pos == null) return;
             foreach (var itr in pos) Paint(itr, size);
+        }
+
+        public void Delete() {
+            startPos = Vector3.zero;
+            pos = null;
+        }
+
+        public void SetPoint(Vector3 _pointStart,Vector3[] _points)
+        {
+            startPos = _pointStart;
+            pos = _points;
+        }
+
+        private void Update()
+        {
+            meshRenderer.enabled = pos != null;
         }
     }
 
