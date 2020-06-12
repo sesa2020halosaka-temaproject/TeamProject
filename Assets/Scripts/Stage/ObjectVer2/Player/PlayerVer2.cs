@@ -146,7 +146,15 @@ namespace TeamProject
 
         private bool startAnimationEndFlag = false;
         public bool StartAnimationEndFlag { get { return startAnimationEndFlag; } }
+
+        private GuideLine[] guideLine;
+
+        [SerializeField]
+        private Material mat1;
         
+        [SerializeField]
+        private Material mat2;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -209,6 +217,18 @@ namespace TeamProject
             oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = false;
 
             walkSoundManage = GetComponent<WalkSoundManage>();
+
+            var obj = Instantiate(new GameObject(), Vector3.up, Quaternion.identity);
+
+            obj.name = "GuidLineObject";
+
+            guideLine = new GuideLine[2];
+
+            guideLine[0] = obj.AddComponent<GuideLine>();
+            guideLine[0].mat = mat1;
+
+            guideLine[1] = obj.AddComponent<GuideLine>();
+            guideLine[1].mat = mat2;
         }
 
         // None
@@ -676,6 +696,11 @@ namespace TeamProject
             // Centerのレイを確認
             var centerRayCheck = CenterRayCheck();
 
+            guideLine[0].SetPoint(Vector3.zero, null);
+            guideLine[0].Hoge();
+            guideLine[1].SetPoint(Vector3.zero, null);
+            guideLine[1].Hoge();
+
             if (!centerRayCheck)
             {
                 SetFunction((uint)TRANSITION.Choice);
@@ -686,18 +711,28 @@ namespace TeamProject
             }
 
             var outPos = new Vector3();
+            // 線引くよ
+            Vector3[] goodLane = null;
+            Vector3[] outLane = null;
 
             // 天井のレイを確認
             // var topRayCheck = TopRayCheck(out outPos);
-            var topRayCheck = TopRayChecVer3(ref outPos);
+            var topRayCheck = TopRayChecVer3(ref outPos, ref goodLane, ref outLane);
+
             hadoukenFlag = topRayCheck;
             hadoukenPos = outPos;
+
             if (!topRayCheck)
             {
                 // ここでFALSEが出ると妖精を飛ばす
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
-                
+
+                // 成功してたらここ入ってこないから気兼ねなくここで赤線引くよ
+                // マジなんで提出二日前に没仕様をあたかも俺の案のように言うて
+                // 追加仕様として入れるかなマジでキレるで('ω')
+
+
                 return;
             }
 
@@ -969,7 +1004,7 @@ namespace TeamProject
         [SerializeField]
         private LayerMask topElaseMask;
 
-        private bool TopRayChecVer3(ref Vector3 _outPos)
+        private bool TopRayChecVer3(ref Vector3 _outPos,ref Vector3[] _goodLane,ref Vector3[] _outLane)
         {
             // Vectorの受け取りの初期化
             // falseが出たらoutに代入
@@ -1106,6 +1141,7 @@ namespace TeamProject
             float diff = 0;
             float oldLength = lengthArray[0];
             var outPosList = new List<Vector3>();
+            var outPosIndx = new List<int>();
             int num = 0;
 
             // 差分が設定値以上ならがけなので即座に
@@ -1119,15 +1155,17 @@ namespace TeamProject
                     var elem = i - beforFrame;
                     if (elem < 0) continue;
                     outPosList.Add(outPos[i - beforFrame]);
+                    outPosIndx.Add(i);
                     num++;
                    //  return false;
                 }
                 oldLength = lengthArray[i];
             }
 
-            for(int i = 0; i < num; i++)
+            for (int i = 0; i < num; i++)
             {
                 var hight = 0.5f;
+                var ind = outPosIndx[i];
                 // 小人の位置情報が明らか高ければ崖
                 if (outPosList[i].y + hight < choicePosition.y)
                 {
@@ -1135,7 +1173,26 @@ namespace TeamProject
                     _outPos = outPosList[i];
                     return false;
                 }
+                else
+                {
+                    Debug.Break();
+                    Debug.Log(ind);
+                    outPos[ind].y = outPos[ind - 1].y;
+                    lengthArray[ind] = lengthArray[ind - 1];
+                    diff = lengthArray[ind+1] - lengthArray[ind];
+                    if (judgeHight < -diff)
+                    {
+                        var elem = ind - beforFrame;
+                        if (elem < 0) continue;
+                        outPosList.Add(outPos[ind - beforFrame]);
+                        outPosIndx.Add(outPosIndx[i] + 1);
+                        num++;
+                    }
+                }
             }
+
+            guideLine[0].SetPoint(transform.position, outPos);
+            guideLine[0].Hoge();
 
             // 最後まで来たら成功
             return true;

@@ -24,6 +24,8 @@ namespace TeamProject
         // マテリアル
         private Material _mat;
 
+        public Material mat { set { _mat = value; } }
+
         [SerializeField]
         private float _uvSize = 6.0f;
 
@@ -31,7 +33,7 @@ namespace TeamProject
         private Mesh mesh = new Mesh();
 
         // メッシュを描画する部分
-        private MeshRenderer meshRenderer;
+        protected MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
 
         protected void Start()
@@ -47,11 +49,11 @@ namespace TeamProject
 
             // 頂点生成
             verPos.Add(_tp);
-            verUv.Add(new Vector2(0, 1f));
+            verUv.Add(new Vector2(0, 0f));
 
             // 頂点生成
             verPos.Add(_tp);
-            verUv.Add(new Vector2(0, 0f));
+            verUv.Add(new Vector2(0, 1f));
 
             offset = 0;
             xoffset = 0;
@@ -87,6 +89,12 @@ namespace TeamProject
 
             Vector3 plus90 = top + new Vector3(-dir.z, dir.y, dir.x) * _size;
             Vector3 minus90 = top + new Vector3(dir.z, dir.y, -dir.x) * _size;
+            
+            if (offset == 0)
+            {
+                verPos[0] = prev+ new Vector3(dir.z, dir.y, -dir.x) * _size;
+                verPos[1] = prev+ new Vector3(-dir.z, dir.y, dir.x) * _size;
+            }
 
             // 頂点生成
             verPos.Add(minus90);
