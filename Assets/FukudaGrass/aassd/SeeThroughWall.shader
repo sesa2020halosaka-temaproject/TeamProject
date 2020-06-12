@@ -4,11 +4,11 @@ Shader "chenjd/SeeThroughWall"
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_EdgeColor("Edge Color", Color) = (1,1,1,1)
+		[HDR]_EdgeColor("Edge Color", Color) = (1,1,1,1)
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Transparent"  "Queue" = "Transparent"}
 
 
 		Pass
@@ -17,7 +17,7 @@ Shader "chenjd/SeeThroughWall"
 
 			ZTest Greater
 			Blend One One
-
+			Cull Back
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -68,7 +68,7 @@ Shader "chenjd/SeeThroughWall"
 		Pass
 		{
 			ZTest Less 
-
+		
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
