@@ -142,8 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df59df0ad0e7a3a42ba63fccdfc74133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionObject: {fileID: 1863695556286498, guid: 694cfe0449fab4f57bf927537105e5a3,
-    type: 3}
   camera: {fileID: 1517629111984252}
   flg: 0
 --- !u!1 &1404500964774340
@@ -424,7 +422,7 @@ PrefabInstance:
     - target: {fileID: 7314578518201063640, guid: 21c9e0db25b0d8445bbee9fe19669607,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 73728
+      value: 8192
       objectReference: {fileID: 0}
     - target: {fileID: 7331868734993611582, guid: 21c9e0db25b0d8445bbee9fe19669607,
         type: 3}
