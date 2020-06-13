@@ -11,9 +11,8 @@ namespace TeamProject
         private Vector3 startPos;
         [SerializeField]
         private Vector3[] pos;
-
-        [SerializeField]
-        private float size = 1f;
+        
+        private float size = 0.65f;
 
         [SerializeField]
         private float uvSpeed = 0.5f;

@@ -25,9 +25,8 @@ namespace TeamProject
         protected Material mat;
 
         public Material Mat { set { mat = value; } }
-
-        [SerializeField]
-        private float _uvSize = 6.0f;
+        
+        private float _uvSize = 2.0f;
 
         // メッシュ
         private Mesh mesh = new Mesh();

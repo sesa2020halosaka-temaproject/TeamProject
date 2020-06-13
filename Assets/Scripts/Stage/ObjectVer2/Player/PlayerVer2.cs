@@ -221,7 +221,7 @@ namespace TeamProject
             walkSoundManage = GetComponent<WalkSoundManage>();
 
             var obj = Instantiate(new GameObject(), Vector3.up, Quaternion.identity);
-            var obj2 = Instantiate(new GameObject(), Vector3.up, Quaternion.identity);
+            var obj2 = Instantiate(new GameObject(), Vector3.up * 1.5f, Quaternion.identity);
 
             obj.name = "GuidLineObject1";
             obj2.name = "GuidLineObject2";
