@@ -71,6 +71,8 @@ namespace TeamProject
 
             //タイトルBGMスタート
             BGMSwitcher.FadeIn(BGMPath.BGM_TITLE);
+            
+            //開始時の状態を設定
             state = TITLESTATE.SCENE_FADE;
 
             //各ゲームオブジェクト格納
@@ -110,6 +112,8 @@ namespace TeamProject
             //m_LogoMovieObj.SetActive(false);
             //初期の設定用
             //m_DarkPanelObj.SetActive(false);
+            //タイトルロゴアニメーション用SE再生
+            SEManager.Instance.Play(SEPath.SE_TITLE_LOGO);
 
         }
 
@@ -125,7 +129,10 @@ namespace TeamProject
                         //state = TITLESTATE.PRESS_ANYKEY;
 
                         //追加演出の設定
+                        
+                        //状態を変更
                         state = TITLESTATE.LOGO_ANIM;
+                        //タイトルロゴアニメーション実行
                         m_VideoPlayer.Play();
 
                     }
