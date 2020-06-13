@@ -279,7 +279,7 @@ namespace TeamProject
             {
                 clear = true;
             }
-
+            Debug.Log(StageStatusManager.Instance.CurrentStage);
             if (StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20&&!lastOnce)
             {
                 clear = false;
@@ -343,12 +343,13 @@ namespace TeamProject
             switch (stageChoice)
             {
                 case StageChoice.Next:
-                    var nextNum = (int)StageStatusManager.Instance.NextStage;
+                    var nowStage = StageStatusManager.Instance.CurrentStage;
+                    var nextStage = StageStatusManager.Instance.NextStage;
 
-                    if (STAGE_NO.STAGE20 != (STAGE_NO)nextNum)
+                    if (STAGE_NO.STAGE20 != nowStage)
                     {
-                        var stageString = StageStatusManager.Instance.StageString[nextNum];
-                        StageStatusManager.Instance.CurrentStage = StageStatusManager.Instance.NextStage;
+                        var stageString = StageStatusManager.Instance.StageString[(int)nextStage];
+                        StageStatusManager.Instance.CurrentStage = nextStage;
                         FadeManager.FadeOut(stageString);
                     }
                     else
