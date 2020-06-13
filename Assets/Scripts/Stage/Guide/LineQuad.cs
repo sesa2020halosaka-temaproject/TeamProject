@@ -22,9 +22,9 @@ namespace TeamProject
 
         [SerializeField]
         // マテリアル
-        private Material _mat;
+        protected Material mat;
 
-        public Material mat { set { _mat = value; } }
+        public Material Mat { set { mat = value; } }
 
         [SerializeField]
         private float _uvSize = 6.0f;
@@ -49,11 +49,11 @@ namespace TeamProject
 
             // 頂点生成
             verPos.Add(_tp);
-            verUv.Add(new Vector2(0, 0f));
+            verUv.Add(new Vector2(0 + Time.time, 0f));
 
             // 頂点生成
             verPos.Add(_tp);
-            verUv.Add(new Vector2(0, 1f));
+            verUv.Add(new Vector2(0 + Time.time, 1f));
 
             offset = 0;
             xoffset = 0;
@@ -98,11 +98,11 @@ namespace TeamProject
 
             // 頂点生成
             verPos.Add(minus90);
-            verUv.Add(new Vector2(xoffset, 0f));
+            verUv.Add(new Vector2(xoffset + Time.time, 0f));
 
             // 頂点生成
             verPos.Add(plus90);
-            verUv.Add(new Vector2(xoffset, 1f));
+            verUv.Add(new Vector2(xoffset + Time.time, 1f));
 
             xoffset += (top - prev).magnitude / _uvSize;////uScrollSpeed; 
 
@@ -122,7 +122,7 @@ namespace TeamProject
 
             meshFilter.mesh = mesh;
 
-            meshRenderer.material = _mat;
+            meshRenderer.material = mat;
         }
     }
 }

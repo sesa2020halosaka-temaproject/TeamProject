@@ -15,6 +15,11 @@ namespace TeamProject
         [SerializeField]
         private float size = 1f;
 
+        [SerializeField]
+        private float uvSpeed = 0.5f;
+
+        public float UvSpeed { set { uvSpeed = value; } }
+
         private void Start()
         {
             base.Start();
@@ -43,7 +48,8 @@ namespace TeamProject
 
         private void Update()
         {
-            meshRenderer.enabled = pos != null;
+            mat.SetTextureOffset("_BaseColorMap", new Vector2(-Time.time * uvSpeed, 0f));
+            if (meshRenderer) meshRenderer.enabled = pos != null;
         }
     }
 

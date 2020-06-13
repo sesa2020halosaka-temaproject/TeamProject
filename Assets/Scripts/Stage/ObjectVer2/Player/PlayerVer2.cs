@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
 
+using System;
+
 // プレイヤーのスクリプト
 namespace TeamProject
 {
@@ -219,16 +221,18 @@ namespace TeamProject
             walkSoundManage = GetComponent<WalkSoundManage>();
 
             var obj = Instantiate(new GameObject(), Vector3.up, Quaternion.identity);
+            var obj2 = Instantiate(new GameObject(), Vector3.up, Quaternion.identity);
 
-            obj.name = "GuidLineObject";
+            obj.name = "GuidLineObject1";
+            obj2.name = "GuidLineObject2";
 
             guideLine = new GuideLine[2];
 
             guideLine[0] = obj.AddComponent<GuideLine>();
-            guideLine[0].mat = mat1;
+            guideLine[0].Mat = mat1;
 
-            guideLine[1] = obj.AddComponent<GuideLine>();
-            guideLine[1].mat = mat2;
+            guideLine[1] = obj2.AddComponent<GuideLine>();
+            guideLine[1].Mat = mat2;
         }
 
         // None
@@ -365,7 +369,7 @@ namespace TeamProject
 
             soundSpanNow += Time.deltaTime;
 
-            var randInt = Random.Range(0, 4);
+            var randInt = UnityEngine.Random.Range(0, 4);
 
             if (soundSpan < soundSpanNow)
             {
@@ -732,6 +736,13 @@ namespace TeamProject
                 // マジなんで提出二日前に没仕様をあたかも俺の案のように言うて
                 // 追加仕様として入れるかなマジでキレるで('ω')
 
+                if (goodLane == null) return;
+
+                guideLine[0].SetPoint(outPos, goodLane);
+                guideLine[1].SetPoint(goodLane[goodLane.Length-1], outLane);
+
+                guideLine[0].Hoge();
+                guideLine[1].Hoge();
 
                 return;
             }
@@ -1096,7 +1107,7 @@ namespace TeamProject
                     foreach (var itr in elaseObject) itr.SetActive(false);
                     // foreach (var itr in elaseObjectTarget) itr.SetActive(false);
                     Debug.Log("当たってねえ所");
-                    Debug.Break();
+                    //Debug.Break();
                     return false;
                 }
 
@@ -1171,11 +1182,21 @@ namespace TeamProject
                 {
                     // 参照物を返す
                     _outPos = outPosList[i];
+
+                    Vector3[] goolLine = new Vector3[ind];
+                    Vector3[] badLine = new Vector3[outPos.Length - ind + 1];
+
+                    Array.Copy(outPos, 0, goolLine, 0, ind);
+                    Array.Copy(outPos, ind - 1, badLine, 0, outPos.Length - ind + 1);
+
+                    _goodLane = goolLine;
+                    _outLane = badLine;
+                    
                     return false;
                 }
                 else
                 {
-                    Debug.Break();
+                    //Debug.Break();
                     Debug.Log(ind);
                     outPos[ind].y = outPos[ind - 1].y;
                     lengthArray[ind] = lengthArray[ind - 1];
