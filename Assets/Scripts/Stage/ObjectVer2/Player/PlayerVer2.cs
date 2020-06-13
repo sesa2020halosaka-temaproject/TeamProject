@@ -253,11 +253,12 @@ namespace TeamProject
                     choicePosition = firstChoiceObject.transform.position;
                     choiceObject = firstChoiceObject;
                     pickArrowCom.ChoicePosition = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
+                    pickArrowCom.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
 
 
                     var vec = choicePosition - transform.position;
-                    transform.LookAt(vec.normalized, Vector3.up);
-                    transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+                    transform.LookAt(choicePosition, Vector3.up);
+                    //transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
                     notChoice = false;
                     SetFunction((uint)TRANSITION.RootCheck);
@@ -738,7 +739,7 @@ namespace TeamProject
 
                 if (goodLane == null) return;
 
-                guideLine[0].SetPoint(outPos, goodLane);
+                guideLine[0].SetPoint(transform.position, goodLane);
                 guideLine[1].SetPoint(goodLane[goodLane.Length-1], outLane);
 
                 guideLine[0].Hoge();

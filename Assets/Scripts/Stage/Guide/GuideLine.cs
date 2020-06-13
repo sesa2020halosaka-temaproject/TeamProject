@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 
 namespace TeamProject
 {
@@ -52,28 +52,28 @@ namespace TeamProject
         }
     }
 
-    [CustomEditor(typeof(GuideLine))]//拡張するクラスを指定
-    public class ExampleScriptEditor : Editor
-    {
+    //[CustomEditor(typeof(GuideLine))]//拡張するクラスを指定
+    //public class ExampleScriptEditor : Editor
+    //{
 
-        /// <summary>
-        /// InspectorのGUIを更新
-        /// </summary>
-        public override void OnInspectorGUI()
-        {
-            //元のInspector部分を表示
-            base.OnInspectorGUI();
+    //    /// <summary>
+    //    /// InspectorのGUIを更新
+    //    /// </summary>
+    //    public override void OnInspectorGUI()
+    //    {
+    //        //元のInspector部分を表示
+    //        base.OnInspectorGUI();
 
-            //targetを変換して対象を取得
-            GuideLine exampleScript = target as GuideLine;
+    //        //targetを変換して対象を取得
+    //        GuideLine exampleScript = target as GuideLine;
 
-            //PublicMethodを実行する用のボタン
-            if (GUILayout.Button("Hoge"))
-            {
-                exampleScript.Hoge();
-            }
+    //        //PublicMethodを実行する用のボタン
+    //        if (GUILayout.Button("Hoge"))
+    //        {
+    //            exampleScript.Hoge();
+    //        }
 
-        }
+    //    }
 
-    }
+    //}
 }
