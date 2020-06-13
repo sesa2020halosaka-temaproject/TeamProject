@@ -4,6 +4,7 @@ Shader "chenjd/SeeThroughWall2"
 	Properties
 	{
 		[NoScaleOffset]_MainTex("Render Texture", 2D) = "white" {}
+		[NoScaleOffset]_MaskTex("Render Texture", 2D) = "white" {}
 		_SubTex("Pattern Texture", 2D) = "white" {}
 		[HDR]_Color("Main Color", Color) = (1,1,1,1)
 		_Outline("Outline thickness", Range(0,1)) = 0.1
@@ -40,6 +41,7 @@ Shader "chenjd/SeeThroughWall2"
 				};
 
 				sampler2D _MainTex;
+				sampler2D _MaskTex;
 				float4 _MainTex_ST;
 				float4 _MainTex_TexelSize;
 				sampler2D _SubTex;
@@ -68,6 +70,7 @@ Shader "chenjd/SeeThroughWall2"
 				fixed4 frag(v2f i) : SV_Target
 				{
 					fixed4 col = tex2D(_MainTex, i.uv);
+					fixed4 Maskcol = tex2D(_MaskTex, i.uv);
 
 					float2 tiling_offset_uv = float2(i.uv.xy *  _SubTex_ST *float2(1, _MainTex_TexelSize.x / _MainTex_TexelSize.y) + _SubTex_ST.zw);
 					fixed4 subcol = tex2D(_SubTex, tiling_offset_uv);
@@ -93,6 +96,8 @@ Shader "chenjd/SeeThroughWall2"
 					//一定以下のalphaはゼロにする
 					_Color.a *= step(1 - col.a, 0.01);
 
+
+					_Color.a -= Maskcol.a;
 					return subcol * _Color;
 				}
 				ENDCG
