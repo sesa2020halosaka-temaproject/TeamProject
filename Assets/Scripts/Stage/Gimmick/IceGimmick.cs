@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using KanKikuchi.AudioManager;
+using UnityEngine.VFX;
 
 namespace TeamProject
 {
@@ -32,6 +33,9 @@ namespace TeamProject
         [SerializeField]
         private Minion[] fallMinion;
 
+        [SerializeField]
+        private VisualEffect effect;
+
         private void Start()
         {
             coll = GetComponent<Collider>();
@@ -60,7 +64,10 @@ namespace TeamProject
         // 当たり判定を消す処理
         public void StartBreak()
         {
-           SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
+            SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
+
+            effect.gameObject.SetActive(true);
+
             coll.enabled = false;
             collChild.enabled = false;
             iceAnime.SetTrigger("On");
