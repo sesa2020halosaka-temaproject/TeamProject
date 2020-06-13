@@ -60,7 +60,7 @@ namespace TeamProject
         // 当たり判定を消す処理
         public void StartBreak()
         {
-           // SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
+           SEManager.Instance.Play(SEPath.SE_BROKEN_ICE);
             coll.enabled = false;
             collChild.enabled = false;
             iceAnime.SetTrigger("On");
