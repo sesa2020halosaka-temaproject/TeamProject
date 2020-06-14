@@ -673,7 +673,7 @@ namespace TeamProject
             {
                 if (itr.befor.tag != "Hit")
                 {
-                    var minionCom = itr.befor.GetComponent<Minion>();
+                    var minionCom = itr.befor.transform.root.GetComponent<Minion>();
                     if (minionCom != null)
                     {
                         if (minionCom.IsFall)
