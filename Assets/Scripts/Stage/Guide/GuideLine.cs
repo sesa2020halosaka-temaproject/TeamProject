@@ -30,7 +30,7 @@ namespace TeamProject
 
             var playerObj = GameObject.FindGameObjectWithTag("Player");
 
-            player = playerObj.GetComponent<PlayerVer2>();
+            player = playerObj.transform.root.GetComponent<PlayerVer2>();
             uvSpeed = 0.5f;
             size = 0.65f;
         }
