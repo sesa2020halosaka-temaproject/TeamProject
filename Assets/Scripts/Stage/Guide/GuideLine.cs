@@ -47,7 +47,9 @@ namespace TeamProject
 
         private void Update()
         {
-            mat.SetTextureOffset("_BaseColorMap", new Vector2(-Time.time * uvSpeed, 0f));
+            //mat.SetTextureOffset("_BaseColorMap", new Vector2(-Time.time * uvSpeed, 0f));
+            mat.SetTextureOffset("_UnlitColorMap", new Vector2(-Time.time * uvSpeed, 0f));
+            
             if (meshRenderer) meshRenderer.enabled = pos != null;
         }
     }
