@@ -19,11 +19,25 @@ namespace TeamProject
 
         public float UvSpeed { set { uvSpeed = value; } }
 
+        private Pause pause;
+
+        private PlayerVer2 player;
+
         private void Start()
         {
             base.Start();
+            GameObject uiChild = GameObject.FindGameObjectWithTag("StageObjectCunvas");
+
+            //var uiParentPbject = uiChild.transform.root.gameObject;
+
+            pause = uiChild.GetComponentInChildren<Pause>();
+
+            var playerObj = GameObject.FindGameObjectWithTag("Player");
+
+            player = playerObj.GetComponent<PlayerVer2>();
+
         }
-        
+
         public void Hoge()
         {
             Clear();
@@ -49,8 +63,13 @@ namespace TeamProject
         {
             //mat.SetTextureOffset("_BaseColorMap", new Vector2(-Time.time * uvSpeed, 0f));
             mat.SetTextureOffset("_UnlitColorMap", new Vector2(-Time.time * uvSpeed, 0f));
-            
-            if (meshRenderer) meshRenderer.enabled = pos != null;
+            Debug.Log("置いgじゃえおいrj魏えらj語彙エアジオじょい");
+            if (meshRenderer)
+            {
+                var flag = pos != null &&! (player.NowFunctionNum == (uint)PlayerVer2.TRANSITION.Goal || pause.NowFunctionNum != (uint)Pause.TRANS.PauseWait);
+                meshRenderer.enabled = flag;
+                return;
+            }
         }
     }
 
