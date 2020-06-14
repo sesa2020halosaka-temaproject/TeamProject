@@ -1275,8 +1275,11 @@ namespace TeamProject
         }
         private IEnumerator ToJumpStart()
         {
-            yield return new WaitForSeconds(0.5f);
-            SetFunction((uint)TRANSITION.Move);
+            yield return new WaitForSeconds(0.7f);
+            if (NowFunctionNum == (uint)TRANSITION.Jump)
+            {
+               //  SetFunction((uint)TRANSITION.Move);
+            }
             var down = transform.forward * moveSpeed;
             down.y = rb.velocity.y;
             rb.velocity = down;

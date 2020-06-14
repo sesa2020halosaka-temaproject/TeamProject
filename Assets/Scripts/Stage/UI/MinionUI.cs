@@ -122,6 +122,7 @@ namespace TeamProject
 
                 nowNomTen.sprite = numberSprite[numV % 10];
                 nowNomTen.SetNativeSize();
+                nowNomTen.enabled = true;
             }
 
             if (beforMinionNum != num)
