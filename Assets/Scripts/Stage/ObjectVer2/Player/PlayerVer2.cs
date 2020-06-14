@@ -152,6 +152,9 @@ namespace TeamProject
         private GuideLine[] guideLine;
 
         [SerializeField]
+        private GameObject guidBase;
+
+        [SerializeField]
         private Material mat1;
         
         [SerializeField]
@@ -220,18 +223,18 @@ namespace TeamProject
 
             walkSoundManage = GetComponent<WalkSoundManage>();
 
-            var obj = Instantiate(new GameObject(), Vector3.up, Quaternion.identity);
-            var obj2 = Instantiate(new GameObject(), Vector3.up * 1.5f, Quaternion.identity);
+            var obj = Instantiate(guidBase, Vector3.up, Quaternion.identity);
+            var obj2 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
 
             obj.name = "GuidLineObject1";
             obj2.name = "GuidLineObject2";
 
             guideLine = new GuideLine[2];
 
-            guideLine[0] = obj.AddComponent<GuideLine>();
+            guideLine[0] = obj.GetComponent<GuideLine>();
             guideLine[0].Mat = mat1;
 
-            guideLine[1] = obj2.AddComponent<GuideLine>();
+            guideLine[1] = obj2.GetComponent<GuideLine>();
             guideLine[1].Mat = mat2;
         }
 

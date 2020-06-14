@@ -29,7 +29,7 @@ namespace TeamProject
         private float _uvSize = 2.0f;
 
         // メッシュ
-        private Mesh mesh = new Mesh();
+        private Mesh mesh;
 
         // メッシュを描画する部分
         protected MeshRenderer meshRenderer;
@@ -39,6 +39,7 @@ namespace TeamProject
         {
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
             meshFilter = gameObject.AddComponent<MeshFilter>();
+            mesh = new Mesh();
         }
 
         public void PaintStart(Vector3 _tp)
