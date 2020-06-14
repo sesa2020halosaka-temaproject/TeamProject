@@ -26,6 +26,12 @@ namespace TeamProject
         [SerializeField]
         private GameObject particleSystem;
 
+        // 落ちてるか判断する
+        private float yOldPos;
+
+        private bool isFall = true;
+        public bool IsFall { get { return isFall; } }
+
         enum TRANS
         {
             None,
@@ -132,7 +138,9 @@ namespace TeamProject
             //modelRendere[1] = body.ToArray();
             // 分けなくても1のマテリアル追加したらよかったやんけハゲ
 
-           // modelRendere[0].materials
+            // modelRendere[0].materials
+
+            yOldPos = transform.position.y;
         }
         
         private  void None()
@@ -174,6 +182,8 @@ namespace TeamProject
             GetFloor();
 
             ChangeMaterial();
+
+            OldPosJuge();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -289,6 +299,13 @@ namespace TeamProject
             matOldChangeFlag = matChangeFlag;
 
             matChangeFlag = false;
+        }
+
+        private void OldPosJuge()
+        {
+            isFall = transform.position.y != yOldPos;
+
+            yOldPos = transform.position.y;
         }
 
         public void OnFlag()
