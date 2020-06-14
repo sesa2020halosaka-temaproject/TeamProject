@@ -453,7 +453,7 @@ namespace TeamProject
 
             var choicePositionConv = CameraConversion(choicePosition);
             float min = 0, max = 0;
-
+            
             foreach (var itr in choiceObjectList)
             {
                 if (itr.befor.tag != "Hit")
@@ -664,6 +664,23 @@ namespace TeamProject
                     }
                 }
             }
+            
+            // 落ちている途中の小人がいれば、やりなおし
+            foreach (var itr in choiceObjectList)
+            {
+                if (itr.befor.tag != "Hit")
+                {
+                    var minionCom = itr.befor.GetComponent<Minion>();
+                    if (minionCom != null)
+                    {
+                        if (minionCom.IsFall)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            
             // 指定できないようにする
             rootCheckFlag = false;
 
