@@ -673,7 +673,7 @@ namespace TeamProject
             {
                 if (itr.befor.tag != "Hit")
                 {
-                    var minionCom = itr.befor.GetComponent<Minion>();
+                    var minionCom = itr.befor.transform.root.GetComponent<Minion>();
                     if (minionCom != null)
                     {
                         if (minionCom.IsFall)
@@ -1150,24 +1150,52 @@ namespace TeamProject
 
             // プレイヤーとターゲットの足元のオブジェクトを取得し、消したオブジェクトの中にそれがあるか確認
             // あった場合は絶対たどり着かないのでreturn false;
-            
+
             // ------------------------------------ここまで追記
+
+            GameObject minionGroundObject= null;
+            
+            // 小人の乗っている床を判定する必要がるので取得する
+            // ----------------------------------------地面取得
+            {
+                RaycastHit hit;
+                Ray minionGroundRay = new Ray(choicePosition, -Vector3.up);
+                var flag = Physics.Raycast(minionGroundRay, out hit, 10000f, rayCheck);
+                if (flag)
+                {
+                    minionGroundObject = hit.collider.gameObject;
+                    Debug.Log(minionGroundObject.name);
+                    Debug.Log(minionGroundObject.transform.root.name);
+                }
+            }
+            // ------------------------------------地面取得終了
+
 
             // 地面判定のオブジェクトのみのレイを取って
             // 配列に入れる
             var lengthArray = new float[rayNum];
             var outPos = new Vector3[rayNum];
+            var hitOjbect = new GameObject[rayNum];
+
+            var elaseHitData = new List<GameObject>();
+
             for (int i = 0; i < rayNum; i++)
             {
                 RaycastHit hit;
-                Physics.Raycast(rayArray[i], out hit, 10000f, rayCheck);
+                var flag = Physics.Raycast(rayArray[i], out hit, 10000f, rayCheck);
 
                 // 長さを代入
                 lengthArray[i] = hit.distance;
                 outPos[i] = hit.point;
+                if (flag)
+                {
+                    hitOjbect[i] = hit.collider.gameObject;
+                }
+                else
+                {
+                    hitOjbect[i] = null;
+                }
             }
-
-            foreach (var itr in elaseObject) itr.SetActive(true);
 
             // 配列の低い数字から長さの差分をとる(初期は要素0を代入)
             float diff = 0;
@@ -1184,6 +1212,40 @@ namespace TeamProject
                 Debug.Log(diff);
                 if (judgeHight < -diff)
                 {
+                    RaycastHit hit;
+                    var flag = Physics.Raycast(rayArray[i], out hit, 10000f, rayCheck);
+
+                    if (hitOjbect[i] && minionGroundObject)
+                    {
+                        if (flag)
+                        {
+                            if (minionGroundObject.GetHashCode() != hit.collider.gameObject.GetHashCode())
+                            {
+                                elaseHitData.Add(hitOjbect[i]);
+                                hitOjbect[i].SetActive(false);
+                                hitOjbect[i] = hit.collider.gameObject;
+                                // 長さを代入
+                                lengthArray[i] = hit.distance;
+                                outPos[i] = hit.point;
+                                Debug.Log(hit.collider.gameObject.name);
+                                // もう一度判定したいので戻す
+                                i--;
+                                continue;
+
+                            }
+                            else
+                            {
+                                hitOjbect[i] = hit.collider.gameObject;
+                                // 長さを代入
+                                lengthArray[i] = hit.distance;
+                                outPos[i] = hit.point;
+                                Debug.Log(hit.collider.gameObject.name);
+                            }
+                        }
+                    }
+
+
+
                     var elem = i - beforFrame;
                     if (elem < 0) continue;
                     outPosList.Add(outPos[i - beforFrame]);
@@ -1194,6 +1256,8 @@ namespace TeamProject
                 oldLength = lengthArray[i];
             }
 
+            foreach (var itr in elaseObject) itr.SetActive(true);
+            foreach (var itr in elaseHitData) itr.SetActive(true);
             for (int i = 0; i < num; i++)
             {
                 var hight = 0.5f;
@@ -1202,7 +1266,7 @@ namespace TeamProject
                 if (outPosList[i].y + hight < choicePosition.y)
                 {
                     // 参照物を返す
-                    _outPos = outPosList[i];
+                    // _outPos = outPosList[i];
 
                     Vector3[] goolLine = new Vector3[ind];
                     Vector3[] badLine = new Vector3[outPos.Length - ind + 1];
@@ -1218,18 +1282,18 @@ namespace TeamProject
                 else
                 {
                     //Debug.Break();
-                    Debug.Log(ind);
-                    outPos[ind].y = outPos[ind - 1].y;
-                    lengthArray[ind] = lengthArray[ind - 1];
-                    diff = lengthArray[ind+1] - lengthArray[ind];
-                    if (judgeHight < -diff)
-                    {
-                        var elem = ind - beforFrame;
-                        if (elem < 0) continue;
-                        outPosList.Add(outPos[ind - beforFrame]);
-                        outPosIndx.Add(outPosIndx[i] + 1);
-                        num++;
-                    }
+                    //Debug.Log(ind);
+                    //outPos[ind].y = outPos[ind - 1].y;
+                    //lengthArray[ind] = lengthArray[ind - 1];
+                    //diff = lengthArray[ind+1] - lengthArray[ind];
+                    //if (judgeHight < -diff)
+                    //{
+                    //    var elem = ind - beforFrame;
+                    //    if (elem < 0) continue;
+                    //    outPosList.Add(outPos[ind - beforFrame]);
+                    //    outPosIndx.Add(outPosIndx[i] + 1);
+                    //    num++;
+                    //}
                 }
             }
 
