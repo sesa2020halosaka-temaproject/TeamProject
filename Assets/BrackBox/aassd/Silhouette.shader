@@ -1,0 +1,67 @@
+Shader "Custom/Silhouette" {
+	Properties {
+		_MainTex("Main Texture", 2D) = "white" { }
+		_SilhouetteColor("Silhouette Color", Color) = (0.0, 0.0, 0.0, 1.0)
+	}
+	
+	SubShader {
+		Tags { "Queue" = "Geometry+1" "RenderType"="Opaque" }
+		
+		Pass {
+			
+			ZWrite Off
+			ZTest Always
+
+			CGPROGRAM
+			
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#include "UnityCG.cginc"
+			
+			float4 _SilhouetteColor;
+			
+			struct vertInput {
+				float4 vertex:POSITION;
+				float3 normal:NORMAL;
+			};
+			
+			struct fragInput {
+				float4 pos:SV_POSITION;
+			};
+			
+			fragInput vert(vertInput i) {
+				fragInput o;
+				o.pos = UnityObjectToClipPos(i.vertex);
+				return o;
+			}  
+			
+			float4 frag(fragInput i) : COLOR {
+				return _SilhouetteColor;
+			}
+			
+			ENDCG
+		}
+		
+
+		CGPROGRAM
+			
+		#pragma surface surf Lambert
+		#include "UnityCG.cginc"
+		
+		sampler2D _MainTex;
+		
+		struct Input {
+			float2 uv_MainTex;
+		};
+
+		void surf(Input IN, inout SurfaceOutput o) {
+			float4 col = tex2D(_MainTex, IN.uv_MainTex);
+			o.Albedo = col.rgb;
+		}
+		
+		ENDCG
+	}
+	
+	FallBack "Diffuse"
+}
