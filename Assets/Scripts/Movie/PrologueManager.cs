@@ -16,7 +16,7 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-            base.MoveStateUpdate();
+            base.MovieStateUpdate();
         }
     } //public class PrologueManager : MonoBehaviour    END
 } //namespace TeamProject    END

@@ -20,7 +20,7 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-            base.MoveStateUpdate();
+            base.MovieStateUpdate();
         }
     } //public class OpeningManager : MonoBehaviour    END
 } //namespace TeamProject    END

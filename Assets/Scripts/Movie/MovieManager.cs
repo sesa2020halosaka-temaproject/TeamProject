@@ -105,12 +105,6 @@ namespace TeamProject
 
 
         }
-        // Update is called once per frame
-        void Update()
-        {
-            //MoveStateUpdate();
-            //Debug.LogError(m_VideoPlayer.isPlaying + "！");
-        }//Update() END
 
         //SkipボタンUI非表示用カウント関数
         private void InvisibleTimeUpdate()
@@ -144,8 +138,8 @@ namespace TeamProject
             }
         }
 
-        //MoveState用更新関数
-        public void MoveStateUpdate()
+        //MovieState用更新関数
+        public void MovieStateUpdate()
         {
             switch (m_MovieState)
             {
