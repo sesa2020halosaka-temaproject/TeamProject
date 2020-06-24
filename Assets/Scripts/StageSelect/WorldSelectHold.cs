@@ -68,10 +68,6 @@ namespace TeamProject
             m_SizeDeltaX = 0;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        }
         public void WorldSelectUpdate()
         {
             //前のフレームの入力状態の保存

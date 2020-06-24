@@ -42,10 +42,5 @@ namespace TeamProject
             }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     } //public class StageNameParent : MonoBehaviour    END
 } //namespace TeamProject    END
