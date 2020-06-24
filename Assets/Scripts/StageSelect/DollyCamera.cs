@@ -47,12 +47,6 @@ namespace TeamProject
         public DollyTrack_Box m_DoTrBox;//ドリールートの格納用
         public DollyTrack_Position m_DoTrPos;//ドリールートの格納用
 
-
-
-        //public GameObject _DollyCartObj;//ドリーカート用ゲームオブジェクト
-        //public GameObject _TargetObj;//ドリーカートを先導するゲームオブジェクト
-        //public CinemachineDollyCart _DollyCart;
-
         //public FixedDollyCamera //_SubDolly;
         private void Awake()
         {
@@ -89,16 +83,6 @@ namespace TeamProject
         }
         private void Start()
         {
-            ////ドリーカート用ゲームオブジェクト
-            //_DollyCartObj = GameObject.Find("DollyCart").gameObject;
-            ////ドリーカートを先導するゲームオブジェクト
-            //_TargetObj = _DollyCartObj.transform.GetChild(0).gameObject;
-            ////CinemachineDollyCartコンポーネント
-            //_DollyCart = _DollyCartObj.GetComponent<CinemachineDollyCart>();
-
-
-            //_SubDolly = GameObject.Find("Current_VCamera").GetComponent<FixedDollyCamera>();
-            //Debug.Log(dolly.name + "：m_Path：" + dolly.m_Path);
 
             if (Stage_MoveRatio < 0)
             {
@@ -244,15 +228,11 @@ namespace TeamProject
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.LEFT)
             {
                 dolly.m_PathPosition = pathPositionMin;
-                //_DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
             }
             else if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.RIGHT)
             {
                 dolly.m_PathPosition = pathPositionMin;
-                // _DollyCart.m_Position = m_WP.Stage_WayPoint[StageStatusManager.Instance.StageInWorld];
             }
-
-            //Debug.Log(this.dolly.m_PathPosition);
         }
         //ドリールートの加算倍率の変更
         public void SetAddTime()
@@ -293,11 +273,9 @@ namespace TeamProject
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.LEFT:
                     this.dolly.m_Path = m_DoTrBox.m_Dolly_PrevWorld[(int)StageStatusManager.Instance.CurrentStage];//前ワールド移動用ドリーパスをセット
-                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W2toW1[StageStatusManager.Instance.StageInWorld];   //前ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.RIGHT:
                     this.dolly.m_Path = m_DoTrBox.m_Dolly_NextWorld[(int)StageStatusManager.Instance.CurrentStage];//次ワールド移動用ドリーパスをセット
-                    //this._DollyCart.m_Path = m_DoTr.m_Dolly_W1toW2[StageStatusManager.Instance.StageInWorld];   //次ワールド移動用ドリーパスをセット
                     break;
                 case StageChangeManager.STAGE_CHANGE_KEY.ALL:
                     break;
