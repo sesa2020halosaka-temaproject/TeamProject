@@ -106,9 +106,13 @@ namespace TeamProject
             }
         }
 
+        [Header("OPを視聴済みフラグ(true:視聴済,false:未視聴)")]
         public bool m_WatchOpeningFlag = false;                                                //オープニングを見たかどうかフラグ(true:見た,false:見てない)
-        public bool m_LastStageClearFlag = false;                                              //ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
+        [Header("移動制限解除フラグ")]
         public bool m_RemovalLimitFlag = false;                                                //全ステージ移動可能フラグ(true:制限解除,false:制限あり)
+        [Header("ラストステージクリアフラグ")]
+        public bool m_LastStageClearFlag = false;                                              //ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
+        [Header("オールアンロックフラグ")]
         public bool m_AllUnlockFlag = false;                                                   //オールアンロックフラグ(true:オールアンロック,false:通常)
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
         public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];                  //各ステージの小人取得数
