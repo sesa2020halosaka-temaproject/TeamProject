@@ -8,6 +8,8 @@ namespace TeamProject
 {
     public class StageSelect : MonoBehaviour
     {
+        [Header("ステージ移動制限解除用フラグ(チェック外し忘れに注意)")]
+        public bool m_UnlimitedMove_flag;
         [Header("シーン開始時のフェードイン時間"), Range(0.0f, 10.0f)]
         public float Start_FadeIn_Time;//タイトルに遷移する時のフェードアウト時間
 
@@ -77,8 +79,6 @@ namespace TeamProject
         private int db_cnt = 0;//デバッグログ確認用カウント
 
         private StageSelectSound m_SelectSound;
-        //private CurrentToNextWorldUIManager m_ToNextWName;
-        //private WorldStatusUIManager m_WorldStatus;
         private StageSelectUIManager m_StageSelectUIManager;
 
         private WorldSelectHold m_Hold;
@@ -104,13 +104,19 @@ namespace TeamProject
 
             m_StageSelectUIManager = this.GetComponent<StageSelectUIManager>();
             m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
-            //m_ToNextWName = GameObject.Find("CurrentToNextWorld").GetComponent<CurrentToNextWorldUIManager>();
-            //m_WorldStatus = GameObject.Find("WorldStatus").GetComponent<WorldStatusUIManager>();
+
+            //デバッグ用としてfalseの時だけInspector上のフラグをセットする
+            if (StageStatusManager.Instance.m_RemovalLimitFlag == false)
+            {
+                //移動制限を解除するかどうか。
+                StageStatusManager.Instance.m_RemovalLimitFlag = m_UnlimitedMove_flag;
+            }
         }
         // Start is called before the first frame update
         void Start()
         {
-            ////フェードイン
+
+            //画面を真っ暗にする
             FadeManager.BlackOut();
             //FadeManager.FadeIn(Start_FadeIn_Time);
             Debug.Log("Debugカウント：" + db_cnt);
@@ -191,7 +197,7 @@ namespace TeamProject
                     //フェードイン
                     FadeManager.FadeIn(Start_FadeIn_Time);
                     //BGMスタート
-                    //m_SelectSound.StageSelectStartBGM();
+                    m_SelectSound.StageSelectStartBGM();
 
                 }
                 else
