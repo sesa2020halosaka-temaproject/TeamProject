@@ -8,31 +8,44 @@ namespace TeamProject
     public class LookAtObject : MonoBehaviour
     {
         public Vector3[] m_StageTargetPos = new Vector3[(int)STAGE_NO.STAGE_NUM];
-        [Header("/前進時のカメラ方向転換時間"), Min(0)]
+        [Header("前進時の方向転換時間"), Min(0)]
         public float m_Go_SwingTime;//前進時のカメラ方向転換時間
-        [Min(0)]
+
+        [Header("後進時の方向転換時間"), Min(0)]
         public float m_Back_SwingTime;//後進時のカメラ方向転換時間
-        [Min(0)]
+
+        [Header("ワールド間移動時の方向転換時間"), Min(0)]
         public float m_World_SwingTime;//ワールド間移動時のカメラ方向転換時間
 
         private float m_MoveTime;//カメラ方向転換時間
 
         public enum TARGET_MOVESTATE
         {
-            FIXING = 0,//
-            NEXTSTAGE,//
-            PREVSTAGE,//
-            NEXTWORLD,//
-            PREVWORLD,//
-            ALL_STATE//
+            FIXING = 0, //カメラ固定
+            NEXTSTAGE,  //次のステージへ
+            PREVSTAGE,  //前のステージへ
+            NEXTWORLD,  //次のワールドへ
+            PREVWORLD,  //前のワールドへ
+            ALL_STATE   //全状態数
         }
         public TARGET_MOVESTATE m_TargetMoveState;
         private float m_PosRatio;
 
+        //private void Awake()
+        //{
+        //    //Debug.Log(":");
+        //    for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
+        //    {
+        //        //ステージごとの注視点座標を格納する
+        //        m_StageTargetPos[i] = TargetStages.m_Stages[i].transform.position;
+        //    }
+        //    m_TargetMoveState = TARGET_MOVESTATE.FIXING;
+        //    StartPosition();
+        //}
+
         // Start is called before the first frame update
         void Start()
         {
-            //Debug.Log(":");
             for (int i = 0; i < (int)STAGE_NO.STAGE_NUM; i++)
             {
                 //ステージごとの注視点座標を格納する
@@ -93,12 +106,8 @@ namespace TeamProject
             {
                 return;
             }
-            //二点間の距離を代入(スピード調整に使う)
-
-            //float distance_two = Vector3.Distance(StartPosition, EndPosition);
-
-            // 現在の位置
-            m_PosRatio += (Time.deltaTime / MoveTime);/// distance_two;
+            // 現在の位置(2点間の距離からの割合)
+            m_PosRatio += (Time.deltaTime / MoveTime);
 
             // オブジェクトの移動
             this.transform.position = Vector3.Lerp(StartPosition, EndPosition, m_PosRatio);

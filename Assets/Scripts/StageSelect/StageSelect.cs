@@ -8,6 +8,9 @@ namespace TeamProject
 {
     public class StageSelect : MonoBehaviour
     {
+        [Header("シーン開始時のフェードイン時間"), Range(0.0f, 10.0f)]
+        public float Start_FadeIn_Time;//タイトルに遷移する時のフェードアウト時間
+
         [Header("タイトル遷移時のフェードアウト時間"), Range(0.0f, 10.0f)]
         public float ToTitle_FadeOut_Time;//タイトルに遷移する時のフェードアウト時間
 
@@ -85,6 +88,12 @@ namespace TeamProject
 
         private LensDistortionManager m_LensDistortionManager;
         private bool m_StageInUIMoveFlag = false;
+
+        //カメラの角度保持用
+        private Quaternion m_PrevFrameCamRot;       //前のフレームの角度
+        private Quaternion m_CurrentFrameCamRot;    //現在のフレームの角度
+        private bool m_CamRotCheckFlag = false;     //前のフレームと一致したかどうかの確認用フラグ
+
         //=================================================================
         //関数ここから
         //=================================================================
@@ -101,8 +110,9 @@ namespace TeamProject
         // Start is called before the first frame update
         void Start()
         {
-            //フェードイン
-            FadeManager.FadeIn(1.3f);
+            ////フェードイン
+            FadeManager.BlackOut();
+            //FadeManager.FadeIn(Start_FadeIn_Time);
             Debug.Log("Debugカウント：" + db_cnt);
             db_cnt++;
 
@@ -110,7 +120,7 @@ namespace TeamProject
             //BGMスタート
             BGMManager.Instance.Stop();
             SEManager.Instance.Stop();
-            m_SelectSound.StageSelectStartBGM();
+            //m_SelectSound.StageSelectStartBGM();
 
             //WayPoint用ゲームオブジェクト取得
             m_WP = GameObject.Find("WayPoint_Box").GetComponent<WayPoint_Box>();
@@ -126,8 +136,9 @@ namespace TeamProject
             //DollyTrack用ゲームオブジェクト取得
             m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
 
+            //Debug.Log("0：メインカメラの角度:" + UnityEngine.Camera.main.transform.rotation);
 
-            //用ゲームオブジェクト取得
+            //カメラの注視点用ゲームオブジェクト取得
             m_TargetObj = GameObject.Find("Bellwether").gameObject;
             m_LookAt = m_TargetObj.GetComponent<LookAtObject>();
             //================================================
@@ -144,14 +155,19 @@ namespace TeamProject
             //ドリールートの設定
             //LookAt・注視点の設定
             _Main_DollyCam.SetLookAtTarget(m_TargetObj);
+
             //Dollyカメラの座標をドリールートの座標に合わせる
             _Main_DollyCam.SetStartDollyPos();
 
+            //固定用ドリールートのセット
             _Main_DollyCam.SetPathFixingDolly();
+
             //各ドリーカメラにパス位置をセット
             _Main_DollyCam.SetPathPosition(m_CurrentPathPosition);
+
             //開始画角のセット
             _Main_DollyCam.SetFOV(m_StartFOV);
+
             //現在のステージ位置でのアクティブ化処理
             m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromCurrentStage();
 
@@ -166,39 +182,62 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-            select_state = StageChangeManager.GetSelectState();
-            switch (StageChangeManager.GetSelectState())
+            if (!m_CamRotCheckFlag)
             {
-                case SELECT_STATE.KEY_WAIT:
-                    StateKeyWait();
-                    break;
-                case SELECT_STATE.BEFORE_STAGE_MOVING:
-                    StateBeforeStageMoving();
-                    //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+                m_CurrentFrameCamRot = UnityEngine.Camera.main.transform.rotation;
+                if (m_CurrentFrameCamRot == m_PrevFrameCamRot)
+                {
+                    m_CamRotCheckFlag = true;
+                    //フェードイン
+                    FadeManager.FadeIn(Start_FadeIn_Time);
+                    //BGMスタート
+                    //m_SelectSound.StageSelectStartBGM();
 
-                    break;
-                case SELECT_STATE.STAGE_MOVING:
-                    //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+                }
+                else
+                {
 
-                    StateStageMoving();
-                    break;
-                case SELECT_STATE.BEFORE_WORLD_MOVING:
-                    StateBeforeWorldMoving();
-                    break;
-                case SELECT_STATE.WORLD_MOVING:
-                    StateWorldMoving();
-                    break;
+                    m_PrevFrameCamRot = UnityEngine.Camera.main.transform.rotation;
+                }
+            }
+            else
+            {
+
+                select_state = StageChangeManager.GetSelectState();
+                switch (StageChangeManager.GetSelectState())
+                {
+                    case SELECT_STATE.KEY_WAIT:
+                        StateKeyWait();
+                        break;
+                    case SELECT_STATE.BEFORE_STAGE_MOVING:
+                        StateBeforeStageMoving();
+                        //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+
+                        break;
+                    case SELECT_STATE.STAGE_MOVING:
+                        //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
+
+                        StateStageMoving();
+                        break;
+                    case SELECT_STATE.BEFORE_WORLD_MOVING:
+                        StateBeforeWorldMoving();
+                        break;
+                    case SELECT_STATE.WORLD_MOVING:
+                        StateWorldMoving();
+                        break;
 
 
-                case SELECT_STATE.SCENE_MOVING:
-                    StateSceneMoving();
-                    break;
-                case SELECT_STATE.STATE_NUM:
-                    break;
-                default:
-                    break;
-            }//switch (StageChangeManager.GetSelectState()) END
+                    case SELECT_STATE.SCENE_MOVING:
+                        StateSceneMoving();
+                        break;
+                    case SELECT_STATE.STATE_NUM:
+                        break;
+                    default:
+                        break;
+                }//switch (StageChangeManager.GetSelectState()) END
+            }
         }//void Update()    END
+
         //private void LateUpdate()
         //{
         //    if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
@@ -225,7 +264,6 @@ namespace TeamProject
                     )
                 {
                     m_Counter += Time.deltaTime;
-
                 }
 
                 //m_InputStopFrameの分だけ待たせる
@@ -247,7 +285,6 @@ namespace TeamProject
             //フラグがONになったら入力可能にする
             else if (KeyWaitFlagCheck())
             {
-
                 //ステージ選択（WSキー or スティック上下）
                 //StageChange();
                 StageChangeManager.StageChange();
