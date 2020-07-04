@@ -24,11 +24,6 @@ namespace TeamProject
             m_DoTr_Box.SetWayPointPosition();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         public Vector3 GetCurrentPosition()
         {

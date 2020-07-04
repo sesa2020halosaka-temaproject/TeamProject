@@ -69,10 +69,6 @@ namespace TeamProject
             m_BGColor.a = m_MaxAlphaRatio;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        }//void Update()    END
          //
         public void UIBackGroundCurrentStageUpdate()
         {

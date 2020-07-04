@@ -12,12 +12,9 @@ namespace TeamProject
         private static bool m_MainDolly_flag = false;
         // private static bool m_SubDolly_flag = false;
 
-        private static bool m_DollyCart_flag = false;
 
         private static StageSelect.SELECT_STATE m_SelectState = StageSelect.SELECT_STATE.KEY_WAIT;
-        private static MixingCamera.MIXING_STATE m_MixingState = MixingCamera.MIXING_STATE.FIXING;
         private static DollyCamera.DOLLY_MOVE m_DollyState = DollyCamera.DOLLY_MOVE.FIXING;
-        //private static DollyCartManager.DOLLYCART_MOVE m_DollyCartState = DollyCartManager.DOLLYCART_MOVE.FIXING;
 
         private static int m_LeftEdge = (int)WORLD_NO.W1;//ワールド移動制限用左端
         private static int m_RightEdge = (int)WORLD_NO.W4;//ワールド移動制限用右端
@@ -239,47 +236,6 @@ namespace TeamProject
         {
             return m_StageChangeKey;
         }
-        //============================================================
-        //ミキシングカメラ処理
-        public static MixingCamera.MIXING_STATE MixingState()
-        {
-            return m_MixingState;
-        }
-        public static void MixingStateChange(string _Word)
-        {
-            if (_Word == "GO")
-            {
-                m_MixingState = MixingCamera.MIXING_STATE.GO;
-
-            }
-            else if (_Word == "BACK")
-            {
-                m_MixingState = MixingCamera.MIXING_STATE.BACK;
-
-            }
-            else if (_Word == "WORLD")
-            {
-                m_MixingState = MixingCamera.MIXING_STATE.WORLD;
-
-            }
-            else if (_Word == "WORLD_END")
-            {
-                m_MixingState = MixingCamera.MIXING_STATE.WORLD_END;
-
-            }
-            else if (_Word == "FIXING")
-            {
-                m_MixingState = MixingCamera.MIXING_STATE.FIXING;
-
-            }
-            else
-            {
-                Debug.LogAssertion("MIXING_STATEの言葉が違います。");
-                m_MixingState = MixingCamera.MIXING_STATE.FIXING;
-
-            }
-        }
-
         //============================================================
         //ドリーカメラ処理
 

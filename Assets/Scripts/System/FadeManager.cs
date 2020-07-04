@@ -89,6 +89,15 @@ public class FadeManager : MonoBehaviour
         isFadeOut = true;
     }
 
+    //フェードキャンバスのみ表示（真っ黒画面を出すだけ）
+    public static void BlackOut()
+    {
+        if (fadeImage == null) Init();
+        fadeImage.color = Color.black;
+        fadeCanvas.enabled = true;
+
+    }
+
     //フェード中かどうか(フェード中ならfalse)
     public static bool IsFade()
     {

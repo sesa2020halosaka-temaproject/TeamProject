@@ -207,11 +207,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: -540, y: 70, z: -1215}
     roll: 0
-  - position: {x: -300, y: 75, z: -1260}
+  - position: {x: -350, y: 80, z: -1265}
     roll: 0
-  - position: {x: -70, y: 80, z: -1300}
+  - position: {x: -155, y: 85, z: -1295}
     roll: 0
-  - position: {x: 17, y: 85, z: -1290}
+  - position: {x: -60, y: 85, z: -1305}
+    roll: 0
+  - position: {x: -6, y: 85, z: -1300}
+    roll: 0
+  - position: {x: 24.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -310,6 +316,8 @@ MonoBehaviour:
   - position: {x: 2436, y: 69, z: 1050}
     roll: 0
   - position: {x: 2424, y: 68, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -556,6 +564,8 @@ MonoBehaviour:
   - position: {x: -1760, y: 45, z: 1330}
     roll: 0
   - position: {x: -1810, y: 60, z: 1280}
+    roll: 0
+  - position: {x: -1851, y: 74, z: 1240}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -864,6 +874,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b5de4a6e231a142936888ca203c069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UnlimitedMove_flag: 0
+  Start_FadeIn_Time: 3
   ToTitle_FadeOut_Time: 0
   StageIn_FadeOut_Time: 1.5
   StageIn_Zoom_Time: 1.6
@@ -1049,6 +1061,8 @@ MonoBehaviour:
     roll: 0
   - position: {x: 2424, y: 69, z: 1050}
     roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
+    roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
 --- !u!1 &169035259
@@ -1101,35 +1115,35 @@ MonoBehaviour:
     width: 1
   m_Looped: 0
   m_Waypoints:
-  - position: {x: 1859.3988, y: 85, z: 799.67395}
+  - position: {x: 1860, y: 85, z: 800}
     roll: 0
-  - position: {x: 1875.9849, y: 86, z: 840.0052}
+  - position: {x: 1875, y: 86, z: 840}
     roll: 0
-  - position: {x: 1882.6299, y: 87, z: 856.1693}
+  - position: {x: 1882, y: 87, z: 856}
     roll: 0
-  - position: {x: 1884.9707, y: 88, z: 861.8652}
+  - position: {x: 1885, y: 88, z: 861}
     roll: 0
-  - position: {x: 1885.957, y: 89, z: 864.2654}
+  - position: {x: 1885, y: 89, z: 864}
     roll: 0
-  - position: {x: 1886.3628, y: 90, z: 865.2527}
+  - position: {x: 1886, y: 90, z: 865}
     roll: 0
-  - position: {x: 1886.5309, y: 91, z: 865.66125}
+  - position: {x: 1886, y: 91, z: 865}
     roll: 0
-  - position: {x: 1886.6003, y: 85, z: 865.8302}
+  - position: {x: 1886, y: 85, z: 865}
     roll: 0
-  - position: {x: 1886.6288, y: 84.99999, z: 865.9001}
+  - position: {x: 1886, y: 85, z: 865}
     roll: 0
   - position: {x: 1880, y: 85, z: 850}
     roll: 0
-  - position: {x: 1841.0455, y: 87, z: 749.28345}
+  - position: {x: 1840, y: 87, z: 750}
     roll: 0
-  - position: {x: 1836.0538, y: 89, z: 670.63837}
+  - position: {x: 1836, y: 89, z: 670}
     roll: 0
-  - position: {x: 1866.7288, y: 91, z: 561.94025}
+  - position: {x: 1866, y: 91, z: 560}
     roll: 0
-  - position: {x: 1915.4818, y: 93, z: 459.97226}
+  - position: {x: 1915, y: 93, z: 460}
     roll: 0
-  - position: {x: 1991.6016, y: 90, z: 351.66742}
+  - position: {x: 1991, y: 90, z: 350}
     roll: 0
   - position: {x: 2015, y: 88, z: 193}
     roll: 0
@@ -1143,15 +1157,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: 315, y: 85, z: -1185}
     roll: 0
-  - position: {x: 200, y: 85, z: -1317}
+  - position: {x: 200, y: 85, z: -1310}
     roll: 0
-  - position: {x: 120, y: 85, z: -1337}
+  - position: {x: 120, y: 85, z: -1325}
     roll: 0
-  - position: {x: 75, y: 85, z: -1315}
+  - position: {x: 76, y: 85, z: -1315}
     roll: 0
-  - position: {x: 52, y: 85, z: -1296}
+  - position: {x: 52, y: 85, z: -1300}
     roll: 0
-  - position: {x: 40, y: 85, z: -1286}
+  - position: {x: 32.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -1394,6 +1410,8 @@ MonoBehaviour:
     roll: 0
   - position: {x: 2424, y: 68, z: 1050}
     roll: 0
+  - position: {x: 2414, y: 68.1, z: 1049.9995}
+    roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
 --- !u!1 &232006027
@@ -1486,23 +1504,25 @@ MonoBehaviour:
     roll: 0
   - position: {x: 45, y: 70, z: 1750}
     roll: 0
-  - position: {x: -55, y: 136.07481, z: 1445}
+  - position: {x: -55, y: 135, z: 1445}
     roll: 0
-  - position: {x: -380, y: 206.6398, z: 1520}
+  - position: {x: -380, y: 205, z: 1520}
     roll: 0
-  - position: {x: -603.4738, y: 257.62573, z: 1581.7589}
+  - position: {x: -605, y: 258, z: 1580}
     roll: 0
-  - position: {x: -875.89996, y: 225, z: 1595.1688}
+  - position: {x: -875, y: 225, z: 1595}
     roll: 0
-  - position: {x: -1260, y: 116.09302, z: 1635}
+  - position: {x: -1260, y: 115, z: 1635}
     roll: 0
   - position: {x: -1515, y: 45, z: 1680}
     roll: 0
-  - position: {x: -1640, y: 45, z: 1500}
+  - position: {x: -1661, y: 45, z: 1510}
     roll: 0
-  - position: {x: -1760, y: 45, z: 1330}
+  - position: {x: -1761, y: 45, z: 1340}
     roll: 0
   - position: {x: -1810, y: 60, z: 1280}
+    roll: 0
+  - position: {x: -1851, y: 74, z: 1240}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -1781,43 +1801,45 @@ MonoBehaviour:
     roll: 0
   - position: {x: 2288, y: 68, z: 880}
     roll: 0
-  - position: {x: 2270.9736, y: 73, z: 1000}
+  - position: {x: 2271, y: 73, z: 1000}
     roll: 0
-  - position: {x: 2261.1042, y: 75, z: 1100}
+  - position: {x: 2261, y: 75, z: 1100}
     roll: 0
-  - position: {x: 2233.2373, y: 78, z: 1219.2942}
+  - position: {x: 2233, y: 78, z: 1220}
     roll: 0
-  - position: {x: 2205.197, y: 85, z: 1348.7744}
+  - position: {x: 2205, y: 85, z: 1350}
     roll: 0
-  - position: {x: 2182.6165, y: 63, z: 1510}
+  - position: {x: 2182, y: 63, z: 1510}
     roll: 0
-  - position: {x: 2192.3557, y: 70, z: 1735}
+  - position: {x: 2192, y: 70, z: 1735}
     roll: 0
-  - position: {x: 2222.5505, y: 70, z: 1990}
+  - position: {x: 2222, y: 70, z: 1990}
     roll: 0
   - position: {x: 2119, y: 85, z: 2284}
     roll: 0
-  - position: {x: 2014.4825, y: 120.49481, z: 2496.6687}
+  - position: {x: 2015, y: 120, z: 2500}
     roll: 0
-  - position: {x: 1875, y: 116.54117, z: 2652}
+  - position: {x: 1875, y: 115, z: 2652}
     roll: 0
-  - position: {x: 1715, y: 153.37814, z: 2750}
+  - position: {x: 1715, y: 145, z: 2750}
     roll: 0
-  - position: {x: 1485, y: 207.86404, z: 2845}
+  - position: {x: 1485, y: 205, z: 2845}
     roll: 0
-  - position: {x: 1345, y: 187.88202, z: 2870}
+  - position: {x: 1345, y: 178, z: 2873}
     roll: 0
-  - position: {x: 1215, y: 148.25928, z: 2900}
+  - position: {x: 1215, y: 145, z: 2885}
     roll: 0
-  - position: {x: 1105, y: 156.43546, z: 2890}
+  - position: {x: 1105, y: 150, z: 2885}
     roll: 0
-  - position: {x: 1008, y: 167.22678, z: 2880}
+  - position: {x: 1008, y: 166, z: 2880}
     roll: 0
-  - position: {x: 942.0021, y: 202.89117, z: 2870}
+  - position: {x: 930, y: 200, z: 2872}
     roll: 0
-  - position: {x: 910, y: 260, z: 2870}
+  - position: {x: 910, y: 260, z: 2871}
     roll: 0
   - position: {x: 890, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 881.5, y: 290, z: 2870}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -2043,13 +2065,13 @@ MonoBehaviour:
     roll: 0
   - position: {x: -70, y: 165, z: 2685}
     roll: 0
-  - position: {x: -8.068081, y: 110, z: 2482.2654}
+  - position: {x: -10, y: 110, z: 2480}
     roll: 0
   - position: {x: 160, y: 90, z: 2230}
     roll: 0
-  - position: {x: 313.25842, y: 85, z: 2109.511}
+  - position: {x: 315, y: 85, z: 2100}
     roll: 0
-  - position: {x: 450, y: 85, z: 2020}
+  - position: {x: 450, y: 85, z: 2015}
     roll: 0
   - position: {x: 640, y: 90, z: 1925}
     roll: 0
@@ -2057,29 +2079,31 @@ MonoBehaviour:
     roll: 0
   - position: {x: 920, y: 165, z: 1945}
     roll: 0
-  - position: {x: 1086.6641, y: 180.2207, z: 2070}
+  - position: {x: 1085, y: 180, z: 2070}
     roll: 0
-  - position: {x: 1246.7349, y: 180, z: 2182.113}
+  - position: {x: 1245, y: 180, z: 2180}
     roll: 0
-  - position: {x: 1427, y: 168.53345, z: 2154.9}
+  - position: {x: 1427, y: 170, z: 2155}
     roll: 0
   - position: {x: 1678, y: 150, z: 2100}
     roll: 0
   - position: {x: 2035, y: 110, z: 2025}
     roll: 0
-  - position: {x: 2255, y: 90, z: 1870.2695}
+  - position: {x: 2320, y: 70, z: 1735}
     roll: 0
-  - position: {x: 2356, y: 78, z: 1712.626}
+  - position: {x: 2386, y: 63, z: 1510}
     roll: 0
-  - position: {x: 2420, y: 73, z: 1490.5425}
+  - position: {x: 2420, y: 70, z: 1350}
     roll: 0
-  - position: {x: 2466.7498, y: 70, z: 1260.0754}
+  - position: {x: 2455, y: 70, z: 1130}
     roll: 0
-  - position: {x: 2476.202, y: 69, z: 1099.6941}
+  - position: {x: 2460, y: 69, z: 1080}
     roll: 0
-  - position: {x: 2436, y: 69, z: 1050}
+  - position: {x: 2440, y: 69, z: 1055}
     roll: 0
-  - position: {x: 2424, y: 68, z: 1050}
+  - position: {x: 2424, y: 69, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -2336,6 +2360,8 @@ MonoBehaviour:
   - position: {x: -1795, y: 85, z: 1255}
     roll: 0
   - position: {x: -1850, y: 80, z: 1265}
+    roll: 0
+  - position: {x: -1860, y: 75.5, z: 1236}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -2730,15 +2756,15 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
-  - position: {x: 807, y: 250, z: 3020}
+  - position: {x: 810, y: 250, z: 2980}
     roll: 0
-  - position: {x: 700, y: 220, z: 3065}
+  - position: {x: 700, y: 210, z: 3050}
     roll: 0
   - position: {x: 535, y: 180, z: 3077}
     roll: 0
-  - position: {x: 355, y: 170, z: 3173}
+  - position: {x: 400, y: 170, z: 3125}
     roll: 0
-  - position: {x: 175, y: 160, z: 3190}
+  - position: {x: 220, y: 160, z: 3155}
     roll: 0
   - position: {x: 110, y: 150, z: 3100}
     roll: 0
@@ -2758,9 +2784,9 @@ MonoBehaviour:
     roll: 0
   - position: {x: -310, y: 140, z: 2470}
     roll: 0
-  - position: {x: -130, y: 105, z: 2340}
+  - position: {x: -200, y: 80, z: 2320}
     roll: 0
-  - position: {x: 37, y: 95, z: 2305}
+  - position: {x: -9, y: 85, z: 2265}
     roll: 0
   - position: {x: 160, y: 90, z: 2230}
     roll: 0
@@ -2844,27 +2870,29 @@ MonoBehaviour:
     roll: 0
   - position: {x: 1880, y: 85, z: 2240}
     roll: 0
-  - position: {x: 1878.166, y: 85, z: 2455.9182}
+  - position: {x: 1880, y: 85, z: 2455}
     roll: 0
-  - position: {x: 1830.1667, y: 131.59781, z: 2646.8987}
+  - position: {x: 1830, y: 130, z: 2650}
     roll: 0
-  - position: {x: 1715, y: 162.96036, z: 2750}
+  - position: {x: 1715, y: 145, z: 2750}
     roll: 0
-  - position: {x: 1485, y: 209.508, z: 2845}
+  - position: {x: 1485, y: 205, z: 2845}
     roll: 0
-  - position: {x: 1345, y: 176.44247, z: 2870}
+  - position: {x: 1345, y: 178, z: 2873}
     roll: 0
-  - position: {x: 1215, y: 130, z: 2900}
+  - position: {x: 1215, y: 145, z: 2885}
     roll: 0
-  - position: {x: 1105, y: 140.53601, z: 2890}
+  - position: {x: 1105, y: 150, z: 2885}
     roll: 0
-  - position: {x: 1008, y: 157.98416, z: 2880}
+  - position: {x: 1008, y: 166, z: 2880}
     roll: 0
-  - position: {x: 930, y: 200, z: 2870}
+  - position: {x: 930, y: 200, z: 2872}
     roll: 0
-  - position: {x: 910, y: 260, z: 2870}
+  - position: {x: 910, y: 260, z: 2871}
     roll: 0
   - position: {x: 890, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 881.5, y: 290, z: 2870}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -3113,15 +3141,19 @@ MonoBehaviour:
     roll: 0
   - position: {x: -800, y: 200, z: 2815}
     roll: 0
-  - position: {x: -340, y: 120, z: 2990}
+  - position: {x: -340, y: 145, z: 2990}
     roll: 0
-  - position: {x: 65, y: 160, z: 3080}
+  - position: {x: 65, y: 155, z: 3080}
     roll: 0
-  - position: {x: 530, y: 180, z: 3135}
+  - position: {x: 530, y: 200, z: 3135}
     roll: 0
-  - position: {x: 980, y: 250, z: 2920}
+  - position: {x: 780, y: 235, z: 3060}
     roll: 0
-  - position: {x: 980, y: 270, z: 2870}
+  - position: {x: 930, y: 270, z: 2935}
+    roll: 0
+  - position: {x: 935, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 894, y: 290, z: 2867}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -3354,6 +3386,8 @@ MonoBehaviour:
   - position: {x: -1760, y: 45, z: 1330}
     roll: 0
   - position: {x: -1810, y: 60, z: 1280}
+    roll: 0
+  - position: {x: -1851, y: 74, z: 1240}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -3929,23 +3963,25 @@ MonoBehaviour:
     roll: 0
   - position: {x: 1825, y: 100, z: 2647}
     roll: 0
-  - position: {x: 1715, y: 130, z: 2750}
+  - position: {x: 1715, y: 145, z: 2750}
     roll: 0
-  - position: {x: 1485, y: 200, z: 2845}
+  - position: {x: 1485, y: 205, z: 2845}
     roll: 0
-  - position: {x: 1348, y: 171, z: 2885}
+  - position: {x: 1345, y: 178, z: 2885}
     roll: 0
-  - position: {x: 1215, y: 130, z: 2900}
+  - position: {x: 1215, y: 145, z: 2885}
     roll: 0
   - position: {x: 1105, y: 150, z: 2890}
     roll: 0
-  - position: {x: 1008, y: 182, z: 2880}
+  - position: {x: 1008, y: 166, z: 2880}
     roll: 0
-  - position: {x: 941, y: 228, z: 2870}
+  - position: {x: 930, y: 200, z: 2872}
     roll: 0
-  - position: {x: 910, y: 260, z: 2870}
+  - position: {x: 910, y: 260, z: 2871}
     roll: 0
   - position: {x: 890, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 881.5, y: 290, z: 2870}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -4167,6 +4203,8 @@ MonoBehaviour:
     roll: 0
   - position: {x: 2424, y: 68, z: 1050}
     roll: 0
+  - position: {x: 2414, y: 68.1, z: 1049.9995}
+    roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
 --- !u!1 &709683721
@@ -4223,27 +4261,27 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1940, y: 100, z: 1040}
     roll: 0
-  - position: {x: -1980, y: 115, z: 888}
+  - position: {x: -1995, y: 115, z: 890}
     roll: 0
   - position: {x: -2000, y: 120, z: 760}
     roll: 0
-  - position: {x: -1890, y: 105, z: 735}
+  - position: {x: -1905, y: 110, z: 695}
     roll: 0
-  - position: {x: -1771, y: 72, z: 798}
+  - position: {x: -1775, y: 105, z: 740}
     roll: 0
   - position: {x: -1670, y: 100, z: 745}
     roll: 0
-  - position: {x: -1600, y: 70, z: 455}
+  - position: {x: -1620, y: 80, z: 530}
     roll: 0
-  - position: {x: -1475, y: 70, z: 390}
+  - position: {x: -1515, y: 70, z: 405}
     roll: 0
   - position: {x: -1400, y: 130, z: 390}
     roll: 0
-  - position: {x: -1265, y: 180, z: 335}
+  - position: {x: -1265, y: 180, z: 395}
     roll: 0
-  - position: {x: -1135, y: 235, z: 430}
+  - position: {x: -1150, y: 235, z: 470}
     roll: 0
-  - position: {x: -1078, y: 235, z: 518}
+  - position: {x: -1078, y: 235, z: 570}
     roll: 0
 --- !u!1 &710827010
 GameObject:
@@ -4679,11 +4717,11 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1130, y: 235, z: 635}
     roll: 0
-  - position: {x: -1120, y: 235, z: 635}
+  - position: {x: -1120, y: 235, z: 580}
     roll: 0
-  - position: {x: -1115, y: 235, z: 630}
+  - position: {x: -1115, y: 235, z: 550}
     roll: 0
-  - position: {x: -1100, y: 235, z: 600}
+  - position: {x: -1078, y: 235, z: 570}
     roll: 0
   - position: {x: -890, y: 180, z: 525}
     roll: 0
@@ -4701,21 +4739,25 @@ MonoBehaviour:
     roll: 0
   - position: {x: 140, y: 85, z: 2130}
     roll: 0
-  - position: {x: 235, y: 105, z: 2318}
+  - position: {x: 170, y: 105, z: 2290}
     roll: 0
-  - position: {x: 263, y: 156, z: 2462}
+  - position: {x: 176, y: 172, z: 2500}
     roll: 0
-  - position: {x: 188, y: 189, z: 2547}
+  - position: {x: 104, y: 200, z: 2600}
     roll: 0
-  - position: {x: 101, y: 204, z: 2636}
+  - position: {x: 130, y: 205, z: 2685}
     roll: 0
-  - position: {x: 130, y: 207, z: 2705}
+  - position: {x: 295, y: 190, z: 2725}
     roll: 0
-  - position: {x: 223, y: 190, z: 2710}
+  - position: {x: 495, y: 190, z: 2755}
     roll: 0
-  - position: {x: 350, y: 179, z: 2745}
+  - position: {x: 705, y: 235, z: 2770}
     roll: 0
-  - position: {x: 630, y: 200, z: 2770}
+  - position: {x: 915, y: 270, z: 2795}
+    roll: 0
+  - position: {x: 950, y: 285, z: 2855}
+    roll: 0
+  - position: {x: 894, y: 290, z: 2867}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -4887,15 +4929,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: 315, y: 85, z: -1185}
     roll: 0
-  - position: {x: 200, y: 85, z: -1317}
+  - position: {x: 200, y: 85, z: -1310}
     roll: 0
-  - position: {x: 120, y: 85, z: -1337}
+  - position: {x: 120, y: 85, z: -1325}
     roll: 0
-  - position: {x: 75, y: 85, z: -1315}
+  - position: {x: 76, y: 85, z: -1315}
     roll: 0
-  - position: {x: 52, y: 85, z: -1296}
+  - position: {x: 52, y: 85, z: -1300}
     roll: 0
-  - position: {x: 40, y: 85, z: -1286}
+  - position: {x: 32.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -4997,7 +5041,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773784130}
-  m_LocalRotation: {x: 0.4268993, y: -0.010431963, z: 0.0049250866, w: 0.90422565}
+  m_LocalRotation: {x: -0.42689934, y: 0.010431952, z: -0.004925075, w: -0.9042256}
   m_LocalPosition: {x: 28.5, y: 85, z: -1275}
   m_LocalScale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -6084,6 +6128,8 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1850, y: 80, z: 1265}
     roll: 0
+  - position: {x: -1860.0001, y: 75.5, z: 1236}
+    roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
 --- !u!1 &999103469
@@ -6280,15 +6326,19 @@ MonoBehaviour:
     roll: 0
   - position: {x: -800, y: 200, z: 2815}
     roll: 0
-  - position: {x: -340, y: 120, z: 2990}
+  - position: {x: -340, y: 145, z: 2990}
     roll: 0
-  - position: {x: 65, y: 160, z: 3080}
+  - position: {x: 65, y: 155, z: 3080}
     roll: 0
-  - position: {x: 530, y: 180, z: 3135}
+  - position: {x: 530, y: 200, z: 3135}
     roll: 0
-  - position: {x: 980, y: 250, z: 2920}
+  - position: {x: 780, y: 235, z: 3060}
     roll: 0
-  - position: {x: 980, y: 270, z: 2870}
+  - position: {x: 930, y: 270, z: 2935}
+    roll: 0
+  - position: {x: 935, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 894, y: 290, z: 2867}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -7251,21 +7301,21 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
-  - position: {x: 840, y: 250, z: 3053}
+  - position: {x: 860, y: 260, z: 3010}
     roll: 0
-  - position: {x: 718, y: 250, z: 3125}
+  - position: {x: 685, y: 215, z: 3125}
     roll: 0
   - position: {x: 535, y: 180, z: 3077}
     roll: 0
-  - position: {x: 390, y: 150, z: 3000}
+  - position: {x: 415, y: 170, z: 2950}
     roll: 0
-  - position: {x: 250, y: 150, z: 3000}
+  - position: {x: 225, y: 160, z: 2990}
     roll: 0
   - position: {x: 110, y: 150, z: 3100}
     roll: 0
-  - position: {x: -20, y: 180, z: 3110}
+  - position: {x: -20, y: 155, z: 3110}
     roll: 0
-  - position: {x: -115, y: 150, z: 3015}
+  - position: {x: -115, y: 175, z: 2980}
     roll: 0
   - position: {x: -140, y: 210, z: 2850}
     roll: 0
@@ -7275,9 +7325,9 @@ MonoBehaviour:
     roll: 0
   - position: {x: -70, y: 165, z: 2685}
     roll: 0
-  - position: {x: 120, y: 190, z: 2690}
+  - position: {x: 120, y: 200, z: 2700}
     roll: 0
-  - position: {x: 310, y: 160, z: 2605}
+  - position: {x: 310, y: 170, z: 2605}
     roll: 0
   - position: {x: 475, y: 128, z: 2457}
     roll: 0
@@ -7448,47 +7498,49 @@ MonoBehaviour:
     roll: 0
   - position: {x: 535, y: 180, z: 3077}
     roll: 0
-  - position: {x: 590.9354, y: 180, z: 2994.7239}
+  - position: {x: 590, y: 180, z: 2995}
     roll: 0
-  - position: {x: 691.5321, y: 190, z: 2935.4504}
+  - position: {x: 690, y: 190, z: 2935}
     roll: 0
-  - position: {x: 807.6484, y: 198, z: 2892.27}
+  - position: {x: 805, y: 198, z: 2890}
     roll: 0
-  - position: {x: 967.5705, y: 205, z: 2868.5254}
+  - position: {x: 950, y: 205, z: 2880}
     roll: 0
-  - position: {x: 1114.3362, y: 150, z: 2874.0334}
+  - position: {x: 1115, y: 150, z: 2875}
     roll: 0
-  - position: {x: 1241.185, y: 144.5524, z: 2869.1091}
+  - position: {x: 1241, y: 145, z: 2875}
     roll: 0
-  - position: {x: 1362.3783, y: 168.36304, z: 2846.0505}
+  - position: {x: 1362, y: 170, z: 2860}
     roll: 0
   - position: {x: 1485, y: 200, z: 2845}
     roll: 0
-  - position: {x: 1619.5177, y: 155, z: 2825.2268}
+  - position: {x: 1620, y: 155, z: 2825}
     roll: 0
-  - position: {x: 1731.2893, y: 130, z: 2754.6333}
+  - position: {x: 1705, y: 130, z: 2740}
     roll: 0
-  - position: {x: 1808.9192, y: 100, z: 2637.9893}
+  - position: {x: 1815, y: 100, z: 2605}
     roll: 0
-  - position: {x: 1864.5492, y: 85, z: 2472.9146}
+  - position: {x: 1945, y: 85, z: 2438}
     roll: 0
-  - position: {x: 2115.4534, y: 85, z: 2200.033}
-    roll: 0
-  - position: {x: 2269.9292, y: 70, z: 1964.0276}
+  - position: {x: 2115, y: 85, z: 2200}
     roll: 0
   - position: {x: 2320, y: 70, z: 1735}
     roll: 0
-  - position: {x: 2355.5603, y: 63, z: 1510}
+  - position: {x: 2386, y: 63, z: 1510}
     roll: 0
-  - position: {x: 2392.5771, y: 70, z: 1349.2218}
+  - position: {x: 2420, y: 70, z: 1350}
     roll: 0
-  - position: {x: 2442.9695, y: 75, z: 1210.3445}
+  - position: {x: 2445, y: 75, z: 1210}
     roll: 0
-  - position: {x: 2454.2783, y: 70, z: 1130.8667}
+  - position: {x: 2455, y: 70, z: 1130}
     roll: 0
-  - position: {x: 2460.9277, y: 68.703064, z: 1077.937}
+  - position: {x: 2460, y: 69, z: 1077}
     roll: 0
-  - position: {x: 2441.48, y: 68.477325, z: 1054.0525}
+  - position: {x: 2440, y: 69, z: 1055}
+    roll: 0
+  - position: {x: 2424, y: 69, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -7581,6 +7633,8 @@ MonoBehaviour:
   - position: {x: 2436, y: 69, z: 1050}
     roll: 0
   - position: {x: 2424, y: 68, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1049.9995}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -7888,27 +7942,29 @@ MonoBehaviour:
     roll: 0
   - position: {x: 1880, y: 85, z: 2240}
     roll: 0
-  - position: {x: 1899.9584, y: 85, z: 2435.2534}
+  - position: {x: 1900, y: 85, z: 2435}
     roll: 0
-  - position: {x: 1848.4758, y: 100, z: 2631.5605}
+  - position: {x: 1850, y: 100, z: 2631}
     roll: 0
-  - position: {x: 1715, y: 130, z: 2750}
+  - position: {x: 1715, y: 145, z: 2750}
     roll: 0
-  - position: {x: 1485, y: 221.71243, z: 2845}
+  - position: {x: 1485, y: 205, z: 2845}
     roll: 0
-  - position: {x: 1345, y: 222.2478, z: 2870}
+  - position: {x: 1345, y: 178, z: 2873}
     roll: 0
-  - position: {x: 1215, y: 158.84756, z: 2900}
+  - position: {x: 1215, y: 145, z: 2885}
     roll: 0
-  - position: {x: 1105, y: 165.93788, z: 2890}
+  - position: {x: 1105, y: 150, z: 2885}
     roll: 0
-  - position: {x: 1005.19293, y: 173.99667, z: 2880}
+  - position: {x: 1008, y: 166, z: 2880}
     roll: 0
-  - position: {x: 930, y: 200, z: 2870}
+  - position: {x: 930, y: 200, z: 2872}
     roll: 0
-  - position: {x: 910, y: 260, z: 2870}
+  - position: {x: 910, y: 260, z: 2871}
     roll: 0
   - position: {x: 890, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 881.5, y: 290, z: 2870}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -8148,15 +8204,19 @@ MonoBehaviour:
     roll: 0
   - position: {x: -800, y: 200, z: 2815}
     roll: 0
-  - position: {x: -340, y: 120, z: 2990}
+  - position: {x: -340, y: 145, z: 2990}
     roll: 0
-  - position: {x: 65, y: 160, z: 3080}
+  - position: {x: 65, y: 155, z: 3080}
     roll: 0
-  - position: {x: 530, y: 180, z: 3135}
+  - position: {x: 530, y: 200, z: 3135}
     roll: 0
-  - position: {x: 980, y: 250, z: 2920}
+  - position: {x: 780, y: 235, z: 3060}
     roll: 0
-  - position: {x: 980, y: 270, z: 2870}
+  - position: {x: 930, y: 270, z: 2935}
+    roll: 0
+  - position: {x: 935, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 894, y: 290, z: 2867}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -8504,27 +8564,27 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
-  - position: {x: 2410, y: 80, z: 963}
+  - position: {x: 2410, y: 80, z: 960}
     roll: 0
-  - position: {x: 2377, y: 75, z: 900}
+  - position: {x: 2365, y: 85, z: 895}
     roll: 0
   - position: {x: 2288, y: 68, z: 880}
     roll: 0
-  - position: {x: 2159.237, y: 23, z: 909.1476}
+  - position: {x: 2160, y: 23, z: 910}
     roll: 0
-  - position: {x: 1963.365, y: 61.87475, z: 964.65515}
+  - position: {x: 2000, y: 62, z: 965}
     roll: 0
   - position: {x: 1940, y: 115, z: 1050}
     roll: 0
-  - position: {x: 1923, y: 102, z: 918}
+  - position: {x: 1940, y: 100, z: 990}
     roll: 0
-  - position: {x: 1910, y: 95, z: 865}
+  - position: {x: 1930, y: 85, z: 890}
     roll: 0
   - position: {x: 1880, y: 85, z: 850}
     roll: 0
-  - position: {x: 1845, y: 90, z: 905}
+  - position: {x: 1845, y: 95, z: 920}
     roll: 0
-  - position: {x: 1850, y: 90, z: 1000}
+  - position: {x: 1835, y: 110, z: 1030}
     roll: 0
   - position: {x: 1832, y: 125, z: 1089}
     roll: 0
@@ -8659,45 +8719,47 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
-  - position: {x: 911.1239, y: 295, z: 2869.1423}
+  - position: {x: 910, y: 295, z: 2870}
     roll: 0
-  - position: {x: 961.7932, y: 263.04303, z: 2868.158}
+  - position: {x: 960, y: 265, z: 2870}
     roll: 0
-  - position: {x: 1033.1393, y: 205, z: 2868.5254}
+  - position: {x: 1033, y: 205, z: 2870}
     roll: 0
-  - position: {x: 1114.3362, y: 150, z: 2874.0334}
+  - position: {x: 1115, y: 150, z: 2875}
     roll: 0
-  - position: {x: 1241.185, y: 144.5524, z: 2869.1091}
+  - position: {x: 1241, y: 145, z: 2875}
     roll: 0
-  - position: {x: 1362.3783, y: 169.5289, z: 2846.0505}
+  - position: {x: 1362, y: 170, z: 2860}
     roll: 0
   - position: {x: 1485, y: 200, z: 2845}
     roll: 0
-  - position: {x: 1619.5177, y: 155, z: 2825.2268}
+  - position: {x: 1620, y: 155, z: 2825}
     roll: 0
-  - position: {x: 1715, y: 130, z: 2750}
+  - position: {x: 1705, y: 130, z: 2740}
     roll: 0
-  - position: {x: 1815.1805, y: 100, z: 2633.6392}
+  - position: {x: 1815, y: 100, z: 2605}
     roll: 0
-  - position: {x: 1869.7615, y: 85, z: 2462.3777}
+  - position: {x: 1945, y: 85, z: 2438}
     roll: 0
-  - position: {x: 2114.5889, y: 85, z: 2191.7874}
-    roll: 0
-  - position: {x: 2239.2075, y: 70, z: 1961.3606}
+  - position: {x: 2115, y: 85, z: 2192}
     roll: 0
   - position: {x: 2320, y: 70, z: 1735}
     roll: 0
-  - position: {x: 2355.5603, y: 63, z: 1510}
+  - position: {x: 2386, y: 63, z: 1510}
     roll: 0
-  - position: {x: 2392.5771, y: 70, z: 1349.2218}
+  - position: {x: 2420, y: 70, z: 1350}
     roll: 0
-  - position: {x: 2442.9695, y: 75, z: 1210.3445}
+  - position: {x: 2445, y: 75, z: 1210}
     roll: 0
-  - position: {x: 2454.2783, y: 70, z: 1130.8667}
+  - position: {x: 2455, y: 70, z: 1130}
     roll: 0
-  - position: {x: 2460.9277, y: 68.703064, z: 1077.937}
+  - position: {x: 2460, y: 69, z: 1080}
     roll: 0
-  - position: {x: 2441.48, y: 68.477325, z: 1054.0525}
+  - position: {x: 2440, y: 69, z: 1055}
+    roll: 0
+  - position: {x: 2424, y: 69, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -8959,6 +9021,8 @@ MonoBehaviour:
   - position: {x: -1795, y: 85, z: 1255}
     roll: 0
   - position: {x: -1850, y: 80, z: 1265}
+    roll: 0
+  - position: {x: -1860.0001, y: 75.5, z: 1236}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -9438,7 +9502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1484685873
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9585,6 +9649,8 @@ MonoBehaviour:
   - position: {x: -1760, y: 45, z: 1330}
     roll: 0
   - position: {x: -1810, y: 60, z: 1280}
+    roll: 0
+  - position: {x: -1851, y: 74, z: 1240}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -9826,6 +9892,8 @@ MonoBehaviour:
   - position: {x: -1795, y: 85, z: 1255}
     roll: 0
   - position: {x: -1850, y: 80, z: 1265}
+    roll: 0
+  - position: {x: -1860.0001, y: 75.5, z: 1236}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -10162,13 +10230,19 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1000, y: 65, z: -1045}
     roll: 0
-  - position: {x: -540, y: 70, z: -1215}
+  - position: {x: -660, y: 70, z: -1195}
     roll: 0
-  - position: {x: -300, y: 75, z: -1260}
+  - position: {x: -350, y: 80, z: -1265}
     roll: 0
-  - position: {x: -70, y: 80, z: -1300}
+  - position: {x: -155, y: 85, z: -1295}
     roll: 0
-  - position: {x: 17, y: 85, z: -1290}
+  - position: {x: -60, y: 85, z: -1305}
+    roll: 0
+  - position: {x: -6, y: 85, z: -1300}
+    roll: 0
+  - position: {x: 24.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -10262,27 +10336,27 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
-  - position: {x: 2420, y: 85, z: 980}
+  - position: {x: 2414, y: 68, z: 980}
     roll: 0
-  - position: {x: 2375, y: 85, z: 912}
+  - position: {x: 2370, y: 68, z: 910}
     roll: 0
   - position: {x: 2288, y: 68, z: 880}
     roll: 0
-  - position: {x: 2220, y: 55, z: 930}
+  - position: {x: 2240, y: 75, z: 990}
     roll: 0
-  - position: {x: 2090, y: 50, z: 963}
+  - position: {x: 2085, y: 85, z: 1060}
     roll: 0
   - position: {x: 1940, y: 115, z: 1050}
     roll: 0
-  - position: {x: 1990, y: 102, z: 910}
+  - position: {x: 1980, y: 100, z: 1035}
     roll: 0
-  - position: {x: 1955, y: 91, z: 847}
+  - position: {x: 1965, y: 90, z: 910}
     roll: 0
   - position: {x: 1880, y: 85, z: 850}
     roll: 0
-  - position: {x: 1870, y: 95, z: 925}
+  - position: {x: 1910, y: 90, z: 900}
     roll: 0
-  - position: {x: 1838, y: 110, z: 995}
+  - position: {x: 1900, y: 110, z: 1020}
     roll: 0
   - position: {x: 1832, y: 125, z: 1089}
     roll: 0
@@ -10659,21 +10733,25 @@ MonoBehaviour:
     roll: 0
   - position: {x: 140, y: 85, z: 2130}
     roll: 0
-  - position: {x: 221, y: 105, z: 2287}
+  - position: {x: 170, y: 105, z: 2290}
     roll: 0
-  - position: {x: 270, y: 155, z: 2435}
+  - position: {x: 176, y: 172, z: 2500}
     roll: 0
-  - position: {x: 176, y: 172, z: 2528}
+  - position: {x: 104, y: 200, z: 2600}
     roll: 0
-  - position: {x: 104, y: 203, z: 2630}
+  - position: {x: 130, y: 206, z: 2685}
     roll: 0
-  - position: {x: 130, y: 206, z: 2705}
+  - position: {x: 295, y: 190, z: 2725}
     roll: 0
-  - position: {x: 223, y: 190, z: 2710}
+  - position: {x: 495, y: 190, z: 2755}
     roll: 0
-  - position: {x: 350, y: 190, z: 2745}
+  - position: {x: 705, y: 235, z: 2770}
     roll: 0
-  - position: {x: 630, y: 200, z: 2770}
+  - position: {x: 915, y: 270, z: 2795}
+    roll: 0
+  - position: {x: 950, y: 285, z: 2855}
+    roll: 0
+  - position: {x: 894, y: 290, z: 2867}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -10769,6 +10847,8 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1850, y: 80, z: 1265}
     roll: 0
+  - position: {x: -1860.0001, y: 75.5, z: 1236}
+    roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
 --- !u!1 &1690595341
@@ -10837,27 +10917,29 @@ MonoBehaviour:
     roll: 0
   - position: {x: 2200, y: 85, z: 2240}
     roll: 0
-  - position: {x: 2028.4231, y: 85, z: 2460.395}
+  - position: {x: 2028, y: 85, z: 2460}
     roll: 0
-  - position: {x: 1862.618, y: 100, z: 2622.0615}
+  - position: {x: 1862, y: 100, z: 2622}
     roll: 0
-  - position: {x: 1715, y: 143.71536, z: 2750}
+  - position: {x: 1715, y: 145, z: 2750}
     roll: 0
-  - position: {x: 1485, y: 204.80205, z: 2845}
+  - position: {x: 1485, y: 205, z: 2845}
     roll: 0
-  - position: {x: 1345, y: 178.67273, z: 2870}
+  - position: {x: 1345, y: 178, z: 2873}
     roll: 0
-  - position: {x: 1215, y: 144.92822, z: 2900}
+  - position: {x: 1215, y: 145, z: 2885}
     roll: 0
-  - position: {x: 1105, y: 150.7146, z: 2890}
+  - position: {x: 1105, y: 150, z: 2885}
     roll: 0
-  - position: {x: 1008, y: 166.28485, z: 2880}
+  - position: {x: 1008, y: 166, z: 2880}
     roll: 0
-  - position: {x: 930, y: 200, z: 2870}
+  - position: {x: 930, y: 200, z: 2872}
     roll: 0
-  - position: {x: 910, y: 260, z: 2870}
+  - position: {x: 910, y: 260, z: 2871}
     roll: 0
   - position: {x: 890, y: 285, z: 2870}
+    roll: 0
+  - position: {x: 881.5, y: 290, z: 2870}
     roll: 0
   - position: {x: 880, y: 290, z: 2870}
     roll: 0
@@ -11129,51 +11211,53 @@ MonoBehaviour:
     roll: 0
   - position: {x: 110, y: 150, z: 3100}
     roll: 0
-  - position: {x: 200.67917, y: 155, z: 3065.9949}
+  - position: {x: 200, y: 155, z: 3065}
     roll: 0
-  - position: {x: 341.00485, y: 165, z: 3036.822}
+  - position: {x: 340, y: 165, z: 3035}
     roll: 0
-  - position: {x: 497.15912, y: 170, z: 2994.7239}
+  - position: {x: 500, y: 178, z: 2995}
     roll: 0
-  - position: {x: 691.5321, y: 180, z: 2935.4504}
+  - position: {x: 690, y: 180, z: 2935}
     roll: 0
-  - position: {x: 807.6484, y: 195, z: 2892.27}
+  - position: {x: 808, y: 195, z: 2890}
     roll: 0
-  - position: {x: 967.5705, y: 205, z: 2868.5254}
+  - position: {x: 970, y: 205, z: 2875}
     roll: 0
-  - position: {x: 1114.3362, y: 150, z: 2874.0334}
+  - position: {x: 1115, y: 150, z: 2875}
     roll: 0
-  - position: {x: 1241.185, y: 144.5524, z: 2869.1091}
+  - position: {x: 1241, y: 145, z: 2875}
     roll: 0
-  - position: {x: 1362.3783, y: 169.52893, z: 2846.0505}
+  - position: {x: 1362, y: 170, z: 2860}
     roll: 0
   - position: {x: 1485, y: 200, z: 2845}
     roll: 0
-  - position: {x: 1619.5177, y: 155, z: 2825.2268}
+  - position: {x: 1620, y: 155, z: 2825}
     roll: 0
-  - position: {x: 1740.2582, y: 130, z: 2756.757}
+  - position: {x: 1705, y: 130, z: 2740}
     roll: 0
-  - position: {x: 1805, y: 100, z: 2633}
+  - position: {x: 1815, y: 100, z: 2605}
     roll: 0
-  - position: {x: 1885, y: 85, z: 2387}
+  - position: {x: 1945, y: 85, z: 2438}
     roll: 0
-  - position: {x: 2068.9014, y: 85, z: 2184}
-    roll: 0
-  - position: {x: 2232.17, y: 70, z: 1962}
+  - position: {x: 2115, y: 85, z: 2192}
     roll: 0
   - position: {x: 2320, y: 70, z: 1735}
     roll: 0
-  - position: {x: 2355.5603, y: 63, z: 1510}
+  - position: {x: 2386, y: 63, z: 1510}
     roll: 0
-  - position: {x: 2392.5771, y: 70, z: 1349.2218}
+  - position: {x: 2420, y: 70, z: 1350}
     roll: 0
-  - position: {x: 2442.9695, y: 75, z: 1210.3445}
+  - position: {x: 2445, y: 75, z: 1210}
     roll: 0
-  - position: {x: 2454.2783, y: 70, z: 1130.8667}
+  - position: {x: 2455, y: 70, z: 1130}
     roll: 0
-  - position: {x: 2460.9277, y: 68.703064, z: 1077.937}
+  - position: {x: 2460, y: 69, z: 1080}
     roll: 0
-  - position: {x: 2441.48, y: 68.477325, z: 1054.0525}
+  - position: {x: 2440, y: 69, z: 1055}
+    roll: 0
+  - position: {x: 2424, y: 69, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -11446,13 +11530,19 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1000, y: 65, z: -1045}
     roll: 0
-  - position: {x: -540, y: 70, z: -1215}
+  - position: {x: -660, y: 70, z: -1195}
     roll: 0
-  - position: {x: -300, y: 75, z: -1260}
+  - position: {x: -350, y: 80, z: -1265}
     roll: 0
-  - position: {x: -70, y: 80, z: -1300}
+  - position: {x: -155, y: 85, z: -1295}
     roll: 0
-  - position: {x: 17, y: 85, z: -1290}
+  - position: {x: -60, y: 85, z: -1305}
+    roll: 0
+  - position: {x: -6, y: 85, z: -1300}
+    roll: 0
+  - position: {x: 24.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -11530,7 +11620,7 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1110, y: 240, z: 600}
     roll: 0
-  - position: {x: -1100, y: 235, z: 600}
+  - position: {x: -1078, y: 235, z: 570}
     roll: 0
   - position: {x: -760, y: 235, z: 450}
     roll: 0
@@ -11546,11 +11636,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: -540, y: 70, z: -1215}
     roll: 0
-  - position: {x: -300, y: 75, z: -1260}
+  - position: {x: -350, y: 80, z: -1265}
     roll: 0
-  - position: {x: -70, y: 80, z: -1300}
+  - position: {x: -155, y: 85, z: -1295}
     roll: 0
-  - position: {x: 17, y: 85, z: -1290}
+  - position: {x: -60, y: 85, z: -1305}
+    roll: 0
+  - position: {x: -6, y: 85, z: -1300}
+    roll: 0
+  - position: {x: 24.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -11758,29 +11854,29 @@ MonoBehaviour:
   m_Waypoints:
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
-  - position: {x: -2030, y: 140, z: 1130}
+  - position: {x: -2040, y: 50, z: 1160}
     roll: 0
-  - position: {x: -2085, y: 140, z: 960}
+  - position: {x: -2140, y: 80, z: 950}
     roll: 0
   - position: {x: -2000, y: 120, z: 760}
     roll: 0
-  - position: {x: -1890, y: 115, z: 805}
+  - position: {x: -1910, y: 93, z: 805}
     roll: 0
-  - position: {x: -1780, y: 110, z: 815}
+  - position: {x: -1780, y: 83, z: 800}
     roll: 0
   - position: {x: -1670, y: 100, z: 745}
     roll: 0
-  - position: {x: -1710, y: 105, z: 485}
+  - position: {x: -1655, y: 105, z: 630}
     roll: 0
-  - position: {x: -1570, y: 105, z: 415}
+  - position: {x: -1580, y: 105, z: 435}
     roll: 0
   - position: {x: -1400, y: 130, z: 390}
     roll: 0
-  - position: {x: -1470, y: 175, z: 470}
+  - position: {x: -1350, y: 150, z: 520}
     roll: 0
-  - position: {x: -1330, y: 217, z: 590}
+  - position: {x: -1270, y: 225, z: 560}
     roll: 0
-  - position: {x: -1100, y: 235, z: 600}
+  - position: {x: -1078, y: 235, z: 570}
     roll: 0
 --- !u!1 &1915505762
 GameObject:
@@ -11871,6 +11967,8 @@ MonoBehaviour:
   - position: {x: -1760, y: 45, z: 1330}
     roll: 0
   - position: {x: -1810, y: 60, z: 1280}
+    roll: 0
+  - position: {x: -1851, y: 74, z: 1240}
     roll: 0
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
@@ -12045,13 +12143,19 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1000, y: 65, z: -1045}
     roll: 0
-  - position: {x: -540, y: 70, z: -1215}
+  - position: {x: -660, y: 70, z: -1195}
     roll: 0
-  - position: {x: -300, y: 75, z: -1260}
+  - position: {x: -350, y: 80, z: -1265}
     roll: 0
-  - position: {x: -70, y: 80, z: -1300}
+  - position: {x: -155, y: 85, z: -1295}
     roll: 0
-  - position: {x: 17, y: 85, z: -1290}
+  - position: {x: -60, y: 85, z: -1305}
+    roll: 0
+  - position: {x: -6, y: 85, z: -1300}
+    roll: 0
+  - position: {x: 24.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -12141,39 +12245,41 @@ MonoBehaviour:
     roll: 0
   - position: {x: 160, y: 90, z: 2230}
     roll: 0
-  - position: {x: 278.09164, y: 80, z: 2169.3896}
+  - position: {x: 280, y: 80, z: 2145}
     roll: 0
-  - position: {x: 449.77524, y: 80, z: 2022.6182}
+  - position: {x: 450, y: 80, z: 2022}
     roll: 0
-  - position: {x: 638.29175, y: 90, z: 1926.6731}
+  - position: {x: 640, y: 90, z: 1925}
     roll: 0
-  - position: {x: 733.57825, y: 105, z: 1984.1722}
+  - position: {x: 735, y: 105, z: 1985}
     roll: 0
-  - position: {x: 920.2966, y: 165, z: 1946.7589}
+  - position: {x: 920, y: 165, z: 1945}
     roll: 0
-  - position: {x: 1087.0765, y: 180.25204, z: 2068.611}
+  - position: {x: 1085, y: 180, z: 2070}
     roll: 0
-  - position: {x: 1251.8864, y: 180, z: 2156.6108}
+  - position: {x: 1250, y: 180, z: 2155}
     roll: 0
-  - position: {x: 1427.8464, y: 168.53174, z: 2155.5469}
+  - position: {x: 1425, y: 170, z: 2155}
     roll: 0
-  - position: {x: 1678.6842, y: 150, z: 2099.8633}
+  - position: {x: 1680, y: 150, z: 2115}
     roll: 0
-  - position: {x: 2035.213, y: 110, z: 2025.5605}
+  - position: {x: 2035, y: 110, z: 2025}
     roll: 0
-  - position: {x: 2255, y: 90, z: 1870.2695}
+  - position: {x: 2320, y: 90, z: 1735}
     roll: 0
-  - position: {x: 2356, y: 78, z: 1712.626}
+  - position: {x: 2386, y: 63, z: 1510}
     roll: 0
-  - position: {x: 2420, y: 73, z: 1490.5425}
+  - position: {x: 2420, y: 70, z: 1350}
     roll: 0
-  - position: {x: 2466.7498, y: 70, z: 1260.0754}
+  - position: {x: 2455, y: 70, z: 1130}
     roll: 0
-  - position: {x: 2476.202, y: 69, z: 1099.6941}
+  - position: {x: 2460, y: 69, z: 1080}
     roll: 0
-  - position: {x: 2436, y: 69, z: 1050}
+  - position: {x: 2440, y: 69, z: 1055}
     roll: 0
-  - position: {x: 2424, y: 68, z: 1050}
+  - position: {x: 2424, y: 69, z: 1050}
+    roll: 0
+  - position: {x: 2414, y: 68.1, z: 1050}
     roll: 0
   - position: {x: 2412, y: 68, z: 1050}
     roll: 0
@@ -12698,13 +12804,13 @@ MonoBehaviour:
     roll: 0
   - position: {x: 1880, y: 90, z: 945}
     roll: 0
-  - position: {x: 2075.886, y: 20, z: 918.74274}
+  - position: {x: 2075, y: 20, z: 920}
     roll: 0
-  - position: {x: 2247.4653, y: 25, z: 831.2974}
+  - position: {x: 2247, y: 25, z: 830}
     roll: 0
-  - position: {x: 2244.4766, y: 68, z: 641.9261}
+  - position: {x: 2245, y: 68, z: 640}
     roll: 0
-  - position: {x: 2218.976, y: 85, z: 453.36685}
+  - position: {x: 2220, y: 85, z: 455}
     roll: 0
   - position: {x: 2135, y: 85, z: 193}
     roll: 0
@@ -12718,15 +12824,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: 315, y: 85, z: -1185}
     roll: 0
-  - position: {x: 200, y: 85, z: -1317}
+  - position: {x: 200, y: 85, z: -1310}
     roll: 0
-  - position: {x: 120, y: 85, z: -1337}
+  - position: {x: 120, y: 85, z: -1325}
     roll: 0
-  - position: {x: 75, y: 85, z: -1315}
+  - position: {x: 76, y: 85, z: -1315}
     roll: 0
-  - position: {x: 52, y: 85, z: -1296}
+  - position: {x: 52, y: 85, z: -1300}
     roll: 0
-  - position: {x: 40, y: 85, z: -1286}
+  - position: {x: 32.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -12820,7 +12928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2037682850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12926,21 +13034,21 @@ MonoBehaviour:
     width: 8
   m_Looped: 0
   m_Waypoints:
-  - position: {x: 2334.3901, y: 70.78598, z: 915.47003}
+  - position: {x: 2335, y: 70, z: 915}
     roll: 0
-  - position: {x: 2417.3496, y: 68.53403, z: 910.1229}
+  - position: {x: 2420, y: 68, z: 910}
     roll: 0
-  - position: {x: 2332.5664, y: 67.632065, z: 934.33}
+  - position: {x: 2330, y: 68, z: 935}
     roll: 0
   - position: {x: 2288, y: 68, z: 880}
     roll: 0
-  - position: {x: 2270.9736, y: 73, z: 815.2865}
+  - position: {x: 2270, y: 73, z: 815}
     roll: 0
-  - position: {x: 2251.3782, y: 75, z: 743.4295}
+  - position: {x: 2250, y: 75, z: 745}
     roll: 0
-  - position: {x: 2249.8345, y: 78, z: 676.10754}
+  - position: {x: 2250, y: 78, z: 675}
     roll: 0
-  - position: {x: 2262.2659, y: 85, z: 604.87177}
+  - position: {x: 2260, y: 85, z: 605}
     roll: 0
   - position: {x: 2255, y: 85, z: 515}
     roll: 0
@@ -12956,15 +13064,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: 315, y: 85, z: -1185}
     roll: 0
-  - position: {x: 200, y: 85, z: -1317}
+  - position: {x: 200, y: 85, z: -1310}
     roll: 0
-  - position: {x: 120, y: 85, z: -1337}
+  - position: {x: 120, y: 85, z: -1325}
     roll: 0
-  - position: {x: 75, y: 85, z: -1315}
+  - position: {x: 76, y: 85, z: -1315}
     roll: 0
-  - position: {x: 52, y: 85, z: -1296}
+  - position: {x: 52, y: 85, z: -1300}
     roll: 0
-  - position: {x: 40, y: 85, z: -1286}
+  - position: {x: 32.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -13168,17 +13278,17 @@ MonoBehaviour:
     width: 5
   m_Looped: 0
   m_Waypoints:
-  - position: {x: 1928.7877, y: 108.90197, z: 935.8997}
+  - position: {x: 1928, y: 110, z: 935}
     roll: 0
-  - position: {x: 1937.7878, y: 118.7049, z: 973.6211}
+  - position: {x: 1937, y: 118, z: 973}
     roll: 0
-  - position: {x: 1941.3945, y: 122.63048, z: 988.7401}
+  - position: {x: 1941, y: 122, z: 988}
     roll: 0
-  - position: {x: 1942.6654, y: 124.01269, z: 994.0678}
+  - position: {x: 1942, y: 124, z: 994}
     roll: 0
-  - position: {x: 1943.201, y: 124.59512, z: 996.31287}
+  - position: {x: 1943, y: 124, z: 996}
     roll: 0
-  - position: {x: 1943.4211, y: 124.83472, z: 997.23627}
+  - position: {x: 1943, y: 124, z: 997}
     roll: 0
   - position: {x: 1940, y: 121, z: 983}
     roll: 0
@@ -13186,13 +13296,13 @@ MonoBehaviour:
     roll: 0
   - position: {x: 1890, y: 98, z: 763}
     roll: 0
-  - position: {x: 1860.326, y: 97, z: 570}
+  - position: {x: 1860, y: 97, z: 570}
     roll: 0
-  - position: {x: 1899.6472, y: 90, z: 439.88742}
+  - position: {x: 1900, y: 90, z: 440}
     roll: 0
-  - position: {x: 1980.0585, y: 85, z: 329.46252}
+  - position: {x: 1980, y: 85, z: 330}
     roll: 0
-  - position: {x: 2015.254, y: 85, z: 139.11136}
+  - position: {x: 2015, y: 85, z: 140}
     roll: 0
   - position: {x: 1860, y: 85, z: -145}
     roll: 0
@@ -13204,15 +13314,17 @@ MonoBehaviour:
     roll: 0
   - position: {x: 315, y: 85, z: -1185}
     roll: 0
-  - position: {x: 200, y: 85, z: -1317}
+  - position: {x: 200, y: 85, z: -1310}
     roll: 0
-  - position: {x: 120, y: 85, z: -1337}
+  - position: {x: 120, y: 85, z: -1325}
     roll: 0
-  - position: {x: 75, y: 85, z: -1315}
+  - position: {x: 76, y: 85, z: -1315}
     roll: 0
-  - position: {x: 52, y: 85, z: -1296}
+  - position: {x: 52, y: 85, z: -1300}
     roll: 0
-  - position: {x: 40, y: 85, z: -1286}
+  - position: {x: 32.5, y: 85, z: -1286}
+    roll: 0
+  - position: {x: 28.5, y: 85, z: -1276}
     roll: 0
   - position: {x: 28.5, y: 85, z: -1275}
     roll: 0
@@ -13538,22 +13650,22 @@ PrefabInstance:
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.4268993
+      value: -0.42689934
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.010431963
+      value: 0.010431952
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0049250866
+      value: -0.004925075
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.90422565
+      value: -0.9042256
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
