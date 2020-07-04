@@ -72,9 +72,21 @@ namespace TeamProject {
         void Update()
         {
             ImageActive(!(player.NowFunctionNum == (uint)PlayerVer2.TRANSITION.Goal || pause.NowFunctionNum != (uint)Pause.TRANS.PauseWait));
-
+            
             for (int i = 0; i < camera.Hight; i++)
             {
+                var col = image[i].color;
+                if (!camera.FloorMinionStayFlag[i])
+                {
+                    col.a = 0.4f;
+                }
+                else
+                {
+                    col.a = 1f;
+                }
+
+                image[i].color = col;
+
                 if (i+1 == camera.NowHight)
                 {
                     image[i].sprite = lightFloor;

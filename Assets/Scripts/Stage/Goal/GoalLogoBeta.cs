@@ -212,15 +212,13 @@ namespace TeamProject
             else if (_maxKobitoNum == _kobitoNum) starNum = 3;
             else starNum = 2;
 
+            // 小人の位置調節を行う部分(前準備)
             var length = kobitoLogoLeftPos - kobitoLogoRightPos;
-            var onceLengeth = length / (kobitoMaxNum - 1);
-            Debug.Log(platoon.MinionList.ToArray().Length);
-            Debug.Log(_maxKobitoNum);
+            var onceLengeth = length / (kobitoMaxNum + 1);
 
             var goalLogoMinionList = new GoalLogoMinion[kobitoMaxNum];
-
-
-
+            
+            // 小人の位置調節を行う部分(背景)
             for (int i = kobitoNum; i < kobitoMaxNum; i++)
             {
                 var obj = Instantiate(goalCharaAnimationObject, transform);
@@ -228,11 +226,12 @@ namespace TeamProject
                 goalCharaAnimationRecTrans[i] = obj.GetComponent<RectTransform>();
                 goalCharaAnimationAnimator[i] = obj.GetComponent<Animator>();
 
-                goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
+                goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * (i + 1);
 
                 goalLogoMinionList[i] = obj.GetComponent<GoalLogoMinion>();
             }
 
+            // 小人の位置調節を行う部分(小人)
             for (int i = 0; i < kobitoNum; i++)
             {
                 var obj = Instantiate(goalCharaAnimationObject, transform);
@@ -240,7 +239,7 @@ namespace TeamProject
                 goalCharaAnimationRecTrans[i] = obj.GetComponent<RectTransform>();
                 goalCharaAnimationAnimator[i] = obj.GetComponent<Animator>();
 
-                goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * i;
+                goalCharaAnimationRecTrans[i].anchoredPosition = kobitoLogoLeftPos - onceLengeth * (i + 1);
 
                 goalLogoMinionList[i] = obj.GetComponent<GoalLogoMinion>();
             }

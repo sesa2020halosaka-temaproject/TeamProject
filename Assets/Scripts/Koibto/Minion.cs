@@ -89,10 +89,11 @@ namespace TeamProject
         [SerializeField]
         [Header("透過マテリアル")]
         private GameObject sphereMaterialObject;
-
-
+    
         private bool matChangeFlag = false;
         private bool matOldChangeFlag = false;
+
+        private Camera cameraCom;
 
         // Start is called before the first frame update
         void Start()
@@ -140,6 +141,8 @@ namespace TeamProject
 
             // modelRendere[0].materials
 
+            cameraCom = UnityEngine.Camera.main.transform.root.GetComponent<Camera>();
+
             yOldPos = transform.position.y;
         }
         
@@ -184,6 +187,8 @@ namespace TeamProject
             ChangeMaterial();
 
             OldPosJuge();
+
+            CameraFloorPush();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -311,6 +316,11 @@ namespace TeamProject
         public void OnFlag()
         {
             matChangeFlag = true;
+        }
+
+        private void CameraFloorPush()
+        {
+            cameraCom.SetFloorMinionStayFlag((uint)floor - 1);
         }
     }
 }

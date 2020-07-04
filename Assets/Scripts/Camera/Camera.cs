@@ -100,6 +100,10 @@ namespace TeamProject
         private Vector3 startPlayerPos, NextPlayerPos, EndPos;
         private Vector3 startPlayerRot, NextPlayerRot, EndRot;
 
+        private bool[] floorMinionStayFlag = new bool[5];
+        public bool[] FloorMinionStayFlag { get { return floorMinionStayFlag; } }
+        public void SetFloorMinionStayFlag(uint _i) { floorMinionStayFlag[_i] = true; }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -130,8 +134,10 @@ namespace TeamProject
 
             targetHight = transform.position.y;
             player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject.GetComponent<PlayerVer2>();
-            lip = player.transform.GetChild(4).gameObject;
-            lipStart = player.transform.GetChild(5).gameObject;
+
+            var lips = player.transform.GetChild(4);
+            lip = lips.GetChild(0).gameObject;
+            lipStart = lips.GetChild(1).gameObject;
 
             startPlayerPos = lipStart.transform.position;
             NextPlayerPos = lip.transform.position;
@@ -199,8 +205,7 @@ namespace TeamProject
 
                 mainCameraGameObject.transform.position = EndPos;
                 mainCameraGameObject.transform.rotation = Quaternion.Euler(EndRot);
-
-
+                
                 SetFunction((uint)TRANS.Upd);
             }
         }
@@ -380,22 +385,28 @@ namespace TeamProject
             var oldHight = nowHight;
             if (inputKey)
             {
-                nowHight--;
-
-                targetHight -= hightLenge;
-
-                // 高さが想定以上に行ったとき
-                if (nowHight < 1)
+                do
                 {
-                    nowHight = hight;
+                    nowHight--;
 
-                    targetHight += hightLenge * hight;
-                }
+                    targetHight -= hightLenge;
+
+                    // 高さが想定以上に行ったとき
+                    if (nowHight < 1)
+                    {
+                        nowHight = hight;
+
+                        targetHight += hightLenge * hight;
+                    }
+
+                } while (!floorMinionStayFlag[nowHight - 1]);
             }
             if (oldHight != nowHight)
             {
                 SEManager.Instance.Play(SEPath.SE_HIERARCHY);
             }
+            floorMinionStayFlag = new bool[5] { false, false, false, false, false };
+
         }
         private void OnDrawGizmos()
         {
