@@ -62,6 +62,8 @@ namespace TeamProject
 
         private void Update()
         {
+            camera.SetFloorMinionStayFlag((uint)floor - 1);
+
             if (!playerGoal) return;
 
             if (camera.SeamlessEnd && goalOnce)

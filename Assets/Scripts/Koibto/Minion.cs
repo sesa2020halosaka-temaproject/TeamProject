@@ -247,6 +247,11 @@ namespace TeamProject
 
             for (int i = 0; i < floorObject.Length; i++)
             {
+                if (null == floorObject[i])
+                {
+                    
+                    break;
+                }
                 for (int j = 0; j < floorObject[i].Length; j++)
                 {
                     Debug.Log("Minion.cs * " + floorObject[i][j].transform.root.gameObject);
