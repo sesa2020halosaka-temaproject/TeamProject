@@ -143,7 +143,7 @@ namespace TeamProject
             NextPlayerPos = lip.transform.position;
             EndPos = mainCameraGameObject.transform.position;
 
-            startPlayerRot = lipStart.transform.rotation.eulerAngles;
+            startPlayerRot = lipStart.transform.localRotation.eulerAngles;
             NextPlayerRot = lip.transform.rotation.eulerAngles;
             EndRot = mainCameraGameObject.transform.rotation.eulerAngles;
         }

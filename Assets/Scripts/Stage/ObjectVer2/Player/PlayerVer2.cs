@@ -160,6 +160,8 @@ namespace TeamProject
         [SerializeField]
         private Material mat2;
 
+        private Minion beforChoiceMinion = null;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -541,46 +543,14 @@ namespace TeamProject
                     min = itr.convers.x;
                     direction[(uint)DIRECTION.BACK] = itr;
                 }
-
-                //// 後
-                //if (diff.z < -0.1f)
-                //{
-                //    if (direction[(uint)DIRECTION.BACK] == null)
-                //    {
-                //        direction[(uint)DIRECTION.BACK] = itr;
-                //    }
-                //    else if (itr.convers.z > direction[(uint)DIRECTION.BACK].convers.z)
-                //    {
-                //        direction[(uint)DIRECTION.BACK] = itr;
-                //    }
-                //}
-                //// 前
-                //else if (0.1f < diff.z) 
-                //{
-                //    if (direction[(uint)DIRECTION.TOP] == null)
-                //    {
-                //        direction[(uint)DIRECTION.TOP] = itr;
-                //    }
-                //    else if (itr.convers.z < direction[(uint)DIRECTION.TOP].convers.z)
-                //    {
-                //        direction[(uint)DIRECTION.TOP] = itr;
-                //    }
-                //}
             }
 
             bool[] arrow = new bool[(uint)InputManager.ArrowCoad.Max];
 
-            // arrow[(int)InputManager.ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow);
-            // arrow[(int)InputManager.ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow);
             arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
             arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
 
             // キー入力
-            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.UpArrow] && !oldArrow[(uint)InputManager.ArrowCoad.UpArrow], ref direction[(uint)DIRECTION.TOP]);
-            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.DownArrow] && !oldArrow[(uint)InputManager.ArrowCoad.DownArrow], ref direction[(uint)DIRECTION.BACK]);
-            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow], ref direction[(uint)DIRECTION.RIGHT]);
-            // MinionChoice(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow], ref direction[(uint)DIRECTION.LEFT]);
-
             MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
                 ref direction[(uint)DIRECTION.RIGHT],
                 direction[(uint)DIRECTION.BACK]);
@@ -595,6 +565,24 @@ namespace TeamProject
                 Debug.Log(rootCheckFlag);
                 if (rootCheckFlag)
                 {
+                    if (choiceObject.tag == "Kobito")
+                    {
+                        var minionCom = choiceObject.GetComponent<Minion>();
+                        if (minionCom != null)
+                        {
+                            RootMemory.Instance.Regist(beforChoiceMinion, minionCom);
+                            beforChoiceMinion = minionCom;
+                        }
+                    }
+                    if (choiceObject.tag == "Goal")
+                    {
+                        var goalCom = choiceObject.GetComponent<Goal>();
+                        if (goalCom != null)
+                        {
+                            RootMemory.Instance.Regist(beforChoiceMinion, goalCom);
+                        }
+                    }
+
                     SetFunction((uint)TRANSITION.None);
                     SetFixFunction((uint)FIX_TRANSITION.Move);
                     minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Move);
