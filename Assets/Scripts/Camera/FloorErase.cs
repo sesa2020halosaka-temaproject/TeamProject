@@ -85,7 +85,7 @@ namespace TeamProject
             floorHitObject[3] = f4ColliderObject;
             floorHitObject[4] = f5ColliderObject;
 
-            hightData = GetComponent<Camera>();
+            hightData = gameObject.GetComponent<Camera>();
 
         }
 
@@ -129,7 +129,7 @@ namespace TeamProject
         {
             foreach(var itr in meshRenderer[_i])
             {
-                var col = itr.material.color;// GetColor("_BaseColor");
+                var col = itr.material.GetColor("_BaseColor"); // GetColor("_BaseColor");
 
                 col.a = _a;
 
@@ -138,6 +138,7 @@ namespace TeamProject
         }
         private void KakiwakeEnable(int _i,bool flag)
         {
+            if (meshKakiwakeRenderer[_i] == null) return;
             foreach (var itr in meshKakiwakeRenderer[_i])
             {
                 itr.enabled = flag;
