@@ -270,6 +270,7 @@ namespace TeamProject {
             {
                 case 2:
                     FadeManager.FadeOut("TitleScene");
+                    RootMemory.Instance.Reset();
                     break;
                 case 0:
                     var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
@@ -277,6 +278,7 @@ namespace TeamProject {
                     break;
                 case 1:
                     FadeManager.FadeOut("StageSelectScene");
+                    RootMemory.Instance.Reset();
                     break;
             }
         }

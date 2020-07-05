@@ -356,14 +356,17 @@ namespace TeamProject
                         StageStatusManager.Instance.m_LastStageClearFlag = true;
                         FadeManager.FadeOut("TitleScene");
                     }
-
+                    RootMemory.Instance.Reset();
                     break;
+
                 case StageChoice.Retry:
                     var sceneName = SceneManager.GetActiveScene().name;
                     FadeManager.FadeOut(sceneName);
                     break;
+
                 case StageChoice.Select:
                     FadeManager.FadeOut("StageSelectScene");
+                    RootMemory.Instance.Reset();
                     break;
             }
         }
