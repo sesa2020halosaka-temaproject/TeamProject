@@ -124,5 +124,9 @@ namespace TeamProject
 
             meshRenderer.material = mat;
         }
+        protected void MeshDalate()
+        {
+            meshFilter.mesh = new Mesh();
+        }
     }
 }

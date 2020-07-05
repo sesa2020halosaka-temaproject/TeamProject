@@ -156,9 +156,12 @@ namespace TeamProject
 
         [SerializeField]
         private Material mat1;
-        
+
         [SerializeField]
         private Material mat2;
+
+        [SerializeField]
+        private Material mat3;
 
         private Minion beforChoiceMinion = null;
 
@@ -227,17 +230,25 @@ namespace TeamProject
 
             var obj = Instantiate(guidBase, Vector3.up, Quaternion.identity);
             var obj2 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
+            var obj3 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
+            var obj4 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
 
             obj.name = "GuidLineObject1";
             obj2.name = "GuidLineObject2";
 
-            guideLine = new GuideLine[2];
+            guideLine = new GuideLine[4];
 
             guideLine[0] = obj.GetComponent<GuideLine>();
             guideLine[0].Mat = mat1;
 
             guideLine[1] = obj2.GetComponent<GuideLine>();
             guideLine[1].Mat = mat2;
+
+            guideLine[2] = obj3.GetComponent<GuideLine>();
+            guideLine[2].Mat = mat3;
+
+            guideLine[3] = obj4.GetComponent<GuideLine>();
+            guideLine[3].Mat = mat3;
         }
 
         // None
@@ -405,14 +416,14 @@ namespace TeamProject
                 Debug.Log(hit.distance);
                 if (hit.distance < 6f)
                 {
-                 //    Debug.Break();
+                    //    Debug.Break();
                     hit.transform.root.gameObject.GetComponent<Goal>().GoalIn(this);
                     SetFunction((uint)TRANSITION.Goal);
                     // gameObject.SetActive(false);
                 }
             }
             // Debug.DrawRay(transform.position + transform.forward, new Vector3(0, -downLength, 0f));
-            
+
         }
 
         private void OnDrawGizmos()
@@ -429,7 +440,7 @@ namespace TeamProject
         {
             // transform.forward
             RaycastHit hit;
-            Ray ray = new Ray(transform.position + transform.forward*2f + Vector3.up, -Vector3.up);
+            Ray ray = new Ray(transform.position + transform.forward * 2f + Vector3.up, -Vector3.up);
             var hitFlag = Physics.Raycast(ray, downLength);
             if (hitFlag)
             {
@@ -458,7 +469,7 @@ namespace TeamProject
 
             var choicePositionConv = CameraConversion(choicePosition);
             float min = 0, max = 0;
-            
+
             foreach (var itr in choiceObjectList)
             {
                 if (itr.befor.tag != "Hit")
@@ -562,27 +573,36 @@ namespace TeamProject
 
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
             {
+                if (choiceObject.tag == "Kobito")
+                {
+                    var minionCom = choiceObject.GetComponent<Minion>();
+                    if (minionCom != null)
+                    {
+                        RootMemory.Instance.Regist(beforChoiceMinion, minionCom);
+                        beforChoiceMinion = minionCom;
+                    }
+                }
+                if (choiceObject.tag == "Goal")
+                {
+                    var goalCom = choiceObject.GetComponent<Goal>();
+                    if (goalCom != null)
+                    {
+                        RootMemory.Instance.Regist(beforChoiceMinion, goalCom);
+                    }
+                }
+                
+                guideLine[2].SetPoint(Vector3.zero, null);
+                guideLine[3].SetPoint(Vector3.zero, null);
+
+                guideLine[0].Hoge();
+                guideLine[1].Hoge();
+
+                guideLine[2].Hoge();
+                guideLine[3].Hoge();
+
                 Debug.Log(rootCheckFlag);
                 if (rootCheckFlag)
                 {
-                    if (choiceObject.tag == "Kobito")
-                    {
-                        var minionCom = choiceObject.GetComponent<Minion>();
-                        if (minionCom != null)
-                        {
-                            RootMemory.Instance.Regist(beforChoiceMinion, minionCom);
-                            beforChoiceMinion = minionCom;
-                        }
-                    }
-                    if (choiceObject.tag == "Goal")
-                    {
-                        var goalCom = choiceObject.GetComponent<Goal>();
-                        if (goalCom != null)
-                        {
-                            RootMemory.Instance.Regist(beforChoiceMinion, goalCom);
-                        }
-                    }
-
                     SetFunction((uint)TRANSITION.None);
                     SetFixFunction((uint)FIX_TRANSITION.Move);
                     minionPlatoon.SetFunction((uint)MinionPlatoon.TRANS.Move);
@@ -624,6 +644,12 @@ namespace TeamProject
         // 選択の配列取得
         private void GetChoice()
         {
+            foreach (var itr in guideLine)
+            {
+                itr.Delete();
+                itr.Hoge();
+            }
+
             // 配列の生成
             choiceObjectList = new List<ConversPosition>();
 
@@ -655,7 +681,7 @@ namespace TeamProject
                     }
                 }
             }
-            
+
             // 落ちている途中の小人がいれば、やりなおし
             foreach (var itr in choiceObjectList)
             {
@@ -671,7 +697,7 @@ namespace TeamProject
                     }
                 }
             }
-            
+
             // 指定できないようにする
             rootCheckFlag = false;
 
@@ -706,20 +732,38 @@ namespace TeamProject
 
         private void RootCheck()
         {
+            Vector3 hitPoint;
             // Centerのレイを確認
-            var centerRayCheck = CenterRayCheck();
+            var centerRayCheck = CenterRayCheck(out hitPoint);
 
-            guideLine[0].SetPoint(Vector3.zero, null);
-            guideLine[0].Hoge();
-            guideLine[1].SetPoint(Vector3.zero, null);
-            guideLine[1].Hoge();
+            foreach (var itr in guideLine)
+            {
+                itr.Delete();
+                itr.Hoge();
+                Debug.Log("とおってよおおおお");
+            }
 
             if (!centerRayCheck)
             {
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
-                // anima.SetTrigger("UnFind");
-                Debug.Log("直線でアウト");
+
+                var memoryRoot = ChoiceLine();
+
+                var points = LineCreate(transform.position, hitPoint);
+
+                guideLine[1].SetPoint(transform.position, LineCreate(transform.position, hitPoint));
+                guideLine[2].SetPoint(transform.position, LineCreate(transform.position, choicePosition));
+                if (memoryRoot)
+                {
+                    guideLine[0].Hoge();
+                    guideLine[1].Hoge();
+                }
+                else
+                {
+                    guideLine[2].Hoge();
+                    guideLine[3].Hoge();
+                }
                 return;
             }
 
@@ -742,16 +786,27 @@ namespace TeamProject
                 rootCheckFlag = false;
 
                 // 成功してたらここ入ってこないから気兼ねなくここで赤線引くよ
-                // マジなんで提出二日前に没仕様をあたかも俺の案のように言うて
-                // 追加仕様として入れるかなマジでキレるで('ω')
 
                 if (goodLane == null) return;
+                
+                bool rootMemo = ChoiceLine();
 
                 guideLine[0].SetPoint(transform.position, goodLane);
-                guideLine[1].SetPoint(goodLane[goodLane.Length-1], outLane);
+                guideLine[1].SetPoint(goodLane[goodLane.Length - 1], outLane);
 
-                guideLine[0].Hoge();
-                guideLine[1].Hoge();
+                guideLine[2].SetPoint(transform.position, goodLane);
+                guideLine[3].SetPoint(goodLane[goodLane.Length - 1], outLane);
+
+                if (rootMemo)
+                {
+                    guideLine[0].Hoge();
+                    guideLine[1].Hoge();
+                }
+                else
+                {
+                    guideLine[2].Hoge();
+                    guideLine[3].Hoge();
+                }
 
                 return;
             }
@@ -782,8 +837,10 @@ namespace TeamProject
         }
 
         public LayerMask kobitoLayer;
-        private bool CenterRayCheck()
+        private bool CenterRayCheck(out Vector3 _hitPoint)
         {
+            _hitPoint = Vector3.zero;
+
             // 追加処理発生
             // 違う小人に当たっても追加でレイをとばす　
             var eraseObject = new List<GameObject>();
@@ -830,6 +887,8 @@ namespace TeamProject
 
                     Debug.Log(hit.collider.gameObject.transform.root.gameObject.name + "+" + choiceObject.name);
 
+                    _hitPoint = hit.point;
+
                     if (hitHash == minionHash)
                     {
                         returnFlag = true;
@@ -864,6 +923,8 @@ namespace TeamProject
                     Debug.Log(hit.collider.gameObject.name);
                     if (groundHit)
                     {
+                        _hitPoint = hit.point;
+
                         Debug.Log("出た");
                         returnFlag = false;
                         break;
@@ -884,7 +945,7 @@ namespace TeamProject
         // public LayerMask test;
 
         [SerializeField]
-        private  LayerMask rayCheck;
+        private LayerMask rayCheck;
 
         [SerializeField]
         private LayerMask rayCheckCeiling;
@@ -942,7 +1003,7 @@ namespace TeamProject
                 // 長さを代入
                 lengthArray[i] = hit.distance;
                 outPos[i] = hit.point;
-               //  Debug.Log(i + "aa" + outPos[i]);
+                //  Debug.Log(i + "aa" + outPos[i]);
             }
 
             // 配列の低い数字から長さの差分をとる(初期は要素0を代入)
@@ -958,7 +1019,7 @@ namespace TeamProject
                 if (judgeHight < -diff)
                 {
                     Debug.Log("Inしたよ");
-                    _outPos = outPos[i- beforFrame];Debug.Log(_outPos);
+                    _outPos = outPos[i - beforFrame]; Debug.Log(_outPos);
                     return false;
                 }
                 oldLength = lengthArray[i];
@@ -1013,18 +1074,18 @@ namespace TeamProject
             // ルートで実際に使うルートを再検索
            　var mainRootList = Root.CreateMainRoot(rootList);
 
-            foreach(var itr in rootList)
+            foreach (var itr in rootList)
             {
                 Root.Check(itr, judgeHight, beforFrame, ref _outPos);
             }
 
-            return true; 
+            return true;
         }
 
         [SerializeField]
         private LayerMask topElaseMask;
 
-        private bool TopRayChecVer3(ref Vector3 _outPos,ref Vector3[] _goodLane,ref Vector3[] _outLane)
+        private bool TopRayChecVer3(ref Vector3 _outPos, ref Vector3[] _goodLane, ref Vector3[] _outLane)
         {
             // Vectorの受け取りの初期化
             // falseが出たらoutに代入
@@ -1045,8 +1106,8 @@ namespace TeamProject
 
             if (rayNum <= 0 + beforFrame) return true;
 
-           // rayNum++;
-            
+            // rayNum++;
+
             // レイを個数分生成
             var rayArray = new Ray[rayNum];
             var lerpStart = transform.position;
@@ -1073,20 +1134,20 @@ namespace TeamProject
             //　バグが出たので、変更
             // var elaseObjectPlayer = new List<GameObject>(); // プレイヤー
             // var elaseObjectTarget = new List<GameObject>(); // ターゲット
-            
+
             // プレイヤーの位置にレイを飛ばし、プレイヤーが来るまで回す
             while (true)
             {
                 RaycastHit hit;
                 var hitFlag = Physics.SphereCast(rayArray[0], 1f, out hit, 10000f, topElaseMask);
-                
+
                 if (!hitFlag)
                 {
                     foreach (var itr in elaseObject) itr.SetActive(false);
                     // foreach (var itr in elaseObjectPlayer) itr.SetActive(false);
                     // プレイヤーにすら当たらなかったのでなんかおかしいからfalseを返す
                     // Debug.Break();
-                        return false;
+                    return false;
                 }
 
                 if (hit.collider.tag == "Player")
@@ -1141,8 +1202,8 @@ namespace TeamProject
 
             // ------------------------------------ここまで追記
 
-            GameObject minionGroundObject= null;
-            
+            GameObject minionGroundObject = null;
+
             // 小人の乗っている床を判定する必要がるので取得する
             // ----------------------------------------地面取得
             {
@@ -1239,7 +1300,7 @@ namespace TeamProject
                     outPosList.Add(outPos[i - beforFrame]);
                     outPosIndx.Add(i);
                     num++;
-                   //  return false;
+                    //  return false;
                 }
                 oldLength = lengthArray[i];
             }
@@ -1264,7 +1325,7 @@ namespace TeamProject
 
                     _goodLane = goolLine;
                     _outLane = badLine;
-                    
+
                     return false;
                 }
                 else
@@ -1285,8 +1346,25 @@ namespace TeamProject
                 }
             }
 
+            bool rootMemo = ChoiceLine();
+
+            foreach (var itr in guideLine)
+            {
+                itr.Delete();
+            }
+
             guideLine[0].SetPoint(transform.position, outPos);
-            guideLine[0].Hoge();
+            guideLine[2].SetPoint(transform.position, outPos);
+
+            if (rootMemo)
+            {
+                guideLine[0].Hoge();
+            }
+            else
+            {
+                Debug.Log("とおってよおおおお");
+                guideLine[2].Hoge();
+            }
 
             // 最後まで来たら成功
             return true;
@@ -1350,7 +1428,7 @@ namespace TeamProject
             yield return new WaitForSeconds(0.7f);
             if (NowFunctionNum == (uint)TRANSITION.Jump)
             {
-               //  SetFunction((uint)TRANSITION.Move);
+                //  SetFunction((uint)TRANSITION.Move);
             }
             var down = transform.forward * moveSpeed;
             down.y = rb.velocity.y;
@@ -1480,6 +1558,71 @@ namespace TeamProject
             var minion = choiceObject.transform.root.GetComponent<Minion>();
 
             minion.OnFlag();
+        }
+
+        private Vector3[] LineCreate(Vector3 _start, Vector3 _last)
+        {
+            var ans = new List<Vector3>();
+
+            // 長さを図る
+            var lengthPosition = _last - _start;
+
+            lengthPosition.y = 0f;
+
+            var length = lengthPosition.magnitude;
+
+            // レイを作成する個数を
+            // 長さと倍率で洗い出す
+
+            // レイの個数(倍率 * 長さ)
+            var rayNum = (int)(length * stepJudgeAccuracy);
+
+            if (rayNum <= 0) return null;
+
+            ans.Add(Vector3.Lerp(_start, _last, 0));
+
+            for (int i = 1; i < rayNum; i++) {
+                ans.Add(Vector3.Lerp(_start, _last, i / (float)rayNum));
+            }
+            return ans.ToArray();
+        }
+
+        //private void GuidLineOnce(Vector3 _start, Vector3 _last)
+        //{
+        //    guideLine[0].SetPoint(_start, _last);
+        //    guideLine[0].Hoge();
+        //}
+
+        //private void GuidLineDouble(Vector3 _start, Vector3 _center, Vector3 _last)
+        //{
+        //}
+
+        //private void GuidLineBut(Vector3 _start, Vector3 _last)
+        //{
+        //    guideLine[2].SetPoint(transform.position, outPos);
+        //    guideLine[2].Hoge();
+        //}
+
+        private bool ChoiceLine()
+        {
+            bool rootMemo = false;
+            if (choiceObject.tag == "Kobito")
+            {
+                var minionCom = choiceObject.GetComponent<Minion>();
+                if (minionCom != null)
+                {
+                    rootMemo = RootMemory.Instance.Search(beforChoiceMinion, minionCom);
+                }
+            }
+            else if (choiceObject.tag == "Goal")
+            {
+                var goalCom = choiceObject.GetComponent<Goal>();
+                if (goalCom != null)
+                {
+                    rootMemo = RootMemory.Instance.Search(beforChoiceMinion, goalCom);
+                }
+            }
+            return rootMemo;
         }
     }
 }

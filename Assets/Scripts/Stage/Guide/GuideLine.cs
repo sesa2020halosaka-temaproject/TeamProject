@@ -10,8 +10,8 @@ namespace TeamProject
         private Vector3[] pos;
 
         private float size;
-        
-        private float uvSpeed ;
+
+        private float uvSpeed;
 
         public float UvSpeed { set { uvSpeed = value; } }
 
@@ -49,6 +49,7 @@ namespace TeamProject
         {
             startPos = Vector3.zero;
             pos = null;
+            MeshDalate();
         }
 
         public void SetPoint(Vector3 _pointStart, Vector3[] _points)
@@ -72,6 +73,14 @@ namespace TeamProject
 
                 return;
             }
+        }
+
+        private void CopyLine(GuideLine _base)
+        {
+            startPos = _base.startPos;
+            pos = _base.pos;
+            size = _base.size;
+            uvSpeed = _base.uvSpeed;
         }
     }
 }
