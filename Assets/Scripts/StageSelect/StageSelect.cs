@@ -52,7 +52,7 @@ namespace TeamProject
         public float m_Counter = 0;//
         public float m_InputStopFrame;//ステージやワールドの移動後のキー入力を待たせるフラグ
         public bool m_KeyWait_Flag = false;
-        public bool m_WorldEndMixing_Flag = false;
+
         private int count = 0;
         //ステージセレクトの状態
         public enum SELECT_STATE
@@ -156,7 +156,9 @@ namespace TeamProject
             //LensDistortionManagerコンポーネントの取得
             m_LensDistortionManager = GameObject.Find("LensDistortionObj").GetComponent<LensDistortionManager>();
 
+            //強度の初期設定
             m_LensDistortionManager.SetIntensity(m_StartIntensity);
+
             //シーン開始時点のステージから初期化
             //ドリールートの設定
             //LookAt・注視点の設定
@@ -182,6 +184,7 @@ namespace TeamProject
             m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
 
 
+            //ステージセレクトの状態を設定する
             StageChangeManager.SelectStateChange("KEY_WAIT");
         }//void Start() END
 
@@ -190,9 +193,12 @@ namespace TeamProject
         {
             if (!m_CamRotCheckFlag)
             {
+                //カメラの角度フラグがfalseの時は
+                //画面真っ暗状態で待つ。
                 m_CurrentFrameCamRot = UnityEngine.Camera.main.transform.rotation;
                 if (m_CurrentFrameCamRot == m_PrevFrameCamRot)
                 {
+                    //カメラの角度が前フレームと一致している時
                     m_CamRotCheckFlag = true;
                     //フェードイン
                     FadeManager.FadeIn(Start_FadeIn_Time);
@@ -202,13 +208,15 @@ namespace TeamProject
                 }
                 else
                 {
-
+                    //カメラの角度が前フレームと一致していない時
+                    //前フレームのカメラ角度に代入
                     m_PrevFrameCamRot = UnityEngine.Camera.main.transform.rotation;
                 }
             }
             else
             {
-
+                //カメラの角度フラグがfalseの時に
+                //ステージセレクト処理開始
                 select_state = StageChangeManager.GetSelectState();
                 switch (StageChangeManager.GetSelectState())
                 {
@@ -244,22 +252,13 @@ namespace TeamProject
             }
         }//void Update()    END
 
-        //private void LateUpdate()
-        //{
-        //    if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.UP)
-        //    {
-        //        Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
-
-        //    }
-
-        //}
-
         //---------------------------------------------------
         //Update()内の関数ここから
 
-        //キー入力待ち
+        //キー入力待ち状態の処理
         private void StateKeyWait()
         {
+            //フラグがfalseの時はカウントアップ待ち
             if (!KeyWaitFlagCheck())
             {
                 //上下左右の入力がないときにカウントアップする
@@ -288,21 +287,20 @@ namespace TeamProject
 
                 }
             }
-            //フラグがONになったら入力可能にする
             else if (KeyWaitFlagCheck())
             {
+                //フラグがONになったら入力可能にする
                 //ステージ選択（WSキー or スティック上下）
-                //StageChange();
                 StageChangeManager.StageChange();
                 //ワールド選択（ADキー or スティック左右）
                 StageChangeManager.WorldChange();
                 //WorldChangeManagr.WorldChange();
 
-                //
+                //左右のワールド移動UIの更新処理
                 m_Hold.WorldSelectUpdate();
-                //決定（Space  or Bボタン）
+                //決定処理チェック（Spaceキー  or Aボタン）
                 StageDecision();
-                //タイトルへ戻る(ESCキー or Startボタン)
+                //タイトルへ戻る(左SHIFTキー or Startボタン)
                 BackToTitle();
                 //フラグチェック
                 FlagCheck();
@@ -469,10 +467,14 @@ namespace TeamProject
                 _Main_DollyCam.SetStartDollyPos();
                 //固定用ドリールートをセット
                 _Main_DollyCam.SetPathFixingDolly();
+
+                //ドリールートのパス位置の最大最小を０に設定する
                 _Main_DollyCam.SetPathPosition(0.0f);
 
-
-
+                //ドリールートのパス位置の最大最小を０に設定する
+                //到着時上入力時のカメラのブレを軽減させるため
+                _Main_DollyCam.SetPathPositionMax(0.0f);
+                _Main_DollyCam.SetPathPositionMin(0.0f);
 
                 //UIの更新ステージナンバーの更新後用
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();

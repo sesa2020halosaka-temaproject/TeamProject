@@ -184,6 +184,9 @@ namespace TeamProject
                 //解除されている
                 //現在のステージ位置に応じた処理
                 UIActivateFromCurrentStage();
+                //移動フラグtrue
+                StageChangeManager.NextStageMoveFlagChange(true);
+
             }
             else
             {
