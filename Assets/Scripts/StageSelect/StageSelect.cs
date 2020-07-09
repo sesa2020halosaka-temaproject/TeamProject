@@ -354,6 +354,7 @@ namespace TeamProject
 
             //UI移動状態を変更する
             m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().UIMoveStateChange();
+            m_StageSelectUIManager.GetUIBG_ArrowObject().UIMoveStateChange();
 
             //ステージ移動の状態へ移行
             StageChangeManager.SelectStateChange("STAGE_MOVING");
@@ -482,6 +483,7 @@ namespace TeamProject
 
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
                 m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
+                m_StageSelectUIManager.GetUIBG_ArrowObject().SetStartPosition();
 
                 //アイコンの差し替え
                 //StageSelectArrow.ChangeStageNameIcon();

@@ -29,7 +29,8 @@ namespace TeamProject
 
         private CurrentToNextWorldUIManager m_ToNextWUI;
         private WorldStatusUIManager m_WorldStatusUI;
-        private UIBackGroundCurrentStage m_UIBackGroundCurrentStage;
+        private UIBackGroundCurrentStage m_UIBGCurrentStage;
+        private UIBackGroundCurrentStage m_UIBG_Arrow;
         private WorldSelectArrow m_WorldSelectArrow;
         private StageSelectArrow m_StageSelectArrow;
         private GameObject m_ButtonInformationObj;
@@ -56,8 +57,9 @@ namespace TeamProject
             m_WorldSelectArrow = this.transform.GetChild(0).transform.GetChild(1).GetComponent<WorldSelectArrow>();
             GameObject WorldStatusObj = this.transform.GetChild(0).transform.GetChild(2).gameObject;
             m_WorldStatusUI = WorldStatusObj.GetComponent<WorldStatusUIManager>();
-            m_UIBackGroundCurrentStage = WorldStatusObj.transform.GetChild(0).transform.GetChild(0).GetComponent<UIBackGroundCurrentStage>();
-            m_ToNextWUI = this.transform.GetChild(0).transform.GetChild(3).GetComponent<CurrentToNextWorldUIManager>();
+            m_UIBGCurrentStage = WorldStatusObj.transform.GetChild(0).transform.GetChild(0).GetComponent<UIBackGroundCurrentStage>();
+            m_UIBG_Arrow       = WorldStatusObj.transform.GetChild(0).transform.GetChild(1).GetComponent<UIBackGroundCurrentStage>();
+            m_ToNextWUI        = this.transform.GetChild(0).transform.GetChild(3).GetComponent<CurrentToNextWorldUIManager>();
         }
         // Start is called before the first frame update
         void Start()
@@ -76,7 +78,8 @@ namespace TeamProject
         {
             m_WorldStatusUI.WorldStatusUIUpdate();
             m_ToNextWUI.ToNextWorldUIUpdate();
-            m_UIBackGroundCurrentStage.UIBackGroundCurrentStageUpdate();
+            m_UIBGCurrentStage.UIBackGroundCurrentStageUpdate();
+            m_UIBG_Arrow.UIBackGroundCurrentStageUpdate();
             m_StageSelectArrow.StageSelectArrowUpdate();
             m_WorldSelectArrow.WorldSelectArrowUpdate();
         }//void Update()    END
@@ -119,7 +122,11 @@ namespace TeamProject
         //UIBackGroundCurrentStageのオブジェクトを渡す
         public UIBackGroundCurrentStage GetUIBackGroundCurrentStageObject()
         {
-            return m_UIBackGroundCurrentStage;
+            return m_UIBGCurrentStage;
+        }
+        public UIBackGroundCurrentStage GetUIBG_ArrowObject()
+        {
+            return m_UIBG_Arrow;
         }
         public StageSelectArrow GetStageSelectArrow()
         {
