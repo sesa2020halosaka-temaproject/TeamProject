@@ -146,25 +146,32 @@ namespace TeamProject
 
             if (clear && !lastStage)
             {
+                Debug.Log("通っとるよ");
                 Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
             }
             else if (!clear && !lastStage)
             {
+                Debug.Log("通っとるよ");
                 NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
             }
             else if (clear && lastStage)
             {
                 if (!lastOnce)
                 {
+                    Debug.Log("通っとるよ");
                     LastClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
                 }
                 else
                 {
+                    Debug.Log("kotti通っとるよ");
                     Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
                 }
             }
             else
             {
+                Debug.Log(clear);
+                Debug.Log(lastStage);
+                Debug.Log("通っとるよ");
                 NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
             }
 
@@ -281,8 +288,6 @@ namespace TeamProject
             Debug.Log(StageStatusManager.Instance.CurrentStage);
             if (StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20&&!lastOnce)
             {
-                clear = false;
-
                 nexImg.rectTransform.anchoredPosition = new Vector2(0, -384);
 
                 selImg.enabled = false;
