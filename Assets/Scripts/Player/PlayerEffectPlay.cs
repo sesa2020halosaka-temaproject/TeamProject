@@ -23,6 +23,8 @@ namespace TeamProject
 
         [SerializeField]
         private GameObject playerStartParticl;
+        [SerializeField]
+        private GameObject playerWinterStartParticl;
         // Start is called before the first frame update
         void Start()
         {
@@ -75,7 +77,16 @@ namespace TeamProject
 
         private void PlayerStartParticle()
         {
-            Instantiate(playerStartParticl, transform.parent.position, transform.parent.rotation);
+            var stageSeason = (WORLD_NO)StageStatusManager.Instance.CurrentWorld;
+            Debug.Log(stageSeason+"gijeaorgjeoriigjoiaerjgoiraej");
+            if (stageSeason != WORLD_NO.W3)
+            {
+                Instantiate(playerStartParticl, transform.parent.position, transform.parent.rotation);
+            }
+            else
+            {
+                Instantiate(playerWinterStartParticl, transform.parent.position, transform.parent.rotation);
+            }
         }
     }
 }
