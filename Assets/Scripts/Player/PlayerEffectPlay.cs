@@ -16,13 +16,19 @@ namespace TeamProject
         private GameObject grassSneowEffectObject;
 
         [SerializeField]
-        private GameObject particl;
+        private GameObject findParticl;
+        [SerializeField]
+        private GameObject unFindStopParticl;
+        [SerializeField]
+        private GameObject unFindFreezeParticl;
 
         private GameObject grass;
         private VisualEffect effect;
 
         [SerializeField]
         private GameObject playerStartParticl;
+        [SerializeField]
+        private GameObject playerWinterStartParticl;
         // Start is called before the first frame update
         void Start()
         {
@@ -70,12 +76,29 @@ namespace TeamProject
 
         void QuestionParticl()
         {
-            Instantiate(particl, transform.parent.position, transform.parent.rotation, transform.parent);
+            Instantiate(unFindFreezeParticl, transform.parent.position, transform.parent.rotation, transform.parent);
+        }
+        void FindParticl()
+        {
+            Instantiate(findParticl, transform.parent.position, transform.parent.rotation, transform.parent);
+        }
+        void StopParticl()
+        {
+            Instantiate(unFindStopParticl, transform.parent.position, transform.parent.rotation, transform.parent);
         }
 
         private void PlayerStartParticle()
         {
-            Instantiate(playerStartParticl, transform.parent.position, transform.parent.rotation);
+            var stageSeason = (WORLD_NO)StageStatusManager.Instance.CurrentWorld;
+
+            if (stageSeason != WORLD_NO.W3)
+            {
+                Instantiate(playerStartParticl, transform.parent.position, transform.parent.rotation);
+            }
+            else
+            {
+                Instantiate(playerWinterStartParticl, transform.parent.position, transform.parent.rotation);
+            }
         }
     }
 }

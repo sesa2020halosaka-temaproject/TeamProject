@@ -472,11 +472,10 @@ namespace TeamProject
 
         private void LastClear(bool _rightFlag, bool _leftFlag, bool _enter)
         {
-            
-            if (!enterOnce) return;
-
             // ステージをネクストのみで
             stageChoice = StageChoice.Next;
+            
+            if (!enterOnce) return;
 
             if (_leftFlag)
             {
