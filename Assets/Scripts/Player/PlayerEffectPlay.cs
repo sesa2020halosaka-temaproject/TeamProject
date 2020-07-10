@@ -16,7 +16,11 @@ namespace TeamProject
         private GameObject grassSneowEffectObject;
 
         [SerializeField]
-        private GameObject particl;
+        private GameObject findParticl;
+        [SerializeField]
+        private GameObject unFindStopParticl;
+        [SerializeField]
+        private GameObject unFindFreezeParticl;
 
         private GameObject grass;
         private VisualEffect effect;
@@ -72,13 +76,21 @@ namespace TeamProject
 
         void QuestionParticl()
         {
-            Instantiate(particl, transform.parent.position, transform.parent.rotation, transform.parent);
+            Instantiate(unFindFreezeParticl, transform.parent.position, transform.parent.rotation, transform.parent);
+        }
+        void FindParticl()
+        {
+            Instantiate(findParticl, transform.parent.position, transform.parent.rotation, transform.parent);
+        }
+        void StopParticl()
+        {
+            Instantiate(unFindStopParticl, transform.parent.position, transform.parent.rotation, transform.parent);
         }
 
         private void PlayerStartParticle()
         {
             var stageSeason = (WORLD_NO)StageStatusManager.Instance.CurrentWorld;
-            Debug.Log(stageSeason+"gijeaorgjeoriigjoiaerjgoiraej");
+
             if (stageSeason != WORLD_NO.W3)
             {
                 Instantiate(playerStartParticl, transform.parent.position, transform.parent.rotation);

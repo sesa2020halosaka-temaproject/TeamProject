@@ -106,6 +106,8 @@ namespace TeamProject
 
         // ルートが確立された時にtrueになる
         private bool rootCheckFlag;
+        // いけない時の理由のフラグ
+        private bool unFindTypeFlag;
 
         // 矢印のMeshRenderの表示設定に使う
         public bool NotChoice { get { return notChoice; } }
@@ -203,6 +205,7 @@ namespace TeamProject
 
             // 初期はfalse
             rootCheckFlag = false;
+            unFindTypeFlag = true;
 
             // リジットボディを取得する
             rb = GetComponent<Rigidbody>();
@@ -229,9 +232,9 @@ namespace TeamProject
             walkSoundManage = GetComponent<WalkSoundManage>();
 
             var obj = Instantiate(guidBase, Vector3.up, Quaternion.identity);
-            var obj2 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
-            var obj3 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
-            var obj4 = Instantiate(guidBase, Vector3.up * 1.5f, Quaternion.identity);
+            var obj2 = Instantiate(guidBase, Vector3.up, Quaternion.identity);
+            var obj3 = Instantiate(guidBase, Vector3.up, Quaternion.identity);
+            var obj4 = Instantiate(guidBase, Vector3.up, Quaternion.identity);
 
             obj.name = "GuidLineObject1";
             obj2.name = "GuidLineObject2";
@@ -622,7 +625,14 @@ namespace TeamProject
 
                     //    decoyObject = decoy;
                     //}
-                    anima.SetTrigger("UnFind");
+                    if (unFindTypeFlag)
+                    {
+                        anima.SetTrigger("UnFind");
+                    }
+                    else
+                    {
+                        anima.SetTrigger("UnFindStop");
+                    }
                 }
             }
 
@@ -748,7 +758,8 @@ namespace TeamProject
             {
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
-
+                unFindTypeFlag = true;
+                    
                 var memoryRoot = ChoiceLine();
 
                 var points = LineCreate(transform.position, hitPoint);
@@ -785,6 +796,7 @@ namespace TeamProject
                 // ここでFALSEが出ると妖精を飛ばす
                 SetFunction((uint)TRANSITION.Choice);
                 rootCheckFlag = false;
+                unFindTypeFlag = false;
 
                 // 成功してたらここ入ってこないから気兼ねなくここで赤線引くよ
 
