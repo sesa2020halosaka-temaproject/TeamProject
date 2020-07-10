@@ -272,8 +272,9 @@ namespace TeamProject
                     pickArrowCom.transform.position = new Vector3(0f, pickArrowHight, 0f) + choicePosition;
 
 
-                    var vec = choicePosition - transform.position;
-                    transform.LookAt(choicePosition, Vector3.up);
+                    var vec = choicePosition;
+                    vec.y = transform.position.y;
+                    transform.LookAt(vec, Vector3.up);
                     //transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
                     notChoice = false;
