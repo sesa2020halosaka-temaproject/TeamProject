@@ -114,6 +114,8 @@ namespace TeamProject
         public bool m_LastStageClearFlag = false;                                              //ラストステージをクリアしたかどうかフラグ(true:クリア済み,false:未クリア)
         [Header("オールアンロックフラグ")]
         public bool m_AllUnlockFlag = false;                                                   //オールアンロックフラグ(true:オールアンロック,false:通常)
+
+        public bool m_EDtoTITLE_Flag = false;                                                   //エンディングからタイトルに遷移したかどうかフラグ
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
         public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];                  //各ステージの小人取得数
 
