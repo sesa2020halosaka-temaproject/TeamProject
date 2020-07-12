@@ -15,7 +15,7 @@ namespace TeamProject
             SCENE_FADE,       //シーン遷移のフェードイン中
             LOGO_ANIM,       //タイトルロゴのアニメーション中
             PANEL_FADE_IN,       //DarkPanelのフェードイン中
-            PRESS_ANYKEY,     //キー入力待ち
+            PRESS_ANYBUTTON,     //キー入力待ち
             TITLE_MENU_FADEIN,//メニューフェードイン
             TITLE_MENU_WAIT,  //メニュー入力待機中
             ALL_STATE         //全状態数
@@ -25,6 +25,13 @@ namespace TeamProject
         public bool m_LastStageClearFlag;
         [Header("タイトル開始時のフェードイン時間")]
         public float Title_FadeIn_Time;     //タイトル開始のフェードイン時間
+        [Header("PressAnyButtonオブジェクトのフェードイン時間")]
+        public float m_PressAB_FadeIn_Time;      //PressAnyButtonオブジェクトのフェードイン時間
+        private bool m_PressAB_FadeIn_Flag = false;      //PressAnyKeyオブジェクトのフェードイン完了フラグ
+        private float m_PressAB_TimeCount;
+        private float m_PressAB_Alpha;
+        private Color m_PressABColor;                 //α値を取るためのカラー変数
+
         [Header("タイトルメニューのフェードイン時間")]
         public float Menu_FadeIn_Time;      //メニューのフェードイン時間
 
@@ -36,8 +43,8 @@ namespace TeamProject
 
         [Header("タイトル以外隠すためのパネルのフェードイン時間")]
         public float m_DPanel_FadeIn_Time;
-        public float m_DPanel_TimeCount;
-        public float m_DPanel_Alpha;
+        private float m_DPanel_TimeCount;
+        private float m_DPanel_Alpha;
         [Header("プロローグシーンへの遷移のフェードアウト時間")]
         public float m_PR_FadeOut_Time;
         [Header("プロローグシーンへ戻るまでの操作無し時間")]
@@ -51,6 +58,7 @@ namespace TeamProject
         public GameObject m_LogoMovieObj;              //タイトルロゴアニメーション用ゲームオブジェクト
         public GameObject m_TitleMenuObj;              //タイトルメニュー用ゲームオブジェクト
         public GameObject m_PressAnyButtonObj;         //PressAnyButton用ゲームオブジェクト
+        private GameObject m_PressABOFFObj;         //PressAnyButtonのOFF用ゲームオブジェクト
         public GameObject m_EndingBGObj;               //ラストステージクリア後背景用ゲームオブジェクト
         public GameObject m_DarkPanelObj;              //タイトルロゴ以外隠す黒背景用ゲームオブジェクト
 
@@ -65,13 +73,25 @@ namespace TeamProject
         void Start()
         {
             //開始時のフェードイン
-            FadeManager.FadeIn(Title_FadeIn_Time);
+            if (StageStatusManager.Instance.m_EDtoTITLE_Flag)
+            {
+                //エンディングシーンから遷移した時
+                FadeManager.FadeIn(0.0f);
+
+                //エンディングからタイトルに遷移しますよフラグをOFFにする。
+                StageStatusManager.Instance.m_EDtoTITLE_Flag = false;
+            }
+            else
+            {
+                //エンディングシーン以外から遷移した時
+                FadeManager.FadeIn(Title_FadeIn_Time);
+            }
             //鳴っているSEを止める
             SEManager.Instance.Stop();
 
             //タイトルBGMスタート
             BGMSwitcher.FadeIn(BGMPath.BGM_TITLE);
-            
+
             //開始時の状態を設定
             state = TITLESTATE.SCENE_FADE;
 
@@ -82,6 +102,7 @@ namespace TeamProject
 
             m_TitleMenuObj = this.transform.Find("TitleMenuObj").gameObject;
             m_PressAnyButtonObj = this.transform.Find("PressAnyButton").gameObject;
+            m_PressABOFFObj = m_PressAnyButtonObj.transform.GetChild(OFF).gameObject;
             m_EndingBGObj = this.transform.Find("EndingBGObj").gameObject;
             m_DarkPanelObj = GameObject.Find("DarkPanel").gameObject;
 
@@ -92,26 +113,55 @@ namespace TeamProject
             m_TitleMenuObj.SetActive(false);
 
             //PressAnyButtonの準備
-            PressAnyButton_ON();
+            SwitchingActive.GameObject_OFF(m_PressAnyButtonObj);
+            //カラー変数受け取り
+            m_PressABColor = new Vector4(1.0f, 1.0f, 1.0f, 0.0f);
+            m_PressABOFFObj.GetComponent<Image>().color = m_PressABColor;
 
             Hover_TimeCount = 0.0f;
             if (Hover_TimeMax <= 0) Hover_TimeMax = 1.0f;
+
+            //カラー値をセット
+            m_DarkPanelColor = m_DarkPanelObj.GetComponent<Image>().color;
+
             //ラストステージをクリアしたかどうかフラグをセット
-            m_LastStageClearFlag = StageStatusManager.Instance.m_LastStageClearFlag;
-            //フラグがON（4-5クリア後）なら背景をアクティブにする
-            if (m_LastStageClearFlag) { m_EndingBGObj.SetActive(true); }
-            else { m_EndingBGObj.SetActive(false); }
+            if (m_LastStageClearFlag)
+            {
+                //inspector上でチェックが入っているときはこっち
+            }
+            else
+            {
+                //inspector上でチェックが入っていないときはシングルトンのフラグに従う
+                m_LastStageClearFlag = StageStatusManager.Instance.m_LastStageClearFlag;
+            }
 
-              m_DarkPanelColor = m_DarkPanelObj.GetComponent<Image>().color;
+            if (m_LastStageClearFlag)
+            {
+                //フラグがtrue（4-5クリア後）なら
+                //クリア後背景をアクティブにする
+                m_EndingBGObj.SetActive(true);
 
-          //追加演出用
+                //タイトルロゴ以外隠す用パネルは表示しない
+                m_DarkPanelColor.a = 0.0f;
+
+            }
+            else
+            {
+                //フラグがtrue（4-5クリア後）なら
+                //クリア後背景を非アクティブにする
+                m_EndingBGObj.SetActive(false);
+
+                //タイトルロゴ以外隠す用パネルのα値を最大にする
+                m_DarkPanelColor.a = 1.0f;
+            }
+            m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
+
+
+            //追加演出用
             //ロゴのムービーのみONにする
-            //SwitchingActive.GameObject_OFF(m_TitleLogoObj);
             SwitchingActive.GameObject_ON(m_TitleLogoObj);
-           MovieSetting();
-            //m_LogoMovieObj.SetActive(false);
-            //初期の設定用
-            //m_DarkPanelObj.SetActive(false);
+            MovieSetting();
+
             //タイトルロゴアニメーション用SE再生
             SEManager.Instance.Play(SEPath.SE_TITLE_LOGO);
 
@@ -123,132 +173,23 @@ namespace TeamProject
             switch (state)
             {
                 case TITLESTATE.SCENE_FADE:
-                    if (FadeManager.IsFade())
-                    {
-                        //初期の設定
-                        //state = TITLESTATE.PRESS_ANYKEY;
-
-                        //追加演出の設定
-                        
-                        //状態を変更
-                        state = TITLESTATE.LOGO_ANIM;
-                        //タイトルロゴアニメーション実行
-                        m_VideoPlayer.Play();
-
-                    }
+                    SceneFadeStateUpdate();
                     break;
                 case TITLESTATE.LOGO_ANIM:
-                    if (!m_TitleLogoAnim_Flag)
-                    {
-                        if (m_VideoPlayer.isPlaying)
-                        {
-                            m_TitleLogoAnim_Flag = true;
-                        }
-                        else
-                        {
-                            Debug.Log("まだムービーは" + m_VideoPlayer.isPlaying + "だよ！");
-                        }
-
-                    }
-                    else
-                    {
-                        if (!m_VideoPlayer.isPlaying)
-                        {
-                            state = TITLESTATE.PANEL_FADE_IN;
-                        }
-                    }
+                    LogoAnimationStateUpdate();
                     break;
                 case TITLESTATE.PANEL_FADE_IN:
-                    m_DPanel_TimeCount += Time.deltaTime / m_DPanel_FadeIn_Time;
-                    m_DarkPanelColor.a = 1.0f - m_DPanel_TimeCount;
-                    m_DPanel_Alpha = m_DarkPanelColor.a;
-                    m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
-                    if (m_DarkPanelColor.a <= 0.0f)
-                    {
-                        m_DarkPanelColor.a = 0.0f;
-                        m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
-                        state = TITLESTATE.PRESS_ANYKEY;
-                      //  SwitchingActive.GameObject_OFF(m_TitleLogoObj);
-
-                    }
+                    PanelFadeInStateUpdate();
                     break;
-                case TITLESTATE.PRESS_ANYKEY://キー入力待ち
+                case TITLESTATE.PRESS_ANYBUTTON://キー入力待ち
+                    PressAnyButtonStateUpdate();
 
-                    //何かのキー入力( or コントローラーA B X Y入力)
-                    if (Input.anyKey && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2))
-                    {
-                        //PRESS ANY KEY 画像の破棄
-                        Destroy(this.transform.Find("PressAnyButton").gameObject);
-                        //メニュー画面のアクティブ化
-                        m_TitleMenuObj.SetActive(true);
-                        //状態遷移
-                        state = TITLESTATE.TITLE_MENU_FADEIN;
-                        //キー入力SE
-                        SEManager.Instance.Play(SEPath.SE_OK);
-                        m_TimeCount = 0;
-                    }
-                    else
-                    {
-                        m_TimeCount += Time.deltaTime;
-                    }
-                    //キー操作が一定時間ないときにプロローグに戻る
-                    if (m_TimeCount > m_BackPrologueMaxTime)
-                    {
-                        m_TimeCount = 0;
-                        //状態遷移
-                        state = TITLESTATE.TITLE_MENU_WAIT;
-
-                        //シーンのフェードアウト
-                        FadeManager.FadeOut("PrologueScene", time: m_PR_FadeOut_Time);
-                        //BGMのフェードアウト
-                        BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_PR_FadeOut_Time);
-
-                    }
-
-                    //UIの表示切替
-                    if (Hover_TimeCount > Hover_TimeMax)
-                    {
-                        Hover_TimeCount = 0.0f;
-                        if (m_PressAnyButtonObj.transform.GetChild(OFF).gameObject.activeSelf)
-                        {
-                            //PressAnyButtonをOn状態に切り替える
-                            // PressAnyButton_ON();
-                            SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
-                            Hover_TimeMax = Hover_On_Time;//On切り替え時間に変更
-                        }
-                        else
-                        {
-                            //PressAnyButtonをOff状態に切り替える
-                            //PressAnyButton_OFF();
-                            SwitchingActive.GameObject_OFF(m_PressAnyButtonObj);
-                            Hover_TimeMax = Hover_Off_Time;//Off切り替え時間に変更
-
-
-                            //m_LogoMovieObj.SetActive(true);
-                           // m_VideoPlayer.Play();
-                        }
-                    }
-                    Hover_TimeCount += Time.deltaTime;
                     break;
                 case TITLESTATE.TITLE_MENU_FADEIN://メニュー画面のフェードイン中
-                    if (m_TitleMenuColor.a < 1.0f)
-                    {
-                        m_TitleMenuColor.a += Time.deltaTime / Menu_FadeIn_Time;
-
-                        SetAlphaTitleMenu(m_TitleMenuColor);
-
-                    }
-                    else
-                    {
-                        m_TitleMenuColor.a = 1.0f;
-                        Debug.Log("alphaは1.0fになりました。");
-
-                        CursorScript.CursorMoveFlagOn();
-                        state = TITLESTATE.TITLE_MENU_WAIT;
-
-                    }
+                    TitleMenuFadeInStateUpdate();
                     break;
                 case TITLESTATE.TITLE_MENU_WAIT://メニュー選択画面、入力待ち
+                    TitleMenuWaitStateUpdate();
 
                     break;
                 case TITLESTATE.ALL_STATE:
@@ -260,18 +201,145 @@ namespace TeamProject
             }
         }// void Update()   END
 
-        //PressAnyButtonをOFF状態にする
-        public void PressAnyButton_OFF()
+        //====================================================
+        //状態ごとの更新関数
+        //====================================================
+        //シーン遷移のフェードイン中
+        private void SceneFadeStateUpdate()
         {
-            m_PressAnyButtonObj.transform.GetChild(OFF).gameObject.SetActive(true);
-            m_PressAnyButtonObj.transform.GetChild(ON).gameObject.SetActive(false);
+            if (FadeManager.IsFade())
+            {
+                //初期の設定
+                //state = TITLESTATE.PRESS_ANYKEY;
+
+                //追加演出の設定
+
+                //状態を変更
+                state = TITLESTATE.LOGO_ANIM;
+                //タイトルロゴアニメーション実行
+                m_VideoPlayer.Play();
+
+            }
+
         }
-        //PressAnyButtonをON状態にする
-        public void PressAnyButton_ON()
+
+        //タイトルロゴのアニメーション中
+        private void LogoAnimationStateUpdate()
         {
-            m_PressAnyButtonObj.transform.GetChild(OFF).gameObject.SetActive(false);
-            m_PressAnyButtonObj.transform.GetChild(ON).gameObject.SetActive(true);
+            if (!m_TitleLogoAnim_Flag)
+            {
+                if (m_VideoPlayer.isPlaying)
+                {
+                    m_TitleLogoAnim_Flag = true;
+                }
+                else
+                {
+                    Debug.Log("まだムービーは" + m_VideoPlayer.isPlaying + "だよ！");
+                }
+
+            }
+            else
+            {
+                if (!m_VideoPlayer.isPlaying)
+                {
+                    state = TITLESTATE.PANEL_FADE_IN;
+                }
+            }
+
         }
+
+        //DarkPanelのフェードイン中
+        private void PanelFadeInStateUpdate()
+        {
+            if (m_LastStageClearFlag)
+            {
+                //ラストステージクリアフラグがtrueなら
+                //特に処理なしで状態遷移させる
+                state = TITLESTATE.PRESS_ANYBUTTON;
+                //SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
+
+            }
+            else
+            {
+                //ラストステージクリアフラグがfalseなら
+                //タイトルロゴ以外隠すようパネルのα値を徐々に下げる
+
+                m_DPanel_TimeCount += Time.deltaTime / m_DPanel_FadeIn_Time;
+                m_DarkPanelColor.a = 1.0f - m_DPanel_TimeCount;
+                m_DPanel_Alpha = m_DarkPanelColor.a;
+                m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
+                if (m_DarkPanelColor.a <= 0.0f)
+                {
+                    m_DarkPanelColor.a = 0.0f;
+                    m_DarkPanelObj.GetComponent<Image>().color = m_DarkPanelColor;
+                    state = TITLESTATE.PRESS_ANYBUTTON;
+                    //SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
+
+                }
+            }
+
+        }
+
+        //キー入力待ち
+        private void PressAnyButtonStateUpdate()
+        {
+            if (!m_PressAB_FadeIn_Flag)
+            {
+                //PressAnyButtonObjがフェードイン中
+                PressAnyButtonObjFadeIn();
+            }
+            else
+            {
+                //フェードイン完了
+                //何かのキー入力( or コントローラーA B X Y入力)
+                if (CheckAnyKey())
+                {
+                    m_TimeCount = 0;
+                    ToTitleMenu();
+                }
+                else
+                {
+                    m_TimeCount += Time.deltaTime;
+                }
+                //UIの発光切り替え処理
+                PressAnyButtonFlash();
+
+                //キー操作が一定時間ないときにプロローグに戻る
+                ToPrologue();
+            }
+        }
+
+        //メニューフェードイン
+        private void TitleMenuFadeInStateUpdate()
+        {
+            if (m_TitleMenuColor.a < 1.0f)
+            {
+                m_TitleMenuColor.a += Time.deltaTime / Menu_FadeIn_Time;
+
+                SetAlphaTitleMenu(m_TitleMenuColor);
+
+            }
+            else
+            {
+                m_TitleMenuColor.a = 1.0f;
+                Debug.Log("alphaは1.0fになりました。");
+
+                CursorScript.CursorMoveFlagOn();
+                state = TITLESTATE.TITLE_MENU_WAIT;
+
+            }
+
+        }
+
+        //メニュー入力待機中
+        private void TitleMenuWaitStateUpdate()
+        {
+
+        }
+        //状態ごとの関数ここまで
+        //====================================================
+        //その他補助関数
+        //====================================================
 
         //タイトルメニューのα値をセットする
         public void SetAlphaTitleMenu(Color _alpha)
@@ -279,7 +347,6 @@ namespace TeamProject
             m_TitleMenuObj.transform.GetChild(0).GetChild(ON).GetComponent<Image>().color = _alpha;
             m_TitleMenuObj.transform.GetChild(1).GetChild(OFF).GetComponent<Image>().color = _alpha;
             m_TitleMenuObj.transform.GetChild(2).GetChild(OFF).GetComponent<Image>().color = _alpha;
-
         }
 
         //ムービー系統の設定
@@ -308,11 +375,89 @@ namespace TeamProject
             m_VideoPlayer.isLooping = false;
 
             //再生させる
-             m_VideoPlayer.Play();
-           //  m_VideoPlayer.Pause();
+            m_VideoPlayer.Play();
+            //  m_VideoPlayer.Pause();
+        }
 
+        //PressAnyButtonオブジェクトのフェードイン
+        private void PressAnyButtonObjFadeIn()
+        {
+            //α値を徐々に上げる
+            m_PressAB_TimeCount += Time.deltaTime / m_PressAB_FadeIn_Time;
+            m_PressABColor.a = m_PressAB_TimeCount;
+            m_PressAB_Alpha = m_PressABColor.a;
+
+            if (m_PressABColor.a >= 1.0f)
+            {
+                m_PressABColor.a = 1.0f;
+                m_PressAB_FadeIn_Flag = true;
+                SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
+            }
+            m_PressABOFFObj.GetComponent<Image>().color = m_PressABColor;
+        }
+
+        //AnyKeyチェック(マウスのクリック以外のキー入力)
+        private bool CheckAnyKey()
+        {
+            bool temp_InputKey;
+            temp_InputKey = (Input.anyKey && !Input.GetMouseButton(0) && !Input.GetMouseButton(1) && !Input.GetMouseButton(2));
+            return temp_InputKey;
+        }
+
+        //タイトルメニューへ状態遷移する処理
+        private void ToTitleMenu()
+        {
+            //PRESS ANY KEY 画像の破棄
+            Destroy(this.transform.Find("PressAnyButton").gameObject);
+            //メニュー画面のアクティブ化
+            m_TitleMenuObj.SetActive(true);
+            //状態遷移
+            state = TITLESTATE.TITLE_MENU_FADEIN;
+            //キー入力SE
+            SEManager.Instance.Play(SEPath.SE_OK);
 
         }
+        //UIの発光切り替え処理
+        private void PressAnyButtonFlash()
+        {
+            //UIの表示切替
+            if (Hover_TimeCount > Hover_TimeMax)
+            {
+                Hover_TimeCount = 0.0f;
+                if (m_PressAnyButtonObj.transform.GetChild(OFF).gameObject.activeSelf)
+                {
+                    //PressAnyButtonをOn状態に切り替える
+                    SwitchingActive.GameObject_ON(m_PressAnyButtonObj);
+                    Hover_TimeMax = Hover_On_Time;//On切り替え時間に変更
+                }
+                else
+                {
+                    //PressAnyButtonをOff状態に切り替える
+                    SwitchingActive.GameObject_OFF(m_PressAnyButtonObj);
+                    Hover_TimeMax = Hover_Off_Time;//Off切り替え時間に変更
+                }
+            }
+            Hover_TimeCount += Time.deltaTime;
+
+        }//PressAnyButtonFlash()    END
+
+        //キー操作が一定時間ないときにプロローグに戻る
+        private void ToPrologue()
+        {
+            if (m_TimeCount > m_BackPrologueMaxTime)
+            {
+                m_TimeCount = 0;
+                //状態遷移
+                state = TITLESTATE.TITLE_MENU_WAIT;
+
+                //シーンのフェードアウト
+                FadeManager.FadeOut("PrologueScene", time: m_PR_FadeOut_Time);
+                //BGMのフェードアウト
+                BGMManager.Instance.FadeOut(BGMPath.BGM_TITLE, duration: m_PR_FadeOut_Time);
+
+            }
+
+        }//PressAnyButtonFlash()    END
 
     } //public class TitleScene : MonoBehaviour    END
 } //namespace TeamProject    END
