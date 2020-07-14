@@ -7,8 +7,7 @@ namespace TeamProject
     //エンディングシーン用クラス（MovieManager継承）
     public class EndingManager : MovieManager
     {
-        [Header("(デバッグ用・チェック外し忘れに注意)")]
-        [Header("ラストステージクリア済みフラグ")]
+        [Header("ラストステージクリア済みデバッグフラグ(チェック外し忘れに注意)")]
         public bool m_LastStageClear_Flag;
 
         // Start is called before the first frame update

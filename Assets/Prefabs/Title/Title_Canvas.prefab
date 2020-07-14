@@ -561,14 +561,12 @@ MonoBehaviour:
   state: 0
   m_LastStageClearFlag: 0
   Title_FadeIn_Time: 1
-  m_PressAK_FadeIn_Time: 1.5
+  m_PressAB_FadeIn_Time: 1.5
   Menu_FadeIn_Time: 0.5
   Hover_Off_Time: 0.3
   Hover_On_Time: 1.2
   Hover_TimeMax: 0
   m_DPanel_FadeIn_Time: 1.5
-  m_DPanel_TimeCount: 0
-  m_DPanel_Alpha: 0
   m_PR_FadeOut_Time: 2
   m_BackPrologueMaxTime: 95
   m_TimeCount: 0
@@ -595,12 +593,12 @@ GameObject:
   - component: {fileID: 4150686849056012421}
   - component: {fileID: 4150686849056012420}
   m_Layer: 5
-  m_Name: PushAnyKey_off
+  m_Name: PushAnyButton_off
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4150686849056012419
 RectTransform:
   m_ObjectHideFlags: 0
@@ -839,12 +837,12 @@ GameObject:
   - component: {fileID: 4150686849479477265}
   - component: {fileID: 4150686849479477264}
   m_Layer: 5
-  m_Name: PushAnyKey_on
+  m_Name: PushAnyButton_on
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4150686849479477295
 RectTransform:
   m_ObjectHideFlags: 0
