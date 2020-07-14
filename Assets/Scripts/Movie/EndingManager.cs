@@ -7,6 +7,10 @@ namespace TeamProject
     //エンディングシーン用クラス（MovieManager継承）
     public class EndingManager : MovieManager
     {
+        [Header("(デバッグ用・チェック外し忘れに注意)")]
+        [Header("ラストステージクリア済みフラグ")]
+        public bool m_LastStageClear_Flag;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -16,9 +20,13 @@ namespace TeamProject
             //エンディングからタイトルに遷移しますよフラグをONにする。
             StageStatusManager.Instance.m_EDtoTITLE_Flag = true;
 
-            //デバッグ用のフラグON(基本はコメントアウト)
-            //StageStatusManager.Instance.m_LastStageClearFlag = true;
+            if (!StageStatusManager.Instance.m_LastStageClearFlag)
+            {
+                //フラグがfalseの時はデバッグ用のフラグをセットする
+                StageStatusManager.Instance.m_LastStageClearFlag = m_LastStageClear_Flag;
 
+            }
+            //フラグがtrueの時はスルー
         }
 
         // Update is called once per frame
