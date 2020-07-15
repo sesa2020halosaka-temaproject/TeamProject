@@ -917,14 +917,20 @@ namespace TeamProject
                     }
 
                     bool groundHit = true;
+                    bool goalHit = false;
                     // 追記処理
                     foreach (var itr in objList)
                     {
                         var otherMinionHash = itr.befor.GetHashCode();
-
+                        
                         // 当たったものが選択していないものなのでreturn 
                         if (hitHash == otherMinionHash)
                         {
+                            if (itr.befor.tag == "Goal")
+                            {
+                                goalHit = true;
+                                break;
+                            }
                             eraseObject.Add(itr.befor);
                             itr.befor.SetActive(false);
                             // objList.Remove(itr);
@@ -932,6 +938,14 @@ namespace TeamProject
                             groundHit = false;
                             break;
                         }
+                    }
+                    if (goalHit)
+                    {
+                        _hitPoint = hit.point;
+
+                        Debug.Log("出た");
+                        returnFlag = false;
+                        break;
                     }
                     Debug.Log(hit.collider.gameObject.name);
                     if (groundHit)
