@@ -1048,7 +1048,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 581595574}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 7bf29c8513f207a46a897a3b850a36a7, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 89316f382385ace49ada624794d12bf1, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1061,12 +1061,14 @@ VideoPlayer:
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 0
@@ -1085,14 +1087,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NextSceneName: 
-  m_InvisibleBeginTime: 0
-  m_InvisibleEndTime: 0
+  m_InvisibleBeginTime: 36
+  m_InvisibleEndTime: 3
   m_SkipButtonObj: {fileID: 0}
   m_SkipButtonUI: {fileID: 0}
   m_SkipColor: {r: 0, g: 0, b: 0, a: 0}
   m_VideoClip: {fileID: 0}
   m_VideoPlayer: {fileID: 0}
   m_MovieState: 0
+  m_LastStageClear_Flag: 0
 --- !u!1 &1275116969
 GameObject:
   m_ObjectHideFlags: 0
