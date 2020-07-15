@@ -286,7 +286,7 @@ namespace TeamProject
                 clear = true;
             }
             Debug.Log(StageStatusManager.Instance.CurrentStage);
-            if (StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20&&!lastOnce)
+            if (StageStatusManager.Instance.CurrentStage == STAGE_NO.STAGE20&&!lastOnce && clear)
             {
                 nexImg.rectTransform.anchoredPosition = new Vector2(0, -384);
 
@@ -359,7 +359,7 @@ namespace TeamProject
                     else
                     {
                         StageStatusManager.Instance.m_LastStageClearFlag = true;
-                        FadeManager.FadeOut("TitleScene");
+                        FadeManager.FadeOut("EndingScene");
                     }
                     RootMemory.Instance.Reset();
                     break;
