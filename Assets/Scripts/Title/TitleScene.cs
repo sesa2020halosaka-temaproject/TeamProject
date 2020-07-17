@@ -147,7 +147,7 @@ namespace TeamProject
             }
             else
             {
-                //フラグがtrue（4-5クリア後）なら
+                //フラグがfalse（4-5未クリア）なら
                 //クリア後背景を非アクティブにする
                 m_EndingBGObj.SetActive(false);
 

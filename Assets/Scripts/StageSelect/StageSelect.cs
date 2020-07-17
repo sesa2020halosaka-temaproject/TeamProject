@@ -67,15 +67,6 @@ namespace TeamProject
         }
         public SELECT_STATE select_state;
 
-        //ドリーの状態
-        public enum DOLLY_STATE
-        {
-            GO = 0,  //次のステージへ
-            BACK,    //前のステージへ
-            STATE_NUM//状態の数
-        }
-        public DOLLY_STATE dolly_state;
-
         private int db_cnt = 0;//デバッグログ確認用カウント
 
         private StageSelectSound m_SelectSound;
@@ -191,31 +182,24 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
+
+            StageSelectUpdate();
+            _Main_DollyCam.DollyUpdate();
+            m_LookAt.LookAtObjectUpdate();
+        }//void Update()    END
+
+        //ステージセレクトの更新処理
+        public void StageSelectUpdate()
+        {
             if (!m_CamRotCheckFlag)
             {
                 //カメラの角度フラグがfalseの時は
                 //画面真っ暗状態で待つ。
-                m_CurrentFrameCamRot = UnityEngine.Camera.main.transform.rotation;
-                if (m_CurrentFrameCamRot == m_PrevFrameCamRot)
-                {
-                    //カメラの角度が前フレームと一致している時
-                    m_CamRotCheckFlag = true;
-                    //フェードイン
-                    FadeManager.FadeIn(Start_FadeIn_Time);
-                    //BGMスタート
-                    m_SelectSound.StageSelectStartBGM();
-
-                }
-                else
-                {
-                    //カメラの角度が前フレームと一致していない時
-                    //前フレームのカメラ角度に代入
-                    m_PrevFrameCamRot = UnityEngine.Camera.main.transform.rotation;
-                }
+                CameraRotCheckAtSceneStart();
             }
             else
             {
-                //カメラの角度フラグがfalseの時に
+                //カメラの角度フラグがtrueになったら
                 //ステージセレクト処理開始
                 select_state = StageChangeManager.GetSelectState();
                 switch (StageChangeManager.GetSelectState())
@@ -249,8 +233,9 @@ namespace TeamProject
                     default:
                         break;
                 }//switch (StageChangeManager.GetSelectState()) END
-            }
-        }//void Update()    END
+            }//if (!m_CamRotCheckFlag) else END
+
+        }
 
         //---------------------------------------------------
         //Update()内の関数ここから
@@ -340,7 +325,10 @@ namespace TeamProject
 
             //
             m_LookAt.ChangeState();
-
+            if (StageChangeManager.GetStageChangeKey()== StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            {
+                m_LookAt.ChangeDollyState();
+            }
             //
             //上下矢印の非アクティブ化
             //StageSelectArrow.TwoArrowsSetting();
@@ -593,7 +581,8 @@ namespace TeamProject
             //if (Input.GetKeyDown(KeyCode.Space))
             {
                 string StageName = StageStatusManager.Instance.StageString[(int)StageStatusManager.Instance.CurrentStage];
-                FadeManager.FadeOut(StageName, StageIn_FadeOut_Time);
+                FadeManager.FadeOut("StageSelectScene", StageIn_FadeOut_Time);
+                //FadeManager.FadeOut(StageName, StageIn_FadeOut_Time);
 
                 //BGMのフェードアウト
                 BGMManager.Instance.FadeOut(StageIn_FadeOut_Time);
@@ -613,7 +602,8 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             //if (Input.GetKeyDown(KeyCode.Escape))
             {//Bボタン or Spaceキー入力
-                FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
+                FadeManager.FadeOut("StageSelectScene", ToTitle_FadeOut_Time);
+                //FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
             }
 
         }
@@ -698,5 +688,30 @@ namespace TeamProject
 
         }
 
+        //=============================================
+        //ステージセレクトの開始直後のカメラの処理
+        private void CameraRotCheckAtSceneStart()
+        {
+            //カメラの角度フラグがfalseの時は
+            //画面真っ暗状態で待つ。
+            m_CurrentFrameCamRot = UnityEngine.Camera.main.transform.rotation;
+            if (m_CurrentFrameCamRot == m_PrevFrameCamRot)
+            {
+                //カメラの角度が前フレームと一致している時
+                m_CamRotCheckFlag = true;
+                //フェードイン
+                FadeManager.FadeIn(Start_FadeIn_Time);
+                //BGMスタート
+                m_SelectSound.StageSelectStartBGM();
+
+            }
+            else
+            {
+                //カメラの角度が前フレームと一致していない時
+                //前フレームのカメラ角度に代入
+                m_PrevFrameCamRot = UnityEngine.Camera.main.transform.rotation;
+            }
+
+        }
     }//public class StageSelect : MonoBehaviour END
 }//namespace END

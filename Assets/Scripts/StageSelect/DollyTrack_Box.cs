@@ -47,6 +47,7 @@ namespace TeamProject
                 m_Dolly_PrevWorld[i] = tmp_PrevWorldObj.GetChild(i).GetComponent<CinemachineSmoothPath>();
                 //Debug.Log("m_Dolly_NextWorld[i]:"+ m_Dolly_NextWorld[i].name);
             }
+            //ステージ間移動用ルートの取得
             for (int i = 0; i < (int)WORLD_NO.ALL_WORLD; i++)
             {
                 m_Dolly_NextStage[i] = tmp_NextStageObj.GetChild(i).GetComponent<CinemachineSmoothPath>();

@@ -105,11 +105,8 @@ namespace TeamProject
             ResetFovRatio();
         }
 
+        //更新用
         public void DollyUpdate()
-        {
-
-        }
-        private void Update()
         {
             m_DollyMove = StageChangeManager.DollyState();
             switch (StageChangeManager.DollyState())
@@ -154,7 +151,54 @@ namespace TeamProject
             }
 
 
-        }
+        }//DollyUpdate()    END
+
+        private void Update()
+        {
+            //m_DollyMove = StageChangeManager.DollyState();
+            //switch (StageChangeManager.DollyState())
+            //{
+            //    case DOLLY_MOVE.FIXING:
+            //        break;
+            //    case DOLLY_MOVE.GO:
+            //        this.dolly.m_PathPosition += AddTime * Time.deltaTime * Stage_MoveRatio;
+            //        if (this.dolly.m_PathPosition >= this.pathPositionMax)
+            //        {
+            //            this.dolly.m_PathPosition = this.pathPositionMax;
+            //            //移動完了
+            //            StageChangeManager.DollyFlagON();
+            //        }
+
+            //        break;
+            //    case DOLLY_MOVE.BACK:
+            //        this.dolly.m_PathPosition += AddTime * Time.deltaTime * Stage_MoveRatio;
+            //        if (this.dolly.m_PathPosition <= this.pathPositionMin)
+            //        {
+            //            this.dolly.m_PathPosition = this.pathPositionMin;
+            //            //移動完了
+            //            StageChangeManager.DollyFlagON();
+            //        }
+
+            //        break;
+            //    case DOLLY_MOVE.WORLD:
+            //        this.dolly.m_PathPosition += AddTime * Time.deltaTime * World_MoveRatio;
+            //        if (this.dolly.m_PathPosition >= this.pathPositionMax)
+            //        {
+            //            this.dolly.m_PathPosition = this.pathPositionMax;
+            //            //移動完了
+            //            StageChangeManager.DollyFlagON();
+            //        }
+
+
+            //        break;
+            //    case DOLLY_MOVE.ALL_STATES:
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+
+        }//Update() END
 
 
         //移動中かどうかboolで返す
