@@ -44,6 +44,20 @@ namespace TeamProject
             }
 
         }
+
+        //次のウェイポイントまでの距離（ウェイポイントの数）
+        public float NextWayPointDistance()
+        {
+            float Return_Distance = Mathf.Abs(m_Stage_WayPoint[(int)StageStatusManager.Instance.NextStage % 5] - m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+            return Return_Distance;
+        }
+
+        //前のウェイポイントまでの距離（ウェイポイントの数）
+        public float PrevWayPointDistance()
+        {
+            float Return_Distance = Mathf.Abs(m_Stage_WayPoint[(int)StageStatusManager.Instance.PrevStage % 5] - m_Stage_WayPoint[StageStatusManager.Instance.StageInWorld]);
+            return Return_Distance;
+        }
         // Start is called before the first frame update
         //void Start()
         //{
