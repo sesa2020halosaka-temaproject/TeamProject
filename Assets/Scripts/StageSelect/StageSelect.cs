@@ -581,8 +581,8 @@ namespace TeamProject
             //if (Input.GetKeyDown(KeyCode.Space))
             {
                 string StageName = StageStatusManager.Instance.StageString[(int)StageStatusManager.Instance.CurrentStage];
-                FadeManager.FadeOut("StageSelectScene", StageIn_FadeOut_Time);
-                //FadeManager.FadeOut(StageName, StageIn_FadeOut_Time);
+                //FadeManager.FadeOut("StageSelectScene", StageIn_FadeOut_Time);
+                FadeManager.FadeOut(StageName, StageIn_FadeOut_Time);
 
                 //BGMのフェードアウト
                 BGMManager.Instance.FadeOut(StageIn_FadeOut_Time);
@@ -602,8 +602,8 @@ namespace TeamProject
             if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
             //if (Input.GetKeyDown(KeyCode.Escape))
             {//Bボタン or Spaceキー入力
-                FadeManager.FadeOut("StageSelectScene", ToTitle_FadeOut_Time);
-                //FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
+                //FadeManager.FadeOut("StageSelectScene", ToTitle_FadeOut_Time);
+                FadeManager.FadeOut("TitleScene", ToTitle_FadeOut_Time);
             }
 
         }
