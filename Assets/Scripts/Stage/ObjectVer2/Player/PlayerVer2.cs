@@ -566,13 +566,6 @@ namespace TeamProject
             arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
             arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
 
-            // キー入力
-            MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
-                ref direction[(uint)DIRECTION.RIGHT],
-                direction[(uint)DIRECTION.BACK]);
-            MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
-                ref direction[(uint)DIRECTION.LEFT],
-                direction[(uint)DIRECTION.TOP]);
 
             Debug.Log("NowChoice" + choiceObject.name);
 
@@ -635,6 +628,17 @@ namespace TeamProject
                         anima.SetTrigger("UnFindStop");
                     }
                 }
+            }
+            else
+            {
+                // キー入力
+                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
+                    ref direction[(uint)DIRECTION.RIGHT],
+                    direction[(uint)DIRECTION.BACK]);
+                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
+                    ref direction[(uint)DIRECTION.LEFT],
+                    direction[(uint)DIRECTION.TOP]);
+
             }
 
             oldArrow[(int)InputManager.ArrowCoad.UpArrow] = arrow[(int)InputManager.ArrowCoad.UpArrow];
