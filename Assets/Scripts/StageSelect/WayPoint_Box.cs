@@ -17,6 +17,8 @@ namespace TeamProject
         public float[] WinterStage_WayPoint;        //World03:冬ステージ用WayPoint番号
         [Header("World04:春ステージ用")]
         public float[] SpringStage_WayPoint;        //World04:春ステージ用WayPoint番号
+        [Header("ステージ移動用WP調節用")]
+        public float[] m_Adjust_WayPoint;            //ステージ移動用ルートのウェイポイント調節用配列
         [Header("WayPoint受け渡し用")]
         public float[] m_Stage_WayPoint;            //WayPoint番号受け渡し用配列
 
