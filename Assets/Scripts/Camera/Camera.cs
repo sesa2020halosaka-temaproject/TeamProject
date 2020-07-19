@@ -136,6 +136,9 @@ namespace TeamProject
             player = GameObject.FindGameObjectWithTag("Player").transform.root.gameObject.GetComponent<PlayerVer2>();
 
             var lips = player.transform.GetChild(4);
+            var camRot = transform.root.localEulerAngles;
+            camRot.x = camRot.z = 0f;
+            lips.eulerAngles = camRot;
             lip = lips.GetChild(0).gameObject;
             lipStart = lips.GetChild(1).gameObject;
 
@@ -143,9 +146,9 @@ namespace TeamProject
             NextPlayerPos = lip.transform.position;
             EndPos = mainCameraGameObject.transform.position;
 
-            startPlayerRot = lipStart.transform.localRotation.eulerAngles;
-            NextPlayerRot = lip.transform.rotation.eulerAngles;
-            EndRot = mainCameraGameObject.transform.rotation.eulerAngles;
+            // startPlayerRot = lipStart.transform.rotation.eulerAngles;
+            // NextPlayerRot = lip.transform.rotation.eulerAngles;
+            // EndRot = mainCameraGameObject.transform.rotation.eulerAngles;
         }
 
         private void None()
@@ -184,10 +187,10 @@ namespace TeamProject
             var speedTime = Time.deltaTime / startRotSpeed;
 
             var pos = GetPoint(startPlayerPos, NextPlayerPos, NextPlayerPos, EndPos, startRot);
-            var rot= GetPoint(startPlayerRot, NextPlayerRot, NextPlayerRot, EndRot, startRot);
+            // var rot= GetPoint(startPlayerRot, NextPlayerRot, NextPlayerRot, EndRot, startRot);
 
             mainCameraGameObject.transform.position = pos;
-            mainCameraGameObject.transform.rotation = Quaternion.Euler(rot);
+            // mainCameraGameObject.transform.rotation = Quaternion.Euler(rot);
 
             // 終わり際に速度を半減してみる
             if(0.8f < startRot)
@@ -204,7 +207,7 @@ namespace TeamProject
                 transform.rotation = startQua;
 
                 mainCameraGameObject.transform.position = EndPos;
-                mainCameraGameObject.transform.rotation = Quaternion.Euler(EndRot);
+                // mainCameraGameObject.transform.rotation = Quaternion.Euler(EndRot);
                 
                 SetFunction((uint)TRANS.Upd);
             }
