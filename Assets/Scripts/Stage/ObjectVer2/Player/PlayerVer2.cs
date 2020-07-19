@@ -246,6 +246,7 @@ namespace TeamProject
 
             guideLine[1] = obj2.GetComponent<GuideLine>();
             guideLine[1].Mat = mat2;
+            guideLine[1].OnIsFlashing();
 
             guideLine[2] = obj3.GetComponent<GuideLine>();
             guideLine[2].Mat = mat3;

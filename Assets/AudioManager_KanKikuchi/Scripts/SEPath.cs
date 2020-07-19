@@ -16,6 +16,7 @@ public static class SEPath{
 	public const string SE_CLEAR                   = "SE/Stereo/SE_Ste_Result/SE_Clear";
 	public const string SE_CURSOL_MOVE             = "SE/Mono/SE_Mono_System/SE_CursolMove";
 	public const string SE_FAILURE                 = "SE/Stereo/SE_Ste_Result/SE_Failure";
+	public const string SE_FAIRY_CHANGE_COLOR      = "SE/Mono/SE_Mono_Player/SE_FairyChangeColor";
 	public const string SE_FLYING_PC               = "SE/Stereo/SE_Ste_Player/SE_FlyingPC";
 	public const string SE_GET_MINION              = "SE/Mono/SE_Mono_Minion/SE_GetMinion";
 	public const string SE_GOAL                    = "SE/Stereo/SE_Ste_Goal/SE_Goal";
