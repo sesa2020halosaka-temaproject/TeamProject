@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Resolution: 20
   m_Appearance:
-    pathColor: {r: 0, g: 0, b: 1, a: 1}
+    pathColor: {r: 1, g: 0, b: 1, a: 1}
     inactivePathColor: {r: 0.6666667, g: 0.6666667, b: 0, a: 1}
     width: 1
   m_Looped: 0
@@ -183,27 +183,33 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1440, y: 135, z: 430}
     roll: 0
-  - position: {x: -1430, y: 135, z: 420}
+  - position: {x: -1430, y: 135, z: 418}
     roll: 0
-  - position: {x: -1420, y: 135, z: 410}
+  - position: {x: -1430, y: 135, z: 408}
     roll: 0
-  - position: {x: -1410, y: 135, z: 400}
+  - position: {x: -1430, y: 135, z: 400}
     roll: 0
   - position: {x: -1400, y: 130, z: 390}
     roll: 0
-  - position: {x: -1045, y: 115, z: 290}
+  - position: {x: -1270, y: 135, z: 350}
     roll: 0
-  - position: {x: -885, y: 45, z: 120}
+  - position: {x: -1120, y: 140, z: 270}
     roll: 0
-  - position: {x: -800, y: 180, z: -130}
+  - position: {x: -835, y: 95, z: 160}
     roll: 0
-  - position: {x: -840, y: 170, z: -415}
+  - position: {x: -555, y: 110, z: -25}
     roll: 0
-  - position: {x: -900, y: 180, z: -710}
+  - position: {x: -535, y: 130, z: -230}
     roll: 0
-  - position: {x: -900, y: 60, z: -960}
+  - position: {x: -595, y: 110, z: -385}
     roll: 0
-  - position: {x: -777, y: 65, z: -1125}
+  - position: {x: -720, y: 60, z: -620}
+    roll: 0
+  - position: {x: -780, y: 65, z: -825}
+    roll: 0
+  - position: {x: -795, y: 65, z: -1010}
+    roll: 0
+  - position: {x: -730, y: 70, z: -1140}
     roll: 0
   - position: {x: -540, y: 70, z: -1215}
     roll: 0
@@ -4644,6 +4650,11 @@ MonoBehaviour:
   - 6
   - 9
   - 12
+  m_Adjust_WayPoint:
+  - 18
+  - 23
+  - 21
+  - 18
   m_Stage_WayPoint: []
 --- !u!4 &735193703
 Transform:
@@ -5053,7 +5064,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773784130}
-  m_LocalRotation: {x: -0.42689934, y: 0.010431952, z: -0.004925075, w: -0.9042256}
+  m_LocalRotation: {x: -0.4268993, y: 0.010431996, z: -0.0049250955, w: -0.9042256}
   m_LocalPosition: {x: 28.5, y: 85, z: -1275}
   m_LocalScale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -10317,7 +10328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Resolution: 20
   m_Appearance:
-    pathColor: {r: 0, g: 0, b: 1, a: 1}
+    pathColor: {r: 1, g: 0, b: 1, a: 1}
     inactivePathColor: {r: 0.6666667, g: 0.6666667, b: 0, a: 1}
     width: 5
   m_Looped: 0
@@ -10336,21 +10347,27 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1670, y: 100, z: 745}
     roll: 0
-  - position: {x: -1590, y: 80, z: 640}
+  - position: {x: -1640, y: 90, z: 660}
     roll: 0
-  - position: {x: -1510, y: 55, z: 460}
+  - position: {x: -1620, y: 70, z: 565}
     roll: 0
-  - position: {x: -1455, y: 50, z: 175}
+  - position: {x: -1605, y: 50, z: 450}
     roll: 0
-  - position: {x: -1450, y: 125, z: -145}
+  - position: {x: -1585, y: 30, z: 310}
     roll: 0
-  - position: {x: -1380, y: 55, z: -445}
+  - position: {x: -1555, y: 50, z: 150}
     roll: 0
-  - position: {x: -1230, y: 60, z: -795}
+  - position: {x: -1480, y: 125, z: -145}
     roll: 0
-  - position: {x: -1000, y: 65, z: -1045}
+  - position: {x: -1380, y: 65, z: -445}
     roll: 0
-  - position: {x: -660, y: 70, z: -1195}
+  - position: {x: -1255, y: 40, z: -725}
+    roll: 0
+  - position: {x: -1095, y: 65, z: -965}
+    roll: 0
+  - position: {x: -860, y: 70, z: -1130}
+    roll: 0
+  - position: {x: -600, y: 75, z: -1220}
     roll: 0
   - position: {x: -350, y: 80, z: -1265}
     roll: 0
@@ -11624,7 +11641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Resolution: 20
   m_Appearance:
-    pathColor: {r: 0, g: 0, b: 1, a: 1}
+    pathColor: {r: 1, g: 0, b: 1, a: 1}
     inactivePathColor: {r: 0.6666667, g: 0.6666667, b: 0, a: 1}
     width: 8
   m_Looped: 0
@@ -11635,23 +11652,29 @@ MonoBehaviour:
     roll: 0
   - position: {x: -2045, y: 148, z: 775}
     roll: 0
-  - position: {x: -2035, y: 140, z: 770}
+  - position: {x: -2000, y: 120, z: 760}
     roll: 0
-  - position: {x: -1875, y: 60, z: 755}
+  - position: {x: -1925, y: 90, z: 730}
     roll: 0
-  - position: {x: -1685, y: 55, z: 620}
+  - position: {x: -1825, y: 65, z: 665}
     roll: 0
-  - position: {x: -1510, y: 50, z: 175}
+  - position: {x: -1715, y: 50, z: 550}
     roll: 0
-  - position: {x: -1450, y: 125, z: -145}
+  - position: {x: -1615, y: 35, z: 380}
     roll: 0
-  - position: {x: -1380, y: 55, z: -445}
+  - position: {x: -1560, y: 50, z: 145}
     roll: 0
-  - position: {x: -1230, y: 60, z: -795}
+  - position: {x: -1480, y: 125, z: -145}
     roll: 0
-  - position: {x: -1000, y: 65, z: -1045}
+  - position: {x: -1380, y: 65, z: -445}
     roll: 0
-  - position: {x: -660, y: 70, z: -1195}
+  - position: {x: -1255, y: 40, z: -725}
+    roll: 0
+  - position: {x: -1095, y: 65, z: -965}
+    roll: 0
+  - position: {x: -860, y: 70, z: -1130}
+    roll: 0
+  - position: {x: -600, y: 75, z: -1220}
     roll: 0
   - position: {x: -350, y: 80, z: -1265}
     roll: 0
@@ -11712,7 +11735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Resolution: 20
   m_Appearance:
-    pathColor: {r: 0, g: 0, b: 1, a: 1}
+    pathColor: {r: 1, g: 0, b: 1, a: 1}
     inactivePathColor: {r: 0.6666667, g: 0.6666667, b: 0, a: 1}
     width: 0.2
   m_Looped: 0
@@ -11743,23 +11766,31 @@ MonoBehaviour:
     roll: 0
   - position: {x: -1078, y: 235, z: 570}
     roll: 0
-  - position: {x: -760, y: 235, z: 450}
+  - position: {x: -860, y: 195, z: 595}
     roll: 0
-  - position: {x: -605, y: 135, z: 290}
+  - position: {x: -645, y: 130, z: 580}
     roll: 0
-  - position: {x: -310, y: 40, z: 35}
+  - position: {x: -505, y: 40, z: 465}
     roll: 0
-  - position: {x: -390, y: 55, z: -315}
+  - position: {x: -400, y: 35, z: 260}
     roll: 0
-  - position: {x: -670, y: 60, z: -595}
+  - position: {x: -355, y: 60, z: -5}
     roll: 0
-  - position: {x: -650, y: 65, z: -980}
+  - position: {x: -355, y: 100, z: -285}
     roll: 0
-  - position: {x: -540, y: 70, z: -1215}
+  - position: {x: -355, y: 60, z: -640}
     roll: 0
-  - position: {x: -350, y: 80, z: -1265}
+  - position: {x: -390, y: 65, z: -890}
     roll: 0
-  - position: {x: -155, y: 85, z: -1295}
+  - position: {x: -455, y: 70, z: -1100}
+    roll: 0
+  - position: {x: -435, y: 75, z: -1210}
+    roll: 0
+  - position: {x: -340, y: 80, z: -1260}
+    roll: 0
+  - position: {x: -235, y: 83, z: -1285}
+    roll: 0
+  - position: {x: -140, y: 85, z: -1300}
     roll: 0
   - position: {x: -60, y: 85, z: -1305}
     roll: 0
@@ -12328,28 +12359,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Resolution: 20
   m_Appearance:
-    pathColor: {r: 0, g: 0, b: 1, a: 1}
+    pathColor: {r: 1, g: 0, b: 1, a: 1}
     inactivePathColor: {r: 0.6698113, g: 0.6698113, b: 0, a: 1}
     width: 10
   m_Looped: 0
   m_Waypoints:
   - position: {x: -1860, y: 75, z: 1230}
     roll: 0
-  - position: {x: -1800, y: 60, z: 1000}
+  - position: {x: -1825, y: 65, z: 1115}
     roll: 0
-  - position: {x: -1685, y: 55, z: 620}
+  - position: {x: -1755, y: 50, z: 875}
     roll: 0
-  - position: {x: -1510, y: 50, z: 175}
+  - position: {x: -1675, y: 40, z: 600}
     roll: 0
-  - position: {x: -1450, y: 125, z: -145}
+  - position: {x: -1615, y: 30, z: 370}
     roll: 0
-  - position: {x: -1380, y: 55, z: -445}
+  - position: {x: -1560, y: 50, z: 145}
     roll: 0
-  - position: {x: -1230, y: 60, z: -795}
+  - position: {x: -1480, y: 125, z: -145}
     roll: 0
-  - position: {x: -1000, y: 65, z: -1045}
+  - position: {x: -1380, y: 65, z: -445}
     roll: 0
-  - position: {x: -660, y: 70, z: -1195}
+  - position: {x: -1255, y: 40, z: -725}
+    roll: 0
+  - position: {x: -1095, y: 65, z: -965}
+    roll: 0
+  - position: {x: -860, y: 70, z: -1130}
+    roll: 0
+  - position: {x: -600, y: 75, z: -1220}
     roll: 0
   - position: {x: -350, y: 80, z: -1265}
     roll: 0
@@ -13967,17 +14004,17 @@ PrefabInstance:
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.42689934
+      value: -0.4268993
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.010431952
+      value: 0.010431996
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.004925075
+      value: -0.0049250955
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
