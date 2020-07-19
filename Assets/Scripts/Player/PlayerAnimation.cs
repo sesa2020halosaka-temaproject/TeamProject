@@ -53,5 +53,10 @@ namespace TeamProject
         {
             SEManager.Instance.Play(SEPath.SE_FLYING_PC);
         }
+
+        private void MinionNotFind()
+        {
+            SEManager.Instance.Play(SEPath.SE_FAIRY_CHANGE_COLOR);
+        }
     }
 }

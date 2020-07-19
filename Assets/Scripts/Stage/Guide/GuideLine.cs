@@ -19,6 +19,16 @@ namespace TeamProject
 
         private PlayerVer2 player;
 
+        private bool isFlash;
+        private float time;
+
+        [SerializeField]
+        private float flashSpeed = 1f;
+
+        [SerializeField]
+        [Range(0, 10)]
+        private int flasgRang = 8;
+
         private void Start()
         {
             base.Start();
@@ -33,6 +43,11 @@ namespace TeamProject
             player = playerObj.transform.root.GetComponent<PlayerVer2>();
             uvSpeed = 0.5f;
             size = 0.65f;
+        }
+
+        public void OnIsFlashing()
+        {
+            isFlash = true;
         }
 
         public void Hoge()
@@ -60,6 +75,15 @@ namespace TeamProject
 
         private void Update()
         {
+            if (isFlash)
+            {
+                time += Time.deltaTime * flashSpeed;
+
+                meshRenderer.enabled = (int)(time * 10) % 10 <= flasgRang;
+
+                return;
+            }
+
             //mat.SetTextureOffset("_BaseColorMap", new Vector2(-Time.time * uvSpeed, 0f));
             mat.SetTextureOffset("_UnlitColorMap", new Vector2(-Time.time * uvSpeed, 0f));
 
