@@ -26,6 +26,10 @@ namespace TeamProject
 
             }
             //フラグがtrueの時はスルー
+
+            //前のシーンで鳴っているBGMがあれば止める
+            KanKikuchi.AudioManager.BGMManager.Instance.Stop();
+
         }
 
         // Update is called once per frame
