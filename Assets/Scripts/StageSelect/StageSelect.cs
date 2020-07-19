@@ -246,11 +246,12 @@ namespace TeamProject
             //フラグがfalseの時はカウントアップ待ち
             if (!KeyWaitFlagCheck())
             {
-                //上下左右の入力がないときにカウントアップする
+                //上下左右の入力がないときにカウントアップする→変更
+                //上下のみの入力がないときにカウントアップする
                 if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
                     && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow)
-                    && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow)
-                    && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
+                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow)
+                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
                     )
                 {
                     m_Counter += Time.deltaTime;
