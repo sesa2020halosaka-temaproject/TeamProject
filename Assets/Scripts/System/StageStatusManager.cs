@@ -115,6 +115,11 @@ namespace TeamProject
         [Header("オールアンロックフラグ")]
         public bool m_AllUnlockFlag = false;                                                   //オールアンロックフラグ(true:オールアンロック,false:通常)
 
+        //福田追記>
+        [Header("STAGE1-1突入フラグ")]
+        public bool m_S1Flag = false;
+        //<ここまで
+        
         public bool m_EDtoTITLE_Flag = false;                                                   //エンディングからタイトルに遷移したかどうかフラグ
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
         public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];                  //各ステージの小人取得数
@@ -188,6 +193,12 @@ namespace TeamProject
             m_RemovalLimitFlag = true;
             //オールアンロックフラグをONにする
             m_AllUnlockFlag = true;
+
+            //福田追記>
+            //STAGE1-1突入フラグをONにする
+            m_S1Flag = true;
+            //<ここまで
+
             Debug.Log("オールアンロックモード起動しました。");
 
         }
