@@ -250,8 +250,8 @@ namespace TeamProject
                 //上下のみの入力がないときにカウントアップする
                 if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow)
                     && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow)
-                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow)
-                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
+                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow)
+                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow)
                     )
                 {
                     m_Counter += Time.deltaTime;
@@ -519,7 +519,7 @@ namespace TeamProject
         //ワールド間移動のスキップ
         private void SkipWorldMove()
         {
-            //if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu)||
+            //if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.Menu)||
 
             if (Input.GetKeyDown("joystick button 7") ||        //STARTボタン個別取得
                 Input.GetKeyDown(KeyCode.X))
@@ -581,7 +581,7 @@ namespace TeamProject
         void StageDecision()
         {
             //カーソルの操作（決定）
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
             //if (Input.GetKeyDown(KeyCode.Space))
             {
                 string StageName = StageStatusManager.Instance.StageString[(int)StageStatusManager.Instance.CurrentStage];
@@ -603,7 +603,7 @@ namespace TeamProject
 
         private void BackToTitle()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.B))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.B))
             //if (Input.GetKeyDown(KeyCode.Escape))
             {//Bボタン or ESCキー入力
                 //FadeManager.FadeOut("StageSelectScene", ToTitle_FadeOut_Time);

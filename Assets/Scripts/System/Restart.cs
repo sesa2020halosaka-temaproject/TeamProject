@@ -23,7 +23,7 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.Menu))
             //if (Input.GetKeyDown(KeyCode.Escape))
             {//ESCキー入力
 

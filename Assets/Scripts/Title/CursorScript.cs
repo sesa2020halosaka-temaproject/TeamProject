@@ -184,7 +184,7 @@ namespace TeamProject
                     m_KeyState = KEYSTATE.DOWN;
                 }
                 //カーソルの操作（決定）
-                else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
                 {
                     // m_TimeCount = 0;
                     CurrentInputOn();
@@ -201,7 +201,7 @@ namespace TeamProject
             else if (LBRBButtonInputCheck())
             {
                 //カーソルの操作（決定）
-                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
                 {
                     //ステージアンロック状態にする
                     StageStatusManager.Instance.m_RemovalLimitFlag = true;
@@ -215,7 +215,7 @@ namespace TeamProject
             }
             else if (STARTButtonInputCheck())
             {
-                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
                 {
                     //オールアンロック状態にする
                     StageStatusManager.Instance.AllUnlockActivation();
@@ -408,7 +408,7 @@ namespace TeamProject
                 m_CurrentInput_L1 = false;
 
             //STARTボタン or ESCキーを押しているかどうか
-            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.Menu))
+            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtonCode.Menu))
                 m_CurrentInput_START = true;
             else
                 m_CurrentInput_START = false;

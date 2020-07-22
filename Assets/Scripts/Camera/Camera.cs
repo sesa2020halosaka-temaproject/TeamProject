@@ -41,7 +41,7 @@ namespace TeamProject
 
         [SerializeField]
         [Header("階層分けのキー割り当て")]
-        private ButtunCode hightChangeButtun;
+        private ButtonCode hightChangeButtun;
 
         [SerializeField]
         [Header("移動差分量")]
@@ -437,8 +437,8 @@ namespace TeamProject
             // 長さ割出
             var length = locPos.magnitude;
 
-            var r1 = InputManager.InputManager.Instance.GetKey(ButtunCode.R1);
-            var l1 = InputManager.InputManager.Instance.GetKey(ButtunCode.L1);
+            var r1 = InputManager.InputManager.Instance.GetKey(ButtonCode.R1);
+            var l1 = InputManager.InputManager.Instance.GetKey(ButtonCode.L1);
 
             if (r1)
             {

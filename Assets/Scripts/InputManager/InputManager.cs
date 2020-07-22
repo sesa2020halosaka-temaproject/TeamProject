@@ -11,7 +11,7 @@ namespace TeamProject
 {
     namespace InputManager
     {
-        public enum ButtunCode:int
+        public enum ButtonCode:int
         {
             A,
             B,
@@ -57,30 +57,30 @@ namespace TeamProject
 
             public InputManager()
             {
-                keyString = new Tuple<string, KeyCode>[(int)ButtunCode.Max];
-                ps4KeyString = new Tuple<string, KeyCode>[(int)ButtunCode.Max];
+                keyString = new Tuple<string, KeyCode>[(int)ButtonCode.Max];
+                ps4KeyString = new Tuple<string, KeyCode>[(int)ButtonCode.Max];
 
-                keyString[(int)ButtunCode.A] = Tuple.Create("joystick button 0", KeyCode.Return);        // Xboxコン = Aボタン
-                keyString[(int)ButtunCode.B] = Tuple.Create("joystick button 1", KeyCode.Escape);        // Xboxコン = Bボタン
-                keyString[(int)ButtunCode.X] = Tuple.Create("joystick button 2", KeyCode.X);             // Xboxコン = Xボタン
-                keyString[(int)ButtunCode.Y] = Tuple.Create("joystick button 3", KeyCode.V);             // Xboxコン = Yボタン
-                keyString[(int)ButtunCode.R1] = Tuple.Create("joystick button 4", KeyCode.S);            // Xboxコン = RBトリガー
-                keyString[(int)ButtunCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);            // 
-                keyString[(int)ButtunCode.L1] = Tuple.Create("joystick button 5", KeyCode.W);            // Xboxコン = LBトリガー
-                keyString[(int)ButtunCode.L2] = Tuple.Create("joystick button 0", KeyCode.L);            // 
-                keyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 7", KeyCode.Escape);     // Xboxコン = STARTボタン
-                keyString[(int)ButtunCode.View] = Tuple.Create("joystick button 6", KeyCode.Escape);     // 現在未割り当て
+                keyString[(int)ButtonCode.A] = Tuple.Create("joystick button 0", KeyCode.Return);        // Xboxコン = Aボタン
+                keyString[(int)ButtonCode.B] = Tuple.Create("joystick button 1", KeyCode.Escape);        // Xboxコン = Bボタン
+                keyString[(int)ButtonCode.X] = Tuple.Create("joystick button 2", KeyCode.X);             // Xboxコン = Xボタン
+                keyString[(int)ButtonCode.Y] = Tuple.Create("joystick button 3", KeyCode.V);             // Xboxコン = Yボタン
+                keyString[(int)ButtonCode.R1] = Tuple.Create("joystick button 4", KeyCode.S);            // Xboxコン = RBトリガー
+                keyString[(int)ButtonCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);            // 
+                keyString[(int)ButtonCode.L1] = Tuple.Create("joystick button 5", KeyCode.W);            // Xboxコン = LBトリガー
+                keyString[(int)ButtonCode.L2] = Tuple.Create("joystick button 0", KeyCode.L);            // 
+                keyString[(int)ButtonCode.Menu] = Tuple.Create("joystick button 7", KeyCode.Escape);     // Xboxコン = STARTボタン
+                keyString[(int)ButtonCode.View] = Tuple.Create("joystick button 6", KeyCode.Escape);     // 現在未割り当て
 
-                ps4KeyString[(int)ButtunCode.A] = Tuple.Create("joystick button 1", KeyCode.LeftShift);  // 
-                ps4KeyString[(int)ButtunCode.B] = Tuple.Create("joystick button 2", KeyCode.Space);      // 
-                ps4KeyString[(int)ButtunCode.X] = Tuple.Create("joystick button 0", KeyCode.C);          // 
-                ps4KeyString[(int)ButtunCode.Y] = Tuple.Create("joystick button 3", KeyCode.V);          // 
-                ps4KeyString[(int)ButtunCode.R1] = Tuple.Create("joystick button 5", KeyCode.E);         // 
-                ps4KeyString[(int)ButtunCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);         // 
-                ps4KeyString[(int)ButtunCode.L1] = Tuple.Create("joystick button 4", KeyCode.Q);         // 
-                ps4KeyString[(int)ButtunCode.L2] = Tuple.Create("joystick button 0", KeyCode.L);         // 
-                ps4KeyString[(int)ButtunCode.Menu] = Tuple.Create("joystick button 9", KeyCode.P);       // 
-                ps4KeyString[(int)ButtunCode.View] = Tuple.Create("joystick button 12", KeyCode.Escape); // 現在未割り当て
+                ps4KeyString[(int)ButtonCode.A] = Tuple.Create("joystick button 1", KeyCode.LeftShift);  // 
+                ps4KeyString[(int)ButtonCode.B] = Tuple.Create("joystick button 2", KeyCode.Space);      // 
+                ps4KeyString[(int)ButtonCode.X] = Tuple.Create("joystick button 0", KeyCode.C);          // 
+                ps4KeyString[(int)ButtonCode.Y] = Tuple.Create("joystick button 3", KeyCode.V);          // 
+                ps4KeyString[(int)ButtonCode.R1] = Tuple.Create("joystick button 5", KeyCode.E);         // 
+                ps4KeyString[(int)ButtonCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);         // 
+                ps4KeyString[(int)ButtonCode.L1] = Tuple.Create("joystick button 4", KeyCode.Q);         // 
+                ps4KeyString[(int)ButtonCode.L2] = Tuple.Create("joystick button 0", KeyCode.L);         // 
+                ps4KeyString[(int)ButtonCode.Menu] = Tuple.Create("joystick button 9", KeyCode.P);       // 
+                ps4KeyString[(int)ButtonCode.View] = Tuple.Create("joystick button 12", KeyCode.Escape); // 現在未割り当て
 
                 arrowString = new Tuple<string, KeyCode>[(int)ArrowCode.Max];                            // 
                 ps4ArrowString = new Tuple<string, KeyCode>[(int)ArrowCode.Max];                         // 
@@ -100,7 +100,7 @@ namespace TeamProject
                 activeArrowString = arrowString;
             }
 
-            void MoadChange(GamePad _gamePad)
+            void ModeChange(GamePad _gamePad)
             {
                 switch (_gamePad) { 
                     case GamePad.Xbox:
@@ -112,7 +112,7 @@ namespace TeamProject
                 }
             }
 
-            public bool GetKeyDown(ButtunCode _buttun)
+            public bool GetKeyDown(ButtonCode _buttun)
             {
                 var keyStringFlag =
                     Input.GetKeyDown(activeKeyString[(int)_buttun].Item1) ||
@@ -121,7 +121,7 @@ namespace TeamProject
                 return keyStringFlag;
             }
 
-            public bool GetKey(ButtunCode _buttun)
+            public bool GetKey(ButtonCode _buttun)
             {
                 var keyStringFlag =
                     Input.GetKey(activeKeyString[(int)_buttun].Item1) ||
@@ -130,7 +130,7 @@ namespace TeamProject
                 return keyStringFlag;
             }
 
-            public bool GetKeyUp(ButtunCode _buttun)
+            public bool GetKeyUp(ButtonCode _buttun)
             {
                 var keyStringFlag =
                     Input.GetKeyUp(activeKeyString[(int)_buttun].Item1) ||

@@ -182,7 +182,7 @@ namespace TeamProject
             }
             else
             {
-                //if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu)||
+                //if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.Menu)||
 
                 if (Input.GetKeyDown("joystick button 7") ||        //STARTボタン個別取得
                     Input.GetKeyDown(KeyCode.X))
@@ -207,8 +207,8 @@ namespace TeamProject
             }
             else
             {
-                if ((InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu))
-                    || (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.A)))
+                if ((InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtonCode.Menu))
+                    || (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtonCode.A)))
                 {
                     //STARTボタンorAボタン
                     //ポーズから視聴中に戻る
@@ -216,7 +216,7 @@ namespace TeamProject
                     m_MovieState = MOVIE_STATE.WATCH;
                     //m_PausePanelObj.SetActive(false);
                 }
-                else if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.B))
+                else if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtonCode.B))
                 {
                     //Bボタン
                     //ムービースキップ

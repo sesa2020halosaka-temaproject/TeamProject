@@ -126,10 +126,10 @@ namespace TeamProject {
             // キー取得
             var ipMane = InputManager.InputManager.Instance;
 
-            var upKey = ipMane.GetArrow(ArrowCoad.UpArrow);
-            var downKey = ipMane.GetArrow(ArrowCoad.DownArrow);
-            var selectKey = ipMane.GetKeyDown(ButtunCode.A);
-            var returnKey = ipMane.GetKeyDown(ButtunCode.B);
+            var upKey = ipMane.GetArrow(ArrowCode.UpArrow);
+            var downKey = ipMane.GetArrow(ArrowCode.DownArrow);
+            var selectKey = ipMane.GetKeyDown(ButtonCode.A);
+            var returnKey = ipMane.GetKeyDown(ButtonCode.B);
 
             var upTrigger = upKey && !oldUpKey;
             var downTrigger = downKey && !oldDownKey;
@@ -199,7 +199,7 @@ namespace TeamProject {
             oldDownKey = downKey;
             
             // メニューが押されると戻る
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.Menu))
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtonCode.Menu))
             {
                 PauseEnd();
             }
@@ -213,7 +213,7 @@ namespace TeamProject {
         // ポーズ待ち
         private void PauseWait()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.Menu) && player.NowFunctionNum != (int)PlayerVer2.TRANSITION.Goal)
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtonCode.Menu) && player.NowFunctionNum != (int)PlayerVer2.TRANSITION.Goal)
             {
                 PauseStart();
             }
