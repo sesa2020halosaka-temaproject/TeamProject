@@ -358,8 +358,13 @@ namespace TeamProject
                     }
                     else
                     {
+                        //福田追記>
+                        GameObject parent = GameObject.Find("Canvas");  //親検索
+                        Transform oil = parent.transform.Find("Oil");   //子にアクセス
+                        oil.gameObject.SetActive(true);                 //アクティブ化
+                        //<ここまで
                         StageStatusManager.Instance.m_LastStageClearFlag = true;
-                        FadeManager.FadeOut("EndingScene");
+                        FadeManager.FadeOut("EndingScene",5.0f);
                     }
                     RootMemory.Instance.Reset();
                     break;
