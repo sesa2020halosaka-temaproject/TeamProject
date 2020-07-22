@@ -141,7 +141,7 @@ namespace TeamProject
         [SerializeField]
         private float soundSpan = 0.2f;
 
-        private bool[] oldArrow = new bool[(int)InputManager.ArrowCoad.Max];
+        private bool[] oldArrow = new bool[(int)InputManager.ArrowCode.Max];
 
         private bool goalOnce = true;
 
@@ -231,10 +231,10 @@ namespace TeamProject
             //grassSEPath = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
             //walkSEPath = new string[4] { SEPath.SE_PLAYER_WALK_GRASS1, SEPath.SE_PLAYER_WALK_GRASS2, SEPath.SE_PLAYER_WALK_GRASS3, SEPath.SE_PLAYER_WALK_GRASS4 };
 
-            oldArrow[(int)InputManager.ArrowCoad.UpArrow] = false;
-            oldArrow[(int)InputManager.ArrowCoad.DownArrow] = false;
-            oldArrow[(int)InputManager.ArrowCoad.RightArrow] = false;
-            oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = false;
+            oldArrow[(int)InputManager.ArrowCode.UpArrow] = false;
+            oldArrow[(int)InputManager.ArrowCode.DownArrow] = false;
+            oldArrow[(int)InputManager.ArrowCode.RightArrow] = false;
+            oldArrow[(int)InputManager.ArrowCode.LeftArrow] = false;
 
             walkSoundManage = GetComponent<WalkSoundManage>();
 
@@ -568,15 +568,15 @@ namespace TeamProject
                 }
             }
 
-            bool[] arrow = new bool[(uint)InputManager.ArrowCoad.Max];
+            bool[] arrow = new bool[(uint)InputManager.ArrowCode.Max];
 
-            arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
-            arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
+            arrow[(int)InputManager.ArrowCode.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow);
+            arrow[(int)InputManager.ArrowCode.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow);
 
 
             Debug.Log("NowChoice" + choiceObject.name);
 
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
             {
                 if (choiceObject.tag == "Kobito")
                 {
@@ -653,18 +653,18 @@ namespace TeamProject
             else
             {
                 // キー入力
-                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
+                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCode.RightArrow] && !oldArrow[(uint)InputManager.ArrowCode.RightArrow],
                     ref direction[(uint)DIRECTION.RIGHT],
                     direction[(uint)DIRECTION.BACK]);
-                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
+                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCode.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCode.LeftArrow],
                     ref direction[(uint)DIRECTION.LEFT],
                     direction[(uint)DIRECTION.TOP]);
             }
 
-            oldArrow[(int)InputManager.ArrowCoad.UpArrow] = arrow[(int)InputManager.ArrowCoad.UpArrow];
-            oldArrow[(int)InputManager.ArrowCoad.DownArrow] = arrow[(int)InputManager.ArrowCoad.DownArrow];
-            oldArrow[(int)InputManager.ArrowCoad.RightArrow] = arrow[(int)InputManager.ArrowCoad.RightArrow];
-            oldArrow[(int)InputManager.ArrowCoad.LeftArrow] = arrow[(int)InputManager.ArrowCoad.LeftArrow];
+            oldArrow[(int)InputManager.ArrowCode.UpArrow] = arrow[(int)InputManager.ArrowCode.UpArrow];
+            oldArrow[(int)InputManager.ArrowCode.DownArrow] = arrow[(int)InputManager.ArrowCode.DownArrow];
+            oldArrow[(int)InputManager.ArrowCode.RightArrow] = arrow[(int)InputManager.ArrowCode.RightArrow];
+            oldArrow[(int)InputManager.ArrowCode.LeftArrow] = arrow[(int)InputManager.ArrowCode.LeftArrow];
 
             if (choiceObject != null)
             {

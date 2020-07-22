@@ -170,21 +170,21 @@ namespace TeamProject
             if (!LBRBButtonInputCheck() && !STARTButtonInputCheck())
             {
                 //上入力
-                if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow))
+                if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow) || Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     //m_TimeCount = 0;
                     CurrentInputOn();
                     m_KeyState = KEYSTATE.UP;
                 }
                 //下入力
-                else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow))
+                else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow) || Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     //m_TimeCount = 0;
                     CurrentInputOn();
                     m_KeyState = KEYSTATE.DOWN;
                 }
                 //カーソルの操作（決定）
-                else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                else if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
                 {
                     // m_TimeCount = 0;
                     CurrentInputOn();
@@ -201,7 +201,7 @@ namespace TeamProject
             else if (LBRBButtonInputCheck())
             {
                 //カーソルの操作（決定）
-                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
                 {
                     //ステージアンロック状態にする
                     StageStatusManager.Instance.m_RemovalLimitFlag = true;
@@ -215,7 +215,7 @@ namespace TeamProject
             }
             else if (STARTButtonInputCheck())
             {
-                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.A))
+                if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.A))
                 {
                     //オールアンロック状態にする
                     StageStatusManager.Instance.AllUnlockActivation();
@@ -228,18 +228,14 @@ namespace TeamProject
                     m_KeyState = KEYSTATE.DECISION;
                 }
             }
+            //隠しコマンドの入力を取る関数
+            InputHiddenCommand();
 
-            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.R1)) m_CurrentInput_R1 = true;
-            else m_CurrentInput_R1 = false;
-            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.L1)) m_CurrentInput_L1 = true;
-            else m_CurrentInput_L1 = false;
-            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtunCode.Menu)) m_CurrentInput_START = true;
-            else m_CurrentInput_START = false;
         }// END
         //LBボタンとRBボタン同時押し判定
         public bool LBRBButtonInputCheck()
         {
-            bool Bool=false;
+            bool Bool = false;
             if (m_CurrentInput_R1)
             {
                 Debug.Log("m_CurrentInput_R1");
@@ -396,6 +392,28 @@ namespace TeamProject
             m_CursorMoveFlag = true;
         }
 
+        //隠しコマンド入力確認
+        public void InputHiddenCommand()
+        {
+            //RBトリガー or Xキーを押しているかどうか
+            if (Input.GetKey("joystick button 4") || Input.GetKey(KeyCode.X))
+                m_CurrentInput_R1 = true;
+            else
+                m_CurrentInput_R1 = false;
+
+            //LBトリガー or Zキーを押しているかどうか
+            if (Input.GetKey("joystick button 5") || Input.GetKey(KeyCode.Z))
+                m_CurrentInput_L1 = true;
+            else
+                m_CurrentInput_L1 = false;
+
+            //STARTボタン or ESCキーを押しているかどうか
+            if (InputManager.InputManager.Instance.GetKey(InputManager.ButtonCode.Menu))
+                m_CurrentInput_START = true;
+            else
+                m_CurrentInput_START = false;
+
+        }
 
         //ゲーム終了処理関数
         void Quit()

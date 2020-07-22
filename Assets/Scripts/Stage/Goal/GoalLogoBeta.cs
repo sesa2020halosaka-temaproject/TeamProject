@@ -62,7 +62,7 @@ namespace TeamProject
         private int playMinionAnimeNumber;
         private int playStarAnimeNumber;
 
-        private bool[] oldArrow = new bool[(int)ArrowCoad.Max];
+        private bool[] oldArrow = new bool[(int)ArrowCode.Max];
 
         private bool enterOnce = true;
 
@@ -95,10 +95,10 @@ namespace TeamProject
             playStarAnimeNumber = 0;
             playMinionAnimeNumber = 0;
 
-            oldArrow[(int)ArrowCoad.UpArrow] = false;
-            oldArrow[(int)ArrowCoad.DownArrow] = false;
-            oldArrow[(int)ArrowCoad.RightArrow] = false;
-            oldArrow[(int)ArrowCoad.LeftArrow] = false;
+            oldArrow[(int)ArrowCode.UpArrow] = false;
+            oldArrow[(int)ArrowCode.DownArrow] = false;
+            oldArrow[(int)ArrowCode.RightArrow] = false;
+            oldArrow[(int)ArrowCode.LeftArrow] = false;
 
             var worNum = StageStatusManager.Instance.CurrentWorld;
             var staNum = StageStatusManager.Instance.StageInWorld;
@@ -133,38 +133,38 @@ namespace TeamProject
         {
             if (!once) return;
 
-            bool[] arrow = new bool[(int)ArrowCoad.Max];
+            bool[] arrow = new bool[(int)ArrowCode.Max];
 
-            arrow[(int)ArrowCoad.UpArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.UpArrow);
-            arrow[(int)ArrowCoad.DownArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.DownArrow);
-            arrow[(int)ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.RightArrow);
-            arrow[(int)ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCoad.LeftArrow);
+            arrow[(int)ArrowCode.UpArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCode.UpArrow);
+            arrow[(int)ArrowCode.DownArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCode.DownArrow);
+            arrow[(int)ArrowCode.RightArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCode.RightArrow);
+            arrow[(int)ArrowCode.LeftArrow] = InputManager.InputManager.Instance.GetArrow(ArrowCode.LeftArrow);
 
-            var triggerRight = arrow[(int)ArrowCoad.RightArrow] && !oldArrow[(int)ArrowCoad.RightArrow];
-            var triggerLeft = arrow[(int)ArrowCoad.LeftArrow] && !oldArrow[(int)ArrowCoad.LeftArrow];
+            var triggerRight = arrow[(int)ArrowCode.RightArrow] && !oldArrow[(int)ArrowCode.RightArrow];
+            var triggerLeft = arrow[(int)ArrowCode.LeftArrow] && !oldArrow[(int)ArrowCode.LeftArrow];
 
 
             if (clear && !lastStage)
             {
                 Debug.Log("通っとるよ");
-                Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtonCode.A));
             }
             else if (!clear && !lastStage)
             {
                 Debug.Log("通っとるよ");
-                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtonCode.A));
             }
             else if (clear && lastStage)
             {
                 if (!lastOnce)
                 {
                     Debug.Log("通っとるよ");
-                    LastClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                    LastClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtonCode.A));
                 }
                 else
                 {
                     Debug.Log("kotti通っとるよ");
-                    Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                    Clear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtonCode.A));
                 }
             }
             else
@@ -172,7 +172,7 @@ namespace TeamProject
                 Debug.Log(clear);
                 Debug.Log(lastStage);
                 Debug.Log("通っとるよ");
-                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A));
+                NotClear(triggerRight, triggerLeft, InputManager.InputManager.Instance.GetKeyDown(ButtonCode.A));
             }
 
             switch (stageChoice)
@@ -196,10 +196,10 @@ namespace TeamProject
                     break;
             }
 
-            oldArrow[(int)ArrowCoad.UpArrow] = arrow[(int)ArrowCoad.UpArrow];
-            oldArrow[(int)ArrowCoad.DownArrow] = arrow[(int)ArrowCoad.DownArrow];
-            oldArrow[(int)ArrowCoad.RightArrow] = arrow[(int)ArrowCoad.RightArrow];
-            oldArrow[(int)ArrowCoad.LeftArrow] = arrow[(int)ArrowCoad.LeftArrow];
+            oldArrow[(int)ArrowCode.UpArrow] = arrow[(int)ArrowCode.UpArrow];
+            oldArrow[(int)ArrowCode.DownArrow] = arrow[(int)ArrowCode.DownArrow];
+            oldArrow[(int)ArrowCode.RightArrow] = arrow[(int)ArrowCode.RightArrow];
+            oldArrow[(int)ArrowCode.LeftArrow] = arrow[(int)ArrowCode.LeftArrow];
         }
 
 

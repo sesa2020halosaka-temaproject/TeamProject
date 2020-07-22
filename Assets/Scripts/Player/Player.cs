@@ -283,7 +283,7 @@ namespace TeamProject
             var canMoveFlag = HitEny(targetObject);
 
             //            if (Input.GetKeyDown(KeyCode.Space) && canMoveFlag)
-            if (InputManager.InputManager.Instance.GetKeyDown(ButtunCode.A) && canMoveFlag)
+            if (InputManager.InputManager.Instance.GetKeyDown(ButtonCode.A) && canMoveFlag)
             {
                 beforKeyCoad = KeyCode.None;
                 targetPos = targetObject.transform.position;

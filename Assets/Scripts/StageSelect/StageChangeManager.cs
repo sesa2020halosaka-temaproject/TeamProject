@@ -45,7 +45,7 @@ namespace TeamProject
 
             //上キー操作処理
             //条件：上入力、ワールド内ステージ５以外、m_NextStageMoveFlagがtrue
-            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.UpArrow)
+            if ((InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow) || Input.GetKeyDown(KeyCode.UpArrow))
                 && StageNumber != (int)STAGE_NO.STAGE05
                 && m_NextStageMoveFlag)
             //if (InputManager.InputManager.Instance.GetLStick().y > 0 && StageNumber != (int)STAGE_NO.STAGE05)
@@ -61,7 +61,8 @@ namespace TeamProject
             }
             //下キー操作処理
             //条件：下入力、ワールド内ステージ１以外
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.DownArrow) && StageNumber != (int)STAGE_NO.STAGE01)
+            else if ((InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+                && StageNumber != (int)STAGE_NO.STAGE01)
             //else if (InputManager.InputManager.Instance.GetLStick().y < 0 && StageNumber != (int)STAGE_NO.STAGE01)
             {
                 StageFlagChange(true);
@@ -90,7 +91,7 @@ namespace TeamProject
             //ここから下　ワールド間の移動処理
             //右キー操作処理
             //条件：右入力、m_NextWorldMoveFlagがtrue
-            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow)
+            if ((InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow) || Input.GetKey(KeyCode.RightArrow))
                && m_NextWorldMoveFlag)// && WorldNumber != m_RightEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x > 0 && WorldNumber == 0)
             {
@@ -117,7 +118,8 @@ namespace TeamProject
 
             }
             //左入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))// && WorldNumber != m_LeftEdge)
+            else if ((InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow) || Input.GetKey(KeyCode.LeftArrow)))
+                // && WorldNumber != m_LeftEdge)
             //else if (InputManager.InputManager.Instance.GetLStick().x < 0 && WorldNumber == 1)
             {
                 if (!m_MoveFromW1ToW4Flag)
