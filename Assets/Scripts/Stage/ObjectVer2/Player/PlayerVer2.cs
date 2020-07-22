@@ -167,6 +167,13 @@ namespace TeamProject
 
         private Minion beforChoiceMinion = null;
 
+        [SerializeField]
+        private GameObject minionIeParticlePrefab;
+        [SerializeField]
+        private GameObject minionIeShortParticlePrefab;
+
+        // 0:何もしない　1:短いパーティクル 2:長いパーティクル
+        private int reservation = 0;
         // Start is called before the first frame update
         void Start()
         {
@@ -566,13 +573,6 @@ namespace TeamProject
             arrow[(int)InputManager.ArrowCoad.RightArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow);
             arrow[(int)InputManager.ArrowCoad.LeftArrow] = InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow);
 
-            // キー入力
-            MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
-                ref direction[(uint)DIRECTION.RIGHT],
-                direction[(uint)DIRECTION.BACK]);
-            MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
-                ref direction[(uint)DIRECTION.LEFT],
-                direction[(uint)DIRECTION.TOP]);
 
             Debug.Log("NowChoice" + choiceObject.name);
 
@@ -605,6 +605,20 @@ namespace TeamProject
                 guideLine[2].Hoge();
                 guideLine[3].Hoge();
 
+                switch (reservation)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        // 小人が見えない時に小人の上に目の×を出す奴
+                        Instantiate(minionIeParticlePrefab, choicePosition, Quaternion.identity);
+                        break;
+                    case 2:
+                        // 小人が見えない時に小人の上に目の×を出す奴
+                        Instantiate(minionIeShortParticlePrefab, choicePosition, Quaternion.identity);
+                        break;
+                }
+
                 Debug.Log(rootCheckFlag);
                 if (rootCheckFlag)
                 {
@@ -635,6 +649,16 @@ namespace TeamProject
                         anima.SetTrigger("UnFindStop");
                     }
                 }
+            }
+            else
+            {
+                // キー入力
+                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.RightArrow] && !oldArrow[(uint)InputManager.ArrowCoad.RightArrow],
+                    ref direction[(uint)DIRECTION.RIGHT],
+                    direction[(uint)DIRECTION.BACK]);
+                MinionChoiceVer2(arrow[(uint)InputManager.ArrowCoad.LeftArrow] && !oldArrow[(uint)InputManager.ArrowCoad.LeftArrow],
+                    ref direction[(uint)DIRECTION.LEFT],
+                    direction[(uint)DIRECTION.TOP]);
             }
 
             oldArrow[(int)InputManager.ArrowCoad.UpArrow] = arrow[(int)InputManager.ArrowCoad.UpArrow];
@@ -755,6 +779,8 @@ namespace TeamProject
                 Debug.Log("とおってよおおおお");
             }
 
+            reservation = 0;
+                
             if (!centerRayCheck)
             {
                 SetFunction((uint)TRANSITION.Choice);
@@ -767,15 +793,20 @@ namespace TeamProject
 
                 guideLine[1].SetPoint(transform.position, LineCreate(transform.position, hitPoint));
                 guideLine[2].SetPoint(transform.position, LineCreate(transform.position, choicePosition));
+
                 if (memoryRoot)
                 {
                     guideLine[0].Hoge();
                     guideLine[1].Hoge();
+
+                    reservation = 1;
                 }
                 else
                 {
                     guideLine[2].Hoge();
                     guideLine[3].Hoge();
+
+                    reservation = 2;
                 }
                 return;
             }
