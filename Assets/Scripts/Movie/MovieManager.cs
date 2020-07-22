@@ -182,9 +182,12 @@ namespace TeamProject
             }
             else
             {
-                if (InputManager.InputManager.Instance.GetKeyUp(InputManager.ButtunCode.Menu))
+                //if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtunCode.Menu)||
+
+                if (Input.GetKeyDown("joystick button 7") ||        //STARTボタン個別取得
+                    Input.GetKeyDown(KeyCode.X))
                 {
-                    //STARTボタンでSKIPする
+                    //STARTボタン or Xキー入力でSKIPする
                     m_MovieState = MOVIE_STATE.SCENE_CHANGE;
 
 

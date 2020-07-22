@@ -204,12 +204,12 @@ namespace TeamProject
         public void CheckKeyInput()
         {
             //上入力
-            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.LeftArrow))
+            if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow) || Input.GetKey(KeyCode.LeftArrow))
             {
                 CurrentInputOn_L();
             }
             //下入力
-            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCoad.RightArrow))
+            else if (InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow) || Input.GetKey(KeyCode.RightArrow))
             {
                 CurrentInputOn_R();
             }
