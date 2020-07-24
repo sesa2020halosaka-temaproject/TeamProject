@@ -46,8 +46,8 @@ namespace TeamProject
         private float m_DPanel_TimeCount;
         private float m_DPanel_Alpha;
 
-        //[Header("風の音のフェードイン時間")]
-        //public float m_GrassWave_FadeIn_Time;
+        [Header("風の音のフェードイン時間")]
+        public float m_GrassWave_FadeIn_Time;
 
         [Header("プロローグシーンへの遷移のフェードアウト時間")]
         public float m_PR_FadeOut_Time;
@@ -95,14 +95,12 @@ namespace TeamProject
             //BGMManager.Instance.Stop();
 
             //タイトルBGMスタート
-            BGMSwitcher.FadeIn(BGMPath.BGM_TITLE);
-            //BGMSwitcher.FadeIn(BGMPath.BGM_TITLE,fadeInDuration:Title_FadeIn_Time);
+            BGMSwitcher.FadeIn(BGMPath.BGM_TITLE,fadeInDuration:Title_FadeIn_Time);
 
             //風の音を音量0で鳴らし始め、ループさせる
-            BGMManager.Instance.Play(SEPath.SE_TITLE_GRASS_WAVE,volumeRate:1.0f/*,delay:0.0f*/, isLoop:true, allowsDuplicate:true);
+            BGMManager.Instance.Play(SEPath.SE_TITLE_GRASS_WAVE,volumeRate: 1.0f, delay: 0.0f, isLoop:true, allowsDuplicate:true);
             //風の音のフェードイン（引数未設定なら1秒かける）
-            BGMManager.Instance.FadeIn(SEPath.SE_TITLE_GRASS_WAVE,duration:2.0f);
-            //BGMManager.Instance.FadeIn(SEPath.SE_TITLE_GRASS_WAVE,duration: m_GrassWave_FadeIn_Time);
+            BGMManager.Instance.FadeIn(SEPath.SE_TITLE_GRASS_WAVE,duration: m_GrassWave_FadeIn_Time);
 
             //開始時の状態を設定
             state = TITLESTATE.SCENE_FADE;
