@@ -404,11 +404,30 @@ namespace TeamProject
 
                 } while (!floorMinionStayFlag[nowHight - 1]);
             }
+
+            if(!floorMinionStayFlag[nowHight - 1])
+            {
+                do
+                {
+                    nowHight--;
+
+                    targetHight -= hightLenge;
+
+                    // 高さが想定以上に行ったとき
+                    if (nowHight < 1)
+                    {
+                        nowHight = hight;
+
+                        targetHight += hightLenge * hight;
+                    }
+
+                } while (!floorMinionStayFlag[nowHight - 1]);
+            }
+
             if (oldHight != nowHight)
             {
                 SEManager.Instance.Play(SEPath.SE_HIERARCHY);
             }
-            Debug.Log(floorMinionStayFlag);
             floorMinionStayFlag = new bool[5] { false, false, false, false, false };
 
         }
