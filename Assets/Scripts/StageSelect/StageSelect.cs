@@ -182,10 +182,6 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.X))
-            {
-
-            }
             StageSelectUpdate();
             _Main_DollyCam.DollyUpdate();
             m_LookAt.LookAtObjectUpdate();
@@ -247,9 +243,6 @@ namespace TeamProject
         //キー入力待ち状態の処理
         private void StateKeyWait()
         {
-            //入力デバイスに応じたUIへの表示切り替え
-            m_StageSelectUIManager.SwitchingUISprite();
-
             //フラグがfalseの時はカウントアップ待ち
             if (!KeyWaitFlagCheck())
             {
@@ -310,6 +303,9 @@ namespace TeamProject
                 m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
 
             }
+            //入力デバイスに応じたUIへの表示切り替え
+            m_StageSelectUIManager.SwitchingUISprite();
+
 
         }//StateKeyWait()   END
 
