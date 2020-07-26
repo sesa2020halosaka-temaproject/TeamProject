@@ -8556,6 +8556,7 @@ MonoBehaviour:
   - 6
   - 9
   - 12
+  m_Adjust_WayPoint: []
   m_Stage_WayPoint: []
 --- !u!4 &735193703
 Transform:
@@ -9040,7 +9041,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773784130}
-  m_LocalRotation: {x: -0.42689934, y: 0.010431952, z: -0.004925075, w: -0.9042256}
+  m_LocalRotation: {x: -0.4268993, y: 0.010431996, z: -0.0049250955, w: -0.9042256}
   m_LocalPosition: {x: 28.5, y: 85, z: -1275}
   m_LocalScale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
   m_Children:
@@ -11444,6 +11445,11 @@ PrefabInstance:
       value: BackGraundGrass
       objectReference: {fileID: 0}
     - target: {fileID: 2415632796549121344, guid: 467a36da9f82abe41a715d822a01642f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951151381675406190, guid: 467a36da9f82abe41a715d822a01642f,
         type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -25623,17 +25629,17 @@ PrefabInstance:
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.42689934
+      value: -0.4268993
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.010431952
+      value: 0.010431996
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.004925075
+      value: -0.0049250955
       objectReference: {fileID: 0}
     - target: {fileID: 8008807666178622430, guid: 8d80211bb1760a6448e081634ac80af7,
         type: 3}

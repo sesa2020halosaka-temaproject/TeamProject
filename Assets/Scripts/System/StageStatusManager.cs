@@ -188,7 +188,7 @@ namespace TeamProject
             //オープニング見たかどうかフラグをONにする
             m_WatchOpeningFlag = true;
             //ラストステージをクリアしたかどうかフラグをONにする
-            m_LastStageClearFlag = true;
+           // m_LastStageClearFlag = true;
             //全ステージ移動可能フラグをONにする
             m_RemovalLimitFlag = true;
             //オールアンロックフラグをONにする
