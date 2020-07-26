@@ -119,8 +119,8 @@ namespace TeamProject
 
             public bool GetKeyDown(ButtonCode _buttun)
             {
-                var keyStringFlag = Input.GetKeyDown(activeKeyString[(int)_buttun].Item1);
-                var padStringFlag = Input.GetKeyDown(activeKeyString[(int)_buttun].Item2);
+                var padStringFlag = Input.GetKeyDown(activeKeyString[(int)_buttun].Item1);
+                var keyStringFlag = Input.GetKeyDown(activeKeyString[(int)_buttun].Item2);
 
                 PadJudge(keyStringFlag, padStringFlag);
 
@@ -129,8 +129,8 @@ namespace TeamProject
 
             public bool GetKey(ButtonCode _buttun)
             {
-                var keyStringFlag = Input.GetKey(activeKeyString[(int)_buttun].Item1);
-                var padStringFlag = Input.GetKey(activeKeyString[(int)_buttun].Item2);
+                var padStringFlag = Input.GetKey(activeKeyString[(int)_buttun].Item1);
+                var keyStringFlag = Input.GetKey(activeKeyString[(int)_buttun].Item2);
 
                 PadJudge(keyStringFlag, padStringFlag);
 
@@ -139,8 +139,8 @@ namespace TeamProject
 
             public bool GetKeyUp(ButtonCode _buttun)
             {
-                var keyStringFlag = Input.GetKeyUp(activeKeyString[(int)_buttun].Item1);
-                var padStringFlag = Input.GetKeyUp(activeKeyString[(int)_buttun].Item2);
+                var padStringFlag = Input.GetKeyUp(activeKeyString[(int)_buttun].Item1);
+                var keyStringFlag = Input.GetKeyUp(activeKeyString[(int)_buttun].Item2);
 
                 PadJudge(keyStringFlag, padStringFlag);
 
@@ -151,36 +151,50 @@ namespace TeamProject
 
             public bool GetArrow(ArrowCode _arrow)
             {
-                    bool flag = false;
+                bool keyFlag = false;
+                bool padFlag = false;
+
+                bool flag = false;
+
                 switch (_arrow)
                 {
                     case ArrowCode.RightArrow:
                         {
                             float x = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            flag= x >= size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            keyFlag = x >= size;
+                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                     case ArrowCode.LeftArrow:
                         {
                             float x = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            flag= x <= -size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            keyFlag = x <= -size;
+                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                     case ArrowCode.UpArrow:
                         {
                             float y = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            flag= y <= -size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            keyFlag = y <= -size;
+                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                     case ArrowCode.DownArrow:
                         {
                             float y = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            flag= y >= size || Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            keyFlag = y >= size;
+                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                 }
 
-                if (flag)
+                flag = keyFlag || padFlag;
+
+                if (keyFlag)
+                {
+                    activePad = GamePad.Keyboad;
+                }
+                if (padFlag)
                 {
                     activePad = GamePad.Xbox;
                 }
@@ -206,10 +220,7 @@ namespace TeamProject
                 Vector2 ret;
                 ret.x = Input.GetAxis("RHorizontal");
                 ret.y = Input.GetAxis("RVertical");
-                if (!(ret.x == 0 && ret.y == 0))
-                {
-                    activePad = GamePad.Xbox;
-                }
+
                 return ret;
             }
 
