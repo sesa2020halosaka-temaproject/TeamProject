@@ -161,29 +161,29 @@ namespace TeamProject
                     case ArrowCode.RightArrow:
                         {
                             float x = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            keyFlag = x >= size;
-                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            padFlag = x >= size;
+                            keyFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                     case ArrowCode.LeftArrow:
                         {
                             float x = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            keyFlag = x <= -size;
-                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            padFlag = x <= -size;
+                            keyFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                     case ArrowCode.UpArrow:
                         {
                             float y = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            keyFlag = y <= -size;
-                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            padFlag = y <= -size;
+                            keyFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                     case ArrowCode.DownArrow:
                         {
                             float y = Input.GetAxis(activeArrowString[(int)_arrow].Item1);
-                            keyFlag = y >= size;
-                            padFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
+                            padFlag = y >= size;
+                            keyFlag = Input.GetKey(activeArrowString[(int)_arrow].Item2);
                             break;
                         }
                 }
