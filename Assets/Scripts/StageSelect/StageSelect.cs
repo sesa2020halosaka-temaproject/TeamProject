@@ -182,7 +182,6 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
-
             StageSelectUpdate();
             _Main_DollyCam.DollyUpdate();
             m_LookAt.LookAtObjectUpdate();
@@ -191,6 +190,7 @@ namespace TeamProject
         //ステージセレクトの更新処理
         public void StageSelectUpdate()
         {
+
             if (!m_CamRotCheckFlag)
             {
                 //カメラの角度フラグがfalseの時は
@@ -303,6 +303,9 @@ namespace TeamProject
                 m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
 
             }
+            //入力デバイスに応じたUIへの表示切り替え
+            m_StageSelectUIManager.SwitchingUISprite();
+
 
         }//StateKeyWait()   END
 
@@ -326,7 +329,7 @@ namespace TeamProject
 
             //
             m_LookAt.ChangeState();
-            if (StageChangeManager.GetStageChangeKey()== StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
             {
                 m_LookAt.ChangeDollyState();
             }

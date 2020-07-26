@@ -34,6 +34,8 @@ namespace TeamProject
         private WorldSelectArrow m_WorldSelectArrow;
         private StageSelectArrow m_StageSelectArrow;
         private GameObject m_ButtonInformationObj;
+        private GameObject m_AB_Button_UI_Obj;
+        private GameObject m_Skip_UI_Obj;
         //ステージセレクトUIの状態
         public enum UI_STATE
         {
@@ -58,8 +60,8 @@ namespace TeamProject
             GameObject WorldStatusObj = this.transform.GetChild(0).transform.GetChild(2).gameObject;
             m_WorldStatusUI = WorldStatusObj.GetComponent<WorldStatusUIManager>();
             m_UIBGCurrentStage = WorldStatusObj.transform.GetChild(0).transform.GetChild(0).GetComponent<UIBackGroundCurrentStage>();
-            m_UIBG_Arrow       = WorldStatusObj.transform.GetChild(0).transform.GetChild(1).GetComponent<UIBackGroundCurrentStage>();
-            m_ToNextWUI        = this.transform.GetChild(0).transform.GetChild(3).GetComponent<CurrentToNextWorldUIManager>();
+            m_UIBG_Arrow = WorldStatusObj.transform.GetChild(0).transform.GetChild(1).GetComponent<UIBackGroundCurrentStage>();
+            m_ToNextWUI = this.transform.GetChild(0).transform.GetChild(3).GetComponent<CurrentToNextWorldUIManager>();
         }
         // Start is called before the first frame update
         void Start()
@@ -68,6 +70,14 @@ namespace TeamProject
             m_ButtonInformationObj = this.transform.GetChild(0).transform.GetChild(4).gameObject;
             //ABボタンUIアクティブ化
             SwitchingActive.GameObject_OFF(m_ButtonInformationObj);
+
+            //ABボタンUIののゲームオブジェクト取得
+            m_AB_Button_UI_Obj = m_ButtonInformationObj.transform.GetChild(0).gameObject;
+            //SKIPボタンUIののゲームオブジェクト取得
+            m_Skip_UI_Obj = m_ButtonInformationObj.transform.GetChild(1).gameObject;
+
+            //入力デバイスに応じたUIへの表示切り替え
+            SwitchingUISprite();
 
             m_WorldStatusUI.StartWorldNameIcon();
             m_ToNextWUI.ChangeWorldNameIcon();
@@ -135,6 +145,44 @@ namespace TeamProject
         public WorldSelectArrow GetWorldSelectArrow()
         {
             return m_WorldSelectArrow;
+        }
+
+        //入力デバイスに応じたUIへの表示切り替え
+        public void SwitchingUISprite()
+        {
+            switch (InputManager.InputManager.ActivePad)
+            {
+                case InputManager.GamePad.Keyboad:
+                    Debug.Log("Keyboard入力");
+                    SwitchingKeyboardUI();
+                    break;
+                case InputManager.GamePad.Xbox:
+                    Debug.Log("Xbox入力");
+                    SwitchingXboxUI();
+                    break;
+            }
+        }
+
+        //Xbox用UIのアクティブ化
+        public void SwitchingXboxUI()
+        {
+            //ABButtonUI切り替え
+            SwitchingActive.GameObject_OFF(m_AB_Button_UI_Obj);
+
+            //SKIPUI切り替え
+            SwitchingActive.GameObject_OFF(m_Skip_UI_Obj);
+
+        }
+
+        //Keyboard用UIのアクティブ化
+        public void SwitchingKeyboardUI()
+        {
+            //ABButtonUI切り替え
+            SwitchingActive.GameObject_ON(m_AB_Button_UI_Obj);
+
+            //SKIPUI切り替え
+            SwitchingActive.GameObject_ON(m_Skip_UI_Obj);
+
         }
     } //public class StageSelectUIManager : MonoBehaviour    END
 } //namespace TeamProject    END
