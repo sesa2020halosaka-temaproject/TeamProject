@@ -76,11 +76,23 @@ namespace TeamProject
         // Start is called before the first frame update
         void Start()
         {
+            //鳴っているBGMやSEを止める
+            SEManager.Instance.Stop();
+            BGMManager.Instance.Stop();
+
+            //タイトルBGMスタート(フェードインはなし)
+            //BGMSwitcher.FadeIn(BGMPath.BGM_TITLE,fadeInDuration:0.0f);
+            BGMManager.Instance.Play(BGMPath.BGM_TITLE, volumeRate: 1.0f, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+
             //開始時のフェードイン
             if (StageStatusManager.Instance.m_EDtoTITLE_Flag)
             {
                 //エンディングシーンから遷移した時
+                //-----------------------------------
+                //フェードインなし
                 FadeManager.FadeIn(0.0f);
+
+                //風の音は鳴らさない
 
                 //エンディングからタイトルに遷移しますよフラグをOFFにする。
                 StageStatusManager.Instance.m_EDtoTITLE_Flag = false;
@@ -88,22 +100,17 @@ namespace TeamProject
             else
             {
                 //エンディングシーン以外から遷移した時
+                //-----------------------------------
+                //フェードインあり
                 FadeManager.FadeIn(Title_FadeIn_Time);
+
+                //風の音を鳴らす、ループあり、BGMの重複許可
+                BGMManager.Instance.Play(SEPath.SE_TITLE_GRASS_WAVE, volumeRate: 1.0f, delay: 0.0f, isLoop: true, allowsDuplicate: true);
+
+                //風の音のフェードインさせる（引数未設定なら1秒かける）
+                BGMManager.Instance.FadeIn(SEPath.SE_TITLE_GRASS_WAVE, duration: m_GrassWave_FadeIn_Time);
             }
-            //鳴っているSEを止める
-            SEManager.Instance.Stop();
-            //BGMManager.Instance.Stop();
 
-            //タイトルBGMスタート
-            //BGMSwitcher.FadeIn(BGMPath.BGM_TITLE,fadeInDuration:0.0f);
-            BGMManager.Instance.Play(BGMPath.BGM_TITLE, volumeRate: 1.0f, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-            ////タイトルBGMのフェードイン（引数未設定なら1秒かける）
-            //BGMManager.Instance.FadeIn(BGMPath.BGM_TITLE, duration: 0.0f);
-
-            //風の音を音量0で鳴らし始め、ループさせる
-            BGMManager.Instance.Play(SEPath.SE_TITLE_GRASS_WAVE, volumeRate: 1.0f, delay: 0.0f, isLoop: true, allowsDuplicate: true);
-            //風の音のフェードイン（引数未設定なら1秒かける）
-            BGMManager.Instance.FadeIn(SEPath.SE_TITLE_GRASS_WAVE, duration: m_GrassWave_FadeIn_Time);
 
             //開始時の状態を設定
             state = TITLESTATE.SCENE_FADE;
