@@ -7,6 +7,8 @@ public class EndingBanana : MonoBehaviour
 {
     private RectTransform ue;
     private RectTransform sita;
+
+    public bool flg = false;
     GameObject FlagManager;
     TeamProject.StageStatusManager StageStatusManager;
 
@@ -19,7 +21,7 @@ public class EndingBanana : MonoBehaviour
         StageStatusManager = FlagManager.GetComponent<TeamProject.StageStatusManager>();
         ue = GameObject.Find("UE").GetComponent<RectTransform>();
         sita = GameObject.Find("SITA").GetComponent<RectTransform>();
-
+        flg = false;
     }
 
     void Update()
@@ -28,6 +30,7 @@ public class EndingBanana : MonoBehaviour
         yy = sita.localPosition.y;
         if (StageStatusManager.m_LastStageClearFlag)
         {
+            flg = true;
             if (y > 447)
             {
                
