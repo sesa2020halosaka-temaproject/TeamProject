@@ -15,6 +15,7 @@ namespace TeamProject
         private string[] walkSnowSEPaht;
         private string[] walkWaterSEPaht;
         private string[] walkIceSEPaht;
+        private string[] walkWoodSEPaht;
 
         private string[] separateDrySEPaht;
         private string[] separateRainSEPaht;
@@ -36,6 +37,7 @@ namespace TeamProject
             Snow = 0b0010000,
             Water = 0b0100000,
             Ice = 0b1000000,
+            Wood = 0b01000000,
         }
 
         // Start is called before the first frame update
@@ -50,6 +52,7 @@ namespace TeamProject
             walkSnowSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_SNOW1, SEPath.SE_PLAYER_WALK_SNOW2, SEPath.SE_PLAYER_WALK_SNOW3, SEPath.SE_PLAYER_WALK_SNOW4 };
             walkWaterSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_WATER1, SEPath.SE_PLAYER_WALK_WATER2, SEPath.SE_PLAYER_WALK_WATER3, SEPath.SE_PLAYER_WALK_WATER4 };
             walkIceSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_ICE1, SEPath.SE_PLAYER_WALK_ICE2, SEPath.SE_PLAYER_WALK_ICE3, SEPath.SE_PLAYER_WALK_ICE4 };
+            walkIceSEPaht = new string[4] { SEPath.SE_PLAYER_WALK_WOOD1, SEPath.SE_PLAYER_WALK_WOOD2, SEPath.SE_PLAYER_WALK_WOOD3, SEPath.SE_PLAYER_WALK_WOOD4 };
 
             // 草のかき分け等
             separateDrySEPaht = new string[4] { SEPath.SE_PLAYER_SEPARATE_DRY1, SEPath.SE_PLAYER_SEPARATE_DRY2, SEPath.SE_PLAYER_SEPARATE_DRY3, SEPath.SE_PLAYER_SEPARATE_DRY4 };
@@ -164,6 +167,9 @@ namespace TeamProject
 
                 case "IceGimmick":   // Iceの時
                     _bitFlag |= (byte)WalkMoad.Ice;
+                    break;
+                case "Wood":   // Woodの時
+                    _bitFlag |= (byte)WalkMoad.Wood;
                     break;
             }
         }
