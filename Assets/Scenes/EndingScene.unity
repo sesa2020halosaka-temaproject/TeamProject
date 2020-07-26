@@ -708,6 +708,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Audio Source
       objectReference: {fileID: 0}
+    - target: {fileID: 4557591922866308025, guid: 1299843aa1502cd44bd7b95066b0da5d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4557591922866308027, guid: 1299843aa1502cd44bd7b95066b0da5d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1060,9 +1065,9 @@ VideoPlayer:
   m_AspectRatio: 1
   m_DataSource: 0
   m_PlaybackSpeed: 1
-  m_AudioOutputMode: 2
+  m_AudioOutputMode: 1
   m_TargetAudioSources:
-  - {fileID: 0}
+  - {fileID: 1838058318}
   m_DirectAudioVolumes:
   - 1
   m_Url: 
@@ -1317,6 +1322,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1694833681}
   m_CullTransparentMesh: 0
+--- !u!82 &1838058318 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4557591922866308024, guid: 1299843aa1502cd44bd7b95066b0da5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 508719358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2069832051
 GameObject:
   m_ObjectHideFlags: 0

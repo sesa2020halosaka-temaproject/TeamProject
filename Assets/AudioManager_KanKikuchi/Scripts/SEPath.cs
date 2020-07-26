@@ -106,6 +106,7 @@ public static class SEPath{
 	public const string SE_RAIN                    = "SE/Stereo/SE_Ste_Ambient/SE_Rain";
 	public const string SE_STAMP                   = "SE/Mono/SE_Mono_Result/SE_Stamp";
 	public const string SE_STAR                    = "SE/Stereo/SE_Ste_Result/SE_Star";
+	public const string SE_TITLE_GRASS_WAVE        = "SE/Stereo/SE_Ste_Title/SE_Title_GrassWave";
 	public const string SE_TITLE_LOGO              = "SE/Stereo/SE_Ste_Title/SE_TitleLogo";
 	public const string SE_WATERFALL               = "SE/Stereo/SE_Ste_Ambient/SE_Waterfall";
 	public const string SMALLWAVE                  = "SE/CESA_Thema/smallwave";
