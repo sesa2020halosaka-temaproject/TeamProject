@@ -609,13 +609,15 @@ namespace TeamProject
                 {
                     case 0:
                         break;
-                    case 1:
-                        // 小人が見えない時に小人の上に目の×を出す奴
-                        Instantiate(minionIeParticlePrefab, choicePosition, Quaternion.identity);
-                        break;
                     case 2:
                         // 小人が見えない時に小人の上に目の×を出す奴
+                        Instantiate(minionIeParticlePrefab, choicePosition, Quaternion.identity);
+                        reservation = 1;
+                        break;
+                    case 1:
+                        // 小人が見えない時に小人の上に目の×を出す奴
                         Instantiate(minionIeShortParticlePrefab, choicePosition, Quaternion.identity);
+                        
                         break;
                 }
 
