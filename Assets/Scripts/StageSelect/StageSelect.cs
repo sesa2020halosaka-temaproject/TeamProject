@@ -182,7 +182,10 @@ namespace TeamProject
         // Update is called once per frame
         void Update()
         {
+            if (InputManager.InputManager.Instance.GetKeyDown(InputManager.ButtonCode.X))
+            {
 
+            }
             StageSelectUpdate();
             _Main_DollyCam.DollyUpdate();
             m_LookAt.LookAtObjectUpdate();
@@ -191,6 +194,7 @@ namespace TeamProject
         //ステージセレクトの更新処理
         public void StageSelectUpdate()
         {
+
             if (!m_CamRotCheckFlag)
             {
                 //カメラの角度フラグがfalseの時は
@@ -243,6 +247,9 @@ namespace TeamProject
         //キー入力待ち状態の処理
         private void StateKeyWait()
         {
+            //入力デバイスに応じたUIへの表示切り替え
+            m_StageSelectUIManager.SwitchingUISprite();
+
             //フラグがfalseの時はカウントアップ待ち
             if (!KeyWaitFlagCheck())
             {
@@ -326,7 +333,7 @@ namespace TeamProject
 
             //
             m_LookAt.ChangeState();
-            if (StageChangeManager.GetStageChangeKey()== StageChangeManager.STAGE_CHANGE_KEY.DOWN)
+            if (StageChangeManager.GetStageChangeKey() == StageChangeManager.STAGE_CHANGE_KEY.DOWN)
             {
                 m_LookAt.ChangeDollyState();
             }

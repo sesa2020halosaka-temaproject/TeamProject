@@ -26,6 +26,7 @@ namespace TeamProject
         public GameObject m_SkipButtonObj;
         public Image m_SkipButtonUI;
         public Color m_SkipColor;
+        private int m_UI_Index;//現在のオブジェクトがどちらかを判定する（０：Xbox用、１：キーボード用）
 
         public VideoClip m_VideoClip;
         public VideoPlayer m_VideoPlayer;
@@ -42,7 +43,8 @@ namespace TeamProject
         }
         public MOVIE_STATE m_MovieState;
         private void Awake()
-        {            //Skipボタン用UIのオブジェクトの取得
+        {  
+            //Skipボタン用UIのオブジェクトの取得
             m_SkipButtonObj = GameObject.Find("SkipObj");
             if (m_InvisibleEndTime <= 0)
             {
@@ -54,8 +56,8 @@ namespace TeamProject
                 m_SkipButtonObj.SetActive(true);
 
             }
-
-            m_SkipButtonUI = m_SkipButtonObj.transform.GetChild(0).GetComponent<Image>();
+            SwitchingUISprite();
+            m_SkipButtonUI = m_SkipButtonObj.transform.GetChild(m_UI_Index).GetComponent<Image>();
             m_SkipColor = m_SkipButtonUI.color;
             m_AlphaMaxRatio = m_SkipColor.a;
             //----------------------------------------------
@@ -194,6 +196,24 @@ namespace TeamProject
                     //m_MovieState = MOVIE_STATE.PAUSE;
                     //m_PausePanelObj.SetActive(true);
                 }
+            }
+        }
+
+        //入力デバイスに応じたUIへの表示切り替え
+        public void SwitchingUISprite()
+        {
+            switch (InputManager.InputManager.ActivePad)
+            {
+                case InputManager.GamePad.Keyboad:
+                    Debug.Log("今はKeyboardモード");
+                    SwitchingActive.GameObject_ON(m_SkipButtonObj);
+                    m_UI_Index = 1;
+                    break;
+                case InputManager.GamePad.Xbox:
+                    Debug.Log("今はXboxモード");
+                    SwitchingActive.GameObject_OFF(m_SkipButtonObj);
+                    m_UI_Index = 0;
+                    break;
             }
         }
 
