@@ -408,6 +408,7 @@ namespace TeamProject
             {
                 SEManager.Instance.Play(SEPath.SE_HIERARCHY);
             }
+            Debug.Log(floorMinionStayFlag);
             floorMinionStayFlag = new bool[5] { false, false, false, false, false };
 
         }
