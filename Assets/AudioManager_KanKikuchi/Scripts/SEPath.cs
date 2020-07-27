@@ -102,6 +102,10 @@ public static class SEPath{
 	public const string SE_PLAYER_WALK_WATER2      = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water2";
 	public const string SE_PLAYER_WALK_WATER3      = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water3";
 	public const string SE_PLAYER_WALK_WATER4      = "SE/Mono/SE_Mono_Player/SE_Player_Walk_Water4";
+	public const string SE_PLAYER_WALK_WOOD1       = "SE/Stereo/SE_Ste_Player/SE_Player_Walk_Wood1";
+	public const string SE_PLAYER_WALK_WOOD2       = "SE/Stereo/SE_Ste_Player/SE_Player_Walk_Wood2";
+	public const string SE_PLAYER_WALK_WOOD3       = "SE/Stereo/SE_Ste_Player/SE_Player_Walk_Wood3";
+	public const string SE_PLAYER_WALK_WOOD4       = "SE/Stereo/SE_Ste_Player/SE_Player_Walk_Wood4";
 	public const string SE_PLAY_START              = "SE/Mono/SE_Mono_Minion/SE_PlayStart";
 	public const string SE_RAIN                    = "SE/Stereo/SE_Ste_Ambient/SE_Rain";
 	public const string SE_STAMP                   = "SE/Mono/SE_Mono_Result/SE_Stamp";
