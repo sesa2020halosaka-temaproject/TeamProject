@@ -190,15 +190,8 @@ namespace TeamProject
 
                 flag = keyFlag || padFlag;
 
-                if (keyFlag)
-                {
-                    activePad = GamePad.Keyboad;
-                }
-                if (padFlag)
-                {
-                    activePad = GamePad.Xbox;
-                }
-
+                PadJudge(keyFlag, padFlag);
+                
                 return flag;
             }
             
@@ -226,13 +219,13 @@ namespace TeamProject
 
             private void PadJudge(bool _key,bool _pad) 
             {
-                if (_key)
-                {
-                    activePad = GamePad.Keyboad;
-                }
                 if (_pad)
                 {
                     activePad = GamePad.Xbox;
+                }
+                if (_key)
+                {
+                    activePad = GamePad.Keyboad;
                 }
             }
         }
