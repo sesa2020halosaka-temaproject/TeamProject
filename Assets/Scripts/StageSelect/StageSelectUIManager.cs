@@ -36,25 +36,9 @@ namespace TeamProject
         private GameObject m_ButtonInformationObj;
         private GameObject m_AB_Button_UI_Obj;
         private GameObject m_Skip_UI_Obj;
-        //ステージセレクトUIの状態
-        public enum UI_STATE
-        {
-            WAIT = 0,//待ち
-            BEFORE_STAGE_MOVING,//ステージ移動前の準備
-            STAGE_MOVING,//ステージ移動中
-            BEFORE_WORLD_MOVING,//ワールド移動前の準備
-            WORLD_MOVING,//ワールド移動中
-            SCENE_MOVING,//シーン遷移中
-            STATE_NUM    //状態の数
-        }
-        public UI_STATE select_state;
-
 
         private void Awake()
         {
-            //m_Next = transform.GetChild(1).gameObject;//次のワールド名UI用オブジェクト
-            //m_Current = transform.GetChild(2).gameObject;//現在のワールド名UI用オブジェクト
-
             m_StageSelectArrow = this.transform.GetChild(0).transform.GetChild(0).GetComponent<StageSelectArrow>();
             m_WorldSelectArrow = this.transform.GetChild(0).transform.GetChild(1).GetComponent<WorldSelectArrow>();
             GameObject WorldStatusObj = this.transform.GetChild(0).transform.GetChild(2).gameObject;
@@ -84,7 +68,18 @@ namespace TeamProject
         }
 
         // Update is called once per frame
-        void Update()
+        //void Update()
+        //{
+        //    //m_WorldStatusUI.WorldStatusUIUpdate();
+        //    //m_ToNextWUI.ToNextWorldUIUpdate();
+        //    //m_UIBGCurrentStage.UIBackGroundCurrentStageUpdate();
+        //    //m_UIBG_Arrow.UIBackGroundCurrentStageUpdate();
+        //    //m_StageSelectArrow.StageSelectArrowUpdate();
+        //    //m_WorldSelectArrow.WorldSelectArrowUpdate();
+        //}//void Update()    END
+
+        //UI用の更新関数
+        public void StageSelectUIUpdate()
         {
             m_WorldStatusUI.WorldStatusUIUpdate();
             m_ToNextWUI.ToNextWorldUIUpdate();
@@ -92,8 +87,28 @@ namespace TeamProject
             m_UIBG_Arrow.UIBackGroundCurrentStageUpdate();
             m_StageSelectArrow.StageSelectArrowUpdate();
             m_WorldSelectArrow.WorldSelectArrowUpdate();
-        }//void Update()    END
 
+        }
+
+        //上下左右の矢印が画面内に戻ったかどうかをチェックして返す
+        public bool SelectArrowsFlagCheck()
+        {
+            bool Stage_Flag = m_StageSelectArrow.FlagCheck();
+            bool World_Flag = m_WorldSelectArrow.FlagCheck();
+            if (Stage_Flag && World_Flag)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //上下左右の矢印の移動完了フラグを一括でOFFにする
+        public void SelectArrowsFlagOFF()
+        {
+           m_StageSelectArrow.EndFlagOff();
+           m_WorldSelectArrow.EndFlagOff();
+        }
+        
         //ワールドを示すUIの差し替え
         public void ChangeWorldNameIcon()
         {

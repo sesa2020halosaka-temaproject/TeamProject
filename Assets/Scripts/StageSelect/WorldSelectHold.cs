@@ -9,11 +9,11 @@ namespace TeamProject
         //現在ワールド位置 
         //StageStatusManager.Instance.CurrentWorld;
         //public static GameObject m_Canvas;//一番上の親オブジェクト
-        public static GameObject m_Next;//右矢印用オブジェクト
-        public static GameObject m_Prev;//左矢印用オブジェクト
+        public static GameObject m_Next; //右矢印用オブジェクト
         public static GameObject m_Next2;//右矢印用オブジェクト
-        public static GameObject m_Prev2;//左矢印用オブジェクト
         public static GameObject m_Next3;//右矢印用オブジェクト
+        public static GameObject m_Prev; //左矢印用オブジェクト
+        public static GameObject m_Prev2;//左矢印用オブジェクト
         public static GameObject m_Prev3;//左矢印用オブジェクト
 
         public float m_MaxWidth_L;
@@ -45,14 +45,14 @@ namespace TeamProject
         private void Awake()
         {
             //m_Canvas = transform.root.gameObject;//一番上の親を取得
-            m_Next = transform.GetChild(0).gameObject;//"NextWorldInformation"オブジェクト
-            m_Next2 = m_Next.transform.GetChild(0).gameObject;//"NextWorldArrowObj"オブジェクト
+            m_Next = transform.GetChild(0).gameObject;         //"NextWorldInformation"オブジェクト
+            m_Next2 = m_Next.transform.GetChild(0).gameObject; //"NextWorldArrowObj"オブジェクト
             m_Next3 = m_Next2.transform.GetChild(1).gameObject;//"ArrowPileUp"オブジェクト
 
-            m_Prev = transform.GetChild(1).gameObject; //"PrevWorldInformation"オブジェクト
-            m_Prev2 = m_Prev.transform.GetChild(0).gameObject;//"PrevWorldArrowObj"オブジェクト
+            m_Prev = transform.GetChild(1).gameObject;         //"PrevWorldInformation"オブジェクト
+            m_Prev2 = m_Prev.transform.GetChild(0).gameObject; //"PrevWorldArrowObj"オブジェクト
             m_Prev3 = m_Prev2.transform.GetChild(1).gameObject;//"ArrowPileUp"オブジェクト
-            //m_CurrentStage = StageSelect.STAGE.STAGE1;
+                                                               //m_CurrentStage = StageSelect.STAGE.STAGE1;
         }
 
         // Start is called before the first frame update
@@ -271,6 +271,7 @@ namespace TeamProject
             }
         }// END
 
+        //左右のUIのゲージを０にする（）
         public void ZeroWidth()
         {
             m_Next3.GetComponent<RectTransform>().sizeDelta = new Vector2(0.0f, m_MaxHeight_L);

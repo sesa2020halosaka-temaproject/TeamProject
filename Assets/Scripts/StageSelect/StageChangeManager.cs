@@ -186,53 +186,6 @@ namespace TeamProject
             return m_WorldChange_flag;
         }
 
-        public static StageSelect.SELECT_STATE GetSelectState()
-        {
-            return m_SelectState;
-        }
-
-        public static void SelectStateChange(string _Word)
-        {
-            {
-                if (_Word == "KEY_WAIT")
-                {
-                    m_SelectState = StageSelect.SELECT_STATE.KEY_WAIT;
-
-                }
-                else if (_Word == "BEFORE_STAGE_MOVING")
-                {
-                    m_SelectState = StageSelect.SELECT_STATE.BEFORE_STAGE_MOVING;
-
-                }
-                else if (_Word == "BEFORE_WORLD_MOVING")
-                {
-                    m_SelectState = StageSelect.SELECT_STATE.BEFORE_WORLD_MOVING;
-
-                }
-                else if (_Word == "STAGE_MOVING")
-                {
-                    m_SelectState = StageSelect.SELECT_STATE.STAGE_MOVING;
-
-                }
-                else if (_Word == "WORLD_MOVING")
-                {
-                    m_SelectState = StageSelect.SELECT_STATE.WORLD_MOVING;
-
-                }
-                else if (_Word == "SCENE_MOVING")
-                {
-                    m_SelectState = StageSelect.SELECT_STATE.SCENE_MOVING;
-
-                }
-                else
-                {
-                    Debug.LogAssertion("SELECT_STATEの言葉が違います。");
-                    m_SelectState = StageSelect.SELECT_STATE.KEY_WAIT;
-
-                }
-            }
-        }
-
         //ステージ変更キーの取得
         public static STAGE_CHANGE_KEY GetStageChangeKey()
         {
