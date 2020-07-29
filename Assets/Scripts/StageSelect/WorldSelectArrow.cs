@@ -100,7 +100,7 @@ namespace TeamProject
                 case UIMoveManager.UI_MOVESTATE.FIXING:
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEIN:
-                    if (m_StageSelect.KeyWaitFlagCheck())
+                    //if (m_StageSelect.KeyWaitFlagCheck())
                     {
 
                         m_UIMoveManager_Next.UIMove(m_NextUI_Obj, m_OutPosition_Next, m_InPosition_Next, m_MoveInTime);
@@ -122,7 +122,7 @@ namespace TeamProject
                         m_UIMoveManager_Next.PosRatioZeroReset();
                         m_UIMoveManager_Prev.PosRatioZeroReset();
                         UIStateFixing();
-                        EndFlagOff();
+                        //EndFlagOff();
                     }
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEOUT:
