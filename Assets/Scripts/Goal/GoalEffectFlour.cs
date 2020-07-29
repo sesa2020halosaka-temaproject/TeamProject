@@ -21,6 +21,6 @@ public class GoalEffectFlour : MonoBehaviour
 
     void GoalEffect()
     {
-        Instantiate(goalEffectPrefab, transform.position, Quaternion.identity);
+        Instantiate(goalEffectPrefab, transform.GetChild(0).position, Quaternion.identity);
     }
 }
