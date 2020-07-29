@@ -65,7 +65,7 @@ namespace TeamProject
             SCENE_MOVING,//シーン遷移中
             STATE_NUM    //状態の数
         }
-        public SELECT_STATE select_state;
+        public SELECT_STATE select_state;//現在の状態遷移の確認用
 
         private int db_cnt = 0;//デバッグログ確認用カウント
 
@@ -90,10 +90,18 @@ namespace TeamProject
         //=================================================================
         private void Awake()
         {
+            //================================================
+            //コンポーネントの取得
+            //================================================
+            //StageSelectSoundコンポーネント取得
             m_SelectSound = this.GetComponent<StageSelectSound>();
+
             StageChangeManager.GetComponentWorldSelectHold();
 
+            //StageSelectUIManagerコンポーネント取得
             m_StageSelectUIManager = this.GetComponent<StageSelectUIManager>();
+
+            //WorldSelectHoldコンポーネント取得
             m_Hold = GameObject.Find("WorldMoveArrows").GetComponent<WorldSelectHold>();
 
             //デバッグ用としてfalseの時だけInspector上のフラグをセットする
@@ -130,19 +138,22 @@ namespace TeamProject
             //DollyCameraのオブジェクト取得
             _Dolly_Next = GameObject.Find("Dolly_VCam");
 
-            //DollyTrack用ゲームオブジェクト取得
-            m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
 
             //Debug.Log("0：メインカメラの角度:" + UnityEngine.Camera.main.transform.rotation);
 
             //カメラの注視点用ゲームオブジェクト取得
             m_TargetObj = GameObject.Find("Bellwether").gameObject;
-            m_LookAt = m_TargetObj.GetComponent<LookAtObject>();
             //================================================
             //コンポーネントの取得
             //================================================
+            //DollyTrackコンポーネント取得
+            m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
+ 
             //DollyCameraコンポーネントの取得
             _Main_DollyCam = _Dolly_Next.GetComponent<DollyCamera>();
+
+            //LookAtObjectコンポーネントの取得
+            m_LookAt = m_TargetObj.GetComponent<LookAtObject>();
 
             //LensDistortionManagerコンポーネントの取得
             m_LensDistortionManager = GameObject.Find("LensDistortionObj").GetComponent<LensDistortionManager>();
@@ -185,6 +196,7 @@ namespace TeamProject
             StageSelectUpdate();
             _Main_DollyCam.DollyUpdate();
             m_LookAt.LookAtObjectUpdate();
+            m_StageSelectUIManager.StageSelectUIUpdate();
         }//void Update()    END
 
         //ステージセレクトの更新処理
@@ -263,14 +275,6 @@ namespace TeamProject
                     //フラグをONにする
                     KeyWaitFlagChange(true);
                     m_Counter = 0;
-
-                    //Dollyカメラの座標をドリールートの座標に合わせる
-                    //_Main_DollyCam.SetStartDollyPos();
-
-                    //固定用ドリールートをセット
-                    //_Main_DollyCam.SetPathFixingDolly();
-                    //_Main_DollyCam.SetPathPosition(0.0f);
-
                 }
             }
             else if (KeyWaitFlagCheck())
@@ -595,7 +599,6 @@ namespace TeamProject
                 BGMManager.Instance.FadeOut(StageIn_FadeOut_Time);
 
                 //シーン遷移中状態にする
-                select_state = SELECT_STATE.SCENE_MOVING;
                 StageChangeManager.SelectStateChange("SCENE_MOVING");
                 Debug.Log("決定です！");
                 //決定音鳴らす
@@ -620,7 +623,6 @@ namespace TeamProject
         {
             if (StageChangeManager.IsStageChange())
             {
-                //select_state = SELECT_STATE.STAGE_MOVING;
                 StageChangeManager.SelectStateChange("BEFORE_STAGE_MOVING");
 
                 //フラグをOFFにする
@@ -629,7 +631,6 @@ namespace TeamProject
             else if (StageChangeManager.IsWorldChange())
             //else if (WorldChangeManagr.IsWorldChange())
             {
-                //select_state = SELECT_STATE.WORLD_MOVING;
                 StageChangeManager.SelectStateChange("BEFORE_WORLD_MOVING");
 
                 //フラグをOFFにする
