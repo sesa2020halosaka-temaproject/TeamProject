@@ -172,6 +172,9 @@ namespace TeamProject
         [SerializeField]
         private GameObject minionIeShortParticlePrefab;
 
+        private GameObject minionIeParticleInstance;
+        private GameObject minionIeShortParticleInstance;
+
         // 0:何もしない　1:短いパーティクル 2:長いパーティクル
         private int reservation = 0;
         // Start is called before the first frame update
@@ -611,12 +614,13 @@ namespace TeamProject
                         break;
                     case 2:
                         // 小人が見えない時に小人の上に目の×を出す奴
-                        Instantiate(minionIeParticlePrefab, choicePosition, Quaternion.identity);
+                        minionIeParticleInstance = Instantiate(minionIeParticlePrefab, choicePosition, Quaternion.identity);
                         reservation = 1;
                         break;
                     case 1:
                         // 小人が見えない時に小人の上に目の×を出す奴
-                        Instantiate(minionIeShortParticlePrefab, choicePosition, Quaternion.identity);
+                        if(minionIeShortParticleInstance==null)
+                        minionIeShortParticleInstance=Instantiate(minionIeShortParticlePrefab, choicePosition, Quaternion.identity);
                         
                         break;
                 }
@@ -1584,6 +1588,8 @@ namespace TeamProject
                         up = choicePosition;
                     }
                 }
+
+                if (minionIeParticleInstance) Destroy(minionIeParticleInstance);
 
                 pickArrowCom.ChoicePosition = up + new Vector3(0f, pickArrowHight, 0f);
                 notChoice = false;
