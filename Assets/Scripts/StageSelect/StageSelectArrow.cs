@@ -8,6 +8,9 @@ namespace TeamProject
     //ステージ選択可能表示矢印用
     public class StageSelectArrow : MonoBehaviour
     {
+        [Header("UI移動の状態保持用")]
+        public UIMoveManager.UI_MOVESTATE m_UIMoveState;    //UI移動の状態保持用
+
         [Header("UIの移動する時間")]
         public float m_MoveOutTime;
         public float m_MoveInTime;
@@ -18,6 +21,14 @@ namespace TeamProject
         [Header("UIの画面外位置")]
         public Vector3 m_OutPosition_Next;
         public Vector3 m_OutPosition_Prev;
+
+        [Header("揺らす用UIの座標")]
+        public Vector3 m_FloatPosition_Next;
+        public Vector3 m_FloatPosition_Prev;
+        private float m_SineCounter = 0;
+
+        public float m_CycleTime;
+        public float m_SwingValue;
 
         public float m_InPos_Next_Y;
         public float m_OutPos_Next_Y;
@@ -50,7 +61,6 @@ namespace TeamProject
 
         private UIMoveManager m_UIMoveManager_Next;         //次ステージUI移動用の変数
         private UIMoveManager m_UIMoveManager_Prev;         //前ステージUI移動用の変数
-        public UIMoveManager.UI_MOVESTATE m_UIMoveState;    //UI移動の状態保持用
         private StageSelectUIManager m_StageSelectUIManager;//StageSelectUIManagerスクリプト用オブジェクト
         private StageSelect m_StageSelect;                  //StageSelectスクリプト用オブジェクト
 
@@ -78,6 +88,10 @@ namespace TeamProject
 
             m_InPosition_Prev = new Vector3(m_PrevUI_Obj.transform.localPosition.x, m_InPos_Prev_Y, m_PrevUI_Obj.transform.localPosition.z);
             m_OutPosition_Prev = new Vector3(m_PrevUI_Obj.transform.localPosition.x, m_OutPos_Prev_Y, m_PrevUI_Obj.transform.localPosition.z);
+
+            //ゼロ設定
+            m_FloatPosition_Next = Vector3.zero;
+            m_FloatPosition_Prev = Vector3.zero;
 
             m_MoveOutTime = m_StageSelectUIManager.m_UIMoveOut_Time;
             m_MoveInTime = m_StageSelectUIManager.m_UIMoveIn_Time;
@@ -114,7 +128,7 @@ namespace TeamProject
                 case UIMoveManager.UI_MOVESTATE.FIXING:
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEIN:
-                    Debug.Log("IN中です");
+                    Debug.Log("IN中です（上下UI）");
                     //if (m_StageSelect.KeyWaitFlagCheck())
                     {
 
@@ -134,15 +148,17 @@ namespace TeamProject
                     }
                     if (FlagCheck())
                     {
-                        Debug.Log("In完了");
+                        Debug.Log("In完了（上下UI）");
                         m_UIMoveManager_Next.PosRatioZeroReset();
                         m_UIMoveManager_Prev.PosRatioZeroReset();
                         UIStateFixing();
-                       //EndFlagOff();
+
+                        //ステージセレクト.cs側でフラグOFFにする
+                        //EndFlagOff();
                     }
                     break;
                 case UIMoveManager.UI_MOVESTATE.MOVEOUT:
-                    Debug.Log("OUT中です");
+                    Debug.Log("OUT中です（上下UI）");
 
                     m_UIMoveManager_Next.UIMove(m_NextUI_Obj, m_InPosition_Next, m_OutPosition_Next, m_MoveOutTime);
                     if (m_NextUI_Obj.transform.localPosition.y >= m_OutPosition_Next.y)
@@ -378,5 +394,26 @@ namespace TeamProject
             m_UIMoveState = UIMoveManager.UI_MOVESTATE.FIXING;
         }
 
+        public void ShakeUI()
+        {
+            m_SineCounter += Time.deltaTime / m_CycleTime;
+
+            m_FloatPosition_Next.y = Mathf.Sin(2.0f * Mathf.PI * m_SineCounter) * m_SwingValue;
+            m_NextUI_Obj.transform.localPosition += m_FloatPosition_Next;
+            Debug.Log("m_NextUI_Obj.transform.localPosition:" + m_NextUI_Obj.transform.localPosition);
+
+
+            m_FloatPosition_Prev.y = Mathf.Sin(2.0f * Mathf.PI * m_SineCounter) * m_SwingValue;
+            m_PrevUI_Obj.transform.localPosition -= m_FloatPosition_Prev;
+
+        }
+
+        public void ResetPosition()
+        {
+            m_SineCounter = 0.0f;
+            m_NextUI_Obj.transform.localPosition = m_InPosition_Next;
+            m_PrevUI_Obj.transform.localPosition = m_InPosition_Prev;
+
+        }
     }//public class StageSelectArrow : MonoBehaviour END
 }//namespace END
