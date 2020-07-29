@@ -118,8 +118,12 @@ namespace TeamProject
         //福田追記>
         [Header("STAGE1-1突入フラグ")]
         public bool m_S1Flag = false;
+
+        [Header("STAGE4-5クリアフラグ")]
+        public bool m_S4Flag = false;
+
         //<ここまで
-        
+
         public bool m_EDtoTITLE_Flag = false;                                                   //エンディングからタイトルに遷移したかどうかフラグ
         public CLEAR_STATUS[] Stage_Status = new CLEAR_STATUS[(int)STAGE_NO.STAGE_NUM];//各ステージのクリア状況
         public int[] Minion_Count = new int[(int)STAGE_NO.STAGE_NUM];                  //各ステージの小人取得数

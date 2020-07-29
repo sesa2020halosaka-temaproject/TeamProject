@@ -19,30 +19,41 @@ public class EndingBanana : MonoBehaviour
     {
         FlagManager = GameObject.Find("StageStatusManager");
         StageStatusManager = FlagManager.GetComponent<TeamProject.StageStatusManager>();
+        StageStatusManager.m_S4Flag = false;
         ue = GameObject.Find("UE").GetComponent<RectTransform>();
         sita = GameObject.Find("SITA").GetComponent<RectTransform>();
-        flg = false;
+
+        if (StageStatusManager.m_LastStageClearFlag)
+        {
+            StageStatusManager.m_LastStageClearFlag = false;
+        }
     }
 
     void Update()
     {
         y = ue.localPosition.y;
         yy = sita.localPosition.y;
-        if (StageStatusManager.m_LastStageClearFlag)
-        {
-            flg = true;
-            if (y > 447)
-            {
-               
-                y -= speed;
-                
-                yy += speed;
 
-                ue.localPosition = new Vector3(x, y, z);
-                sita.localPosition = new Vector3(x, yy, z);
+        if (!StageStatusManager.m_S4Flag)
+        {
+            if (StageStatusManager.m_LastStageClearFlag)
+            {
+                if (y > 447)
+                {
+
+                    y -= speed;
+
+                    yy += speed;
+
+                    ue.localPosition = new Vector3(x, y, z);
+                    sita.localPosition = new Vector3(x, yy, z);
+                }
+                else
+                {
+                    StageStatusManager.m_S4Flag = true;
+                }
             }
         }
-       
 
 
     }
