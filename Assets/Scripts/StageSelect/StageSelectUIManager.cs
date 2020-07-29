@@ -90,6 +90,25 @@ namespace TeamProject
 
         }
 
+        //上下左右の矢印が画面内に戻ったかどうかをチェックして返す
+        public bool SelectArrowsFlagCheck()
+        {
+            bool Stage_Flag = m_StageSelectArrow.FlagCheck();
+            bool World_Flag = m_WorldSelectArrow.FlagCheck();
+            if (Stage_Flag && World_Flag)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //上下左右の矢印の移動完了フラグを一括でOFFにする
+        public void SelectArrowsFlagOFF()
+        {
+           m_StageSelectArrow.EndFlagOff();
+           m_WorldSelectArrow.EndFlagOff();
+        }
+        
         //ワールドを示すUIの差し替え
         public void ChangeWorldNameIcon()
         {

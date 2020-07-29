@@ -57,13 +57,15 @@ namespace TeamProject
         //ステージセレクトの状態
         public enum SELECT_STATE
         {
-            KEY_WAIT = 0,//キー入力待ち
-            BEFORE_STAGE_MOVING,//ステージ移動前の準備
-            STAGE_MOVING,//ステージ移動中
-            BEFORE_WORLD_MOVING,//ワールド移動前の準備
-            WORLD_MOVING,//ワールド移動中
-            SCENE_MOVING,//シーン遷移中
-            STATE_NUM    //状態の数
+            KEY_WAIT = 0,           //キー入力待ち
+            BEFORE_STAGE_MOVING,    //ステージ移動前の準備
+            STAGE_MOVING,           //ステージ移動中
+            STAGE_MOVE_END,         //ステージ移動後の後始末
+            BEFORE_WORLD_MOVING,    //ワールド移動前の準備
+            WORLD_MOVING,           //ワールド移動中
+            WORLD_MOVE_END,         //ワールド移動後の後始末
+            SCENE_MOVING,           //シーン遷移中
+            STATE_NUM               //状態の数
         }
         public SELECT_STATE select_state;//現在の状態遷移の確認用
 
@@ -85,6 +87,10 @@ namespace TeamProject
         private Quaternion m_CurrentFrameCamRot;    //現在のフレームの角度
         private bool m_CamRotCheckFlag = false;     //前のフレームと一致したかどうかの確認用フラグ
 
+        private bool m_InputStart_Flag = false;//シーン開始時の入力開始フラグ
+        private float m_Standby_Time = 1.0f;//シーン開始時の待機時間
+
+        private bool m_UIMoveIn_StartFlag = false;
         //=================================================================
         //関数ここから
         //=================================================================
@@ -148,7 +154,7 @@ namespace TeamProject
             //================================================
             //DollyTrackコンポーネント取得
             m_DoTr = GameObject.Find("DollyTrack_Obj").GetComponent<DollyTrack_Box>();
- 
+
             //DollyCameraコンポーネントの取得
             _Main_DollyCam = _Dolly_Next.GetComponent<DollyCamera>();
 
@@ -187,7 +193,7 @@ namespace TeamProject
 
 
             //ステージセレクトの状態を設定する
-            StageChangeManager.SelectStateChange("KEY_WAIT");
+            ChangeState(SELECT_STATE.KEY_WAIT);
         }//void Start() END
 
         // Update is called once per frame
@@ -213,21 +219,20 @@ namespace TeamProject
             {
                 //カメラの角度フラグがtrueになったら
                 //ステージセレクト処理開始
-                select_state = StageChangeManager.GetSelectState();
-                switch (StageChangeManager.GetSelectState())
+                //select_state = StageChangeManager.GetSelectState();
+                switch (select_state)
                 {
                     case SELECT_STATE.KEY_WAIT:
                         StateKeyWait();
                         break;
                     case SELECT_STATE.BEFORE_STAGE_MOVING:
                         StateBeforeStageMoving();
-                        //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
-
                         break;
                     case SELECT_STATE.STAGE_MOVING:
-                        //Debug.LogError("0：メインカメラ座標:" + UnityEngine.Camera.main.transform.position);
-
                         StateStageMoving();
+                        break;
+                    case SELECT_STATE.STAGE_MOVE_END:
+                        StateStageMoveEnd();
                         break;
                     case SELECT_STATE.BEFORE_WORLD_MOVING:
                         StateBeforeWorldMoving();
@@ -235,8 +240,9 @@ namespace TeamProject
                     case SELECT_STATE.WORLD_MOVING:
                         StateWorldMoving();
                         break;
-
-
+                    case SELECT_STATE.WORLD_MOVE_END:
+                        StateWorldMoveEnd();
+                        break;
                     case SELECT_STATE.SCENE_MOVING:
                         StateSceneMoving();
                         break;
@@ -256,28 +262,19 @@ namespace TeamProject
         private void StateKeyWait()
         {
             //フラグがfalseの時はカウントアップ待ち
-            if (!KeyWaitFlagCheck())
+            if (!m_InputStart_Flag)
             {
-                //上下左右の入力がないときにカウントアップする→変更
-                //上下のみの入力がないときにカウントアップする
-                if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow)
-                    && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow)
-                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow)
-                    //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow)
-                    )
-                {
-                    m_Counter += Time.deltaTime;
-                }
+                m_Counter += Time.deltaTime;
 
                 //m_InputStopFrameの分だけ待たせる
-                if (m_Counter > m_InputStopFrame)
+                if (m_Counter > m_Standby_Time)
                 {
                     //フラグをONにする
-                    KeyWaitFlagChange(true);
+                    m_InputStart_Flag = true;
                     m_Counter = 0;
                 }
             }
-            else if (KeyWaitFlagCheck())
+            else if (m_InputStart_Flag)
             {
                 //フラグがONになったら入力可能にする
                 //ステージ選択（WSキー or スティック上下）
@@ -353,7 +350,7 @@ namespace TeamProject
             m_StageSelectUIManager.GetUIBG_ArrowObject().UIMoveStateChange();
 
             //ステージ移動の状態へ移行
-            StageChangeManager.SelectStateChange("STAGE_MOVING");
+            ChangeState(SELECT_STATE.STAGE_MOVING);
 
         }
 
@@ -378,15 +375,61 @@ namespace TeamProject
                 ////上下矢印を画面外へ移動させる
                 //m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
 
-                //左右矢印を画面内へ移動させる
-                m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+                ////左右矢印を画面内へ移動させる
+                //m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
+                //ステージセレクトの状態を設定する
+                ChangeState(SELECT_STATE.STAGE_MOVE_END);
                 Debug.Log("STAGE_MOVING終わり");
 
             }
-            //StageChangeManager.Update();
 
         }
+
+        //ステージ移動後の後始末
+        public void StateStageMoveEnd()
+        {
+            //左右のみの入力がないときにカウントアップする
+            if (//!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow)
+                //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow)
+                /*&&*/ !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow)
+                && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow)
+                )
+            {
+                m_Counter += Time.deltaTime;
+            }
+            //左右の矢印UIが画面内に戻って来たかどうか
+            bool UI_MoveEnd_Flag = m_StageSelectUIManager.GetWorldSelectArrow().FlagCheck();
+
+            //カウントアップ完了したかどうか
+            bool CountEnd_Flag = m_Counter > m_InputStopFrame;
+            //Debug.Log("UI_MoveEnd_Flag:" + UI_MoveEnd_Flag + "/CountEnd_Flag:" + CountEnd_Flag);
+
+            //m_InputStopFrameの分だけ待たせる
+            if (CountEnd_Flag && !m_UIMoveIn_StartFlag)
+            {
+                //左右矢印を画面内へ移動開始
+                m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+
+                m_UIMoveIn_StartFlag = true;
+            }
+
+
+            //UIが移動終えるまで待たせる
+            if (UI_MoveEnd_Flag)
+            {
+                //UIの移動完了フラグをONにする
+                m_StageSelectUIManager.SelectArrowsFlagOFF();
+
+                //キー入力待ちへ
+                ChangeState(SELECT_STATE.KEY_WAIT);
+
+                m_Counter = 0;
+                m_UIMoveIn_StartFlag = false;
+            }
+
+        }//StateStageMoveEnd()  END
+
         //ステージ間移動関数ここまで
         //================================================================
 
@@ -421,7 +464,7 @@ namespace TeamProject
 
 
             //ステージセレクトの状態を設定する
-            StageChangeManager.SelectStateChange("WORLD_MOVING");
+            ChangeState(SELECT_STATE.WORLD_MOVING);
 
             //BGMのクロスフェード
             m_SelectSound.CrossFade();
@@ -485,11 +528,14 @@ namespace TeamProject
                 //StageSelectArrow.ChangeStageNameIcon();
                 WorldSelectArrow.ChangeWorldNameIcon();
 
-                //上下矢印を画面外へ移動させる
-                m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
-                //左右矢印を画面内へ移動させる
-                m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+                ////上下矢印を画面内へ移動させる
+                //m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
+                ////左右矢印を画面内へ移動させる
+                //m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
+
+                //ステージセレクトの状態を設定する
+                ChangeState(SELECT_STATE.WORLD_MOVE_END);
                 Debug.Log("WORLD_MOVING");
 
             }
@@ -497,6 +543,51 @@ namespace TeamProject
             //WorldChangeManagr.Update();
 
         }
+
+        //ワールド移動後の後始末
+        public void StateWorldMoveEnd()
+        {
+            //上左右の入力がないときにカウントアップする
+            if (!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow)
+                //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow)
+                && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.LeftArrow)
+                && !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.RightArrow)
+                )
+            {
+                m_Counter += Time.deltaTime;
+            }
+
+            //上下左右の矢印UIが画面内に戻って来たかどうか
+            bool UI_MoveEnd_Flag = m_StageSelectUIManager.SelectArrowsFlagCheck();
+
+            //カウントアップ完了したかどうか
+            bool CountEnd_Flag = m_Counter > m_InputStopFrame;
+
+            //m_InputStopFrameの分だけ待たせる
+            if (CountEnd_Flag && !m_UIMoveIn_StartFlag)
+            {
+            //上下矢印を画面内へ移動させる
+            m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
+            //左右矢印を画面内へ移動させる
+            m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+
+                m_UIMoveIn_StartFlag = true;
+            }
+
+            //UIが移動終えるまで待たせる
+            if (UI_MoveEnd_Flag)
+            {
+                //UIの移動完了フラグをONにする
+                m_StageSelectUIManager.SelectArrowsFlagOFF();
+
+                //キー入力待ちへ
+                ChangeState(SELECT_STATE.KEY_WAIT);
+
+                m_Counter = 0;
+                m_UIMoveIn_StartFlag = false;
+            }
+
+        }//StateWorldMoveEnd()  END
         //ワールド間移動関数ここまで
         //================================================================
 
@@ -538,7 +629,7 @@ namespace TeamProject
                 StageChangeManager.DollyStateChange("FIXING");
 
                 //ステージセレクトの状態を設定する
-                StageChangeManager.SelectStateChange("KEY_WAIT");
+                ChangeState(SELECT_STATE.KEY_WAIT);
 
                 //フラグをfalseにする
                 StageChangeManager.WorldFlagChange(false);
@@ -599,7 +690,8 @@ namespace TeamProject
                 BGMManager.Instance.FadeOut(StageIn_FadeOut_Time);
 
                 //シーン遷移中状態にする
-                StageChangeManager.SelectStateChange("SCENE_MOVING");
+                ChangeState(SELECT_STATE.SCENE_MOVING);
+
                 Debug.Log("決定です！");
                 //決定音鳴らす
                 SEManager.Instance.Play(SEPath.SE_OK);
@@ -623,7 +715,7 @@ namespace TeamProject
         {
             if (StageChangeManager.IsStageChange())
             {
-                StageChangeManager.SelectStateChange("BEFORE_STAGE_MOVING");
+                ChangeState(SELECT_STATE.BEFORE_STAGE_MOVING);
 
                 //フラグをOFFにする
                 KeyWaitFlagChange(false);
@@ -631,7 +723,7 @@ namespace TeamProject
             else if (StageChangeManager.IsWorldChange())
             //else if (WorldChangeManagr.IsWorldChange())
             {
-                StageChangeManager.SelectStateChange("BEFORE_WORLD_MOVING");
+                ChangeState(SELECT_STATE.BEFORE_WORLD_MOVING);
 
                 //フラグをOFFにする
                 KeyWaitFlagChange(false);
@@ -653,17 +745,11 @@ namespace TeamProject
             //Dollyカメラの状態を設定する
             StageChangeManager.DollyStateChange("FIXING");
 
-            //ステージセレクトの状態を設定する
-            StageChangeManager.SelectStateChange("KEY_WAIT");
-
             //フラグをfalseにする
             StageChangeManager.StageFlagChange(false);
             StageChangeManager.WorldFlagChange(false);
 
             StageChangeManager.DollyFlagReset();
-
-
-
         }
 
         //================================================
@@ -720,6 +806,12 @@ namespace TeamProject
                 m_PrevFrameCamRot = UnityEngine.Camera.main.transform.rotation;
             }
 
+        }
+
+        //ステージセレクトの状態遷移の変更
+        public void ChangeState(SELECT_STATE _NextState)
+        {
+            select_state = _NextState;
         }
     }//public class StageSelect : MonoBehaviour END
 }//namespace END
