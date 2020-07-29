@@ -5,10 +5,10 @@ namespace TeamProject
     //ステージセレクト内のUIを管理するクラス（クリア状況UIとワールド移動中UI）
     public class StageSelectUIManager : MonoBehaviour
     {
-        [Header("クリア状況UIの移動する時間")]
+        [Header("UIが画面内外に移動する時間")]
         public float m_UIMoveOut_Time;
         public float m_UIMoveIn_Time;
-        [Header("ステージUI背景の移動する時間")]
+        [Header("ステージ名UIの背景が移動する時間")]
         public float m_UIMoveUP_Time;
         public float m_UIMoveDown_Time;
         //現在ワールド位置 
