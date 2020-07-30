@@ -66,7 +66,7 @@ namespace TeamProject
                 keyString[(int)ButtonCode.A] = Tuple.Create("joystick button 0", KeyCode.Return);        // Xboxコン = Aボタン
                 keyString[(int)ButtonCode.B] = Tuple.Create("joystick button 1", KeyCode.Escape);        // Xboxコン = Bボタン
                 keyString[(int)ButtonCode.X] = Tuple.Create("joystick button 2", KeyCode.X);             // Xboxコン = Xボタン
-                keyString[(int)ButtonCode.Y] = Tuple.Create("joystick button 3", KeyCode.V);             // Xboxコン = Yボタン
+                keyString[(int)ButtonCode.Y] = Tuple.Create("joystick button 3", KeyCode.R);             // Xboxコン = Yボタン
                 keyString[(int)ButtonCode.R1] = Tuple.Create("joystick button 4", KeyCode.S);            // Xboxコン = RBトリガー
                 keyString[(int)ButtonCode.R2] = Tuple.Create("joystick button 0", KeyCode.N);            // 
                 keyString[(int)ButtonCode.L1] = Tuple.Create("joystick button 5", KeyCode.W);            // Xboxコン = LBトリガー
