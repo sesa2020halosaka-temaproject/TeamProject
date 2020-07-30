@@ -20,8 +20,12 @@ namespace TeamProject
         
         private bool startFlag;
         [SerializeField]
+        private GameObject finalFlow;
+        [SerializeField]
         private Animation flowAnim;
         private Animation[] anim = new Animation[(uint)Anima.Max];
+
+        public Animation[] Anims { get { return anim; } }
 
         private int goalNum;
         private int goalNumMax;
@@ -71,15 +75,20 @@ namespace TeamProject
         //}
 
 
-        public void StartGoalAnimation(goalFunc _func , int _goalNum,int _goalMaxNum)
+        public void StartGoalAnimation(goalFunc _func, int _goalNum, int _goalMaxNum)
         {
-            flowAnim.gameObject.SetActive(true);
+            if (finalFlow != null) finalFlow.SetActive(true);
+            if (flowAnim != null)
+            {
+                flowAnim.gameObject.SetActive(true);
+                flowAnim.Play();
+            }
             // 全てのアニメーションを再生
-            foreach(var itr in anim)
+            foreach (var itr in anim)
             {
                 itr.Play();
             }
-            flowAnim.Play();
+            // flowAnim.Play();
             startFlag = true;
 
             goalNum = _goalNum;
