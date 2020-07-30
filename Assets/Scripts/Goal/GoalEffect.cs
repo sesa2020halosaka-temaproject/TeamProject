@@ -50,5 +50,13 @@ namespace TeamProject {
         {
             SEManager.Instance.Play(SEPath.SE_GOAL);
         }
+
+        private void StopAnimation()
+        {
+            foreach(var itr in betaGoalAnimation.Anims)
+            {
+                itr.Stop();
+            }
+        }
     }
 }
