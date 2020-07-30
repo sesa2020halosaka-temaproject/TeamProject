@@ -127,12 +127,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1879726373}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &79541054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2621413919760226963, guid: daeb387a5aa0da4439144dbd22abb262,
-    type: 3}
-  m_PrefabInstance: {fileID: 1765780269}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &88792267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -828,37 +822,37 @@ PrefabInstance:
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1.Array.size
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1KakiwakeObject.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1ColliderObject.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
-        type: 3}
-      propertyPath: f2.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
-        type: 3}
-      propertyPath: f2KakiwakeObject.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
-        type: 3}
-      propertyPath: f2ColliderObject.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
-      propertyPath: f3.Array.size
+      propertyPath: f2.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f2KakiwakeObject.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f2ColliderObject.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f3.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
@@ -868,18 +862,18 @@ PrefabInstance:
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f3ColliderObject.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1ColliderObject.Array.data[0]
       value: 
-      objectReference: {fileID: 2055984304}
+      objectReference: {fileID: 127496343}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f1KakiwakeObject.Array.data[0]
       value: 
-      objectReference: {fileID: 79541054}
+      objectReference: {fileID: 55404501}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2KakiwakeObject.Array.data[0]
@@ -904,12 +898,12 @@ PrefabInstance:
         type: 3}
       propertyPath: f2.Array.data[0]
       value: 
-      objectReference: {fileID: 713192111}
+      objectReference: {fileID: 1747741271}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2ColliderObject.Array.data[0]
       value: 
-      objectReference: {fileID: 127496343}
+      objectReference: {fileID: 1747741271}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2KakiwakeObject.Array.data[4]
@@ -919,7 +913,7 @@ PrefabInstance:
         type: 3}
       propertyPath: f2.Array.data[1]
       value: 
-      objectReference: {fileID: 130766859}
+      objectReference: {fileID: 337397378}
     - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: f2ColliderObject.Array.data[1]
@@ -964,7 +958,42 @@ PrefabInstance:
         type: 3}
       propertyPath: f2.Array.data[2]
       value: 
+      objectReference: {fileID: 337397380}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f1.Array.data[0]
+      value: 
+      objectReference: {fileID: 713192111}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f1.Array.data[1]
+      value: 
+      objectReference: {fileID: 130766859}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f1.Array.data[2]
+      value: 
       objectReference: {fileID: 337397379}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f1KakiwakeObject.Array.data[1]
+      value: 
+      objectReference: {fileID: 277968729}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f1KakiwakeObject.Array.data[2]
+      value: 
+      objectReference: {fileID: 2059079500}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f1ColliderObject.Array.data[1]
+      value: 
+      objectReference: {fileID: 130766859}
+    - target: {fileID: 1214047188834303960, guid: 9fce4846253734c409e18b00064d068b,
+        type: 3}
+      propertyPath: f2.Array.data[3]
+      value: 
+      objectReference: {fileID: 337397377}
     - target: {fileID: 2197437187415950244, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1058,7 +1087,7 @@ PrefabInstance:
     - target: {fileID: 4095350663103008560, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}
       propertyPath: hight
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5469710618829052818, guid: 9fce4846253734c409e18b00064d068b,
         type: 3}

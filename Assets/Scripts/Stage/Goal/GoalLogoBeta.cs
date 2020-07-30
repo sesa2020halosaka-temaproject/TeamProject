@@ -364,7 +364,7 @@ namespace TeamProject
                         oil.gameObject.SetActive(true);                 //アクティブ化
                         //<ここまで
                         StageStatusManager.Instance.m_LastStageClearFlag = true;
-                        FadeManager.FadeOut("EndingScene",5.0f);
+                        //FadeManager.FadeOut("EndingScene",5.0f);
                     }
                     RootMemory.Instance.Reset();
                     break;

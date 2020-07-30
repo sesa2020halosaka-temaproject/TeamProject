@@ -38,7 +38,7 @@ public class EndingBanana : MonoBehaviour
         {
             if (StageStatusManager.m_LastStageClearFlag)
             {
-                if (y > 447)
+                if (y > 497)
                 {
 
                     y -= speed;
@@ -50,6 +50,7 @@ public class EndingBanana : MonoBehaviour
                 }
                 else
                 {
+                    FadeManager.FadeOut("EndingScene", 1.0f);
                     StageStatusManager.m_S4Flag = true;
                 }
             }
