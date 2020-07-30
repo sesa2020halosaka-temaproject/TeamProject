@@ -90,6 +90,9 @@ namespace TeamProject
 
         private bool m_InputStart_Flag = false;//シーン開始時の入力開始フラグ
         private bool m_UIMoveIn_StartFlag = false;  //UIが画面内に移動開始するフラグ
+
+        private bool m_StartFlag = true;  //スタート関数かどうかフラグ
+
         //=================================================================
         //関数ここから
         //=================================================================
@@ -180,12 +183,14 @@ namespace TeamProject
             //開始画角のセット
             _Main_DollyCam.SetFOV(m_StartFOV);
 
-            //現在のステージ位置でのアクティブ化処理
-            m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromCurrentStage();
 
-            //左右矢印の処理
-            //現在のワールド位置での移動制限とアクティブ化処理
-            m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
+            UIFunction();
+            ////現在のステージ位置でのアクティブ化処理
+            //m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromCurrentStage();
+
+            ////左右矢印の処理
+            ////現在のワールド位置での移動制限とアクティブ化処理
+            //m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
 
 
             //ステージセレクトの状態を設定する
@@ -272,6 +277,19 @@ namespace TeamProject
             }
             else if (m_InputStart_Flag)
             {
+                //----------------------------------------------------------
+                //  UIの設定
+                //----------------------------------------------------------
+
+                //
+                UIFunction();
+
+                //上下矢印を揺らす処理
+                m_StageSelectUIManager.GetStageSelectArrow().ShakeUI();
+                //----------------------------------------------------------
+                //  UIの設定終了
+                //----------------------------------------------------------
+
                 //フラグがONになったら入力可能にする
                 //ステージ選択（WSキー or スティック上下）
                 StageChangeManager.StageChange();
@@ -281,26 +299,16 @@ namespace TeamProject
 
                 //左右のワールド移動UIの更新処理
                 m_Hold.WorldSelectUpdate();
+
                 //決定処理チェック（Enterキー  or Aボタン）
                 StageDecision();
+
                 //タイトルへ戻る(ESCキー or Bボタン)
                 BackToTitle();
+
                 //フラグチェック
                 FlagCheck();
 
-                //上下矢印の処理
-                //上下矢印のアクティブ化と非強調化
-                m_StageSelectUIManager.GetStageSelectArrow().UINoFlashing();
-                //ステージクリア状況での処理
-                //現在のステージ位置でのアクティブ化処理
-                m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromStage();
-
-                //左右矢印の処理
-                //現在のワールド位置での移動制限とアクティブ化処理
-                m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
-
-                //上下矢印を揺らす処理
-                m_StageSelectUIManager.GetStageSelectArrow().ShakeUI();
 
 
             }
@@ -316,11 +324,13 @@ namespace TeamProject
         //ステージ移動前の準備
         private void StateBeforeStageMoving()
         {
-            //上下矢印の座標を初期位置に戻す処理
-            m_StageSelectUIManager.GetStageSelectArrow().ResetPosition();
 
             count++;
             Debug.Log("count" + count);
+
+            //----------------------------------------------------------
+            //カメラの設定
+            //----------------------------------------------------------
             //Dollyカメラの座標をドリールートの座標に合わせる
             //_Main_DollyCam.SetStartDollyPos();
 
@@ -337,20 +347,29 @@ namespace TeamProject
             {
                 m_LookAt.ChangeDollyState();
             }
-            //
-            //上下矢印の非アクティブ化
-            //StageSelectArrow.TwoArrowsSetting();
-            //左右矢印の非アクティブ化
-            //WorldSelectArrow.TwoArrowsDeactivate();
+            //----------------------------------------------------------
+            //カメラの設定終了
+            //----------------------------------------------------------
 
-            //上下矢印を強調させる
+            //----------------------------------------------------------
+            //UIの設定
+            //----------------------------------------------------------
+            //上下矢印の座標を初期位置に戻す処理
+            m_StageSelectUIManager.GetStageSelectArrow().ResetPosition();
+
+            //上下矢印を強調させつつ、片方の矢印を非アクティブ化
             m_StageSelectUIManager.GetStageSelectArrow().UISetFlashing();
+
             //左右矢印を画面外へ移動させる
             m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
 
-            //UI移動状態を変更する
+            //左下のUI（クリア状況UI）の移動状態を変更する
             m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().UIMoveStateChange();
             m_StageSelectUIManager.GetUIBG_ArrowObject().UIMoveStateChange();
+
+            //----------------------------------------------------------
+            //UIの設定終了
+            //----------------------------------------------------------
 
             //ステージ移動の状態へ移行
             ChangeState(SELECT_STATE.STAGE_MOVING);
@@ -364,22 +383,34 @@ namespace TeamProject
             //ステージ移動完了後
             if (StageChangeManager.DollyFlagCheck())
             {
+                //各種状態を待機状態に戻す
                 MoveEndSetting();
+
+                //----------------------------------------------------------
                 //ステージ番号の更新
                 StageNumberUpdate();
+                //----------------------------------------------------------
+
+                //----------------------------------------------------------
+                //カメラの設定
+                //----------------------------------------------------------
+
                 //Dollyカメラの座標をドリールートの座標に合わせる
                 _Main_DollyCam.SetStartDollyPos();
+                //----------------------------------------------------------
+                //カメラの設定終了
+                //----------------------------------------------------------
 
 
+                //----------------------------------------------------------
+                //UIの設定
+                //----------------------------------------------------------
                 //アイコンの差し替え
-                //StageSelectArrow.ChangeStageNameIcon();
                 WorldSelectArrow.ChangeWorldNameIcon();
 
-                ////上下矢印を画面外へ移動させる
-                //m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
-
-                ////左右矢印を画面内へ移動させる
-                //m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+                //----------------------------------------------------------
+                //UIの設定終了
+                //----------------------------------------------------------
 
                 //ステージセレクトの状態を設定する
                 ChangeState(SELECT_STATE.STAGE_MOVE_END);
@@ -392,6 +423,10 @@ namespace TeamProject
         //ステージ移動後の後始末
         public void StateStageMoveEnd()
         {
+            //----------------------------------------------------------
+            //UIの設定
+            //----------------------------------------------------------
+
             //左右のみの入力がないときにカウントアップする
             if (//!InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.UpArrow)          //上
                 //&& !InputManager.InputManager.Instance.GetArrow(InputManager.ArrowCode.DownArrow)     //下
@@ -413,9 +448,12 @@ namespace TeamProject
                 if (CountEnd_Flag)
                 {
                     //カウントアップ完了（1回目）
-                    //左右矢印を画面内へ移動開始
-                    m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
 
+                    //左右矢印を画面内へ移動開始状態へ変更
+                    m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+ 
+                    //上下左右の矢印UIを現在のステージ位置に応じたアクティブ化処理
+                    UIFunction();
                     m_UIMoveIn_StartFlag = true;
 
                     m_Counter = 0;
@@ -440,6 +478,9 @@ namespace TeamProject
                     m_UIMoveIn_StartFlag = false;
                 }
             }
+            //----------------------------------------------------------
+            //UIの設定終了
+            //----------------------------------------------------------
 
         }//StateStageMoveEnd()  END
 
@@ -452,9 +493,10 @@ namespace TeamProject
         //ワールド移動前の準備
         private void StateBeforeWorldMoving()
         {
-            //上下矢印の座標を初期位置に戻す処理
-            m_StageSelectUIManager.GetStageSelectArrow().ResetPosition();
 
+            //----------------------------------------------------------
+            //カメラの設定
+            //----------------------------------------------------------
             //固定用ドリールートをセット
             _Main_DollyCam.SetPathFixingDolly();
             _Main_DollyCam.SetPathPosition(0.0f);
@@ -462,39 +504,61 @@ namespace TeamProject
             //Dollyカメラの初期化
             ResetDollyCamera();
 
-            //上下矢印の非アクティブ化
-            //StageSelectArrow.TwoArrowsDeactivate();
-            //左右矢印の非アクティブ化
-            //WorldSelectArrow.TwoArrowsDeactivate();
-
-            //上下矢印を画面外へ移動させる
-            m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveOut();
-            //左右矢印を画面外へ移動させる
-            m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
-
-
             ////Dollyカメラの状態をFIXINGに戻す
             //StageChangeManager.DollyStateChange("FIXING");
 
+            //----------------------------------------------------------
+            //カメラの設定終了
+            //----------------------------------------------------------
+
+            //----------------------------------------------------------
+            //UIの設定
+            //----------------------------------------------------------
+
+            //上下矢印の座標を初期位置に戻す処理
+            m_StageSelectUIManager.GetStageSelectArrow().ResetPosition();
+
+            //上下矢印を画面外へ移動させる状態へ変更
+            m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveOut();
+
+            //左右矢印を画面外へ移動させる状態へ変更
+            m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveOut();
+
+            //============================
+            //ワールド移動中に表示するUI（左下UI）の処理
+
+            //ワールド移動中に表示するUI（左下UI）の画像変更
+            m_StageSelectUIManager.GetCurrentToNextWorldUIObject().ChangeWorldNameIcon();
+
+
+            //クリア状況UIを画面外へ移動させる状態へ変更
+            m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveOut();
+
+            //移動先ワールド名表示UIを画面内へ移動させる状態へ変更
+            m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIInMove();
+
+            //スキップUIアクティブ化、決定ボタンUI非アクティブ化
+            m_StageSelectUIManager.SkipButtonActivate();
+
+            //============================
+
+
+
+            //----------------------------------------------------------
+            //UIの設定終了
+            //----------------------------------------------------------
+
+            //注視点オブジェクトの状態遷移
             m_LookAt.ChangeState();
-
-
-            //ステージセレクトの状態を設定する
-            ChangeState(SELECT_STATE.WORLD_MOVING);
 
             //BGMのクロスフェード
             m_SelectSound.CrossFade();
 
-            //ワールド移動中のUIの画像変更
-            //m_StageSelectUIManager.ChangeWorldNameIcon();
-            m_StageSelectUIManager.GetCurrentToNextWorldUIObject().ChangeWorldNameIcon();
-            //m_WorldStatus.ChangeWorldNameIcon();
+            //ステージセレクトの状態を設定する
+            ChangeState(SELECT_STATE.WORLD_MOVING);
 
-            //
-            m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveOut();
-            m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIInMove();
-            m_StageSelectUIManager.SkipButtonActivate();
-        }
+        }//StateBeforeWorldMoving() END
+
         //ワールド移動中
         private void StateWorldMoving()
         {
@@ -508,16 +572,33 @@ namespace TeamProject
                 //移動処理の終了の為の初期化設定
                 MoveEndSetting();
 
+                //----------------------------------------------------------
+                //UIの設定　ステージナンバーの更新前
+                //----------------------------------------------------------
+
                 //UIの更新ステージナンバーの更新前用
+                //クリア状況UI（左下UI）のワールド名の画像変更
                 m_StageSelectUIManager.GetWorldStatusUIObject().ChangeWorldNameIcon();
 
-                m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveIn();
+                //クリア状況UIを画面内へ移動させる状態へ変更
                 m_StageSelectUIManager.GetCurrentToNextWorldUIObject().UIOutMove();
-                m_StageSelectUIManager.ABButtonActivate();
 
-                //最後に処理させること（分かりやすくするために）
+                //移動先ワールド名表示UIを画面外へ移動させる状態へ変更
+                m_StageSelectUIManager.GetWorldStatusUIObject().UIStateMoveIn();
+
+                //決定ボタンUIアクティブ化、スキップUI非アクティブ化
+                m_StageSelectUIManager.ABButtonActivate();
+                //----------------------------------------------------------
+                //UIの設定終了　ステージナンバーの更新前
+                //----------------------------------------------------------
+
+                //----------------------------------------------------------
                 //ステージ番号の更新
                 StageNumberUpdate();
+                //----------------------------------------------------------
+                //----------------------------------------------------------
+                //カメラの設定
+                //----------------------------------------------------------
 
                 //Dollyカメラの座標をドリールートの座標に合わせる
                 _Main_DollyCam.SetStartDollyPos();
@@ -532,25 +613,33 @@ namespace TeamProject
                 _Main_DollyCam.SetPathPositionMax(0.0f);
                 _Main_DollyCam.SetPathPositionMin(0.0f);
 
-                //UIの更新ステージナンバーの更新後用
+
+                //----------------------------------------------------------
+                //カメラの設定終了
+                //----------------------------------------------------------
+
+                //----------------------------------------------------------
+                //UIの設定　ステージナンバーの更新後
+                //----------------------------------------------------------
+                //ワールドに応じた妖精の取得数と最大取得数の設定
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionCount();
                 m_StageSelectUIManager.GetWorldStatusUIObject().SetMinionMaxCount();
 
+                //UIの更新ステージナンバーの更新後用
+                //ワールドに応じた星の取得状況の設定
                 m_StageSelectUIManager.GetWorldStatusUIObject().StageStarUpdate();
+
+                //ステージ1の位置にカーソルを設定
                 m_StageSelectUIManager.GetUIBackGroundCurrentStageObject().SetStartPosition();
                 m_StageSelectUIManager.GetUIBG_ArrowObject().SetStartPosition();
 
-                //アイコンの差し替え
-                //StageSelectArrow.ChangeStageNameIcon();
+                //左右矢印UIの前後のワールド名の画像差し替え
                 WorldSelectArrow.ChangeWorldNameIcon();
 
-                ////上下矢印を画面内へ移動させる
-                //m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
-                ////左右矢印を画面内へ移動させる
-                //m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+                //----------------------------------------------------------
+                //UIの設定終了　ステージナンバーの更新後
+                //----------------------------------------------------------
 
-                //現在のステージ位置でのアクティブ化処理
-                m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromStage();
 
                 //ステージセレクトの状態を設定する
                 ChangeState(SELECT_STATE.WORLD_MOVE_END);
@@ -588,10 +677,14 @@ namespace TeamProject
                 if (CountEnd_Flag)
                 {
                     //カウントアップ完了（1回目）
-                    //上下矢印を画面内へ移動させる
+                    //上下矢印を画面内へ移動させる状態へ変更
                     m_StageSelectUIManager.GetStageSelectArrow().UIStateMoveIn();
-                    //左右矢印を画面内へ移動させる
+                    //左右矢印を画面内へ移動させる状態へ変更
                     m_StageSelectUIManager.GetWorldSelectArrow().UIStateMoveIn();
+
+                    //上下左右の矢印UIを現在のステージ位置に応じたアクティブ化処理
+                    UIFunction();
+                    //m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromStage();
 
                     m_UIMoveIn_StartFlag = true;
 
@@ -842,6 +935,33 @@ namespace TeamProject
         public void ChangeState(SELECT_STATE _NextState)
         {
             select_state = _NextState;
+        }
+
+        public void UIFunction()
+        {
+            //上下矢印の処理
+            //上下矢印のアクティブ化と非強調化
+            m_StageSelectUIManager.GetStageSelectArrow().UINoFlashing();
+
+            if (m_StartFlag)
+            {
+                //現在のステージ位置でのアクティブ化処理
+                m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromCurrentStage();
+                m_StartFlag = false;
+            }
+            else
+            {
+            //ステージクリア状況での処理
+            //現在のステージ位置でのアクティブ化処理
+            m_StageSelectUIManager.GetStageSelectArrow().UIActivateFromStage();
+
+            }
+
+
+            //左右矢印の処理
+            //現在のワールド位置での移動制限とアクティブ化処理
+            m_StageSelectUIManager.GetWorldSelectArrow().SettingWorldMove();
+
         }
     }//public class StageSelect : MonoBehaviour END
 }//namespace END

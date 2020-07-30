@@ -198,7 +198,7 @@ namespace TeamProject
             if (StageStatusManager.Instance.m_RemovalLimitFlag)
             {
                 //解除されている
-                //現在のステージ位置に応じた処理
+                //現在のステージ位置に応じた処理(アクティブ化させたり)
                 UIActivateFromCurrentStage();
                 //移動フラグtrue
                 StageChangeManager.NextStageMoveFlagChange(true);
